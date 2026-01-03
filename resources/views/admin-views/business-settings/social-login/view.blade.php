@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -36,7 +36,7 @@
                                 @csrf
                                 <div class="card-header">
                                     <div class="d-flex align-items-center gap-2">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img')}}/{{$socialLoginService['login_medium']}}{{('-logo.png')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img')}}/{{$socialLoginService['login_medium']}}{{('-logo.png')}}" alt="">
                                         <h4 class="mb-0">{{translate($socialLoginService['login_medium'])}} {{translate('login')}}</h4>
                                     </div>
 
@@ -53,14 +53,14 @@
                                     <div class="d-flex justify-content-end mb-2">
                                         <button class="btn-link text-capitalize d-flex align-items-center gap-2" type="button" data-toggle="modal" data-target="#{{$socialLoginService['login_medium']}}-modal">
                                             {{translate('credential_setup')}}
-                                            <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                            <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                         </button>
                                     </div>
                                     <div class="form-group">
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="title-color font-weight-bold text-capitalize mb-0">{{translate('callback_URI')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('add_the_OAuth_authorization_URL')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <div class="form-control d-flex align-items-center justify-content-between py-1 pl-3 pr-2">
@@ -75,7 +75,7 @@
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="title-color font-weight-bold text-capitalize mb-0">{{translate('store_Client_ID')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('add_the_unique_client_ID ')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <input type="text" class="form-control form-ellipsis" name="client_id" placeholder="{{translate('ex')}}:{{translate('client_ID')}}"
@@ -85,7 +85,7 @@
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="title-color font-weight-bold text-capitalize mb-0">{{translate('store_Client_Secret_Key')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('store_Client_Secret_Key')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <input type="text" class="form-control form-ellipsis" name="client_secret" placeholder="{{translate('ex')}}:{{translate('client_secret_key')}}"
@@ -112,7 +112,7 @@
                                 @csrf
                                 <div class="card-header">
                                     <div class="d-flex align-items-center gap-2">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                                         <h4 class="mb-0">{{translate($appleLoginService['login_medium'])}} {{translate('login')}}</h4>
                                     </div>
 
@@ -130,7 +130,7 @@
                                     <div class="d-flex justify-content-end mb-2">
                                         <button class="btn-link text-capitalize d-flex align-items-center gap-2" type="button" data-toggle="modal" data-target="#{{$appleLoginService['login_medium']}}-modal">
                                             {{translate('credential_setup')}}
-                                            <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                            <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                         </button>
                                     </div>
 
@@ -138,7 +138,7 @@
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="form-label mb-0 title-color font-weight-bold ">{{translate('client_id')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('add_the_unique_client_ID')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <input type="text" class="form-control" name="client_id" placeholder="{{translate('ex')}}:{{translate('client_ID')}}"
@@ -148,7 +148,7 @@
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="form-label mb-0 title-color font-weight-bold ">{{translate('team_id')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('team_ID')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <input type="text" class="form-control" name="team_id"  placeholder="{{translate('ex')}}:{{translate('team_id')}}"
@@ -158,7 +158,7 @@
                                         <div class="d-flex mb-2 gap-2 align-items-center">
                                             <label class="form-label mb-0 title-color font-weight-bold ">{{translate('key_id')}}</label>
                                             <span data-toggle="tooltip" data-title="{{translate('add_key_id')}}">
-                                                <img width="16" class="svg" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
+                                                <img width="16" class="svg" src="{{asset('assets/back-end/img/info-circle.svg')}}" loading="lazy" alt="">
                                             </span>
                                         </div>
                                         <input type="text" class="form-control" name="key_id"  placeholder="{{translate('ex')}}:{{translate('key_ID')}}"
@@ -194,7 +194,7 @@
                     </div>
                     <div class="modal-body pt-0">
                         <div class="d-flex gap-3 flex-column align-items-center text-center mb-4">
-                            <img width="80" src="{{asset('/public/assets/back-end/img/google-logo.png')}}" alt="">
+                            <img width="80" src="{{asset('assets/back-end/img/google-logo.png')}}" alt="">
                             <h5 class="modal-title" id="staticBackdropLabel">{{translate('google_API_Set_up_Instructions')}}</h5>
                         </div>
                         <ol class="d-flex flex-column gap-2">
@@ -226,7 +226,7 @@
                     </div>
                     <div class="modal-body pt-0">
                         <div class="d-flex gap-3 flex-column align-items-center text-center mb-4">
-                            <img width="80" src="{{asset('/public/assets/back-end/img/facebook.png')}}" alt="">
+                            <img width="80" src="{{asset('assets/back-end/img/facebook.png')}}" alt="">
                             <h5 class="modal-title" id="staticBackdropLabel">{{translate('facebook_API_Set_up_Instructions')}}</h5>
                         </div>
 
@@ -262,7 +262,7 @@
                     </div>
                     <div class="modal-body pt-0">
                         <div class="d-flex gap-3 flex-column align-items-center text-center mb-4">
-                            <img width="80" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                            <img width="80" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                         <h5 class="modal-title" id="staticBackdropLabel">{{translate('apple_API_Set_up_Instructions')}}</h5>
                         </div>
 
@@ -322,3 +322,5 @@
     </script>
 
 @endpush
+
+

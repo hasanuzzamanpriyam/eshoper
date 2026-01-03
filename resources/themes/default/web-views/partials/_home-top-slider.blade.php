@@ -34,8 +34,8 @@
                 @foreach($main_banner as $key=>$banner)
                 <a href="{{$banner['url']}}" class="d-block">
                     <img class="w-100 __slide-img"
-                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                        src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}"
+                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                        src="{{asset('storage/banner')}}/{{$banner['photo']}}"
                         alt="">
                 </a>
                 @endforeach
@@ -43,4 +43,6 @@
         </div>
     </div>
 </div>
+
+
 

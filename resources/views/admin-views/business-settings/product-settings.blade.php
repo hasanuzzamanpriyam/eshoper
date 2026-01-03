@@ -3,8 +3,8 @@
 @section('title', translate('product_settings'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('business_Setup')}}
             </h2>
 
@@ -27,7 +27,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                         <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                     </div>
                     <p class="title-color font-weight-medium mb-0">{{ translate('please_click_save_information_button_below_to_save_all_the_changes') }}</p>
@@ -43,7 +43,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0 text-capitalize d-flex gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/product_setup.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/product_setup.png')}}" alt="">
                     {{translate('product_Setup')}}
                 </h5>
             </div>
@@ -58,7 +58,7 @@
                                     <label class="title-color d-flex" for="stock_limit">{{translate('Re-Order_Level')}}</label>
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('set_the_stock_limit_for_the_Reorder_level')}}
                                     {{translate ('sellers_can_see_all_products_that_need_to_be_re_stocked_in_a_section_when_they_reach_this_ReOrder_Level')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
                                 <input class="form-control" type="text" name="stock_limit" id="stock_limit" value="{{ $stock_limit->value??"" }}"
@@ -71,7 +71,7 @@
                                     <span class="title-color">
                                         {{translate('sell_Digital_product')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_sellers_can_sell_digital_products') }} ({{ translate('software') }}, {{ translate('ebooks') }}, {{ translate('activation_keys') }}, JPG, PNG, etc.) {{ translate('in_their_shops') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -88,7 +88,7 @@
                                     <span class="title-color">
                                         {{translate('show_brand')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_customers_can_see_brands_on_the_app_and_website')}}. {{translate('they_can_browse_and_search_for_products_from_each_brand_inside_any_shop')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -112,3 +112,6 @@
 
     </div>
 @endsection
+
+
+

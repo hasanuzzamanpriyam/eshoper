@@ -4,23 +4,23 @@
 
 @push('css_or_js')
     @if($shop['id'] != 0)
-        <meta property="og:image" content="{{asset('storage/app/public/shop')}}/{{$shop->image}}"/>
+        <meta property="og:image" content="{{asset('storage/shop')}}/{{$shop->image}}"/>
         <meta property="og:title" content="{{ $shop->name}} "/>
         <meta property="og:url" content="{{route('shopView',[$shop['id']])}}">
     @else
-        <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['fav_icon']->value}}"/>
+        <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"/>
         <meta property="og:title" content="{{ $shop['name']}} "/>
         <meta property="og:url" content="{{route('shopView',[$shop['id']])}}">
     @endif
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
     @if($shop['id'] != 0)
-        <meta property="twitter:card" content="{{asset('storage/app/public/shop')}}/{{$shop->image}}"/>
+        <meta property="twitter:card" content="{{asset('storage/shop')}}/{{$shop->image}}"/>
         <meta property="twitter:title" content="{{route('shopView',[$shop['id']])}}"/>
         <meta property="twitter:url" content="{{route('shopView',[$shop['id']])}}">
     @else
         <meta property="twitter:card"
-              content="{{asset('storage/app/public/company')}}/{{$web_config['fav_icon']->value}}"/>
+              content="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"/>
         <meta property="twitter:title" content="{{route('shopView',[$shop['id']])}}"/>
         <meta property="twitter:url" content="{{route('shopView',[$shop['id']])}}">
     @endif
@@ -28,7 +28,7 @@
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
 
-    <link href="{{asset('public/assets/front-end')}}/css/home.css" rel="stylesheet">
+    <link href="{{asset('assets/front-end')}}/css/home.css" rel="stylesheet">
     <style>
 
         .page-item.active .page-link {
@@ -49,14 +49,14 @@
             <div class="bg-white __shop-banner-main">
                 @if($shop['id'] != 0)
                     <img class="__shop-page-banner"
-                            src="{{asset('storage/app/public/shop/banner')}}/{{$shop->banner}}"
-                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                            src="{{asset('storage/shop/banner')}}/{{$shop->banner}}"
+                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                             alt="">
                 @else
                     @php($banner=\App\CPU\Helpers::get_business_settings('shop_banner'))
                     <img class="__shop-page-banner"
-                            src="{{asset("storage/app/public/shop")}}/{{$banner??""}}"
-                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                            src="{{asset("storage/shop")}}/{{$banner??""}}"
+                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                             alt="">
                 @endif
                 <!-- seller info+contact -->
@@ -79,8 +79,8 @@
                                                 </span>
                                             @endif
                                             <img class="__inline-68"
-                                                src="{{asset('storage/app/public/shop')}}/{{$shop->image}}"
-                                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('storage/shop')}}/{{$shop->image}}"
+                                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                 alt="">
                                         </div>
                                     @else
@@ -96,8 +96,8 @@
                                                 </span>
                                             @endif
                                             <img class="__inline-68"
-                                                src="{{asset('storage/app/public/company')}}/{{$web_config['fav_icon']->value}}"
-                                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"
+                                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                 alt="">
                                         </div>
                                     @endif
@@ -153,7 +153,7 @@
                                             <div class="d-flex">
                                                 <button class="btn btn--primary __inline-70 rounded-10  text-capitalize chat-with-seller-button d-none d-sm-inline-block" data-toggle="modal"
                                                         data-target="#exampleModal" {{ ($shop->temporary_close || ($shop->vacation_status && date('Y-m-d') >= date('Y-m-d', strtotime($shop->vacation_start_date)) && date('Y-m-d') <= date('Y-m-d', strtotime($shop->vacation_end_date)))) ? 'disabled' : '' }}>
-                                                    <img src="{{asset('/public/assets/front-end/img/shopview-chat.png')}}" loading="eager" class="" alt="">
+                                                    <img src="{{asset('assets/front-end/img/shopview-chat.png')}}" loading="eager" class="" alt="">
                                                     <span class="d-none d-sm-inline-block">
                                                         {{translate('chat_with_seller')}}
                                                     </span>
@@ -161,7 +161,7 @@
 
                                                 <button class="btn bg-transparent border-0 __inline-70 rounded-10  text-capitalize chat-with-seller-button d-sm-inline-block d-md-none" data-toggle="modal"
                                                         data-target="#exampleModal" {{ ($shop->temporary_close || ($shop->vacation_status && date('Y-m-d') >= date('Y-m-d', strtotime($shop->vacation_start_date)) && date('Y-m-d') <= date('Y-m-d', strtotime($shop->vacation_end_date)))) ? 'disabled' : '' }}>
-                                                    <img src="{{asset('/public/assets/front-end/img/icons/shopview-chat-blue.svg')}}" loading="eager" class="" alt="">
+                                                    <img src="{{asset('assets/front-end/img/icons/shopview-chat-blue.svg')}}" loading="eager" class="" alt="">
                                                 </button>
 
 
@@ -170,7 +170,7 @@
                                             <div class="d-flex">
                                                 <a href="{{route('customer.auth.login')}}"
                                                 class="btn btn--primary __inline-70 rounded-10  text-capitalize chat-with-seller-button">
-                                                    <img src="{{asset('/public/assets/front-end/img/shopview-chat.png')}}" loading="eager" class="" alt="">
+                                                    <img src="{{asset('assets/front-end/img/shopview-chat.png')}}" loading="eager" class="" alt="">
                                                     <span class="d-none d-sm-inline-block">
                                                         {{translate('chat_with_seller')}}
                                                     </span>
@@ -311,7 +311,7 @@
                     </div>
                 @else
                     <div class="text-center pt-5 text-capitalize">
-                        <img src="{{asset('public/assets/front-end/img/icons/product.svg')}}" alt="">
+                        <img src="{{asset('assets/front-end/img/icons/product.svg')}}" alt="">
                         <h5>{{translate('no_product_found')}}!</h5>
                     </div>
                 @endif
@@ -439,3 +439,6 @@
         }
     </script>
 @endpush
+
+
+

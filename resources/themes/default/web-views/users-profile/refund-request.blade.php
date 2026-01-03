@@ -3,8 +3,8 @@
 @section('title',translate('refund_request'))
 
 @push('css_or_js')
-    <link href="{{asset('public/assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -37,7 +37,7 @@
                             <div class="row">
                                 <div class="col-3 col-sm-2">
                                     <img class="d-block"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                         alt="VR Collection" width="60">
                                 </div>
@@ -112,7 +112,7 @@
 @endsection
 
 @push('script')
-<script src="{{asset('public/assets/front-end/js/spartan-multi-image-picker.js')}}"></script>
+<script src="{{asset('assets/front-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $(".coba").spartanMultiImagePicker({
@@ -122,7 +122,7 @@
                 groupClassName: 'col-md-4',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset('public/assets/front-end/img/image-place-holder.png')}}',
+                    image: '{{asset('assets/front-end/img/image-place-holder.png')}}',
                     width: '100%'
                 },
                 dropFileLabel: "{{translate('drop_here')}}",
@@ -151,3 +151,4 @@
         });
     </script>
 @endpush
+

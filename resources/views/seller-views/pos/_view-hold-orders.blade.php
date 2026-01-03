@@ -111,7 +111,7 @@
                                     ?>
                                     <div class="p-3 border-bottom rounded d-flex justify-content-between gap-2">
                                         <div class="media gap-2">
-                                            <img width="40" src="{{asset('storage/app/public/product/thumbnail')}}/{{$cartItem['image']}}" onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'">
+                                            <img width="40" src="{{asset('storage/product/thumbnail')}}/{{$cartItem['image']}}" onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'">
                                             <div class="media-body">
                                                 <h6 class="text-truncate"> {{ Str::limit($cartItem['name'], 12 )}}</h6>
                                                 <div class="text-muted">{{ translate('qty') }}: {{ $cartItem['quantity'] }}</div>
@@ -173,8 +173,10 @@
 @else
     <div class="d-flex align-items-center justify-content-center ">
         <div>
-            <img src="{{ asset('public/assets/back-end/img/icons/product.svg') }}" alt="">
+            <img src="{{ asset('assets/back-end/img/icons/product.svg') }}" alt="">
             <h4 class="text-muted text-center mt-4">{{ translate('No_Order_Found') }}</h4>
         </div>
     </div>
 @endif
+
+

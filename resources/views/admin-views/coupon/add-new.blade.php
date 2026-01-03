@@ -3,8 +3,8 @@
 @section('title', translate('coupon_Add'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/coupon_setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/coupon_setup.png')}}" alt="">
                 {{translate('coupon_setup')}}
             </h2>
         </div>
@@ -160,7 +160,7 @@
                                     <li>
                                         <a class="dropdown-item"
                                            href="{{ route('admin.coupon.export',['search'=>$search]) }}"  >
-                                            <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                            <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                             {{translate('excel')}}
                                         </a>
                                     </li>
@@ -215,7 +215,7 @@
                                     <td>
                                         <div class="d-flex gap-10 justify-content-center">
                                             <button class="btn btn-outline--primary square-btn btn-sm mr-1" onclick="get_details(this)" data-id="{{ $c['id'] }}" data-toggle="modal" data-target="#exampleModalCenter">
-                                                <img src="{{asset('/public/assets/back-end/img/eye.svg')}}" class="svg" alt="">
+                                                <img src="{{asset('assets/back-end/img/eye.svg')}}" class="svg" alt="">
                                             </button>
                                             <a class="btn btn-outline--primary btn-sm edit"
                                             href="{{route('admin.coupon.update',[$c['id']])}}"
@@ -258,7 +258,7 @@
 
                     @if(count($cou)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                  alt="Image Description">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
@@ -331,7 +331,7 @@
 
 </script>
 
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         $(".js-example-theme-single").select2({
             theme: "classic"
@@ -343,11 +343,11 @@
     </script>
 
     <!-- Page level plugins -->
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{asset('public/assets/back-end')}}/js/demo/datatables-demo.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/demo/datatables-demo.js"></script>
 
 <script>
     $('#discount_type').on('change', function (){
@@ -439,3 +439,6 @@
         });
 </script>
 @endpush
+
+
+

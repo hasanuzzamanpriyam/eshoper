@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <img width="130" onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                 src="{{asset("storage/app/public/brand/$brand->image")}}" alt="{{$brand->name}}"
+                                 src="{{asset("storage/brand/$brand->image")}}" alt="{{$brand->name}}"
                                  loading="lazy" class="dark-support rounded text-center">
                         </div>
                         @endforeach
@@ -96,3 +96,4 @@
     <!-- End Main Content -->
 
 @endsection
+

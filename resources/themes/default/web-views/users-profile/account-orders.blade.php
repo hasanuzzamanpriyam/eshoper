@@ -56,11 +56,11 @@
                                             <div class="media-order">
                                                 <a href="{{ route('account-order-details', ['id'=>$order->id])}}" class="d-block position-relative">
                                                 @if($order->seller_is == 'seller')
-                                                    <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                    src="{{ asset('storage/app/public/shop/'.(isset($order->seller->shop) ? $order->seller->shop->image:''))}}" alt="img/products">
+                                                    <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                    src="{{ asset('storage/shop/'.(isset($order->seller->shop) ? $order->seller->shop->image:''))}}" alt="img/products">
                                                 @elseif($order->seller_is == 'admin')
-                                                    <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                    src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}" alt="img/products">
+                                                    <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                    src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}" alt="img/products">
                                                 @endif
                                                 </a>
                                                 <div class="cont text-start">
@@ -113,7 +113,7 @@
                         </div>
                         @else
                             <div class="text-center pt-5 text-capitalize">
-                                <img src="{{asset('public/assets/front-end/img/icons/order.svg')}}" alt="" width="70">
+                                <img src="{{asset('assets/front-end/img/icons/order.svg')}}" alt="" width="70">
                                 <h5 class="mt-1 fs-14">{{translate('no_order_found')}}!</h5>
                             </div>
                         @endif
@@ -136,11 +136,11 @@
                         <div class="media-order">
                             <a href="{{ route('account-order-details', ['id'=>$order->id]) }}" class="d-block position-relative">
                                 @if($order->seller_is == 'seller')
-                                    <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{ asset('storage/app/public/shop/'.(isset($order->seller->shop) ? $order->seller->shop->image:''))}}" class="border" alt="img/products">
+                                    <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{ asset('storage/shop/'.(isset($order->seller->shop) ? $order->seller->shop->image:''))}}" class="border" alt="img/products">
                                 @elseif($order->seller_is == 'admin')
-                                    <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" class="border"
-                                    src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}" alt="img/products">
+                                    <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" class="border"
+                                    src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}" alt="img/products">
                                 @endif
                             </a>
                             <div class="cont text-start">
@@ -190,7 +190,7 @@
 
             @if($orders->count()==0)
                 <div class="text-center pt-5 text-capitalize">
-                    <img src="{{asset('public/assets/front-end/img/icons/order.svg')}}" alt="" width="70">
+                    <img src="{{asset('assets/front-end/img/icons/order.svg')}}" alt="" width="70">
                     <h5 class="fs-14 mt-1">{{translate('no_order_found')}}!</h5>
                 </div>
             @endif
@@ -212,3 +212,5 @@
         }
     </script>
 @endpush
+
+

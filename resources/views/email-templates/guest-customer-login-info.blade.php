@@ -104,7 +104,7 @@
                                                 <br>
                                                @php($logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
                                             	<a href="{{url('/')}}" target="_blank">
-                                                <img src="{{asset('/storage/app/public/company/'.$logo)}}" style="max-width:200px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext />
+                                                <img src="{{asset('storage/company/'.$logo)}}" style="max-width:200px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext />
                                                  </a>
                                                 <br>
                                                 <br><br>
@@ -219,7 +219,7 @@
 
                             <div class="" >
                               <a href="{{$item->link}}" target=”_blank”>
-                              <img src="{{asset('public/assets/back-end/img/'.$item->name.'.png')}}" alt="" style="height: 50px; width:50px; margin:10px;">
+                              <img src="{{asset('assets/back-end/img/'.$item->name.'.png')}}" alt="" style="height: 50px; width:50px; margin:10px;">
                               </a>
                             </div>
 
@@ -234,3 +234,5 @@
     </body>
 
 </html>
+
+

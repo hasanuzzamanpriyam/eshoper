@@ -12,7 +12,7 @@
         <div class="mb-3">
             <div class="page-title-wrap d-flex justify-content-between flex-wrap align-items-center gap-3 mb-3">
                 <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/withdraw-icon.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/withdraw-icon.png')}}" alt="">
                     {{translate('withdraw_method_list')}}
                 </h2>
                 <a href="{{route('admin.sellers.withdraw-method.create')}}" class="btn btn--primary">+ {{translate('add_method')}}</a>
@@ -128,7 +128,7 @@
                         @if(count($withdrawal_methods)==0)
                             <div class="text-center p-4">
                                 <img class="mb-3 w-160"
-                                        src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                        src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                         alt="Image Description">
                                 <p class="mb-0">{{translate('no_data_to_show')}}</p>
                             </div>
@@ -211,3 +211,6 @@
         });
   </script>
 @endpush
+
+
+

@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/seller-reports.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/seller-reports.png')}}" alt="">
                 {{translate('seller_Reports')}}
             </h2>
         </div>
@@ -66,14 +66,14 @@
         <div class="store-report-content mb-2">
             <div class="left-content">
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/products.svg')}}" alt="back-end/img">
+                    <img src="{{asset('assets/back-end/img/products.svg')}}" alt="back-end/img">
                     <div class="info">
                         <h4 class="subtitle">{{ $total_product }}</h4>
                         <h6 class="subtext">{{translate('products')}}</h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/cart.svg')}}" alt="back-end/img">
+                    <img src="{{asset('assets/back-end/img/cart.svg')}}" alt="back-end/img">
                     <div class="info">
                         <h4 class="subtitle">{{ $canceled_order+$ongoing_order+$delivered_order }}</h4>
                         <h6 class="subtext">{{translate('total_Orders')}}</h6>
@@ -84,7 +84,7 @@
                             <div class="d-flex">
                                 <span>{{translate('canceled')}}</span>
                                 <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('this_count_is_the_summation_of')}} {{translate('failed_to_deliver')}}, {{translate('canceled')}}, {{translate('and')}} {{translate('returned_orders')}}">
-                                    <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                    <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                                 </span>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="d-flex">
                                 <span>{{translate('ongoing')}}</span>
                                 <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('this_count_is_the_summation_of')}} {{translate('pending')}}, {{translate('confirmed')}}, {{translate('packaging')}}, {{translate('out_for_delivery_orders')}}">
-                                    <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                    <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                                 </span>
                             </div>
                         </div>
@@ -102,14 +102,14 @@
                             <div class="d-flex">
                                 <span>{{translate('completed')}}</span>
                                 <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('this_count_is_the_summation_of_delivered_orders')}}">
-                                    <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                    <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/deliveryman.svg')}}" alt="back-end/img">
+                    <img src="{{asset('assets/back-end/img/deliveryman.svg')}}" alt="back-end/img">
                     <div class="info">
                         <h4 class="subtitle">
                             {{ $deliveryman }}
@@ -189,7 +189,7 @@
                 <div class="card h-100 bg-white payment-statistics-shadow">
                     <div class="card-body d-flex flex-column justify-content-center">
                         <div class="earning-statistics-content">
-                            <img class="mb-4" src="{{asset('/public/assets/back-end/img/earnings.svg')}}" alt="back-end/img">
+                            <img class="mb-4" src="{{asset('assets/back-end/img/earnings.svg')}}" alt="back-end/img">
                             <h6 class="subtitle">{{translate('total_Shop_Earnings')}}</h6>
                             <h3 class="title">
                                 {{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_store_earning)) }}
@@ -236,7 +236,7 @@
                             <li>
                                 <a class="dropdown-item"
                                    href="{{ route('admin.report.seller-report-excel', ['date_type'=>request('date_type'), 'seller_id'=>request('seller_id'),'from'=>request('from'), 'to'=>request('to'), 'search'=>request('search')]) }}"  >
-                                    <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                    <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                     {{translate('excel')}}
                                 </a>
                             </li>
@@ -309,7 +309,7 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="text-center p-4">
-                                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                              alt="Image Description">
                                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                                     </div>
@@ -334,9 +334,9 @@
 @push('script')
 
     <!-- Chart JS -->
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
+    <script src="{{ asset('assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
     </script>
     <!-- Chart JS -->
 @endpush
@@ -422,3 +422,6 @@
 
     </script>
 @endpush
+
+
+

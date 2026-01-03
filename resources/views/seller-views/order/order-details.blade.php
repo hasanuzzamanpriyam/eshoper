@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/all-orders.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/all-orders.png')}}" alt="">
                 {{translate('order_details')}}
             </h2>
         </div>
@@ -158,7 +158,7 @@
                                             <td>
                                                 <div class="media align-items-center gap-10">
                                                     <img class="avatar avatar-60 rounded"
-                                                         onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
+                                                         onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
                                                          src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$detail->product_all_status['thumbnail']}}"
                                                          alt="Image Description">
                                                     <div>
@@ -211,7 +211,7 @@
                                                             @if($detail->digital_file_after_sell)
                                                                 <div class="mb-4">
                                                                     {{translate('uploaded_file')}} :
-                                                                    <a href="{{ asset('storage/app/public/product/digital-product/'.$detail->digital_file_after_sell) }}"
+                                                                    <a href="{{ asset('storage/product/digital-product/'.$detail->digital_file_after_sell) }}"
                                                                        class="btn btn-success btn-sm" title="Download" download><i class="tio-download"></i> {{translate('download')}}</a>
                                                                 </div>
                                                             @else
@@ -308,7 +308,7 @@
                     <div class="card-body">
                         <div class="d-flex gap-2 align-items-center justify-content-between mb-4">
                             <h4 class="d-flex gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/product_setup.png')}}" alt="" width="20">
+                                <img src="{{asset('assets/back-end/img/product_setup.png')}}" alt="" width="20">
                                 {{translate('Payment_Information')}}
                             </h4>
                         </div>
@@ -437,8 +437,8 @@
                                     <div class="p-2 bg-light rounded mt-4">
                                         <div class="media m-1 gap-3">
                                             <img class="avatar rounded-circle"
-                                                onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
-                                                src="{{asset('storage/app/public/profile/'.isset($order->delivery_man->image) ?? '')}}"
+                                                onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('storage/profile/'.isset($order->delivery_man->image) ?? '')}}"
                                                 alt="Image">
                                             <div class="media-body">
                                                 <h5 class="mb-1">{{ isset($order->delivery_man) ? $order->delivery_man->f_name.' '.$order->delivery_man->l_name :''}}</h5>
@@ -450,8 +450,8 @@
                                     <div class="p-2 bg-light rounded mt-4">
                                         <div class="media m-1 gap-3">
                                             <img class="avatar rounded-circle"
-                                                onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
-                                                src="{{asset('public/assets/back-end/img/delivery-man.png')}}"
+                                                onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('assets/back-end/img/delivery-man.png')}}"
                                                 alt="Image">
                                             <div class="media-body">
                                                 <h5 class="mt-3">{{translate('no_delivery_man_assigned')}}</h5>
@@ -480,8 +480,8 @@
                                 <div class="p-2 bg-light rounded mt-4">
                                     <div class="media m-1 gap-3">
                                         <img class="avatar rounded-circle"
-                                            onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('public/assets/back-end/img/third-party-delivery.png')}}"
+                                            onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('assets/back-end/img/third-party-delivery.png')}}"
                                             alt="Image">
                                         <div class="media-body">
                                             <h5 class="">{{isset($order->delivery_service_name) ? $order->delivery_service_name :translate('not_assign_yet')}}</h5>
@@ -502,15 +502,15 @@
                     <div class="card-body">
                         <div class="d-flex gap-2 align-items-center justify-content-between mb-4">
                             <h4 class="d-flex gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
                                 {{translate('customer_information')}}
                             </h4>
                         </div>
                         <div class="media">
                             <div class="mr-3">
                                 <img class="avatar rounded-circle avatar-70"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/profile/'.$order->customer->image)}}"
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/profile/'.$order->customer->image)}}"
                                     alt="Image">
                             </div>
                             <div class="media-body d-flex flex-column gap-1">
@@ -538,7 +538,7 @@
                         <div class="card-body">
                             <div class="d-flex gap-2 align-items-center justify-content-between mb-4">
                                 <h4 class="d-flex gap-2">
-                                    <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" alt="">
+                                    <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
                                     {{translate('shipping_address')}}
                                 </h4>
 
@@ -572,7 +572,7 @@
                                 </div>
                                 <div class="d-flex align-items-start gap-2">
                                     <!-- <span>{{translate('address')}} :</span> -->
-                                    <img src="{{asset('/public/assets/back-end/img/location.png')}}" alt="">
+                                    <img src="{{asset('assets/back-end/img/location.png')}}" alt="">
                                     {{$shipping_address->address}}
                                 </div>
                             </div>
@@ -598,7 +598,7 @@
                         <div class="card-body">
                             <div class="d-flex gap-2 align-items-center justify-content-between mb-4">
                                 <h4 class="d-flex gap-2">
-                                    <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" alt="">
+                                    <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
                                     {{translate('billing_address')}}
                                 </h4>
 
@@ -631,7 +631,7 @@
                                     <strong>{{$billing->zip}}</strong>
                                 </div>
                                 <div class="d-flex align-items-start gap-2">
-                                    <img src="{{asset('/public/assets/back-end/img/location.png')}}" alt="">
+                                    <img src="{{asset('assets/back-end/img/location.png')}}" alt="">
                                     {{$billing->address}}
                                 </div>
                             </div>
@@ -651,14 +651,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="mb-4 d-flex gap-2">
-                            <img src="{{asset('/public/assets/back-end/img/shop-information.png')}}" alt="">
+                            <img src="{{asset('assets/back-end/img/shop-information.png')}}" alt="">
                             {{translate('shop_Information')}}
                         </h4>
                         <div class="media">
                             <div class="mr-3">
                                 <img class="avatar rounded avatar-70"
-                                     src="{{!empty($order->seller->shop) ? asset('storage/app/public/seller/'.auth('seller')->user()->image) : ''}}"
-                                     onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'" alt="">
+                                     src="{{!empty($order->seller->shop) ? asset('storage/seller/'.auth('seller')->user()->image) : ''}}"
+                                     onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'" alt="">
                             </div>
                             @if(!empty($order->seller->shop))
                             <div class="media-body d-flex flex-column gap-2">
@@ -666,7 +666,7 @@
                                 <span class="title-color"><strong>{{ $total_delivered }}</strong> {{translate('orders_Served')}}</span>
                                 <span class="title-color"> <strong>{{ $order->seller->shop->contact }}</strong></span>
                                 <div class="d-flex align-items-start gap-2">
-                                    <img src="{{asset('/public/assets/back-end/img/location.png')}}" class="mt-1" alt="">
+                                    <img src="{{asset('assets/back-end/img/location.png')}}" class="mt-1" alt="">
                                     {{ $order->seller->shop->address }}
                                 </div>
                             </div>
@@ -700,9 +700,9 @@
                                 @foreach ($order->verification_images as $image)
                                     <div class="col-lg-4 col-sm-6 ">
                                         <div class="mb-2 mt-2 border-1">
-                                            <img src="{{asset("storage/app/public/delivery-man/verification-image/".$image->image)}}"
+                                            <img src="{{asset("storage/delivery-man/verification-image/".$image->image)}}"
                                             class="w-100"
-                                            onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
                                             >
                                         </div>
                                     </div>
@@ -1408,12 +1408,12 @@
                 position: new google.maps.LatLng({{$shipping_address->latitude}}, {{$shipping_address->longitude}}),
                 map: map,
                 title: "{{$order->customer['f_name']??""}} {{$order->customer['l_name']??""}}",
-                icon: "{{asset('public/assets/front-end/img/customer_location.png')}}"
+                icon: "{{asset('assets/front-end/img/customer_location.png')}}"
             });
 
             google.maps.event.addListener(marker, 'click', (function (marker) {
                 return function () {
-                    infowindow.setContent("<div class='float-left'><img class='__inline-5' src='{{asset('storage/app/public/profile/')}}{{$order->customer->image??""}}'></div><div class='float-right __p-10'><b>{{$order->customer->f_name??""}} {{$order->customer->l_name??""}}</b><br/>{{$shipping_address->address??""}}</div>");
+                    infowindow.setContent("<div class='float-left'><img class='__inline-5' src='{{asset('storage/profile/')}}{{$order->customer->image??""}}'></div><div class='float-right __p-10'><b>{{$order->customer->f_name??""}} {{$order->customer->l_name??""}}</b><br/>{{$shipping_address->address??""}}</div>");
                     infowindow.open(map, marker);
                 }
             })(marker));
@@ -1445,3 +1445,8 @@
         }
     </script>
 @endpush
+
+
+
+
+

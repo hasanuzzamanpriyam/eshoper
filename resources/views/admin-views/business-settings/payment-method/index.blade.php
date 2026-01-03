@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -38,7 +38,7 @@
                                     <span class="title-color">
                                         {{translate('cash_on_delivery')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled,_the_cash_on_delivery_option_will_be_available_on_the_system._Customers_can_use_COD_as_a_payment_option')}}.">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -65,7 +65,7 @@
                                     <span class="title-color">
                                         {{translate('digital_payment')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled,_customers_can_choose_digital_payment_options_during_the_checkout_process')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -93,7 +93,7 @@
                                         {{translate('offline_payment')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('offline_Payment_allows_customers_to_use_external_payment_methods._They_must_share_payment_details_with_the_seller_afterward._Admin_can_set_whether_customers_can_make_offline_payments_by_enabling/disabling_this_button.
                                         ')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -157,9 +157,9 @@
 
                                 <?php
                                     if ($additional_data != null){
-                                        $img_path = asset('storage/app/public/payment_modules/gateway_image/'. $additional_data->gateway_image ?? '');
+                                        $img_path = asset('storage/payment_modules/gateway_image/'. $additional_data->gateway_image ?? '');
                                     }else{
-                                        $img_path = asset('/public/assets/back-end/img/modal/payment-methods/'.$payment->key_name.'.png');
+                                        $img_path = asset('assets/back-end/img/modal/payment-methods/'.$payment->key_name.'.png');
                                     }
                                 ?>
 
@@ -179,8 +179,8 @@
                             <div class="card-body">
                                 <div class="payment--gateway-img">
                                     <img style="height: 80px" id="gateway_img{{$payment->key_name}}"
-                                         src="{{asset('storage/app/public/payment_modules/gateway_image')}}/{{$additional_data != null ? $additional_data->gateway_image : ''}}"
-                                         onerror="this.src='{{asset('public/assets/back-end/img/payment-gateway-placeholder.png')}}'"
+                                         src="{{asset('storage/payment_modules/gateway_image')}}/{{$additional_data != null ? $additional_data->gateway_image : ''}}"
+                                         onerror="this.src='{{asset('assets/back-end/img/payment-gateway-placeholder.png')}}'"
                                          alt="public">
                                 </div>
 
@@ -274,12 +274,12 @@
                 $('#toggle-status-title').empty().append(on_title);
                 $('#toggle-status-message').empty().append(on_message);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
-                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("/public/assets/back-end/img/modal/status-green.png") }}');
+                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("assets/back-end/img/modal/status-green.png") }}');
             } else {
                 $('#toggle-status-title').empty().append(off_title);
                 $('#toggle-status-message').empty().append(off_message);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
-                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("/public/assets/back-end/img/modal/status-warning.png") }}');
+                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("assets/back-end/img/modal/status-warning.png") }}');
             }
             $('#toggle-status-modal').modal('show');
         }
@@ -302,3 +302,7 @@
         @endif
     </script>
 @endpush
+
+
+
+

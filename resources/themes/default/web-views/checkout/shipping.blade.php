@@ -3,7 +3,7 @@
 @section('title',translate('shipping_Address'))
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{ asset('public/assets/front-end/css/bootstrap-select.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/front-end/css/bootstrap-select.min.css') }}">
 
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -446,7 +446,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/assets/front-end/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('assets/front-end/js/bootstrap-select.min.js') }}"></script>
     {{-- script for mobile no validation it is 11 digit or not --}}
     <script>
         document.getElementById('phone').addEventListener('input', function() {
@@ -982,3 +982,4 @@ function getThana(){
 }
 </script>
 @endpush
+

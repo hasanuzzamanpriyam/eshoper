@@ -25,7 +25,7 @@
                                                       data-bs-placement="top" data-bs-custom-class="custom-tooltip"
                                                       data-bs-html="true"
                                                       data-bs-title="The username of your codecanyon account">
-                                                      <img src="{{asset('public/assets/installation')}}/assets/img/svg-icons/info2.svg" class="svg" alt="">
+                                                      <img src="{{asset('assets/installation')}}/assets/img/svg-icons/info2.svg" class="svg" alt="">
                                                 </span>
                                             </label>
                                             <input type="text" id="username" class="form-control" name="username"
@@ -54,3 +54,4 @@
         </div>
     </div>
 @endsection
+

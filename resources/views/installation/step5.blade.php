@@ -24,7 +24,7 @@
                         <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
                               data-bs-title="Admin setup">
 
-                            <img src="{{asset('public/assets/installation')}}/assets/img/svg-icons/info.svg" alt=""
+                            <img src="{{asset('assets/installation')}}/assets/img/svg-icons/info.svg" alt=""
                                  class="svg">
                         </span>
             </a>
@@ -67,7 +67,7 @@
                                               data-bs-html="true"
                                               data-bs-title="Provide an valid number. This number will be use to send verification code and other attachments in future">
                                                     <img
-                                                        src="{{asset('public/assets/installation')}}/assets/img/svg-icons/info2.svg"
+                                                        src="{{asset('assets/installation')}}/assets/img/svg-icons/info2.svg"
                                                         class="svg" alt="">
                                                 </span>
                                     </label>
@@ -87,7 +87,7 @@
                                               data-bs-html="true"
                                               data-bs-title="Provide an valid email. This email will be use to send verification code and other attachments in future">
                                                     <img
-                                                        src="{{asset('public/assets/installation')}}/assets/img/svg-icons/info2.svg"
+                                                        src="{{asset('assets/installation')}}/assets/img/svg-icons/info2.svg"
                                                         class="svg" alt="">
                                                 </span>
                                     </label>
@@ -120,10 +120,10 @@
                                                placeholder="Ex: 8+ character" minlength="8">
                                         <div class="togglePassword">
                                             <img
-                                                src="{{asset('public/assets/installation')}}/assets/img/svg-icons/eye.svg"
+                                                src="{{asset('assets/installation')}}/assets/img/svg-icons/eye.svg"
                                                 alt="" class="svg eye">
                                             <img
-                                                src="{{asset('public/assets/installation')}}/assets/img/svg-icons/eye-off.svg"
+                                                src="{{asset('assets/installation')}}/assets/img/svg-icons/eye-off.svg"
                                                 alt="" class="svg eye-off">
                                         </div>
                                     </div>
@@ -140,3 +140,4 @@
         </div>
     </div>
 @endsection
+

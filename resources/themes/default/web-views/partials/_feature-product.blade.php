@@ -16,7 +16,7 @@
             @endif
                 <a href="{{route('product',$product->slug)}}">
                     <img src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'">
+                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'">
                 </a>
 
             <div class="quick-view" >
@@ -67,4 +67,5 @@
         </div>
     </div>
 </div>
+
 

@@ -20,7 +20,7 @@
             <!-- Page Title -->
             <div class="">
                 <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                    <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" alt="">
                     {{translate('product_details')}}
                 </h2>
             </div>
@@ -35,15 +35,15 @@
                     <div class="media flex-wrap flex-sm-nowrap gap-3">
                         <a class="aspect-1 float-left overflow-hidden"
 
-                            @if(file_exists(base_path("storage/app/public/product/thumbnail/".$product['thumbnail'])))
+                            @if(file_exists(base_path("storage/product/thumbnail/".$product['thumbnail'])))
                                 href="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                             @else
-                                href="{{asset("public/assets/front-end/img/image-place-holder.png")}}"
+                                href="{{asset("assets/front-end/img/image-place-holder.png")}}"
                             @endif
 
 
                             data-lightbox="mygallery">
-                            <img class="avatar avatar-170 rounded-0" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}" alt="Image Description">
+                            <img class="avatar avatar-170 rounded-0" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}" alt="Image Description">
                         </a>
                         <div class="d-block">
                             <div class="d-flex flex-wrap flex-sm-nowrap align-items-start gap-2 mb-2 min-h-50">
@@ -51,21 +51,21 @@
                                 @if ($product->product_type == 'physical' && $product->color_image)
                                     @foreach (json_decode($product->color_image) as $key => $photo)
                                         <a class="aspect-1 float-left overflow-hidden"
-                                            @if(file_exists(base_path("storage/app/public/product/".$photo->image_name)))
-                                                href="{{asset("storage/app/public/product/$photo->image_name")}}"
+                                            @if(file_exists(base_path("storage/product/".$photo->image_name)))
+                                                href="{{asset("storage/product/$photo->image_name")}}"
                                             @else
-                                                href="{{asset("public/assets/front-end/img/image-place-holder.png")}}"
+                                                href="{{asset("assets/front-end/img/image-place-holder.png")}}"
                                             @endif data-lightbox="mygallery">
 
-                                            <img width="50" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset("storage/app/public/product/$photo->image_name")}}" alt="Product image">
+                                            <img width="50" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset("storage/product/$photo->image_name")}}" alt="Product image">
                                         </a>
                                     @endforeach
                                 @else
                                     @foreach (json_decode($product->images) as $key => $photo)
-                                        <a class="aspect-1 float-left overflow-hidden" href="{{asset("storage/app/public/product/$photo")}}" data-lightbox="mygallery">
-                                            <img width="50" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset("storage/app/public/product/$photo")}}" alt="Product image">
+                                        <a class="aspect-1 float-left overflow-hidden" href="{{asset("storage/product/$photo")}}" data-lightbox="mygallery">
+                                            <img width="50" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset("storage/product/$photo")}}" alt="Product image">
                                         </a>
                                     @endforeach
                                 @endif
@@ -185,8 +185,8 @@
                                         {{ translate('view_live') }}
                                     </a>
                                 @endif
-                                @if($product->digital_file_ready && file_exists(base_path('storage/app/public/product/digital-product/'.$product->digital_file_ready)))
-                                <a href="{{ asset('storage/app/public/product/digital-product/'.$product->digital_file_ready) }}" class="btn btn-outline--primary mr-1" title="Download" download>
+                                @if($product->digital_file_ready && file_exists(base_path('storage/product/digital-product/'.$product->digital_file_ready)))
+                                <a href="{{ asset('storage/product/digital-product/'.$product->digital_file_ready) }}" class="btn btn-outline--primary mr-1" title="Download" download>
                                     <i class="tio-download"></i>
                                     {{ translate('download') }}
                                 </a>
@@ -404,8 +404,8 @@
                                     <div class="avatar rounded">
                                         <img
                                             class="avatar-img"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/app/public/profile/'.$review->customer->image)}}"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/profile/'.$review->customer->image)}}"
                                             alt="Image Description">
                                     </div>
                                     <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
@@ -429,8 +429,8 @@
                                     </p>
                                     @if(json_decode($review->attachment))
                                         @foreach (json_decode($review->attachment) as $img)
-                                            <a class="aspect-1 float-left overflow-hidden" href="{{asset('storage/app/public/review')}}/{{$img}}" data-lightbox="mygallery">
-                                                <img class="p-2" width="60" height="60" src="{{asset('storage/app/public/review')}}/{{$img}}" alt="" onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'">
+                                            <a class="aspect-1 float-left overflow-hidden" href="{{asset('storage/review')}}/{{$img}}" data-lightbox="mygallery">
+                                                <img class="p-2" width="60" height="60" src="{{asset('storage/review')}}/{{$img}}" alt="" onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'">
                                             </a>
                                         @endforeach
                                     @endif
@@ -464,7 +464,7 @@
 
             @if(count($reviews)==0)
                 <div class="text-center p-4">
-                    <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                    <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                     <p class="mb-0">{{translate('no_data_to_show')}}</p>
                 </div>
             @endif
@@ -499,8 +499,8 @@
 @endsection
 
 @push('script_2')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
         $('input[name="colors_active"]').on('change', function () {
             if (!$('input[name="colors_active"]').is(':checked')) {
@@ -526,3 +526,9 @@
         });
     </script>
 @endpush
+
+
+
+
+
+

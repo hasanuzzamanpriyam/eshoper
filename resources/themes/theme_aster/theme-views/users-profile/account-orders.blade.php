@@ -64,9 +64,9 @@
                                                     <div class="avatar rounded" style="--size: 3.75rem">
                                                         @if($order->seller_is == 'seller')
                                                         <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                            src="{{ asset('storage/app/public/shop/'.$order->seller->shop->image)}}" class="img-fit dark-support rounded" alt="">
+                                                            src="{{ asset('storage/shop/'.$order->seller->shop->image)}}" class="img-fit dark-support rounded" alt="">
                                                         @elseif($order->seller_is == 'admin')
-                                                            <img  src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}"
+                                                            <img  src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}"
                                                                   onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'" class="img-fit dark-support rounded" alt="">
                                                         @endif
                                                     </div>
@@ -142,9 +142,9 @@
                                             <div class="avatar rounded" style="--size: 3.75rem">
                                                 @if($order->seller_is == 'seller')
                                                 <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                    src="{{ asset('storage/app/public/shop/'.$order->seller->shop->image)}}" class="img-fit dark-support rounded" alt="">
+                                                    src="{{ asset('storage/shop/'.$order->seller->shop->image)}}" class="img-fit dark-support rounded" alt="">
                                                 @elseif($order->seller_is == 'admin')
-                                                    <img  src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}"
+                                                    <img  src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}"
                                                             onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'" class="img-fit dark-support rounded" alt="">
                                                 @endif
                                             </div>
@@ -219,3 +219,4 @@
 
 
 @endpush
+

@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -26,7 +26,7 @@
             <div class="card mt-3">
                 <div class="card-header gap-2 flex-wrap">
                     <div class="d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/payment-card.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/payment-card.png')}}" alt="">
                         <h5 class="mb-0">{{ translate('payment_Information') }}</h5>
                     </div>
                     <a href="javascript:" onclick="add_input_fields_group()" class="btn btn--primary"><i class="tio-add"></i> {{ translate('Add_New_Field') }} </a>
@@ -72,7 +72,7 @@
             <div class="card mt-3">
                 <div class="card-header gap-2 flex-wrap">
                     <div class="d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/payment-card-fill.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/payment-card-fill.png')}}" alt="">
                         <h5 class="mb-0">{{ translate('required_Information_from_Customer') }}</h5>
                     </div>
                     <a href="javascript:" onclick="add_customer_input_fields_group()" class="btn btn--primary"><i class="tio-add"></i> {{ translate('Add_New_Field') }} </a>
@@ -242,3 +242,5 @@
 </script>
 
 @endpush
+
+

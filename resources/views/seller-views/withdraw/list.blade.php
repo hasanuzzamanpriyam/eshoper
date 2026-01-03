@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/withdraw-icon.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/withdraw-icon.png')}}" alt="">
                 {{translate('withdraw')}}
             </h2>
         </div>
@@ -78,7 +78,7 @@
                                 @endforeach
                             @else
                                 <td colspan="5" class="text-center">
-                                    <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                                    <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                                     <p class="mb-0">{{translate('no_data_to_show')}}</p>
                                 </td>
                             @endif
@@ -145,3 +145,6 @@
       }
   </script>
 @endpush
+
+
+

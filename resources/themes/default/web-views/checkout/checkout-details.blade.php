@@ -3,7 +3,7 @@
 @section('title',translate('Checkout_Process_Start'))
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/checkout-details.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/checkout-details.css"/>
     <style>
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background: {{$web_config['primary_color']}};
@@ -320,3 +320,4 @@
     </script>
 
 @endpush
+

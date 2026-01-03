@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/shipping_method.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/shipping_method.png')}}" alt="">
                 {{translate('shipping_method')}}
             </h2>
         </div>
@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                            <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                            <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                             {{translate('shipping')}}
                         </h5>
                     </div>
@@ -39,7 +39,7 @@
                             </div>
                             <div class="mt-2 mx-3" id="product_wise_note">
                                 <p>
-                                    <img width="16" class="mt-n1" src="{{asset('/public/assets/back-end/img/danger-info.png')}}" alt="">
+                                    <img width="16" class="mt-n1" src="{{asset('assets/back-end/img/danger-info.png')}}" alt="">
                                     <strong>{{translate('note')}}</strong>
                                     : {{translate("please_make_sure_all_the product`s_delivery_charges_are_up_to_date.")}}</p>
                             </div>
@@ -53,7 +53,7 @@
             <div class="card mt-2">
                 <div class="card-header">
                     <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                         {{translate('add_order_wise_shipping')}}
                     </h5>
                 </div>
@@ -103,7 +103,7 @@
             <div class="card mt-2">
                 <div class="px-3 py-4">
                     <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                         {{translate('order_wise_shipping_method')}}
                         <span class="badge badge-soft-dark radius-50 fz-12">{{ $shipping_methods->count() }}</span>
                     </h5>
@@ -175,7 +175,7 @@
         <div class="card mt-2" id="update_category_shipping_cost">
             <div class="px-3 pt-4">
                 <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                     {{translate('category_wise_shipping_cost')}}
                 </h5>
             </div>
@@ -344,3 +344,5 @@
         }
     </script>
 @endpush
+
+

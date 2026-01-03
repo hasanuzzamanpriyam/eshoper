@@ -3,12 +3,12 @@
 @section('title', translate('all_Category'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="Categories of {{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="Categories of {{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -34,7 +34,7 @@
             <div class="col-lg-3 col-md-4">
                 @foreach(\App\CPU\CategoryManager::parents() as $category)
                     <div class="card-header mb-2 p-2 side-category-bar" onclick="get_categories('{{route('category-ajax',[$category['id']])}}')">
-                        <img src="{{asset("storage/app/public/category/$category->icon")}}" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" class="__img-18 mr-1">
+                        <img src="{{asset("storage/category/$category->icon")}}" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" class="__img-18 mr-1">
 
                             {{$category['name']}}
 
@@ -81,3 +81,5 @@
         }
     </script>
 @endpush
+
+

@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-seller.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('earning_Statement')}}
             </h2>
         </div>
@@ -35,7 +35,7 @@
                 <div class="row justify-content-between align-items-center g-2 mb-3">
                     <div class="col-sm-6">
                         <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-                            <img width="20" class="mb-1" src="{{asset('/public/assets/back-end/img/admin-wallet.png')}}" alt="">
+                            <img width="20" class="mb-1" src="{{asset('assets/back-end/img/admin-wallet.png')}}" alt="">
                             {{translate('deliveryman_Wallet')}}
                         </h4>
                     </div>
@@ -92,7 +92,7 @@
                                             <div class="text-capitalize mb-0">{{translate('pending_withdraw')}}</div>
                                         </div>
                                         <div>
-                                            <img width="40" class="mb-2" src="{{asset('/public/assets/back-end/img/pw.png')}}" alt="">
+                                            <img width="40" class="mb-2" src="{{asset('assets/back-end/img/pw.png')}}" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -232,4 +232,6 @@
 @push('script_2')
 
 @endpush
+
+
 

@@ -4,7 +4,7 @@
         <div class="card-body p-xl-35">
             <div class="row d-flex justify-content-between mx-1 mb-3">
                 <div>
-                    <img class="size-30" src="{{asset("public/assets/front-end/png/top-rated.png")}}"
+                    <img class="size-30" src="{{asset("assets/front-end/png/top-rated.png")}}"
                         alt="">
                     <span class="font-bold pl-1">{{ translate('top_rated')}}</span>
                 </div>
@@ -35,7 +35,7 @@
                                 <div class="d-flex flex-wrap">
                                     <div class="top-rated-image">
                                         <img class="rounded"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$top->product['thumbnail']}}"
                                             alt="Product"/>
                                     </div>
@@ -87,3 +87,5 @@
         </div>
     </div>
 </div>
+
+

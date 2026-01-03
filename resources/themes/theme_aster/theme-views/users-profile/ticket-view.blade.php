@@ -15,7 +15,7 @@
                             <div class="media flex-wrap gap-3">
                                 <div class="avatar avatar-lg rounded-circle">
                                     <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                         src="{{asset('storage/app/public/profile')}}/{{\App\CPU\customer_info()->image}}" loading="lazy" class="img-fit rounded-circle dark-support" alt="">
+                                         src="{{asset('storage/profile')}}/{{\App\CPU\customer_info()->image}}" loading="lazy" class="img-fit rounded-circle dark-support" alt="">
                                 </div>
                                 <div class="media-body">
                                     <div class="d-flex flex-column gap-1">
@@ -80,10 +80,10 @@
                                             @if ($conversation['attachment'] !=null && count(json_decode($conversation['attachment'])) > 0)
                                                 <div class="d-flex flex-wrap g-2 gap-2 justify-content-end">
                                                     @foreach (json_decode($conversation['attachment']) as $key => $photo)
-                                                        @if(file_exists(base_path("storage/app/public/support-ticket/".$photo)))
+                                                        @if(file_exists(base_path("storage/support-ticket/".$photo)))
                                                             <div class="col-sm-6 col-md-3">
-                                                                <img onerror="this.src=' {{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                                     src="{{asset('storage/app/public/support-ticket')}}/{{$photo}}" height="100" class="rounded"
+                                                                <img onerror="this.src=' {{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                                     src="{{asset('storage/support-ticket')}}/{{$photo}}" height="100" class="rounded"
                                                                      alt="img">
                                                             </div>
                                                         @endif
@@ -103,10 +103,10 @@
                                             @if ($conversation['attachment'] !=null && count(json_decode($conversation['attachment'])) > 0)
                                                 <div class="d-flex flex-wrap g-2 gap-2 justify-content-start">
                                                     @foreach (json_decode($conversation['attachment']) as $key => $photo)
-                                                        @if(file_exists(base_path("storage/app/public/support-ticket/".$photo)))
+                                                        @if(file_exists(base_path("storage/support-ticket/".$photo)))
                                                             <div class="col-sm-6 col-md-3">
-                                                                <img onerror="this.src=' {{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                                     src="{{asset('storage/app/public/support-ticket')}}/{{$photo}}" height="100" class="rounded"
+                                                                <img onerror="this.src=' {{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                                     src="{{asset('storage/support-ticket')}}/{{$photo}}" height="100" class="rounded"
                                                                      alt="img">
                                                             </div>
                                                         @endif
@@ -154,3 +154,6 @@
         });
     </script>
 @endpush
+
+
+

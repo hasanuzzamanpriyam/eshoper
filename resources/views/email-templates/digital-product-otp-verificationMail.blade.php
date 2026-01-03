@@ -92,7 +92,7 @@
                                                 <br>
                                                 <br>
                                                 <br>
-                                            	<img src="{{ asset("public/assets/front-end/img/media/OTP-Verification.png")}}" style="max-width:200px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext />
+                                            	<img src="{{ asset("assets/front-end/img/media/OTP-Verification.png")}}" style="max-width:200px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext />
                                                 <br>
                                                 <br>
                                             </td>
@@ -120,3 +120,4 @@
     </body>
 
 </html>
+

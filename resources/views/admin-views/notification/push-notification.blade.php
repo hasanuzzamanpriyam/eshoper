@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/push-notification.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/push-notification.png')}}" alt="">
                 {{translate('push_Notification_Setup')}}
             </h2>
         </div>
@@ -236,7 +236,7 @@
                 </div>
                 <div class="modal-body px-4 px-sm-5 pt-0 text-center">
                     <div class="d-flex flex-column align-items-center gap-2">
-                        <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/notice.png')}}" loading="lazy" alt="">
+                        <img width="80" class="mb-3" src="{{asset('assets/back-end/img/notice.png')}}" loading="lazy" alt="">
                         <h4 class="lh-md">Warning!</h4>
                         <p>Disabling mail configuration services will prevent the system from sending emails. Please only turn off this service if you intend to temporarily suspend email sending. Note that this may affect system functionality that relies on email communication."</p>
                     </div>
@@ -259,7 +259,7 @@
                 <div class="modal-body px-4 px-sm-5 pt-0">
                     <div class="d-flex flex-column gap-2">
                         <div class="text-center mb-1">
-                            <img width="80" class="mb-4" src="{{asset('/public/assets/back-end/img/notice.png')}}" loading="lazy" alt="">
+                            <img width="80" class="mb-4" src="{{asset('assets/back-end/img/notice.png')}}" loading="lazy" alt="">
                             <h4 class="lh-md text-capitalize">{{translate('important_notice')}}!</h4>
                         </div>
                         <p class="mb-5">{{translate('to_include_specific_details_in_your_push_notification_message,you_can_use_the_following_placeholders')}}:</p>
@@ -331,3 +331,5 @@
         });
     </script>
 @endpush
+
+

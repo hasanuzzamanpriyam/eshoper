@@ -3,10 +3,10 @@
 @section('title', translate('app_settings'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
 @endpush
 
 @section('content')
@@ -14,7 +14,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_Setup')}}
             </h2>
 
@@ -35,7 +35,7 @@
 
 
         <div class="d-flex gap-2 mb-3">
-            <img width="16" src="{{asset('/public/assets/back-end/img/settings.png')}}" alt="">
+            <img width="16" src="{{asset('assets/back-end/img/settings.png')}}" alt="">
             <h5 class="mb-0">{{translate('user_app_version_control')}}</h5>
         </div>
         <div class="card">
@@ -45,7 +45,7 @@
                     <div class="row g-2">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-2 mb-3">
-                                <img width="22" src="{{asset('/public/assets/back-end/img/android.png')}}" alt="">
+                                <img width="22" src="{{asset('assets/back-end/img/android.png')}}" alt="">
                                 <h5 class="mb-0 text-capitalize">{{translate('for_android')}}</h5>
                             </div>
 
@@ -62,7 +62,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Customer_App_Version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_customer_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_android[status]" value="1">
@@ -73,7 +73,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Customer_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('customers_will_download_the_latest_customer_app_version_using_this_URL') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_android[link]" placeholder="{{translate('ex')}} : https://play.google.com/store/apps" required value="{{ $user_app_version_control['for_android']['link'] ?? '' }}">
@@ -82,7 +82,7 @@
                         </div>
                         <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-2 mb-3">
-                                    <img width="22" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                                    <img width="22" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                                     <h5 class="mb-0 text-capitalize">{{translate('for_ios')}}</h5>
                                 </div>
 
@@ -91,7 +91,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Customer_App_Version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_customer_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_ios[status]" value="1">
@@ -102,7 +102,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Customer_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('customers_will_download_the_latest_customer_app_version_using_this_URL') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_ios[link]" placeholder="{{translate('ex')}} : https://www.apple.com/app-store/" required value="{{ $user_app_version_control['for_ios']['link'] ?? '' }}">
@@ -122,7 +122,7 @@
 
 
         <div class="d-flex gap-2 mb-3 mt-5">
-            <img width="16" src="{{asset('/public/assets/back-end/img/settings.png')}}" alt="">
+            <img width="16" src="{{asset('assets/back-end/img/settings.png')}}" alt="">
             <h5 class="mb-0">{{translate('seller_app_version_control')}}</h5>
         </div>
         <div class="card">
@@ -132,7 +132,7 @@
                     <div class="row g-2">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-2 mb-3">
-                                <img width="22" src="{{asset('/public/assets/back-end/img/android.png')}}" alt="">
+                                <img width="22" src="{{asset('assets/back-end/img/android.png')}}" alt="">
                                 <h5 class="mb-0 text-capitalize">{{translate('for_android')}}</h5>
                             </div>
 
@@ -143,7 +143,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Seller_app_version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_seller_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_android[status]" value="1">
@@ -154,7 +154,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Seller_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('sellers_will_download_the_latest_seller_app_version_using_this_URL') }}.">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_android[link]" placeholder="{{translate('ex')}} : https://play.google.com/store/apps" required value="{{ $seller_app_version_control['for_android']['link'] ?? '' }}">
@@ -163,7 +163,7 @@
                         </div>
                         <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-2 mb-3">
-                                    <img width="22" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                                    <img width="22" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                                     <h5 class="mb-0 text-capitalize">{{translate('for_ios')}}</h5>
                                 </div>
 
@@ -172,7 +172,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Seller_app_version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_seller_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_ios[status]" value="1">
@@ -183,7 +183,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Seller_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('sellers_will_download_the_latest_seller_app_version_using_this_URL') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_ios[link]" placeholder="{{translate('ex')}} : https://www.apple.com/app-store/" required value="{{ $seller_app_version_control['for_ios']['link'] ?? '' }}">
@@ -203,7 +203,7 @@
 
 
         <div class="d-flex gap-2 mb-3 mt-5">
-            <img width="16" src="{{asset('/public/assets/back-end/img/settings.png')}}" alt="">
+            <img width="16" src="{{asset('assets/back-end/img/settings.png')}}" alt="">
             <h5 class="mb-0">{{translate('delivery_man_app_version_control')}}</h5>
         </div>
         <div class="card">
@@ -213,7 +213,7 @@
                     <div class="row g-2">
                         <div class="col-md-6">
                             <div class="d-flex align-items-center gap-2 mb-3">
-                                <img width="22" src="{{asset('/public/assets/back-end/img/android.png')}}" alt="">
+                                <img width="22" src="{{asset('assets/back-end/img/android.png')}}" alt="">
                                 <h5 class="mb-0 text-capitalize">{{translate('for_android')}}</h5>
                             </div>
 
@@ -224,7 +224,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Deliveryman_App_Version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_deliveryman_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_android[status]" value="1">
@@ -235,7 +235,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Deliveryman_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('deliverymen_will_download_the_latest_deliveryman_app_version_using_this_URL') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_android[link]" placeholder="{{translate('ex')}} : https://play.google.com/store/apps" required value="{{ $delivery_man_app_version_control['for_android']['link'] ?? '' }}">
@@ -244,7 +244,7 @@
                         </div>
                         <div class="col-md-6">
                                 <div class="d-flex align-items-center gap-2 mb-3">
-                                    <img width="22" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                                    <img width="22" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                                     <h5 class="mb-0 text-capitalize">{{translate('for_ios')}}</h5>
                                 </div>
 
@@ -253,7 +253,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('minimum_Deliveryman_App_Version')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('the_minimum_deliveryman_app_version_required_for_the_app_functionality') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="hidden" name="for_android[status]" value="1">
@@ -264,7 +264,7 @@
                                     <div class="d-flex align-items-center gap-2 mb-2">
                                         <label class="title-color mb-0">{{translate('download_URL_For_Deliveryman_App')}}</label>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('deliverymen_will_download_the_latest_deliveryman_app_version_using_this_URL') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <input type="url" class="form-control" name="for_ios[link]" placeholder="{{translate('ex')}} : https://www.apple.com/app-store/" required value="{{ $delivery_man_app_version_control['for_ios']['link'] ?? '' }}">
@@ -295,7 +295,7 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/what_app_version.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/what_app_version.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">{{ translate('what_is_App_Version') }} ?</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                         <li>{{ translate('this_app_version_means_the_minimum_version_of_Seller_Deliveryman_and_Customer_apps_that_are_required_for_the_update') }}</li>
@@ -305,7 +305,7 @@
                             </div>
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/what_app_version.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/what_app_version.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">{{ translate('app_Download_Link') }}</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                         <li>{{ translate('the_app_download_link_is_the_URL_that_allows_users_to_update_the_app_by_clicking_the_Update_App_button_within_the_app_itself') }} </li>
@@ -323,7 +323,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
             pagination: {
@@ -334,8 +334,8 @@
             },
         });
     </script>
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
         $("#customFileUploadShop").change(function () {
             read_image(this, 'viewerShop');
@@ -390,3 +390,6 @@
         $('#language').val(language);
     </script>
 @endpush
+
+
+

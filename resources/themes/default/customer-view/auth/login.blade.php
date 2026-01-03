@@ -84,7 +84,7 @@
                     @if (isset($socialLoginService) && $socialLoginService['status']==true)
                         <div>
                             <a class="d-block" href="{{route('customer.auth.service-login', $socialLoginService['login_medium'])}}">
-                                <img src="{{asset('/public/assets/front-end/img/icons/'.$socialLoginService['login_medium'].'.png')}}" alt="">
+                                <img src="{{asset('assets/front-end/img/icons/'.$socialLoginService['login_medium'].'.png')}}" alt="">
                             </a>
                         </div>
                     @endif
@@ -138,3 +138,4 @@
     @endif
     {{-- recaptcha scripts end --}}
 @endpush
+

@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2 align-items-center">
-                <img width="20" src="{{asset('/public/assets/back-end/img/seller_sale.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/seller_sale.png')}}" alt="">
                 {{translate('product_Report')}}
             </h2>
         </div>
@@ -100,7 +100,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.stock.product-stock-export', ['sort' => request('sort'), 'category_id' => request('category_id'), 'seller_id' => request('seller_id'), 'search' => request('search')]) }}">
-                                    <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                    <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                     {{translate('excel')}}
                                 </a>
                             </li>
@@ -158,7 +158,7 @@
                             <tr>
                                 <td colspan="5">
                                     <div class="text-center p-4">
-                                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                              alt="Image Description">
                                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                                     </div>
@@ -183,3 +183,6 @@
 @push('script_2')
 
 @endpush
+
+
+

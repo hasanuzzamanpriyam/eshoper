@@ -3,17 +3,17 @@
 @section('title', translate('track_Order_Result'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="{{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="{{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
     <link rel="stylesheet" media="screen"
-          href="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
+          href="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
     <style>
        .closet{
             float: {{Session::get('direction') === "rtl" ? 'left' : 'right'}};
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="mt-5 pt-md-5 mx-auto text-center" style="max-width:377px">
-                            <img class="mb-2" src="{{asset('/public/assets/front-end/img/track-truck.svg')}}" alt="">
+                            <img class="mb-2" src="{{asset('assets/front-end/img/track-truck.svg')}}" alt="">
                             <div class="opacity-50">
                                 {{translate('enter_your_order_ID_&_phone_number_to_get_delivery_updates')}}
                             </div>
@@ -66,6 +66,9 @@
 
 
 @push('script')
-    <script src="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js">
+    <script src="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js">
     </script>
 @endpush
+
+
+

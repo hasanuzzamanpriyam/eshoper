@@ -25,7 +25,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 for-margin">
             <div class="for-image">
-                <img style="" src="{{asset("storage/app/public/png/404.png")}}" alt="">
+                <img style="" src="{{asset("storage/png/404.png")}}" alt="">
             </div>
             <h2 class="page-not-found">{{ translate('page_not_found')}}</h2>
 
@@ -38,3 +38,4 @@
         <div class="col-md-3"></div>
     </div>
 @endsection
+

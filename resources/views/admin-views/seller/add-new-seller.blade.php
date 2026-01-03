@@ -12,7 +12,7 @@
     <!-- Page Title -->
     <div class="mb-4">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img src="{{asset('/public/assets/back-end/img/add-new-seller.png')}}" class="mb-1" alt="">
+            <img src="{{asset('assets/back-end/img/add-new-seller.png')}}" class="mb-1" alt="">
             {{translate('add_new_seller')}}
         </h2>
     </div>
@@ -24,7 +24,7 @@
             <div class="card-body">
                 <input type="hidden" name="status" value="approved">
                 <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
-                    <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
+                    <img src="{{asset('assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
                     {{translate('seller_information')}}
                 </h5>
                 <div class="row align-items-center">
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <center>
                                 <img class="upload-img-view" id="viewer"
-                                    src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                    src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                             </center>
                         </div>
 
@@ -67,7 +67,7 @@
             <div class="card-body">
                 <input type="hidden" name="status" value="approved">
                 <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
-                    <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
+                    <img src="{{asset('assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
                     {{translate('account_information')}}
                 </h5>
                 <div class="row">
@@ -91,7 +91,7 @@
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2 border-bottom pb-3 mb-4 pl-4">
-                    <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
+                    <img src="{{asset('assets/back-end/img/seller-information.png')}}" class="mb-1" alt="">
                     {{translate('shop_information')}}
                 </h5>
 
@@ -107,7 +107,7 @@
                     <div class="col-lg-6 form-group">
                         <center>
                             <img class="upload-img-view" id="viewerLogo"
-                                src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                         </center>
 
                         <div class="mt-4">
@@ -126,7 +126,7 @@
                     <div class="col-lg-6 form-group">
                         <center>
                             <img class="upload-img-view upload-img-view__banner" id="viewerBanner"
-                                    src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                    src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                         </center>
 
                         <div class="mt-4">
@@ -147,7 +147,7 @@
                     <div class="col-lg-6 form-group">
                         <center>
                             <img class="upload-img-view upload-img-view__banner" id="viewerBottomBanner"
-                                    src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                    src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                         </center>
 
                         <div class="mt-4">
@@ -316,3 +316,6 @@
     });
 </script>
 @endpush
+
+
+

@@ -3,18 +3,18 @@
 @section('title', translate('track_Order'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="{{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="{{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
     <link rel="stylesheet" media="screen"
-          href="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
+          href="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
 @endpush
 
 @section('content')
@@ -61,7 +61,7 @@
                                             <div class="media align-items-center gap-3">
                                                 <img class="rounded border"
                                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
-                                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" width="100px"                                                src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
+                                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" width="100px"                                                src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
                                                     alt="Image Description">
                                                 <div >
                                                     <h6 class="title-color mb-2">{{Str::limit($productDetails['name'],30)}}</h6>
@@ -217,14 +217,14 @@
                             <div class="nav-link active-status">
                                 <div class="d-flex flex-sm-column gap-3 gap-sm-0">
                                     <div class="media-tab-media mx-sm-auto mb-3">
-                                        <img src="{{asset('/public/assets/front-end/img/track-order/order-placed.png')}}" alt="">
+                                        <img src="{{asset('assets/front-end/img/track-order/order-placed.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="text-sm-center">
                                             <h6 class="media-tab-title text-nowrap mb-0 text-capitalize fs-14">{{ translate('order_placed')}}</h6>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-sm-center gap-1 mt-2">
-                                            <img src="{{asset('/public/assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
+                                            <img src="{{asset('assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
                                             <span class="text-muted fs-12">{{date('h:i A, d M Y',strtotime($orderDetails->created_at))}}</span>
                                         </div>
                                     </div>
@@ -237,7 +237,7 @@
                             <div class="nav-link {{($orderDetails['order_status']=='confirmed') || ($orderDetails['order_status']=='processing') || ($orderDetails['order_status']=='processed') || ($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered')?'active-status' : ''}}">
                                 <div class="d-flex flex-sm-column gap-3 gap-sm-0">
                                     <div class="media-tab-media mb-3 mx-sm-auto">
-                                        <img src="{{asset('/public/assets/front-end/img/track-order/order-confirmed.png')}}" alt="">
+                                        <img src="{{asset('assets/front-end/img/track-order/order-confirmed.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="text-sm-center">
@@ -245,7 +245,7 @@
                                         </div>
                                         @if(($orderDetails['order_status']=='confirmed') || ($orderDetails['order_status']=='processing') || ($orderDetails['order_status']=='processed') || ($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered') && \App\CPU\order_status_history($orderDetails['id'],'confirmed'))
                                             <div class="d-flex align-items-center justify-content-sm-center mt-2 gap-1">
-                                                <img src="{{asset('/public/assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
+                                                <img src="{{asset('assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
                                                 <span class="text-muted fs-12">
                                                     {{date('h:i A, d M Y',strtotime(\App\CPU\order_status_history($orderDetails['id'],'confirmed')))}}
                                                 </span>
@@ -260,7 +260,7 @@
                             <div class="nav-link {{($orderDetails['order_status']=='processing') || ($orderDetails['order_status']=='processed') || ($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered')?'active-status' : ''}}">
                                 <div class="d-flex flex-sm-column gap-3 gap-sm-0">
                                     <div class="media-tab-media mb-3 mx-sm-auto">
-                                        <img src="{{asset('/public/assets/front-end/img/track-order/shipment.png')}}" alt="">
+                                        <img src="{{asset('assets/front-end/img/track-order/shipment.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="text-sm-center">
@@ -268,7 +268,7 @@
                                         </div>
                                         @if( ($orderDetails['order_status']=='processing') || ($orderDetails['order_status']=='processed') || ($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered')  && \App\CPU\order_status_history($orderDetails['id'],'processing'))
                                             <div class="d-flex align-items-center justify-content-sm-center mt-2 gap-2">
-                                                <img src="{{asset('/public/assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
+                                                <img src="{{asset('assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
                                                 <span class="text-muted fs-12">
                                                     {{date('h:i A, d M Y',strtotime(\App\CPU\order_status_history($orderDetails['id'],'processing')))}}
                                                 </span>
@@ -282,7 +282,7 @@
                             <div class="nav-link {{($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered')?'active-status' : ''}}">
                                 <div class="d-flex flex-sm-column gap-3 gap-sm-0">
                                     <div class="media-tab-media mb-3 mx-sm-auto">
-                                        <img src="{{asset('/public/assets/front-end/img/track-order/on-the-way.png')}}" alt="">
+                                        <img src="{{asset('assets/front-end/img/track-order/on-the-way.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="text-sm-center">
@@ -291,7 +291,7 @@
                                     {{--  --}}
                                         @if( ($orderDetails['order_status']=='out_for_delivery') || ($orderDetails['order_status']=='delivered'))
                                             <div class="d-flex align-items-center justify-content-sm-center mt-1">
-                                                <img class="mx-sm-1" src="{{asset('/public/assets/front-end/img/track-order/clock.png')}}" width="20" alt="">
+                                                <img class="mx-sm-1" src="{{asset('assets/front-end/img/track-order/clock.png')}}" width="20" alt="">
                                                 <span class="text-muted fs-14">
                                                     @if(\App\CPU\order_status_history($orderDetails['id'],'out_for_delivery'))
                                                         {{date('h:i A, d M Y',strtotime(\App\CPU\order_status_history($orderDetails['id'],'out_for_delivery')))}}
@@ -327,7 +327,7 @@
                             <div class="nav-link {{($orderDetails['order_status']=='delivered')?'active-status' : ''}}">
                                 <div class="d-flex flex-sm-column gap-3 gap-sm-0">
                                     <div class="media-tab-media mb-3 mx-sm-auto">
-                                        <img src="{{asset('/public/assets/front-end/img/track-order/delivered.png')}}" alt="">
+                                        <img src="{{asset('assets/front-end/img/track-order/delivered.png')}}" alt="">
                                     </div>
                                     <div class="media-body">
                                         <div class="text-sm-center">
@@ -335,7 +335,7 @@
                                         </div>
                                         @if(($orderDetails['order_status']=='delivered') && \App\CPU\order_status_history($orderDetails['id'],'delivered'))
                                             <div class="d-flex align-items-center justify-content-sm-center mt-2 gap-2">
-                                                <img src="{{asset('/public/assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
+                                                <img src="{{asset('assets/front-end/img/track-order/clock.png')}}" width="14" alt="">
                                                 <span class="text-muted fs-12">
                                                     {{date('h:i A, d M Y',strtotime(\App\CPU\order_status_history($orderDetails['id'],'delivered')))}}
                                                 </span>
@@ -391,7 +391,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
+    <script src="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
 
     <script>
         function digital_product_download(link)
@@ -589,3 +589,6 @@
 
     </script>
 @endpush
+
+
+

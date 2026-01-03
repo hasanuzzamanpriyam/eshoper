@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/loyalty_point.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/loyalty_point.png')}}" alt="">
                 {{translate('customer_loyalty_point_report')}}
             </h2>
         </div>
@@ -138,7 +138,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
                                 <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.customer.loyalty.export',['transaction_type'=>$transaction_status,'customer_id'=>request('customer_id'),'to'=>request('to'),'from'=>request('from')])}}">
-                                    <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                    <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                     {{translate('excel')}}
                                 </a>
                             </li>
@@ -204,7 +204,7 @@
             <!-- End Body -->
             @if(count($transactions)==0)
                 <div class="text-center p-4">
-                    <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                    <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                     <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                 </div>
             @endif
@@ -448,3 +448,6 @@
         })
     </script>
 @endpush
+
+
+

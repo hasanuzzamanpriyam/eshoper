@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_setup')}}
             </h2>
         </div>
@@ -26,10 +26,10 @@
                 <div class="card">
                     <div class="border-bottom px-4 py-3">
                         <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                            <img width="20" src="{{asset('/public/assets/back-end/img/environment.png')}}" alt="">
+                            <img width="20" src="{{asset('assets/back-end/img/environment.png')}}" alt="">
                             {{translate('upload_the_updated_file')}}
                             <span class="ml-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="{{translate('this_module_will_run_for_updates_after_version_13.1')}}">
-                                <img class="info-img w-200" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                <img class="info-img w-200" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                             </span>
                         </h5>
                     </div>
@@ -149,3 +149,5 @@
         });
     </script>
 @endpush
+
+

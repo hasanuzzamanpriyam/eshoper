@@ -38,7 +38,7 @@
 
                     <td align="left" valign="top" colspan="2"
                         style="border-bottom: 1px solid #CCCCCC; padding-bottom: 10px;">
-                        <img alt="" border="0" src="{{url('/').'/storage/app/public/company/'.$logo}}" title=""
+                        <img alt="" border="0" src="{{url('/').'/storage/company/'.$logo}}" title=""
                              class="sitelogo" width="60%" style="max-width:250px;"/>
                     </td>
 
@@ -94,3 +94,4 @@
 </body>
 
 </html>
+

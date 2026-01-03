@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('business_setup')}}
             </h2>
 
@@ -24,7 +24,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                         <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                     </div>
                     <p class="title-color font-weight-medium mb-0">{{ translate('please_click_the_Save_button_below_to_save_all_the_changes') }}</p>
@@ -40,7 +40,7 @@
         <div class="card">
             <div class="border-bottom px-4 py-3">
                 <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                    <img src="{{asset('/public/assets/back-end/img/header-logo.png')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/header-logo.png')}}" alt="">
                     {{translate('order_Settings')}}
                 </h5>
             </div>
@@ -54,7 +54,7 @@
                                 <span class="title-color">
                                     {{translate('order_Delivery_Verification')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('customers_receive_a_verification_code_after_placing_an_order')}}. {{translate('when_a_deliveryman_arrives_for_delivery_they_must_provide_the_code_to_the_deliveryman_to_verify_the_order_delivery')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </span>
 
@@ -72,7 +72,7 @@
                                 <span class="title-color">
                                     {{translate('minimum_order_amount')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled_customers_must_place_at_least_or_more_than_the_order_amount_that_admin_or_sellers_set')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </span>
 
@@ -91,7 +91,7 @@
                                 <span class="title-color d-flex align-items-center gap-1">
                                     {{translate('show_Billing_Address_In_Checkout')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled_the_billing_address_will_be_shown_on_the_checkout_page')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </span>
 
@@ -110,7 +110,7 @@
                                 <span class="title-color d-flex align-items-center gap-1">
                                     {{translate('free_Delivery')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled_free_delivery_will_be_available_when_customers_order_over_a_certain_amount')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </span>
 
@@ -139,7 +139,7 @@
                                 <label class="title-color d-flex align-items-center gap-2" for="free_delivery_over_amount_seller">
                                     {{translate('free_Delivery_Over')}} ({{\App\CPU\BackEndHelper::currency_symbol()}})
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('free_delivery_over_amount_for_every_seller_if_they_do_not_set_any_range_yet')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input type="number" class="form-control" min="0" name="free_delivery_over_amount_seller" id="free_delivery_over_amount_seller" placeholder="{{translate('ex')}} : {{translate('10')}}" value="{{ \App\CPU\Convert::default($free_delivery_over_amount_seller) ?? 0 }}">
@@ -159,7 +159,7 @@
                                 <span class="title-color d-flex align-items-center gap-1">
                                     {{translate('guest_checkout')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled_users_can_complete_the_checkout_process_without_logging_in_to_the_system')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </span>
 
@@ -195,3 +195,5 @@
     });
 </script>
 @endpush
+
+

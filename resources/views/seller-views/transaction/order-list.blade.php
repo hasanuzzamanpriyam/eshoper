@@ -5,7 +5,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/order_report.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/order_report.png')}}" alt="">
                 {{translate('transaction_report')}}
             </h2>
         </div>
@@ -84,28 +84,28 @@
         <div class="store-report-content mb-2">
             <div class="left-content">
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/cart.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/cart.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ $product_data['total_products'] }}</h4>
                         <h6 class="subtext">{{translate('total_Products')}}</h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/products.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/products.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ $product_data['active_products'] }}</h4>
                         <h6 class="subtext">{{translate('active_Products')}}</h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/inactive-product.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/inactive-product.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ $product_data['inactive_products'] }}</h4>
                         <h6 class="subtext">{{translate('inactive_Products')}}</h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/pending_products.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/pending_products.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ $product_data['pending_products'] }}</h4>
                         <h6 class="subtext">{{translate('pending_Products')}}</h6>
@@ -371,7 +371,7 @@
                 </table>
                 @if(count($transactions)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                              alt="Image Description">
                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                     </div>
@@ -392,14 +392,14 @@
 
 @push('script')
     <!-- Chart JS -->
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
+    <script src="{{ asset('assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
     </script>
     <!-- Chart JS -->
 
     <!-- Apex Charts -->
-    <script src="{{ asset('/public/assets/back-end/js/apexcharts.js') }}"></script>
+    <script src="{{ asset('assets/back-end/js/apexcharts.js') }}"></script>
     <!-- Apex Charts -->
 
     <script>
@@ -515,3 +515,6 @@
 
 
 @endpush
+
+
+

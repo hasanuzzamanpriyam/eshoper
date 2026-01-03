@@ -6,17 +6,17 @@
 
 @push('css_or_js')
     <meta name="description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="Welcome To {{$web_config['name']->value}} Home"/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="Welcome To {{$web_config['name']->value}} Home"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today.">
 
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/home.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/home.css"/>
     <style>
         .cz-countdown-days {
             border: .5px solid{{$web_config['primary_color']}};
@@ -181,8 +181,8 @@
         /*  */
     </style>
 
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/owl.theme.default.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.theme.default.min.css"/>
 @endpush
 
 @section('content')
@@ -270,8 +270,8 @@
                 <a href="{{$main_section_banner->url}}"
                     class="cursor-pointer d-block">
                     <img class="d-block footer_banner_img __inline-63"
-                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                        src="{{asset('storage/app/public/banner')}}/{{$main_section_banner['photo']}}">
+                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                        src="{{asset('storage/banner')}}/{{$main_section_banner['photo']}}">
                 </a>
             </div>
         @endif
@@ -295,8 +295,8 @@
                         <div class="col-md-12">
                             <a href="{{$banner->url}}" class="d-block">
                                 <img class="footer_banner_img __inline-63"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}">
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/banner')}}/{{$banner['photo']}}">
                             </a>
                         </div>
                     </div>
@@ -356,8 +356,8 @@
                         <div class="col-md-12">
                             <a href="{{$banner->url}}" class="d-block">
                                 <img class="footer_banner_img __inline-63"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}">
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/banner')}}/{{$banner['photo']}}">
                             </a>
                         </div>
                     </div>
@@ -373,8 +373,8 @@
                         <div class="col-md-6">
                             <a href="{{$banner->url}}" class="d-block">
                                 <img class="footer_banner_img __inline-63"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}">
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/banner')}}/{{$banner['photo']}}">
                             </a>
                         </div>
                     @endforeach
@@ -404,8 +404,8 @@
                                 <a href="{{route('products',['id'=> $brand['id'],'data_from'=>'brand','page'=>1])}}"
                                    class="__brand-item">
                                     <img
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset("storage/app/public/brand/$brand->image")}}"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset("storage/brand/$brand->image")}}"
                                         alt="{{$brand->name}}">
                                 </a>
                             </div>
@@ -449,7 +449,7 @@
     </script>
 
     <!-- Owl Carousel -->
-    <script src="{{asset('public/assets/front-end')}}/js/owl.carousel.min.js"></script>
+    <script src="{{asset('assets/front-end')}}/js/owl.carousel.min.js"></script>
 
     <script>
         $('.flash-deal-slider').owlCarousel({
@@ -910,4 +910,6 @@
         });
     </script>
 @endpush
+
+
 

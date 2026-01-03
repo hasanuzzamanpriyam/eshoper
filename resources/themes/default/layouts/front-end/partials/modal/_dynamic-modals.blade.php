@@ -8,7 +8,7 @@
             </div>
             <div class="modal-body pb-5">
                 <div class="text-center">
-                    <img src="{{asset('public/assets/front-end/img/icons/remove-wishlist.png')}}" alt="">
+                    <img src="{{asset('assets/front-end/img/icons/remove-wishlist.png')}}" alt="">
                     <h6 class="font-semibold mt-3 mb-4 mx-auto __max-w-220">{{translate('Product_has_been_removed_from_wishlist')}}</h6>
                 </div>
                 <div class="d-flex gap-3 justify-content-center">
@@ -31,7 +31,7 @@
             </div>
             <div class="modal-body pb-5">
                 <div class="text-center">
-                    <img src="{{asset('public/assets/front-end/img/icons/out-of-stock.png')}}" alt="" class="mw-100px">
+                    <img src="{{asset('assets/front-end/img/icons/out-of-stock.png')}}" alt="" class="mw-100px">
                     <h6 class="font-semibold mt-3 mb-4 mx-auto __max-w-220" id="outof-stock-modal-message">{{translate('Out_of_stock')}}</h6>
                 </div>
                 <div class="d-flex gap-3 justify-content-center">
@@ -54,7 +54,7 @@
             </div>
             <div class="modal-body pb-5">
                 <div class="text-center">
-                    <img src="{{asset('public/assets/front-end/img/icons/added-wishlist.png')}}" alt="">
+                    <img src="{{asset('assets/front-end/img/icons/added-wishlist.png')}}" alt="">
                     <h6 class="font-semibold mt-3 mb-4 mx-auto __max-w-220">{{ translate('Product_added_to_wishlist') }}</h6>
                 </div>
                 <div class="d-flex gap-3 justify-content-center">
@@ -77,7 +77,7 @@
             </div>
             <div class="modal-body pb-5">
                 <div class="text-center">
-                    <img src="{{asset('public/assets/front-end/img/icons/locked-icon.svg')}}" alt="">
+                    <img src="{{asset('assets/front-end/img/icons/locked-icon.svg')}}" alt="">
                     <h6 class="font-semibold mt-3 mb-1">{{translate('Please_Login')}}</h6>
                     <p class="mb-4">
                         <small>{{translate('You_need_to_login_to_view_this_feature')}}</small>
@@ -107,7 +107,7 @@
             </div>
             <div class="modal-body pb-5">
                 <div class="text-center">
-                    <img src="{{asset('public/assets/front-end/img/icons/remove-address.png')}}" alt="">
+                    <img src="{{asset('assets/front-end/img/icons/remove-address.png')}}" alt="">
                     <h6 class="font-semibold mt-3 mb-1">{{translate('Delete_this_address')}}?</h6>
                     <p class="mb-4">
                         <small>{{translate('This_address_will_be_removed_from_this_list')}}</small>
@@ -125,3 +125,4 @@
         </div>
     </div>
 </div>
+

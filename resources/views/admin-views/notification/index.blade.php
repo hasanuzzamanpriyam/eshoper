@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/push_notification.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/push_notification.png')}}" alt="">
                 {{translate('send_notification')}}
             </h2>
         </div>
@@ -46,8 +46,8 @@
                                     <div class="form-group">
                                         <center>
                                             <img class="upload-img-view mb-4" id="viewer"
-                                                 onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{asset('public/assets/admin/img/900x400/img1.jpg')}}"
+                                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                 src="{{asset('assets/admin/img/900x400/img1.jpg')}}"
                                                  alt="image"/>
                                         </center>
                                         <label
@@ -133,8 +133,8 @@
                                     </td>
                                     <td>
                                         <img class="min-w-75" width="75" height="75"
-                                             onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
-                                             src="{{asset('storage/app/public/notification')}}/{{$notification['image']}}">
+                                             onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
+                                             src="{{asset('storage/notification')}}/{{$notification['image']}}">
                                     </td>
                                     <td id="count-{{$notification->id}}">{{ $notification['notification_count'] }}</td>
                                     <td>
@@ -300,3 +300,7 @@
         }
     </script>
 @endpush
+
+
+
+

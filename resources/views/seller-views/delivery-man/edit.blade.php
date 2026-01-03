@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/deliveryman.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/deliveryman.png')}}" alt="">
                 {{translate('update_deliveryman')}}
             </h2>
         </div>
@@ -113,7 +113,7 @@
                                 </div>
                                 <center>
                                     <img class="upload-img-view" id="viewer"
-                                         src="{{asset('storage/app/public/delivery-man').'/'.$delivery_man['image']}}"
+                                         src="{{asset('storage/delivery-man').'/'.$delivery_man['image']}}"
                                          alt="delivery-man image"/>
                                 </center>
                             </div>
@@ -127,7 +127,7 @@
                                         @foreach(json_decode($delivery_man['identity_image'],true) as $img)
                                             <div class="col-md-4 mb-3">
                                                 <img height="150"
-                                                     src="{{asset('storage/app/public/delivery-man').'/'.$img}}">
+                                                     src="{{asset('storage/delivery-man').'/'.$img}}">
                                             </div>
                                         @endforeach
                                     </div>
@@ -161,7 +161,7 @@
                             </div>
                         </div>
                     </div>
-                    <span class="d-none" id="placeholderImg" data-img="{{asset('public/assets/back-end/img/400x400/img3.png')}}"></span>
+                    <span class="d-none" id="placeholderImg" data-img="{{asset('assets/back-end/img/400x400/img3.png')}}"></span>
 
                     <div class="d-flex gap-3 justify-content-end">
                         <button type="reset" id="reset" class="btn btn-secondary">{{translate('reset')}}</button>
@@ -198,7 +198,7 @@
         });
     </script>
 
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -208,7 +208,7 @@
                 groupClassName: 'col-6 col-md-4',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset("public/assets/back-end/img/400x400/img2.jpg")}}',
+                    image: '{{asset("assets/back-end/img/400x400/img2.jpg")}}',
                     width: '100%'
                 },
                 dropFileLabel: "Drop Here",
@@ -237,3 +237,8 @@
         });
     </script>
 @endpush
+
+
+
+
+

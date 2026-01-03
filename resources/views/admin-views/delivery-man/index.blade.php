@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-delivery-man.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-delivery-man.png')}}" alt="">
                 {{translate('add_new_delivery_man')}}
             </h2>
         </div>
@@ -97,7 +97,7 @@
                                         </div>
                                         <center class="mt-4">
                                             <img class="upload-img-view" id="viewer"
-                                                 src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="delivery-man image"/>
+                                                 src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="delivery-man image"/>
                                         </center>
 
 
@@ -187,7 +187,7 @@
         });
     </script>
 
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -197,7 +197,7 @@
                 groupClassName: 'col-6 col-lg-4',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset("public/assets/back-end/img/400x400/img2.jpg")}}',
+                    image: '{{asset("assets/back-end/img/400x400/img2.jpg")}}',
                     width: '100%'
                 },
                 dropFileLabel: "Drop Here",
@@ -226,3 +226,8 @@
         });
     </script>
 @endpush
+
+
+
+
+

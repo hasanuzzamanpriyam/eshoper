@@ -12,24 +12,24 @@
     <!--to make http ajax request to https-->
     <!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('storage/app/public/company/'.$web_config['fav_icon']->value)}}">
+    <link rel="shortcut icon" href="{{asset('storage/company/'.$web_config['fav_icon']->value)}}">
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/css/vendor.min.css">
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/css/custom.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/back-end') }}/css/vendor.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/back-end') }}/css/custom.css">
 
 
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/vendor/icon-set/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/back-end') }}/vendor/icon-set/style.css">
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/css/theme.minc619.css?v=1.0">
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/style.css">
+    <link rel="stylesheet" href="{{ asset('assets/back-end') }}/css/theme.minc619.css?v=1.0">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/style.css">
     @if (Session::get('direction') === 'rtl')
-        <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/css/menurtl.css">
+        <link rel="stylesheet" href="{{ asset('assets/back-end') }}/css/menurtl.css">
     @endif
     {{-- light box --}}
-    <link rel="stylesheet" href="{{ asset('public/css/lightbox.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/lightbox.css') }}">
     @stack('css_or_js')
     <!-- <style>
         :root {
@@ -42,15 +42,15 @@
     </style> -->
     <style>
         select {
-            background-image: url('{{asset('/public/assets/back-end/img/arrow-down.png')}}');
+            background-image: url('{{asset('assets/back-end/img/arrow-down.png')}}');
             background-size: 7px;
             background-position: 96% center;
         }
     </style>
     <script
-        src="{{ asset('public/assets/back-end') }}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js">
+        src="{{ asset('assets/back-end') }}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js">
     </script>
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end') }}/css/toastr.css">
+    <link rel="stylesheet" href="{{ asset('assets/back-end') }}/css/toastr.css">
 </head>
 
 <body class="footer-offset">
@@ -92,14 +92,14 @@
     <span class="please_fill_out_this_field" data-text="{{ translate('please_fill_out_this_field') }}"></span>
 
     <!-- ========== END SECONDARY CONTENTS ========== -->
-    <script src="{{ asset('public/assets/back-end') }}/js/custom.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/custom.js"></script>
     <!-- JS Implementing Plugins -->
 
     <!-- JS Front -->
-    <script src="{{ asset('public/assets/back-end') }}/js/vendor.min.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/theme.min.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/sweet_alert.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/toastr.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/vendor.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/theme.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/sweet_alert.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/toastr.js"></script>
     {!! Toastr::message() !!}
 
     <script>
@@ -256,11 +256,11 @@
     </script>
 
 
-    <script src="{{ asset('public/assets/back-end') }}/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/bootstrap.min.js"></script>
     {{-- light box --}}
-    <script src="{{ asset('public/js/lightbox.min.js') }}"></script>
+    <script src="{{ asset('/js/lightbox.min.js') }}"></script>
     <audio id="myAudio">
-        <source src="{{ asset('public/assets/back-end/sound/notification.mp3') }}" type="audio/mpeg">
+        <source src="{{ asset('assets/back-end/sound/notification.mp3') }}" type="audio/mpeg">
     </audio>
     <script>
         var audio = document.getElementById("myAudio");
@@ -411,7 +411,7 @@
     <!-- IE Support -->
     <script>
         if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write(
-            '<script src="{{ asset('public/assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+            '<script src="{{ asset('assets/back-end') }}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
     </script>
 
     @stack('script')
@@ -442,12 +442,12 @@
             if ($('#'+toggle_id).is(':checked')) {
                 $('#toggle-title').empty().append(on_title);
                 $('#toggle-message').empty().append(on_message);
-                $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+on_image);
+                $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+on_image);
                 $('#toggle-ok-button').attr('toggle-ok-button', toggle_id);
             } else {
                 $('#toggle-title').empty().append(off_title);
                 $('#toggle-message').empty().append(off_message);
-                $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+off_image);
+                $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+off_image);
                 $('#toggle-ok-button').attr('toggle-ok-button', toggle_id);
             }
             $('#toggle-modal').modal('show');
@@ -481,12 +481,12 @@
             if ($('#'+toggle_id).is(':checked')) {
                 $('#toggle-status-title').empty().append(on_title);
                 $('#toggle-status-message').empty().append(on_message);
-                $('#toggle-status-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+on_image);
+                $('#toggle-status-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+on_image);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
             } else {
                 $('#toggle-status-title').empty().append(off_title);
                 $('#toggle-status-message').empty().append(off_message);
-                $('#toggle-status-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+off_image);
+                $('#toggle-status-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+off_image);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
             }
             $('#toggle-status-modal').modal('show');
@@ -527,3 +527,7 @@
 </body>
 
 </html>
+
+
+
+

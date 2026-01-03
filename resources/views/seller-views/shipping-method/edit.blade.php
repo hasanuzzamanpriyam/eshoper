@@ -9,7 +9,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/shipping_method.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/shipping_method.png')}}" alt="">
             {{translate('shipping_method_update')}}
         </h2>
     </div>
@@ -67,3 +67,5 @@
 @push('script')
 
 @endpush
+
+

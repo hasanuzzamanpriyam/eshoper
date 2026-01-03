@@ -56,8 +56,8 @@
                                                         <span class="product__discount-badge">-{{\App\CPU\Helpers::currency_converter($product->discount)}}</span>
                                                     @endif
 
-                                                    <a href="{{asset("storage/app/public/product/".$photo->image_name)}}">
-                                                        <img src="{{asset("storage/app/public/product/".$photo->image_name)}}" class="dark-support rounded" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
+                                                    <a href="{{asset("storage/product/".$photo->image_name)}}">
+                                                        <img src="{{asset("storage/product/".$photo->image_name)}}" class="dark-support rounded" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
                                                     </a>
                                                 </div>
                                             </div>
@@ -69,8 +69,8 @@
                                                     @elseif($product->discount > 0)
                                                         <span class="product__discount-badge">-{{\App\CPU\Helpers::currency_converter($product->discount)}}</span>
                                                     @endif
-                                                    <a href="{{asset("storage/app/public/product/".$photo->image_name)}}">
-                                                        <img src="{{asset("storage/app/public/product/".$photo->image_name)}}" class="dark-support rounded" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
+                                                    <a href="{{asset("storage/product/".$photo->image_name)}}">
+                                                        <img src="{{asset("storage/product/".$photo->image_name)}}" class="dark-support rounded" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
                                                     </a>
                                                 </div>
                                             </div>
@@ -85,8 +85,8 @@
                                                 @elseif($product->discount > 0)
                                                     <span class="product__discount-badge">-{{\App\CPU\Helpers::currency_converter($product->discount)}}</span>
                                                 @endif
-                                                <a href="{{asset("storage/app/public/product/".$photo)}}">
-                                                    <img src="{{asset("storage/app/public/product/".$photo)}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
+                                                <a href="{{asset("storage/product/".$photo)}}">
+                                                    <img src="{{asset("storage/product/".$photo)}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
                                                 </a>
                                             </div>
                                         </div>
@@ -105,7 +105,7 @@
                                         @foreach (json_decode($product->color_image) as $key => $photo)
                                             @if($photo->color != null)
                                                 <div class="swiper-slide position-relative aspect-1" onclick="focus_preview_image_by_color('preview-box-{{ str_replace('#','',$photo->color) }}')">
-                                                    <img src="{{asset("storage/app/public/product/$photo->image_name")}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
+                                                    <img src="{{asset("storage/product/$photo->image_name")}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
                                                 </div>
                                             @endif
                                         @endforeach
@@ -113,14 +113,14 @@
                                         @foreach (json_decode($product->color_image) as $key => $photo)
                                             @if($photo->color == null)
                                                 <div class="swiper-slide position-relative aspect-1" onclick="slider_thumb_img_preview('thumb_{{$key}}')">
-                                                    <img src="{{asset("storage/app/public/product/$photo->image_name")}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
+                                                    <img src="{{asset("storage/product/$photo->image_name")}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
                                                 </div>
                                             @endif
                                         @endforeach
                                     @else
                                         @foreach (json_decode($product->images) as $key => $photo)
                                             <div class="swiper-slide position-relative aspect-1" id="preview-img{{$key}}" onclick="slider_thumb_img_preview('thumb_{{$key}}')">
-                                                <img src="{{asset("storage/app/public/product/".$photo)}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
+                                                <img src="{{asset("storage/product/".$photo)}}" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" class="dark-support rounded" alt="">
                                             </div>
                                         @endforeach
                                     @endif
@@ -382,3 +382,4 @@
     });
 
 </script>
+

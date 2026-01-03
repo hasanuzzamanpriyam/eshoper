@@ -34,7 +34,7 @@
                     }
                 ?>
                 <div class="dropdown-saved-amount text-center  align-items-center justify-content-center text-accent mb-3 {{$total_discount <= 0 ? 'd-none' : 'd-flex'}}">
-                    <img src="{{asset('/public/assets/front-end/img/party-popper.svg')}}" class="mr-2" alt="">
+                    <img src="{{asset('assets/front-end/img/party-popper.svg')}}" class="mr-2" alt="">
                     <small>{{translate('you_have_saved')}} <span class="total_discount">{{\App\CPU\Helpers::currency_converter($total_discount)}}</span>!</small>
                 </div>
                 <div class="__h-20rem" data-simplebar data-simplebar-auto-hide="false">
@@ -47,7 +47,7 @@
                                 <a class="d-block {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}} position-relative overflow-hidden"
                                     href="{{route('product',$cartItem['slug'])}}">
                                     <img width="64" class="{{ $product->status == 0?'blur-section':'' }}"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
                                             alt="Product"/>
                                     @if ($product->status == 0)
@@ -104,7 +104,7 @@
                 @php($free_delivery_status = \App\CPU\OrderManager::free_delivery_order_amount($cart[0]->cart_group_id))
                 @if ($free_delivery_status['status'] && (session()->missing('coupon_type') || session('coupon_type') !='free_delivery'))
                 <div class="py-3">
-                    <img src="{{asset('/public/assets/front-end/img/truck.svg')}}" alt="">
+                    <img src="{{asset('assets/front-end/img/truck.svg')}}" alt="">
                     <span class="amount_fullfill text-accent __text-12px {{$free_delivery_status['amount_need'] <= 0 ? '' :'d-none'}}">{{ translate('you_Get_Free_Delivery_Bonus') }}</span>
                     <small class="amount_need_to_fullfill {{$free_delivery_status['amount_need'] <= 0 ? 'd-none' :''}}"><span class="text-accent __text-12px free_delivery_amount_need">{{ \App\CPU\Helpers::currency_converter($free_delivery_status['amount_need']) }}</span> {{ translate('add_more_for_free_delivery') }}</small>
                     <div class="progress __progress bg-DFEDFF">
@@ -141,7 +141,7 @@
             @else
                 <div class="widget-cart-item">
                     <div class="text-center text-capitalize">
-                        <img class="mb-3 mw-100" src="{{asset('/public/assets/front-end/img/icons/empty-cart.svg')}}" alt="">
+                        <img class="mb-3 mw-100" src="{{asset('assets/front-end/img/icons/empty-cart.svg')}}" alt="">
                         <p class="text-capitalize">{{translate('Your_Cart_is_Empty')}}!</p>
                     </div>
                 </div>
@@ -151,3 +151,5 @@
 </div>
 {{--code improved Md. Al imrun Khandakar--}}
 {{--to do discount--}}
+
+

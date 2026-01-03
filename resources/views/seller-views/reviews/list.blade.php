@@ -6,7 +6,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize">
-                <img width="20" src="{{asset('/public/assets/back-end/img/product-review.png')}}" class="mb-1 mr-1" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/product-review.png')}}" class="mb-1 mr-1" alt="">
                 {{translate('product_reviews')}}
             </h2>
         </div>
@@ -178,11 +178,11 @@
                                         @if($review->attachment)
                                             @foreach (json_decode($review->attachment) as $img)
                                                 <a class=""
-                                                    href="{{ asset('storage/app/public/review') }}/{{ $img }}"
+                                                    href="{{ asset('storage/review') }}/{{ $img }}"
                                                     data-lightbox="mygallery">
                                                     <img clsss="p-2" width="60" height="60"
-                                                        onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
-                                                        src="{{ asset('storage/app/public/review') }}/{{ $img }}"
+                                                        onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
+                                                        src="{{ asset('storage/review') }}/{{ $img }}"
                                                         alt="Image">
                                                 </a>
                                             @endforeach
@@ -262,3 +262,7 @@
         });
     </script>
 @endpush
+
+
+
+

@@ -18,7 +18,7 @@
                 <div class="flash-deals-background-image" style="background: {{$web_config['primary_color']}}10">
                     <img class="__img-125px"
                      src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                     onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"/>
+                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"/>
                 </div>
             </div>
             <div class=" flash_deal_product_details pl-3 pr-3 pr-1 d-flex align-items-center">
@@ -59,5 +59,6 @@
         </div>
     </div>
 @endif
+
 
 

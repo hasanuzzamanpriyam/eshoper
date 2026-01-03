@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_setup')}}
             </h2>
         </div>
@@ -28,7 +28,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/otp.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/otp.png')}}" alt="">
                         <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">{{translate('OTP_&_login_settings')}}</h5>
                     </div>
                 </div>
@@ -116,3 +116,5 @@
     </div>
 
 @endsection
+
+

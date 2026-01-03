@@ -25,7 +25,7 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 for-margin">
             <div class="for-image">
-                <img style="" src="{{asset("storage/app/public/png/500.png")}}" alt="">
+                <img style="" src="{{asset("storage/png/500.png")}}" alt="">
             </div>
             <h2 class="page-not-found">{{ translate('server_Error') }}</h2>
             <p style="text-align: center;">{{ translate('we_are_sorry_server_is_not_responding.')}} <br> {{ translate('try_after_sometime')}}.</p>
@@ -33,3 +33,4 @@
         <div class="col-md-3"></div>
     </div>
 @endsection
+

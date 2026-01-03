@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2 align-items-center">
-                <img width="20" src="{{asset('/public/assets/back-end/img/customer_review.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/customer_review.png')}}" alt="">
                 {{translate('customer_reviews')}}
             </h2>
         </div>
@@ -59,7 +59,7 @@
                                     @foreach ($products as $key => $product)
                                         <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
                                             <img class="avatar avatar-xl border" width="75"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                              alt="">
                                             <div class="media-body d-flex flex-column gap-1">
@@ -143,7 +143,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.reviews.export', ['search'=>request('search'), 'product_id' => $product_id, 'customer_id' => $customer_id, 'status' => $status, 'from' => $from, 'to' => $to]) }}">
-                                        <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                        <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                         {{ translate('excel') }}
                                     </a>
                                 </li>
@@ -205,10 +205,10 @@
                                         @if($review->attachment)
                                             <div class="d-flex flex-wrap">
                                                 @foreach (json_decode($review->attachment) as $img)
-                                                    <a href="{{ asset('storage/app/public/review') }}/{{ $img }}"
+                                                    <a href="{{ asset('storage/review') }}/{{ $img }}"
                                                         data-lightbox="mygallery">
-                                                        <img width="60" height="60" src="{{ asset('storage/app/public/review') }}/{{ $img }}"
-                                                        onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
+                                                        <img width="60" height="60" src="{{ asset('storage/review') }}/{{ $img }}"
+                                                        onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
                                                                 alt="Image">
                                                     </a>
                                                 @endforeach
@@ -378,3 +378,7 @@
         });
     </script>
 @endpush
+
+
+
+

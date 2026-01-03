@@ -3,12 +3,12 @@
 @section('title', translate('FAQ'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="FAQ of {{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{!! substr($web_config['about']->value,0,100) !!}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="FAQ of {{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{!! substr($web_config['about']->value,0,100) !!}">
@@ -20,8 +20,8 @@
         <div class="page-title overlay py-5 __opacity-half background-custom-fit" style="--opacity: .5"
 
         @if ($page_title_banner)
-            @if (File::exists(base_path('storage/app/public/banner/'.json_decode($page_title_banner['value'])->image)))
-            data-bg-img="{{ asset('storage/app/public/banner/'.json_decode($page_title_banner['value'])->image) }}"
+            @if (File::exists(base_path('storage/banner/'.json_decode($page_title_banner['value'])->image)))
+            data-bg-img="{{ asset('storage/banner/'.json_decode($page_title_banner['value'])->image) }}"
             @else
             data-bg-img="{{theme_asset('assets/img/media/page-title-bg.png')}}"
             @endif
@@ -60,4 +60,6 @@
     </main>
     <!-- End Main Content -->
 @endsection
+
+
 

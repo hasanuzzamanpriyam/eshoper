@@ -3,12 +3,12 @@
 @section('title', translate('flash_Deal_Products'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="Deals of {{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="Deals of {{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -39,10 +39,10 @@
 @section('content')
 @php($decimal_point_settings = \App\CPU\Helpers::get_business_settings('decimal_point_settings'))
 <div class="__inline-59 pt-md-3">
-    @if(file_exists('storage/app/public/deal/'.$deal['banner']))
-        @php($deal_banner = asset('storage/app/public/deal/'.$deal['banner']))
+    @if(file_exists('storage/deal/'.$deal['banner']))
+        @php($deal_banner = asset('storage/deal/'.$deal['banner']))
     @else
-        @php($deal_banner = asset('public/assets/front-end/img/flash-deals.png'))
+        @php($deal_banner = asset('assets/front-end/img/flash-deals.png'))
     @endif
     <div class="container md-4 mt-3 rtl"
          style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
@@ -133,3 +133,6 @@
         /*-- end flash deal Progressbar --*/
     </script>
 @endpush
+
+
+

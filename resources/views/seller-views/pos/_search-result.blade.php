@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="{{asset('public/assets/admin')}}/css/custom.css"/>
+<link rel="stylesheet" href="{{asset('assets/admin')}}/css/custom.css"/>
 @if (count($products) > 0)
 <ul class="list-group list-group-flush">
     @foreach($products as $i)
@@ -16,3 +16,4 @@
 </div>
 
 @endif
+

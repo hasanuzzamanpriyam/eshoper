@@ -2,7 +2,7 @@
 @section('title', translate('shop_view'))
 @push('css_or_js')
 <!-- Custom styles for this page -->
-<link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/shop-info.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/shop-info.png')}}" alt="">
             {{translate('shop_Info')}}
         </h2>
     </div>
@@ -39,7 +39,7 @@
                             <div class="mb-3">
                                 <label class="title-color" for="minimum_order_amount">{{translate('amount')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('set_the_minimum_order_amount_a_customer_must_order_from_this_seller_shop')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input type="number" step="0.01" class="form-control w-100" id="minimum_order_amount"
@@ -85,7 +85,7 @@
                                             data-placement="top"
                                             title="{{translate('if_enabled_free_delivery_will_be_available_when_customers_order_over_a_certain_amount')}}">
                                             <img width="16"
-                                                src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                                src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -106,7 +106,7 @@
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                                             data-placement="top" title="{{ translate('customers_will_get_free_delivery_if_the_order_amount_exceeds_the_given_amount') }} {{ translate('and_the_given_amount_will_be_added_as_seller_expenses') }}">
                                             <img width="16"
-                                                src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                                src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </label>
                                     <input type="number" class="form-control" name="free_delivery_over_amount"
@@ -135,3 +135,6 @@
 @push('script')
 
 @endpush
+
+
+

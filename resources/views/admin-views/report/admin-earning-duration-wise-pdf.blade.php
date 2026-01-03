@@ -232,7 +232,7 @@
                     <p class="fz-14">{{translate('date')}} : <span style="font-weight: normal">{{ date('d/m/Y') }}</span></p>
                 </th>
                 <th class="content-position-y text-right">
-                     <img height="50" src="{{asset("storage/app/public/company/$company_web_logo")}}" alt="">
+                     <img height="50" src="{{asset("storage/company/$company_web_logo")}}" alt="">
                 </th>
             </tr>
         </table>
@@ -341,3 +341,4 @@
 </div>
 </body>
 </html>
+

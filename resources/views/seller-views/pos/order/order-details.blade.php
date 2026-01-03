@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/all-orders.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/all-orders.png')}}" alt="">
                 {{translate('order_Details')}}
             </h2>
         </div>
@@ -34,7 +34,7 @@
                                 <div class="d-flex flex-wrap gap-10 justify-content-sm-end">
                                     <a class="btn btn--primary px-4" target="_blank"
                                     href="{{route('seller.orders.generate-invoice',[$order['id']])}}">
-                                        <img src="{{ asset('public/assets/back-end/img/icons/uil_invoice.svg') }}" alt="" class="mr-1">
+                                        <img src="{{ asset('assets/back-end/img/icons/uil_invoice.svg') }}" alt="" class="mr-1">
                                         {{translate('print_Invoice')}}
                                     </a>
                                 </div>
@@ -131,7 +131,7 @@
                                             <td>
                                                 <div class="media align-items-center gap-10">
                                                     <img class="avatar avatar-60 rounded"
-                                                            onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
+                                                            onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
                                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$detail->product_all_status['thumbnail']}}"
                                                             alt="Image Description">
                                                     <div>
@@ -178,13 +178,13 @@
                                                                     @if($detail->product_all_status->digital_product_type == 'ready_after_sell' && $detail->digital_file_after_sell)
                                                                         <div class="mb-4">
                                                                             {{translate('uploaded_file')}} :
-                                                                            <a href="{{ asset('storage/app/public/product/digital-product/'.$detail->digital_file_after_sell) }}"
+                                                                            <a href="{{ asset('storage/product/digital-product/'.$detail->digital_file_after_sell) }}"
                                                                                class="btn btn-success btn-sm" title="Download" download><i class="tio-download"></i> Download</a>
                                                                         </div>
                                                                     @elseif($detail->product_all_status->digital_product_type == 'ready_product' && $detail->product_all_status->digital_file_ready)
                                                                         <div class="mb-4">
                                                                             {{translate('uploaded_file')}} :
-                                                                            <a href="{{ asset('storage/app/public/product/digital-product/'.$detail->product_all_status->digital_file_ready) }}"
+                                                                            <a href="{{ asset('storage/product/digital-product/'.$detail->product_all_status->digital_file_ready) }}"
                                                                                class="btn btn-success btn-sm" title="Download" download><i class="tio-download"></i> Download</a>
                                                                         </div>
                                                                     @endif
@@ -278,7 +278,7 @@
                     @if($order->customer)
                         <div class="card-body">
                             <h4 class="mb-4 d-flex gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
                                 {{translate('customer_information')}}
                             </h4>
 
@@ -286,8 +286,8 @@
                                 <div class="media flex-wrap gap-3">
                                     <div>
                                         <img class="avatar rounded-circle avatar-70"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/app/public/profile/'.$order->customer->image)}}"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/profile/'.$order->customer->image)}}"
                                             alt="Image">
                                     </div>
                                     <div class="media-body d-flex flex-column gap-1">
@@ -314,3 +314,7 @@
 
 
 @endpush
+
+
+
+

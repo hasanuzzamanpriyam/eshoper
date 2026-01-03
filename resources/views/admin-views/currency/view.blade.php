@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_Setup')}}
             </h2>
         </div>
@@ -27,7 +27,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="mb-0 d-flex align-items-center gap-2">
-                    <img width="20 " src="{{asset('/public/assets/back-end/img/currency-1.png')}}" alt="">
+                    <img width="20 " src="{{asset('assets/back-end/img/currency-1.png')}}" alt="">
                     {{translate('default-currency_setup')}}
                 </h5>
             </div>
@@ -57,7 +57,7 @@
         <div class="card mt-3">
             <div class="card-header">
                 <h5 class="mb-0 d-flex align-items-center gap-2">
-                    <img width="18" src="{{asset('/public/assets/back-end/img/currency-1.png')}}" alt="">
+                    <img width="18" src="{{asset('assets/back-end/img/currency-1.png')}}" alt="">
                     {{translate('add_currency')}}
                 </h5>
             </div>
@@ -205,7 +205,7 @@
 
                     @if(count($currencies)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                     alt="Image Description">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
@@ -219,7 +219,7 @@
 
 @push('script')
     <!-- Page level custom scripts -->
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
         $(".js-example-theme-single").select2({
             theme: "classic"
@@ -300,3 +300,6 @@
         }
     </script>
 @endpush
+
+
+

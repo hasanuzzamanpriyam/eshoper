@@ -3,12 +3,12 @@
 @section('title',translate($data['data_from']).' '.translate('products'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']}}"/>
     <meta property="og:title" content="Products of {{$web_config['name']}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']}}"/>
     <meta property="twitter:title" content="Products of {{$web_config['name']}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -314,7 +314,7 @@
                 @else
                     <div class="text-center pt-5 text-capitalize">
 
-                        <img src="{{asset('public/assets/front-end/img/icons/product.svg')}}" alt="">
+                        <img src="{{asset('assets/front-end/img/icons/product.svg')}}" alt="">
                         <h5>{{translate('no_product_found')}}!</h5>
                         <p class="text-center text-muted">{{translate('sorry_no_data_found_related_to_your_search')}}</p>
                     </div>
@@ -424,3 +424,5 @@
 
 
 @endpush
+
+

@@ -3,12 +3,12 @@
 @section('title', translate('All_Seller_Page'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="Brands of {{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="Brands of {{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -24,7 +24,7 @@
 
     <!-- Page Content-->
     <div class="container mb-md-4 {{Session::get('direction') === "rtl" ? 'rtl' : ''}} __inline-65">
-        <div class="bg-primary-light rounded-10 my-4 p-3 p-sm-4" data-bg-img="{{ asset('public/assets/front-end/img/media/bg.png') }}">
+        <div class="bg-primary-light rounded-10 my-4 p-3 p-sm-4" data-bg-img="{{ asset('assets/front-end/img/media/bg.png') }}">
             <div class="row g-2 align-items-center">
                 <div class="col-lg-8 col-md-6">
                     <div class="d-flex flex-column gap-1 text-primary">
@@ -58,15 +58,15 @@
                         <div class="col-lg-3 col-md-6 col-sm-12 px-2 pb-4 text-center">
                             <a href="{{route('shopView',['id'=>$seller['id']])}}" class="others-store-card text-capitalize">
                                 <div class="overflow-hidden other-store-banner">
-                                    <img src="{{asset('storage/app/public/shop/banner/'.$seller->banner)}}"
-                                         onerror="this.src='{{ asset('public/assets/front-end/img/seller-banner.png') }}'"
+                                    <img src="{{asset('storage/shop/banner/'.$seller->banner)}}"
+                                         onerror="this.src='{{ asset('assets/front-end/img/seller-banner.png') }}'"
                                          class="w-100 h-100 object-cover" alt="">
                                 </div>
                                 <div class="name-area">
                                     <div class="position-relative">
                                         <div class="overflow-hidden other-store-logo rounded-full">
-                                            <img class="rounded-full" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{ asset('storage/app/public/shop/'.$seller->image)}}" alt="others-store">
+                                            <img class="rounded-full" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                 src="{{ asset('storage/shop/'.$seller->image)}}" alt="others-store">
                                         </div>
                                         <!-- Temporary Closed Store Status -->
                                         @if($seller->temporary_close || ($seller->vacation_status && ($current_date >= $seller->vacation_start_date) && ($current_date <= $seller->vacation_end_date)))
@@ -113,3 +113,5 @@
 
 @push('script')
 @endpush
+
+

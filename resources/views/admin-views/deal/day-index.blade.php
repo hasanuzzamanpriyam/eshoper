@@ -3,7 +3,7 @@
 @section('title', translate('deal_Of_The_Day'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -12,7 +12,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/deal_of_the_day.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/deal_of_the_day.png')}}" alt="">
             {{translate('deal_of_the_day')}}
         </h2>
     </div>
@@ -71,7 +71,7 @@
 
                                                     <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
                                                         <img class="avatar avatar-xl border" width="75"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                                          alt="">
                                                         <div class="media-body d-flex flex-column gap-1">
@@ -195,7 +195,7 @@
 
                 @if(count($deals)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                         <p class="mb-0">{{translate('no_data_to_show')}}</p>
                     </div>
                 @endif
@@ -234,7 +234,7 @@
         });
     </script>
 
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         $(".js-example-theme-single").select2({
             theme: "classic"
@@ -316,3 +316,6 @@
 
     </script>
 @endpush
+
+
+

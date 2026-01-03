@@ -3,8 +3,8 @@
 @section('title', translate('delivery_Restriction'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/back-end/css/tags-input.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/tags-input.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .select2-selection__rendered{
@@ -26,7 +26,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('business_Setup')}}
             </h2>
 
@@ -40,7 +40,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                         <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                     </div>
                     <p class="title-color font-weight-medium mb-0">{{ translate('please_click_the_Save_button_below_to_save_all_the_changes') }}</p>
@@ -56,7 +56,7 @@
         <div class="card mb-3">
             <div class="card-header">
                 <h5 class="mb-0 text-capitalize d-flex gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/delivery2.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/delivery2.png')}}" alt="">
                     {{translate('delivery')}}
                 </h5>
             </div>
@@ -67,7 +67,7 @@
                             <span class="title-color">
                                 {{translate('delivery_available_country')}}
                                 <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_admin_can_deliver_orders_outside_his_country') }}">
-                                    <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                    <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                 </span>
                             </span>
 
@@ -85,7 +85,7 @@
                             <span class="title-color">
                                 {{translate('delivery_available_zip_code_area')}}
                                 <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_deliveries_will_be_available_only_in_the_added_zip_code_areas') }}">
-                                    <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                    <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                 </span>
                             </span>
 
@@ -165,7 +165,7 @@
                                         <tr>
                                             <td colspan="3">
                                                 <div class="text-center p-4">
-                                                    <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                                                    <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                                                     <p class="mb-0">{{translate('no_country_found')}}</p>
                                                 </div>
                                             </td>
@@ -240,7 +240,7 @@
                                         <tr>
                                             <td colspan="3">
                                                 <div class="text-center p-4">
-                                                    <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                                                    <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                                                     <p class="mb-0">{{translate('no_zip_code_found')}}</p>
                                                 </div>
                                             </td>
@@ -267,7 +267,7 @@
 @endsection
 
 @push('script_2')
-    <script src="{{ asset('public/assets/back-end') }}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/tags-input.min.js"></script>
     <script>
 
         $('.zip_code').on('click', function(){
@@ -396,3 +396,6 @@
 
     </script>
 @endpush
+
+
+

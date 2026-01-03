@@ -12,7 +12,7 @@
         <div class="mb-3">
             <div class="page-title-wrap d-flex justify-content-between flex-wrap align-items-center gap-3 mb-3">
                 <h2 class="page-title">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/withdraw-icon.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/withdraw-icon.png')}}" alt="">
                     {{translate('Withdrawal_Methods')}}
                 </h2>
                 <button class="btn btn--primary" id="add-more-field">
@@ -181,3 +181,5 @@
         });
     </script>
 @endpush
+
+

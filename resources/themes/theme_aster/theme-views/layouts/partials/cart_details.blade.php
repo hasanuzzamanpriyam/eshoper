@@ -225,7 +225,7 @@
                                 @if ($free_delivery_status['status'] && (session()->missing('coupon_type') || session('coupon_type') !='free_delivery'))
                                 <div class="free-delivery-area px-3 mb-3">
                                     <div class="d-flex align-items-center gap-2">
-                                        <img src="{{ asset('public/assets/front-end/img/icons/free-shipping.png') }}" alt="" width="40">
+                                        <img src="{{ asset('assets/front-end/img/icons/free-shipping.png') }}" alt="" width="40">
                                         @if ($free_delivery_status['amount_need'] <= 0)
                                             <span class="text-muted fs-16">{{ translate('you_Get_Free_Delivery_Bonus') }}</span>
                                         @else
@@ -302,7 +302,7 @@
                                 @if ($free_delivery_status['status'] && (session()->missing('coupon_type') || session('coupon_type') !='free_delivery'))
                                 <div class="free-delivery-area px-3 mb-3">
                                     <div class="d-flex align-items-center gap-3">
-                                        <img src="{{ asset('public/assets/front-end/img/icons/free-shipping.png') }}" alt="" width="40">
+                                        <img src="{{ asset('assets/front-end/img/icons/free-shipping.png') }}" alt="" width="40">
                                         @if ($free_delivery_status['amount_need'] <= 0)
                                             <span class="text-muted fs-16">{{ translate('you_Get_Free_Delivery_Bonus') }}</span>
                                         @else
@@ -504,3 +504,4 @@
     }
 </script>
 @endpush
+

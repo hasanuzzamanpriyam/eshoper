@@ -6,7 +6,7 @@
             @php($product = $refund->product)
                 <div class="position-relative">
                     <img class="d-block" onclick="location.href='{{route('product',$product['slug'])}}'"
-                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                     alt="VR Collection" width="100">
 
@@ -120,9 +120,9 @@
         <div class="mt-2">
             <div class="d-flex gap-2 flex-wrap">
                 @foreach (json_decode($refund->images) as $key => $photo)
-                <a data-lightbox="mygallery" href="{{asset('storage/app/public/refund')}}/{{$photo}}">
-                    <img class="border rounded border-primary-light" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                        src="{{asset('storage/app/public/refund')}}/{{$photo}}"
+                <a data-lightbox="mygallery" href="{{asset('storage/refund')}}/{{$photo}}">
+                    <img class="border rounded border-primary-light" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                        src="{{asset('storage/refund')}}/{{$photo}}"
                         alt="VR Collection" width="60">
                 </a>
                 @endforeach
@@ -131,3 +131,5 @@
         </div>
     </div>
 @endif
+
+

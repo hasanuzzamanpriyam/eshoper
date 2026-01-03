@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-1 text-capitalize d-flex gap-2">
-                <img src="{{asset('/public/assets/back-end/img/bulk-import.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/bulk-import.png')}}" alt="">
                 {{translate('bulk_Import')}}
             </h2>
         </div>
@@ -43,7 +43,7 @@
                     <div class="card rest-part">
                         <div class="px-3 py-4 d-flex flex-wrap align-items-center gap-10 justify-content-center">
                             <h4 class="mb-0">{{translate("do_not_have_the_template")}} ?</h4>
-                            <a href="{{asset('public/assets/product_bulk_format.xlsx')}}" download=""
+                            <a href="{{asset('assets/product_bulk_format.xlsx')}}" download=""
                                class="btn-link text-capitalize fz-16 font-weight-medium">{{translate('download_here')}}</a>
                         </div>
                         <div class="card-body">
@@ -82,14 +82,14 @@
 
     $('.upload-file__input').on('change', function() {
         $(this).siblings('.upload-file__img').find('img').attr({
-            'src': '{{asset("/public/assets/back-end/img/excel.png")}}',
+            'src': '{{asset("assets/back-end/img/excel.png")}}',
             'width': 80
         });
     });
 
     function resetImg() {
         $('.upload-file__img img').attr({
-            'src': '{{asset("/public/assets/back-end/img/drag-upload-file.png")}}',
+            'src': '{{asset("assets/back-end/img/drag-upload-file.png")}}',
             'width': 'auto'
         });
     }
@@ -108,3 +108,6 @@
 </script>
 
 @endpush
+
+
+

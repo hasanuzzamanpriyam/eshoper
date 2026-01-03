@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-delivery-man.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-delivery-man.png')}}" alt="">
                 {{translate('emergency_Contact')}}
             </h2>
         </div>
@@ -117,7 +117,7 @@
                                     <td colspan="5">
                                         <div class="text-center p-4">
                                             <img class="mb-3 w-160"
-                                                 src="{{ asset('public/assets/back-end/svg/illustrations/sorry.svg') }}"
+                                                 src="{{ asset('assets/back-end/svg/illustrations/sorry.svg') }}"
                                                  alt="Image Description">
                                             <p class="mb-0">No data to show</p>
                                         </div>
@@ -210,3 +210,6 @@
 
     </script>
 @endpush
+
+
+

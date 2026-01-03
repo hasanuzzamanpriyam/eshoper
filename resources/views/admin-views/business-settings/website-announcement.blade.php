@@ -3,8 +3,8 @@
 @section('title', translate('announcement'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/announcement.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/announcement.png')}}" alt="">
                 {{translate('announcement_Setup')}}
             </h2>
         </div>
@@ -81,3 +81,6 @@
         });
     </script>
 @endpush
+
+
+

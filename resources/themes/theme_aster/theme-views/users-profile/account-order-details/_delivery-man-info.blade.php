@@ -24,7 +24,7 @@
                                         <div class="media gap-2 gap-sm-3">
                                             <div class="avatar overflow-hidden rounded store-avatar2">
                                                 <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                     src="{{ asset('storage/app/public/delivery-man/'.$order->delivery_man->image)}}" class="dark-support rounded img-fit" alt="">
+                                                     src="{{ asset('storage/delivery-man/'.$order->delivery_man->image)}}" class="dark-support rounded img-fit" alt="">
                                             </div>
                                             <div class="media-body d-flex flex-column gap-2">
                                                 <h4>{{$order->delivery_man->f_name}}&nbsp{{$order->delivery_man->l_name}}</h4>
@@ -186,9 +186,9 @@
 
                                                 <div class="d-flex flex-wrap gap-3">
                                                     @foreach ($order->verification_images as $image)
-                                                        @if(file_exists(base_path("storage/app/public/delivery-man/verification-image/".$image->image)))
-                                                        <a href="{{asset("storage/app/public/delivery-man/verification-image/".$image->image)}}" data-lightbox="">
-                                                                <img src="{{asset("storage/app/public/delivery-man/verification-image/".$image->image)}}" class="height-100 rounded remove-mask-img"
+                                                        @if(file_exists(base_path("storage/delivery-man/verification-image/".$image->image)))
+                                                        <a href="{{asset("storage/delivery-man/verification-image/".$image->image)}}" data-lightbox="">
+                                                                <img src="{{asset("storage/delivery-man/verification-image/".$image->image)}}" class="height-100 rounded remove-mask-img"
                                                                 onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'">
                                                         </a>
                                                         @endif
@@ -256,3 +256,5 @@
     </script>
     <script src="{{ theme_asset('assets/js/lightbox.min.js') }}"></script>
 @endpush
+
+

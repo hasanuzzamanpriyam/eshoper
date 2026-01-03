@@ -5,7 +5,7 @@
         <!-- Page Title -->
         <div class="mb-4">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/order_report.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/order_report.png')}}" alt="">
                 {{translate('transaction_report')}}
             </h2>
         </div>
@@ -54,32 +54,32 @@
         <div class="store-report-content mb-2">
             <div class="left-content expense--content">
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/expense.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/expense.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_expense)) }}</h4>
                         <h6 class="subtext">
                             <span>{{translate('total_Expense')}}</span>
                             <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('free_delivery')}}, {{translate('coupon_discount_will_be_shown_here')}}">
-                                <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                             </span>
                         </h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/free-delivery.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/free-delivery.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($free_delivery)) }}</h4>
                         <h6 class="subtext">{{translate('free_Delivery')}}</h6>
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/coupon-discount.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/coupon-discount.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($coupon_discount)) }}</h4>
                         <h6 class="subtext">
                             <span>{{translate('coupon_Discount')}}</span>
                             <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('discount_on_purchase_and_first_delivery_coupon_amount_will_be_shown_here')}}">
-                                <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                             </span>
                         </h6>
                     </div>
@@ -246,7 +246,7 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="text-center p-4">
-                                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                              alt="Image Description">
                                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                                     </div>
@@ -265,9 +265,9 @@
 @push('script')
 
     <!-- Chart JS -->
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
-    <script src="{{ asset('public/assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
+    <script src="{{ asset('assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
+    <script src="{{ asset('assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
     </script>
     <!-- Chart JS -->
 
@@ -356,3 +356,6 @@
 
     </script>
 @endpush
+
+
+

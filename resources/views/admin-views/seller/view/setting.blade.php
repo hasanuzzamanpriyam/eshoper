@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-seller.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('seller_details')}}
             </h2>
         </div>
@@ -160,7 +160,7 @@
                                     <span class="title-color">
                                         {{translate('Seller_POS_Permission')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_this_seller_can_access_POS_from_the_website_and_seller_app') }}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -185,3 +185,5 @@
 @push('script')
 
 @endpush
+
+

@@ -90,7 +90,7 @@
         <div class="container">
             <div class="d-flex align-items-center justify-content-between gap-3">
                 <a class="logo" href="{{route('home')}}">
-                    <img src="{{asset("storage/app/public/company")."/".$web_config['web_logo']->value}}"
+                    <img src="{{asset("storage/company")."/".$web_config['web_logo']->value}}"
                         class="dark-support svg h-45"
                         onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                         alt="Logo"
@@ -147,7 +147,7 @@
                         <a href="{{ $web_config['header_banner']['url'] }}">
                             <img
                                 width="180"
-                                src="{{asset('storage/app/public/banner')}}/{{$web_config['header_banner']['photo']}}"
+                                src="{{asset('storage/banner')}}/{{$web_config['header_banner']['photo']}}"
                                 onerror="this.src='{{theme_asset('assets/img/header-banner-placeholder.png')}}'"
                                 loading="lazy"
                                 class="dark-support"
@@ -368,7 +368,7 @@
                     <div class="nav-wrapper">
                         <div class="d-xl-none">
                             <a class="logo" href="{{route('home')}}">
-                                <img src="{{asset("storage/app/public/company")."/".$web_config['mob_logo']->value}}"
+                                <img src="{{asset("storage/company")."/".$web_config['mob_logo']->value}}"
                                     onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                                     class="dark-support mobile-logo-cs"
                                     alt="Logo"
@@ -410,7 +410,7 @@
                                                 <div class="avatar rounded" style="--size: 2.5rem">
                                                     <img
                                                         onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'"
-                                                        src="{{asset("storage/app/public/shop")}}/{{ $shop->image }}" loading="lazy"
+                                                        src="{{asset("storage/shop")}}/{{ $shop->image }}" loading="lazy"
                                                         class="img-fit rounded dark-support overflow-hidden" alt=""/>
                                                 </div>
                                                 <div class="media-body text-truncate" style="--width: 7rem" title="Morning Mart">
@@ -453,7 +453,7 @@
                                                         style="--size: 1.25rem">
                                                         <img
                                                             onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'"
-                                                            src="{{asset("storage/app/public/brand")}}/{{ $brand->image }}"
+                                                            src="{{asset("storage/brand")}}/{{ $brand->image }}"
                                                             loading="lazy"
                                                             class="img-fit rounded-circle dark-support"
                                                             alt=""/>
@@ -499,7 +499,7 @@
                                     <span class="avatar overflow-hidden header-avatar rounded-circle" style="--size: 1.5rem">
                                       <img
                                           loading="lazy"
-                                          src="{{asset('storage/app/public/profile/'.auth('customer')->user()->image)}}"
+                                          src="{{asset('storage/profile/'.auth('customer')->user()->image)}}"
                                           onerror="this.src='{{theme_asset('assets/img/icons/profile-icon.png')}}'"
                                           class="img-fit"
                                           alt=""
@@ -573,3 +573,4 @@
         </div>
     </div>
 </header>
+

@@ -1,7 +1,7 @@
 <!-- Header -->
 <div class="card-header">
     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-        <img width="20" src="{{asset('/public/assets/back-end/img/most-popular-product.png')}}" alt="">
+        <img width="20" src="{{asset('assets/back-end/img/most-popular-product.png')}}" alt="">
         {{translate('most_popular_products')}}
     </h4>
 </div>
@@ -18,8 +18,8 @@
                         @if(isset($product))
                             <div class="cursor-pointer grid-card basic-box-shadow" onclick="location.href='{{route('seller.product.view',[$item['product_id']])}}'">
                                 <div class="">
-                                    <img class="avatar avatar-bordered border-gold avatar-60 rounded" src="{{asset('storage/app/public/product/thumbnail')}}/{{$product['thumbnail']}}"
-                                         onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
+                                    <img class="avatar avatar-bordered border-gold avatar-60 rounded" src="{{asset('storage/product/thumbnail')}}/{{$product['thumbnail']}}"
+                                         onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
                                          alt="{{$product->name}} image">
                                 </div>
                                 <div class="fz-12 title-color text-center">
@@ -43,8 +43,12 @@
     @else
         <div class="text-center">
             <p class="text-muted">{{translate('no_Top_Selling_Products')}}</p>
-            <img class="w-75" src="{{asset('/public/assets/back-end/img/no-data.png')}}" alt="">
+            <img class="w-75" src="{{asset('assets/back-end/img/no-data.png')}}" alt="">
         </div>
     @endif
 </div>
 <!-- End Body -->
+
+
+
+

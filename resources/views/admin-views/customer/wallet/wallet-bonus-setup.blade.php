@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/admin-wallet.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/admin-wallet.png')}}" alt="">
                 {{translate('wallet_bonus_setup')}}
             </h2>
 
@@ -33,7 +33,7 @@
                         </div>
                         <div class="modal-body px-4 px-sm-5 pt-0 text-center">
                             <div class="d-flex flex-column align-items-center gap-2">
-                                <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/para.png')}}" loading="lazy" alt="">
+                                <img width="80" class="mb-3" src="{{asset('assets/back-end/img/para.png')}}" loading="lazy" alt="">
                                 <h4 class="lh-md">{{ translate('wallet_bonus_is_only_applicable_when_a_customer_add_fund_to_wallet_via_outside_payment_gateway') }} !</h4>
                                 <p>{{ translate('customer_will_get_extra_amount_to_his_or_her_wallet_additionally_with_the_amount_he_or_she_added_from_other_payment_gateways').'. '.translate('the_bonus_amount_will_be_deduct_from_admin_wallet_&_will_consider_as_admin_expense') }}</p>
                             </div>
@@ -208,7 +208,7 @@
 
                 @if(count($data) == 0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                             alt="Image Description">
                         <p class="mb-5">{{translate('no_data_to_show')}}</p>
                     </div>
@@ -312,3 +312,6 @@
         });
     </script>
 @endpush
+
+
+

@@ -16,7 +16,7 @@
                     <!-- Page Title -->
                     <div class="mb-3">
                         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
-                            <img width="20" src="{{asset('/public/assets/back-end/img/customer.png')}}" alt="">
+                            <img width="20" src="{{asset('assets/back-end/img/customer.png')}}" alt="">
                             {{translate('customer_details')}}
                         </h2>
                     </div>
@@ -100,7 +100,7 @@
                         </table>
                         @if(count($orders)==0)
                             <div class="text-center p-4">
-                                <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                                <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                                 <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                             </div>
                         @endif
@@ -120,7 +120,7 @@
                     @if($customer)
                         <div class="card-body">
                             <h4 class="mb-4 d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/seller-information.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
                                 {{translate('customer')}}
                             </h4>
 
@@ -128,8 +128,8 @@
                                 <div class="mr-3">
                                     <img
                                         class="avatar rounded-circle avatar-70"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/profile/'.$customer->image??'')}}"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/profile/'.$customer->image??'')}}"
                                         alt="Image">
                                 </div>
                                 <div class="media-body d-flex flex-column gap-1">
@@ -159,3 +159,7 @@
 @push('script_2')
 
 @endpush
+
+
+
+

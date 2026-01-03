@@ -24,7 +24,7 @@
             <div class="p-10px pb-0">
                 <a href="{{route('product',$product->slug)}}" class="w-100">
                     <img src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'">
+                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'">
                 </a>
             </div>
 
@@ -76,6 +76,7 @@
         </div>
     </div>
 </div>
+
 
 
 

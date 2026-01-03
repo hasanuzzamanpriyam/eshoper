@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/order_report.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/order_report.png')}}" alt="">
                 {{ translate('transaction_report')}}
             </h2>
         </div>
@@ -62,7 +62,7 @@
                                     <li>
                                         <a class="dropdown-item"
                                            href="{{ route('admin.transaction.refund-transaction-export-excel', ['payment_method'=>$payment_method, 'search'=>$search]) }}"  >
-                                            <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                            <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                             {{translate('excel')}}
                                         </a>
                                     </li>
@@ -152,7 +152,7 @@
                 </table>
                 @if(count($refund_transactions)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                              alt="Image Description">
                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                     </div>
@@ -168,3 +168,6 @@
         </div>
     </div>
 @endsection
+
+
+

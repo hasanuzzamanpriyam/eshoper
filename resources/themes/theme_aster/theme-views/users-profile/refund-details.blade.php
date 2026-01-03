@@ -86,8 +86,8 @@
                                             @if ($refund->images !=null)
                                                 <div class="gallery">
                                                     @foreach (json_decode($refund->images) as $key => $photo)
-                                                        <a href="{{asset('storage/app/public/refund')}}/{{$photo}}" class="lightbox_custom">
-                                                            <img src="{{asset('storage/app/public/refund')}}/{{$photo}}" alt="" class="img-w-h-100"
+                                                        <a href="{{asset('storage/refund')}}/{{$photo}}" class="lightbox_custom">
+                                                            <img src="{{asset('storage/refund')}}/{{$photo}}" alt="" class="img-w-h-100"
                                                                  onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
                                                         </a>
                                                     @endforeach
@@ -116,3 +116,4 @@
 
     <script src="{{ theme_asset('assets/js/lightbox.min.js') }}"></script>
 @endpush
+

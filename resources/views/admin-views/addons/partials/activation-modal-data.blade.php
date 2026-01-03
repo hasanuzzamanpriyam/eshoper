@@ -10,7 +10,7 @@
     <div class="mb-4 text-center">
         <img width="200"
             src="{{asset($path.'/public/addon.png')}}"
-            onerror="this.src='{{asset('public/assets/front-end/img/placeholder.png')}}'"
+            onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'"
             alt=""
             class="dark-support"
         />
@@ -43,3 +43,4 @@
         </div>
     </form>
 </div>
+

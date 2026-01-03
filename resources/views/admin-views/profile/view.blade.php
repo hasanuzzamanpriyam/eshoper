@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <img  onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" src="{{asset('storage/app/public/admin/'.$data->image)}}" class="rounded-circle border"
+                    <img  onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{asset('storage/admin/'.$data->image)}}" class="rounded-circle border"
                          height="200" width="200" alt="">
                     <div class="p-4">
                     <h4>{{translate('name')}} : {{$data->name}}</h4>
@@ -38,3 +38,5 @@
 @push('script')
     <!-- Page level plugins -->
 @endpush
+
+

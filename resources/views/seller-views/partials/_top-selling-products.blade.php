@@ -1,7 +1,7 @@
 <!-- Header -->
 <div class="card-header">
     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-        <img width="20" src="{{asset('/public/assets/back-end/img/top-selling-product.png')}}" alt="">
+        <img width="20" src="{{asset('assets/back-end/img/top-selling-product.png')}}" alt="">
         {{translate('top_selling_products')}}
     </h4>
 </div>
@@ -19,7 +19,7 @@
                             <div class="d-flex align-items-center gap-10">
                                 <img class="avatar avatar-lg rounded avatar-bordered"
                                      src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$item->product['thumbnail']}}"
-                                     onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
+                                     onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
                                      alt="{{$item->product->name}} image">
                                 <span class="title-color">{{substr($item->product['name'],0,20)}} {{strlen($item->product['name'])>20?'...':''}}</span>
                             </div>
@@ -35,8 +35,11 @@
     @else
         <div class="text-center">
             <p class="text-muted">{{translate('no_Top_Selling_Products')}}</p>
-            <img class="w-75" src="{{asset('/public/assets/back-end/img/no-data.png')}}" alt="">
+            <img class="w-75" src="{{asset('assets/back-end/img/no-data.png')}}" alt="">
         </div>
     @endif
 </div>
 <!-- End Body -->
+
+
+

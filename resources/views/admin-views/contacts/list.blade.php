@@ -2,7 +2,7 @@
 @section('title', translate('contact_List'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/message.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/message.png')}}" alt="">
                 {{translate('customer_message')}}
             </h2>
         </div>
@@ -104,7 +104,7 @@
                     @if(count($contacts)==0)
                         <div class="text-center p-4">
                             <img class="mb-3 w-160"
-                                 src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                 src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                  alt="Image Description">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
@@ -118,8 +118,8 @@
 
 @push('script')
     <!-- Page level plugins -->
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script>
         $(document).ready(function () {
@@ -158,3 +158,6 @@
         });
     </script>
 @endpush
+
+
+

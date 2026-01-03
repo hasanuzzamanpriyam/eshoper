@@ -1,8 +1,8 @@
 @extends('layouts.back-end.app')
 @section('title', translate('deal_Product'))
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -11,7 +11,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize">
-            <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" class="mb-1 mr-1" alt="">
+            <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" class="mb-1 mr-1" alt="">
             {{translate('add_new_product')}}
         </h2>
     </div>
@@ -46,7 +46,7 @@
                                                 @foreach ($products as $key => $product)
                                                     <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
                                                         <img class="avatar avatar-xl border" width="75"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                                          alt="">
                                                         <div class="media-body d-flex flex-column gap-1">
@@ -132,7 +132,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         $(".js-example-theme-single").select2({
             theme: "classic"
@@ -225,3 +225,6 @@
             })
         </script>
 @endpush
+
+
+

@@ -19,7 +19,7 @@
                 <div class="mb-3 text-center">
                     <img
                         width="123"
-                        src="{{asset("storage/app/public/company")."/".$web_config['web_logo']->value}}"
+                        src="{{asset("storage/company")."/".$web_config['web_logo']->value}}"
                         alt=""
                         class="dark-support"
                     />
@@ -151,3 +151,4 @@
 </script>
 {{-- Ajax Login From Submit || End --}}
 @endpush
+

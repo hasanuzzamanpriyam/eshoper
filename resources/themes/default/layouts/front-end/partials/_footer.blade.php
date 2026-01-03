@@ -14,7 +14,7 @@
             <div >
                 <a href="{{route('about-us')}}">
                     <div class="text-center">
-                        <img class="size-60" src="{{asset("public/assets/front-end/png/about company.png")}}"
+                        <img class="size-60" src="{{asset("assets/front-end/png/about company.png")}}"
                                 alt="">
                     </div>
                     <div class="text-center">
@@ -29,7 +29,7 @@
             <div >
                 <a href="{{route('contacts')}}">
                     <div class="text-center">
-                        <img class="size-60" src="{{asset("public/assets/front-end/png/contact us.png")}}"
+                        <img class="size-60" src="{{asset("assets/front-end/png/contact us.png")}}"
                                 alt="">
                     </div>
                     <div class="text-center">
@@ -44,7 +44,7 @@
             <div >
                 <a href="{{route('helpTopic')}}">
                     <div class="text-center">
-                        <img class="size-60" src="{{asset("public/assets/front-end/png/faq.png")}}"
+                        <img class="size-60" src="{{asset("assets/front-end/png/faq.png")}}"
                                 alt="">
                     </div>
                     <div class="text-center">
@@ -71,8 +71,8 @@
                     <!-- Grid column -->
                     <div class="col-md-3 footer-web-logo" >
                         <a class="d-block" href="{{route('home')}}">
-                            <img class="{{Session::get('direction') === "rtl" ? 'rightalign' : ''}}" src="{{asset("storage/app/public/company/")}}/{{ $web_config['footer_logo']->value }}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                            <img class="{{Session::get('direction') === "rtl" ? 'rightalign' : ''}}" src="{{asset("storage/company/")}}/{{ $web_config['footer_logo']->value }}"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                 alt="{{ $web_config['name']->value }}"/>
                         </a>
 
@@ -95,7 +95,7 @@
                              @if($web_config['ios']['status'])
                                 <div class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}} mb-2">
                                     <a class="" href="{{ $web_config['ios']['link'] }}" role="button">
-                                        <img width="100" src="{{asset("public/assets/front-end/png/apple_app.png")}}"
+                                        <img width="100" src="{{asset("assets/front-end/png/apple_app.png")}}"
                                             alt="">
                                     </a>
                                 </div>
@@ -104,7 +104,7 @@
                              @if($web_config['android']['status'])
                                 <div class="{{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}} mb-2">
                                     <a href="{{ $web_config['android']['link'] }}" role="button">
-                                        <img width="100" src="{{asset("public/assets/front-end/png/google_app.png")}}" alt="">
+                                        <img width="100" src="{{asset("assets/front-end/png/google_app.png")}}" alt="">
                                     </a>
                                 </div>
                              @endif
@@ -339,3 +339,5 @@
         @endif
     </footer>
 </div>
+
+

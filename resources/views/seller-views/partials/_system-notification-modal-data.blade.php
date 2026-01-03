@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body px-4 px-sm-5 text-center">
     <div class="mb-3 text-center">
-        <img width="75" src="{{asset('public/assets/back-end/img/shift.png')}}" alt="">
+        <img width="75" src="{{asset('assets/back-end/img/shift.png')}}" alt="">
     </div>
 
     <h3>{{ $company_name }} {{ translate('switched') }} {{ $data->title }}</h3>
@@ -22,3 +22,4 @@
         <a class="fs-16 btn btn--primary px-sm-5 w-fit-content" target="_blank" href="{{ route('shopView',['id'=>$shop->id]) }}">{{ translate('visit_store') }}</a>
     </div>
 </div>
+

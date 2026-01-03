@@ -2,7 +2,7 @@
 @section('title', translate('bank_Info_View'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/my-bank-info.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/my-bank-info.png')}}" alt="">
                 {{translate('my_bank_info')}}
             </h2>
         </div>
@@ -22,7 +22,7 @@
                     <!-- Card Header -->
                     <div class="border-bottom d-flex gap-3 flex-wrap justify-content-between align-items-center px-4 py-3">
                         <div class="d-flex gap-2 align-items-center">
-                            <img width="20" src="{{asset('/public/assets/back-end/img/bank.png')}}" alt="" />
+                            <img width="20" src="{{asset('assets/back-end/img/bank.png')}}" alt="" />
                             <h3 class="mb-0">{{translate('bank_Information')}}</h3>
                         </div>
 
@@ -39,13 +39,13 @@
                         <div class="row justify-content-center">
                             <div class="col-sm-6 col-md-8 col-lg-6 col-xl-5">
                                 <!-- Bank Info Card -->
-                                <div class="card bank-info-card bg-bottom bg-contain bg-img" style="background-image: url({{asset('/public/assets/back-end/img/bank-info-card-bg.png')}});">
+                                <div class="card bank-info-card bg-bottom bg-contain bg-img" style="background-image: url({{asset('assets/back-end/img/bank-info-card-bg.png')}});">
                                     <div class="border-bottom p-3">
                                         <h4 class="mb-0 fw-semibold">{{translate('holder_Name')}} : <strong>{{$data->holder_name ?? 'No Data found'}}</strong></h4>
                                     </div>
 
                                     <div class="card-body position-relative">
-                                        <img class="bank-card-img" width="78" src="{{asset('/public/assets/back-end/img/bank-card.png')}}" alt="">
+                                        <img class="bank-card-img" width="78" src="{{asset('assets/back-end/img/bank-card.png')}}" alt="">
 
                                         <ul class="list-unstyled d-flex flex-column gap-4">
                                             <li>
@@ -78,3 +78,6 @@
 @push('script')
     <!-- Page level plugins -->
 @endpush
+
+
+

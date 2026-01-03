@@ -15,7 +15,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/refund_transaction.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/refund_transaction.png')}}" alt="">
             {{translate('refund_details')}}
         </h2>
     </div>
@@ -64,7 +64,7 @@
                     <div class="row gy-2">
                         <div class="col-sm-4 col-md-4 col-lg-2">
                             <div >
-                                <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$refund->product!=null?$refund->product->thumbnail:''}}"
                                 alt="VR Collection" >
                             </div>
@@ -234,7 +234,7 @@
                     </table>
                     @if(count($refund->refund_status)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                             <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                         </div>
                     @endif
@@ -265,8 +265,8 @@
                         @if ($refund->images !=null)
                             <div class="gallery grid-gallery">
                                 @foreach (json_decode($refund->images) as $key => $photo)
-                                    <a href="{{asset('storage/app/public/refund')}}/{{$photo}}" data-lightbox="mygallery">
-                                        <img src="{{asset('storage/app/public/refund')}}/{{$photo}}" alt="">
+                                    <a href="{{asset('storage/refund')}}/{{$photo}}" data-lightbox="mygallery">
+                                        <img src="{{asset('storage/refund')}}/{{$photo}}" alt="">
                                     </a>
                                 @endforeach
                             </div>
@@ -464,3 +464,7 @@ function refund_status_change(val)
         };
     </script>
 @endpush
+
+
+
+
