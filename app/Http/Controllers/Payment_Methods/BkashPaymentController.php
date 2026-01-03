@@ -23,7 +23,7 @@ class BkashPaymentController extends Controller
     private PaymentRequest $payment;
     private $user;
 
-    public function __construct(PaymentRequest $payment,User $user)
+    public function __construct(PaymentRequest $payment, User $user)
     {
         $config = $this->payment_config('bkash', 'payment_config');
         if (!is_null($config) && $config->mode == 'live') {
@@ -67,9 +67,17 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
         $resultdata = curl_exec($url);
+
+        if ($resultdata === false) {
+            return ['status' => 'fail', 'msg' => 'CURL Error: ' . curl_error($url)];
+        }
         curl_close($url);
 
         $response = json_decode($resultdata, true);
+
+        if (is_null($response)) {
+            return ['status' => 'fail', 'msg' => 'Failed to decode response from Bkash. Raw response: ' . $resultdata];
+        }
 
         if (array_key_exists('msg', $response)) {
             return $response;
@@ -95,6 +103,11 @@ class BkashPaymentController extends Controller
         $payer = json_decode($data['payer_information']);
 
         $response = self::getToken();
+
+        if (!isset($response['id_token'])) {
+            return response()->json(['status' => 'fail', 'message' => isset($response['msg']) ? $response['msg'] : 'Failed to get token from Bkash.'], 400);
+        }
+
         $auth = $response['id_token'];
         session()->put('token', $auth);
         $callbackURL = route('bkash.callback', ['payment_id' => $request['payment_id'], 'token' => $auth]);
@@ -172,16 +185,13 @@ class BkashPaymentController extends Controller
                 call_user_func($data->success_hook, $data);
             }
 
-            return $this->payment_response($data,'success');
+            return $this->payment_response($data, 'success');
         } else {
             $payment_data = $this->payment::where(['id' => $request['payment_id']])->first();
             if (isset($payment_data) && function_exists($payment_data->failure_hook)) {
                 call_user_func($payment_data->failure_hook, $payment_data);
             }
-            return $this->payment_response($payment_data,'fail');
+            return $this->payment_response($payment_data, 'fail');
         }
     }
-
-
 }
-
