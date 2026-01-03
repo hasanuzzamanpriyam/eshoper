@@ -1,0 +1,24 @@
+[05-Jan-2024 05:06:13 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
+[05-Jan-2024 15:31:17 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
+[12-Jan-2024 09:46:33 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
+[13-Jan-2024 03:13:32 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
+[13-Jan-2024 09:35:04 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
+[13-Jan-2024 20:22:39 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function env() in /home/eshoper/public_html/config/cache.php:21
+Stack trace:
+#0 {main}
+  thrown in /home/eshoper/public_html/config/cache.php on line 21
