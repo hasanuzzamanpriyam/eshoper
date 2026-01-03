@@ -12,7 +12,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 text-capitalize mb-1 d-flex gap-2">
-            <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" alt="">
+            <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" alt="">
             {{translate('update_product')}}
         </h2>
     </div>
@@ -104,7 +104,7 @@
 
                 @if(count($pro)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                         <p class="mb-0">{{translate('no_data_to_show')}}</p>
                     </div>
                 @endif
@@ -140,3 +140,6 @@
 </script>
 
 @endpush
+
+
+

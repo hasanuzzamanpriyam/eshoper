@@ -255,7 +255,7 @@
                         {{translate('expense_Transaction_Statement')}}
                     </th>
                     <th class="p-0 text-right">
-                        <img class="logo" src="{{asset("storage/app/public/company/".$data['company_web_logo'])}}" alt="">
+                        <img class="logo" src="{{asset("storage/company/".$data['company_web_logo'])}}" alt="">
                     </th>
                 </tr>
             </table>
@@ -368,3 +368,4 @@
 </table>
 </body>
 </html>
+

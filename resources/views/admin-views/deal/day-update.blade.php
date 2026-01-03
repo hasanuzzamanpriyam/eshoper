@@ -2,7 +2,7 @@
 @section('title', translate('deal_Update'))
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/deal_of_the_day.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/deal_of_the_day.png')}}" alt="">
             {{translate('update_Deal_of_The_Day')}}
         </h2>
     </div>
@@ -81,7 +81,7 @@
 
                                                     <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
                                                         <img class="avatar avatar-xl border" width="75"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                                          alt="">
                                                         <div class="media-body d-flex flex-column gap-1">
@@ -118,7 +118,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         let selectProductSearch = $('.select-product-search');
         selectProductSearch.on('click', '.select-product-item', function () {
@@ -170,3 +170,6 @@
         }
     </script>
 @endpush
+
+
+

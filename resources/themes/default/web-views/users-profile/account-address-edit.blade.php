@@ -4,8 +4,8 @@
 
 @push('css_or_js')
     <link rel="stylesheet" media="screen"
-          href="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
-    <link rel="stylesheet" href="{{ asset('public/assets/front-end/css/bootstrap-select.min.css') }}">
+          href="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
+    <link rel="stylesheet" href="{{ asset('assets/front-end/css/bootstrap-select.min.css') }}">
 
     <style>
         .cz-sidebar-body h3:hover + .divider-role {
@@ -184,7 +184,7 @@
 
 @push('script')
 <script src="https://maps.googleapis.com/maps/api/js?key={{\App\CPU\Helpers::get_business_settings('map_api_key')}}&libraries=places&v=3.49"></script>
-<script src="{{ asset('public/assets/front-end/js/bootstrap-select.min.js') }}"></script>
+<script src="{{ asset('assets/front-end/js/bootstrap-select.min.js') }}"></script>
 <script>
 
     function initAutocomplete() {
@@ -286,3 +286,4 @@
     });
 </script>
 @endpush
+

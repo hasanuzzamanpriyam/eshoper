@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 d-flex gap-2">
-                <img src="{{asset('/public/assets/back-end/img/brand-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/brand-setup.png')}}" alt="">
                 {{translate('sub_Category_Setup')}}
             </h2>
         </div>
@@ -103,7 +103,7 @@
                                             <img
                                                 class="upload-img-view"
                                                 id="viewer"
-                                                src="{{asset('public/assets/back-end/img/900x400/img1.jpg')}}"
+                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
                                                 alt="image"/>
                                         </center>
                                     </div>
@@ -171,8 +171,8 @@
                                     @if (theme_root_path() == 'theme_aster')
                                         <td class="text-center">
                                             <img class="rounded" width="64"
-                                                 onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                 src="{{asset('storage/app/public/category')}}/{{$category['icon']}}">
+                                                 onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                 src="{{asset('storage/category')}}/{{$category['icon']}}">
                                         </td>
                                     @endif
                                     <td>{{($category['defaultname'])}}</td>
@@ -206,7 +206,7 @@
 
                     @if(count($categories)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Descripti">
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Descripti">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
                     @endif
@@ -291,3 +291,7 @@
         });
     </script>
 @endpush
+
+
+
+

@@ -7,7 +7,7 @@
         <div class="container">
             <div class="row gy-3 align-items-center">
                 <div class="col-lg-3 col-sm-3 text-center text-lg-start">
-                    <img width="180" src="{{asset("storage/app/public/company/")}}/{{ $web_config['footer_logo']->value }}"
+                    <img width="180" src="{{asset("storage/company/")}}/{{ $web_config['footer_logo']->value }}"
                         onerror="this.src='{{theme_asset('assets/img/image-place-holder-4_1.png')}}'"
                         loading="lazy" alt="">
                 </div>
@@ -174,3 +174,4 @@
         </div>
     </div>
 </footer>
+

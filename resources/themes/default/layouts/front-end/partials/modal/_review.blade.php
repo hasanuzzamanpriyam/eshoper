@@ -17,7 +17,7 @@
                             <div class="media gap-3">
                                 <div class="position-relative">
                                     <img class="d-block" onclick="location.href='{{route('product',$order_details->product['slug'])}}'"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$order_details->product['thumbnail']}}"
                                     alt="VR Collection" width="100">
 
@@ -50,7 +50,7 @@
                             </div>
                             @else
                                 <div class="text-center text-capitalize">
-                                    <img src="{{asset('public/assets/front-end/img/icons/nodata.svg')}}" alt="" width="100">
+                                    <img src="{{asset('assets/front-end/img/icons/nodata.svg')}}" alt="" width="100">
                                     <h5>{{translate('no_product_found')}}!</h5>
                                 </div>
                             @endif
@@ -122,8 +122,8 @@
                                         <div class="position-relative img_row{{$key}} border rounded border-primary-light">
                                             <span class="img_remove_icon" onclick="remove_img_row('{{$key}}')"><i class="czi-close"></i></span>
                                             <div class="overflow-hidden upload_img_box_img rounded">
-                                                <img class="h-auto" onerror="this.src=' {{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                     src="{{asset('storage/app/public/review')}}/{{$photo}}"
+                                                <img class="h-auto" onerror="this.src=' {{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                     src="{{asset('storage/review')}}/{{$photo}}"
                                                      alt="VR Collection">
                                             </div>
                                         </div>
@@ -140,7 +140,7 @@
                                 <label class="py-0 d-flex align-items-center m-0 cursor-pointer">
                                         <span class="position-relative">
                                             <img class="border rounded border-primary-light h-70px"
-                                                 src="{{asset('public/assets/front-end/img/image-place-holder.png')}}" alt="">
+                                                 src="{{asset('assets/front-end/img/image-place-holder.png')}}" alt="">
                                         </span>
                                     <input type="file" class="reviewfilesValue h-100 position-absolute w-100 " hidden multiple accept=".jpg, .png, .jpeg, .gif, .bmp, .webp |image/*">
                                 </label>
@@ -199,3 +199,5 @@
 
 </script>
 @endpush
+
+

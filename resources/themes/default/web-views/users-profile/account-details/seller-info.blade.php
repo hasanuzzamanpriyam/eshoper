@@ -197,8 +197,8 @@
                     <div class="card-body">
                         @if($order->seller_is =='seller')
                             <div class="media flex-wrap gap-2 gap-sm-3 border rounded p-3">
-                                <img class="rounded border seller-info-img" src="{{ asset('storage/app/public/shop/'.$order->seller->shop->image)}}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" alt="">
+                                <img class="rounded border seller-info-img" src="{{ asset('storage/shop/'.$order->seller->shop->image)}}"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" alt="">
                                 <div class="media-body">
                                     <div class="d-flex gap-2 gap-sm-3 align-items-sm-center justify-content-between">
                                         <div class="">
@@ -225,7 +225,7 @@
                                         <div>
                                             <button type="button" class="btn btn-soft-info text-capitalize px-2 px-sm-4" data-toggle="modal"
                                                 data-target="#chatting_modal" {{ ($order->seller->shop->temporary_close || ($order->seller->shop->vacation_status && date('Y-m-d') >= date('Y-m-d', strtotime($order->seller->shop->vacation_start_date)) && date('Y-m-d') <= date('Y-m-d', strtotime($order->seller->shop->vacation_end_date)))) ? 'disabled' : '' }}>
-                                                <img src="{{asset('/public/assets/front-end/img/seller-info-chat.png')}}" alt="">
+                                                <img src="{{asset('assets/front-end/img/seller-info-chat.png')}}" alt="">
                                                 <span class="d-none d-sm-inline-block">{{translate('chat_with_seller')}}</span>
                                             </button>
 
@@ -235,8 +235,8 @@
                             </div>
                         @else
                             <div class="media flex-wrap gap-3 border rounded p-3">
-                                <img class="rounded border" width="77" src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" alt="">
+                                <img class="rounded border" width="77" src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" alt="">
                                 <div class="media-body">
                                     <div class="d-flex flex-wrap gap-3 align-items-center justify-content-between">
                                         <div class="">
@@ -301,4 +301,7 @@
         });
 </script>
 @endpush
+
+
+
 

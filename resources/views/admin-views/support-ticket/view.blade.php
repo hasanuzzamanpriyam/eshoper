@@ -2,8 +2,8 @@
 @section('title', translate('support_Ticket'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/support_ticket.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/support_ticket.png')}}" alt="">
                 {{translate('support_ticket')}}
                 <span class="badge badge-soft-dark radius-50 fz-14">{{ $tickets->total() }}</span>
             </h2>
@@ -72,8 +72,8 @@
                                     class="card-body align-items-center d-flex flex-wrap justify-content-between gap-3 border-bottom">
                                     <div class="media gap-3">
                                         <img class="avatar avatar-lg"
-                                             src="{{asset('storage/app/public/profile')}}/{{$ticket->customer->image??""}}"
-                                             onerror="this.src='{{asset('public/assets/back-end/img/image-place-holder.png')}}'"
+                                             src="{{asset('storage/profile')}}/{{$ticket->customer->image??""}}"
+                                             onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
                                              alt="">
                                         <div class="media-body">
                                             <h6 class="mb-0 {{Session::get('direction') === "rtl" ? 'text-right' : 'text-left'}}">{{$ticket->customer->f_name??""}} {{$ticket->customer->l_name??""}}</h6>
@@ -131,7 +131,7 @@
                 @if(count($tickets)==0)
                     <div class="text-center p-4">
                         <img class="mb-3 w-160"
-                             src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                             src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                              alt="Image Description">
                         <p class="mb-0">{{translate('no_data_to_show')}}</p>
                     </div>
@@ -142,9 +142,9 @@
 
     @push('script')
         <!-- Page level plugins -->
-            <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+            <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
             <script
-                src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+                src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
             <script>
                 // Call the dataTables jQuery plugin
@@ -154,7 +154,7 @@
             </script>
 
             <!-- Page level custom scripts -->
-            <script src="{{asset('public/assets/back-end/js/croppie.js')}}"></script>
+            <script src="{{asset('assets/back-end/js/croppie.js')}}"></script>
             <script>
                 $('.support_ticket_form').on('submit', function(event){
                     event.preventDefault();
@@ -203,3 +203,7 @@
                 }
             </script>
     @endpush
+
+
+
+

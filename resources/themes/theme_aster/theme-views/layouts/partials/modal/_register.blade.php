@@ -18,7 +18,7 @@
                 <div class="mb-4 text-center">
                     <img
                         width="200"
-                        src="{{asset("storage/app/public/company")."/".$web_config['web_logo']->value}}"
+                        src="{{asset("storage/company")."/".$web_config['web_logo']->value}}"
                         onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                         alt=""
                         class="dark-support"
@@ -288,3 +288,4 @@
         });
     </script>
 @endpush
+

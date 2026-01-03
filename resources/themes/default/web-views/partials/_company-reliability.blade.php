@@ -6,8 +6,8 @@
                     <div class="col-md-3 d-flex justify-content-center px-max-md-0">
                         <div class="shipping-method-system">
                             <div class="text-center">
-                                <img class="{{Session::get('direction') === "rtl" ? 'float-right ml-2' : 'mr-2'}} size-60"  src="{{asset("/storage/app/public/company-reliability").'/'.$value['image']}}"
-                                    onerror="this.src='{{asset('/public/assets/front-end/img').'/'.$value['item'].'.png'}}'"
+                                <img class="{{Session::get('direction') === "rtl" ? 'float-right ml-2' : 'mr-2'}} size-60"  src="{{asset("/storage/company-reliability").'/'.$value['image']}}"
+                                    onerror="this.src='{{asset('assets/front-end/img').'/'.$value['item'].'.png'}}'"
                                         alt="">
                             </div>
                             <div class="text-center">
@@ -22,3 +22,5 @@
         </div>
     </div>
 </div>
+
+

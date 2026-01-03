@@ -3,7 +3,7 @@
 @section('title', translate('edit_most_demanded'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -12,7 +12,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2 text-capitalize">
-            <img width="20" src="{{asset('/public/assets/back-end/img/most_demnaded.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/most_demnaded.png')}}" alt="">
             {{translate('edit_most_demanded')}}
         </h2>
     </div>
@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <div class="text-center mt-lg-3">
                                         <img class="border radius-10 ratio-4:1 max-w-655px w-100" id="viewer"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/placeholder.png')}}'" src="{{asset('storage/app/public/most-demanded')}}/{{$most_demanded_product['banner']}}" alt="banner image"/>
+                                        onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'" src="{{asset('storage/most-demanded')}}/{{$most_demanded_product['banner']}}" alt="banner image"/>
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -102,3 +102,7 @@
         });
     </script>
 @endpush
+
+
+
+

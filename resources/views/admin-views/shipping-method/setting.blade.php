@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('business_Setup')}}
             </h2>
 
@@ -21,7 +21,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                         <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                     </div>
                     <p class="title-color font-weight-medium mb-0">{{ translate('please_click_the_Save_button_below_to_save_all_the_changes') }}</p>
@@ -37,7 +37,7 @@
         <div class="card">
             <div class="card-header">
                 <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                     {{translate('shipping')}}
                 </h5>
             </div>
@@ -88,7 +88,7 @@
                                 </select>
                                 <div class="mt-2" id="product_wise_note">
                                     <p>
-                                        <img width="16" class="mt-n1" src="{{asset('/public/assets/back-end/img/danger-info.png')}}" alt="">
+                                        <img width="16" class="mt-n1" src="{{asset('assets/back-end/img/danger-info.png')}}" alt="">
                                         <strong>{{translate('note')}}</strong>
                                         : {{translate("please_make_sure_all_the product`s_delivery_charges_are_up_to_date.")}}</p>
                                 </div>
@@ -111,7 +111,7 @@
             <div class="card mt-3">
                 <div class="px-3 pt-4">
                     <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                         {{translate('category_wise_shipping_cost')}}
                     </h5>
                 </div>
@@ -143,8 +143,8 @@
                                             </td>
                                             <td>
                                                 <img class="rounded" width="64"
-                                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                src="{{asset('storage/app/public/category')}}/{{$item->category['icon']}}">
+                                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('storage/category')}}/{{$item->category['icon']}}">
                                             </td>
                                             <td>
                                                 {{$item->category!=null?$item->category->name:translate('not_found')}}
@@ -188,7 +188,7 @@
             <div class="card mt-3">
                 <div class="card-header">
                     <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                         {{translate('add_order_wise_shipping')}}
                     </h5>
                 </div>
@@ -238,7 +238,7 @@
             <div class="card mt-3">
                 <div class="px-3 py-4">
                     <h5 class="text-capitalize mb-0 d-flex align-items-center gap-2">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/delivery.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/delivery.png')}}" alt="">
                         {{translate('order_wise_shipping_method')}}
                         <span class="badge badge-soft-dark radius-50 fz-12">{{ $shipping_methods->count() }}</span>
                     </h5>
@@ -347,11 +347,11 @@
             if ($('#'+toggle_id).is(':checked')) {
                 $('#toggle-title').empty().append(on_title);
                 $('#toggle-message').empty().append(on_message);
-                $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+on_image);
+                $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+on_image);
             } else {
                 $('#toggle-title').empty().append(off_title);
                 $('#toggle-message').empty().append(off_message);
-                $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+off_image);
+                $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+off_image);
             }
             $('#toggle-ok-button').attr('toggle-ok-button', toggle_id);
             $('#toggle-ok-button').attr('onclick', 'shipping_responsibility_modalConfirmToggle()');
@@ -460,3 +460,7 @@
         });
     </script>
 @endpush
+
+
+
+

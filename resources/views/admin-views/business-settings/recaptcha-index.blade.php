@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -116,7 +116,7 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/smtp-server.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/smtp-server.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3 text-capitalize">{{translate('find_SMTP_server_details')}}</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                     <li>{{translate('contact_your_email_service_provider_or_IT_administrator_to_obtain_the_SMTP_server_details_such_as_hostname_port_username_and_password')}}.</li>
@@ -136,3 +136,5 @@
 @push('script_2')
 
 @endpush
+
+

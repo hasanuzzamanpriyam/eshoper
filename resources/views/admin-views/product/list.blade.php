@@ -11,7 +11,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
-            <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" alt="">
+            <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" alt="">
             @if($type == 'in_house')
                 {{translate('in_House_Product_List')}}
             @elseif($type == 'seller')
@@ -140,7 +140,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a class="dropdown-item" href="{{ route('admin.product.export-excel',['type'=>request('type')])}}?brand_id={{request('brand_id')}}&search={{ request('search') }}&category_id={{request('category_id')}}&sub_category_id={{request('sub_category_id')}}&sub_sub_category_id={{request('sub_sub_category_id')}}&seller_id={{request('seller_id')}}&status={{request('status')}}">
-                                                <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                                <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -180,7 +180,7 @@
                                 <td>
                                     <a href="{{route('admin.product.view',[$p['id']])}}" class="media align-items-center gap-2">
                                         <img src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$p['thumbnail']}}"
-                                             onerror="this.src='{{asset('/public/assets/back-end/img/brand-logo.png')}}'"class="avatar border" alt="">
+                                             onerror="this.src='{{asset('assets/back-end/img/brand-logo.png')}}'"class="avatar border" alt="">
                                         <span class="media-body title-color hover-c1">
                                             {{\Illuminate\Support\Str::limit($p['name'],20)}}
                                         </span>
@@ -270,7 +270,7 @@
 
                 @if(count($pro)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                         <p class="mb-0">{{translate('no_data_to_show')}}</p>
                     </div>
                 @endif
@@ -282,8 +282,8 @@
 
 @push('script')
     <!-- Page level plugins -->
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
     <!-- Page level custom scripts -->
     <script>
         function getRequest(route, id, type) {
@@ -349,3 +349,6 @@
         });
     </script>
 @endpush
+
+
+

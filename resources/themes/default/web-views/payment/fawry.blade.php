@@ -17,11 +17,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="">
     <link rel="icon" type="image/png" sizes="16x16" href="">
 
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/toastr.css"/>
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/toastr.css"/>
     <!-- Main Theme Styles + Bootstrap-->
-    <link rel="stylesheet" media="screen" href="{{asset('public/assets/front-end')}}/css/theme.min.css">
-    <link rel="stylesheet" media="screen" href="{{asset('public/assets/front-end')}}/css/slick.css">
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/toastr.css"/>
+    <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/theme.min.css">
+    <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/slick.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/toastr.css"/>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
@@ -182,8 +182,8 @@
             <div id="loading" style="display: none;">
                 <div style="position: fixed;z-index: 9999; left: 40%;top: 37% ;width: 100%">
                     <img width="200"
-                         src="{{asset('storage/app/public/company')}}/{{\App\CPU\Helpers::get_business_settings('loader_gif')}}"
-                         onerror="this.src='{{asset('public/assets/front-end/img/loader.gif')}}'">
+                         src="{{asset('storage/company')}}/{{\App\CPU\Helpers::get_business_settings('loader_gif')}}"
+                         onerror="this.src='{{asset('assets/front-end/img/loader.gif')}}'">
                 </div>
             </div>
         </div>
@@ -195,7 +195,7 @@
     <div class="row">
         <div class="col-12 mb-2">
             <center>
-                <img style="width: 300px" src="{{asset('public/assets/front-end/img/fawry.svg')}}">
+                <img style="width: 300px" src="{{asset('assets/front-end/img/fawry.svg')}}">
             </center>
         </div>
 
@@ -264,12 +264,12 @@
     </div>
 </div>
 
-<script src="{{asset('public/assets/front-end')}}/vendor/jquery/dist/jquery-2.2.4.min.js"></script>
-<script src="{{asset('public/assets/front-end')}}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{asset('public/assets/front-end')}}/js/sweet_alert.js"></script>
+<script src="{{asset('assets/front-end')}}/vendor/jquery/dist/jquery-2.2.4.min.js"></script>
+<script src="{{asset('assets/front-end')}}/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{asset('assets/front-end')}}/js/sweet_alert.js"></script>
 
 {{--Toastr--}}
-<script src={{asset("public/assets/back-end/js/toastr.js")}}></script>
+<script src={{asset("assets/back-end/js/toastr.js")}}></script>
 {!! Toastr::message() !!}
 
 @if ($errors->any())
@@ -284,3 +284,5 @@
 @endif
 </body>
 </html>
+
+

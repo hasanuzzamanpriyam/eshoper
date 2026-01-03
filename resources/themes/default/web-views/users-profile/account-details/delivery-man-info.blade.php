@@ -199,8 +199,8 @@
                         <div class="p-sm-3">
                             {{-- Deliveryman Profile --}}
                             <div class="delivery-man-info-box bg-white media gap-2 gap-sm-3 shadow-sm rounded p-3">
-                                <img class="rounded-circle" width="77" src="{{ asset('storage/app/public/delivery-man/'.$order->delivery_man->image)}}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" alt="">
+                                <img class="rounded-circle" width="77" src="{{ asset('storage/delivery-man/'.$order->delivery_man->image)}}"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" alt="">
                                 <div class="media-body">
                                     <div class="d-flex gap-2 gap-sm-3 align-items-start align-items-sm-center justify-content-between">
                                         <div class="">
@@ -225,7 +225,7 @@
                                         <div class="d-flex justify-content-end flex-wrap gap-3 gap-sm-3">
                                             <button type="button" class="btn btn-soft-info text-capitalize px-2 px-md-4" data-toggle="modal"
                                                 data-target="#chatting_modal">
-                                                <img src="{{asset('/public/assets/front-end/img/seller-info-chat.png')}}" alt="">
+                                                <img src="{{asset('assets/front-end/img/seller-info-chat.png')}}" alt="">
                                                 <span class="d-none d-md-inline-block">{{translate('chat_with_delivery_man')}}</span>
                                             </button>
                                             @if($order->order_type == 'default_type' && $order->order_status=='delivered' && $order->delivery_man_id)
@@ -261,8 +261,8 @@
                                         {{translate('picture_upload_by')}} {{$order->delivery_man->f_name}}&nbsp{{$order->delivery_man->l_name}}
                                     </h6>
                                     @foreach ($order->verification_images as $image)
-                                        @if(file_exists(base_path("storage/app/public/delivery-man/verification-image/".$image->image)))
-                                            <img class="rounded" width="100" src="{{asset('public/assets/front-end/img/cod.png')}}" alt="">
+                                        @if(file_exists(base_path("storage/delivery-man/verification-image/".$image->image)))
+                                            <img class="rounded" width="100" src="{{asset('assets/front-end/img/cod.png')}}" alt="">
                                         @endif
                                     @endforeach
                                 </div>
@@ -277,8 +277,8 @@
                                 <div class="row g-2">
                                     <div class="col-sm-6 col-xl-4">
                                         <div class="media gap-3">
-                                            <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                src="{{asset('public/assets/front-end/img/icons/van.png')}}"
+                                            <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('assets/front-end/img/icons/van.png')}}"
                                                 alt="VR Collection" width="20">
                                             <div class="media-body">
                                                 <div class="text-muted text-capitalize">{{translate('delivery_service_name')}}</div>
@@ -288,8 +288,8 @@
                                     </div>
                                     <div class="col-sm-6 col-xl-4">
                                         <div class="media gap-3">
-                                            <img onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                src="{{asset('public/assets/front-end/img/icons/track_order.png')}}"
+                                            <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{asset('assets/front-end/img/icons/track_order.png')}}"
                                                 alt="VR Collection" width="20">
                                             <div class="media-body">
                                                 <div class="text-muted">{{translate('tracking_ID')}} </div>
@@ -305,7 +305,7 @@
                     <div class="login-card">
                         <div class="text-center pt-5 text-capitalize">
 
-                            <img src="{{asset('public/assets/front-end/img/icons/delivery-man.svg')}}" alt="">
+                            <img src="{{asset('assets/front-end/img/icons/delivery-man.svg')}}" alt="">
                             <p class="opacity-60 mt-3">
                                 @if ($order->order_type == "POS")
                                     <span>{{translate('this_order_is_a_POS_order.delivery_man_is_not_assigned_to_POS_orders')}}</span>
@@ -522,4 +522,8 @@
         });
     </script>
 @endpush
+
+
+
+
 

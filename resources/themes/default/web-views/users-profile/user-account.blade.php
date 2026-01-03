@@ -38,7 +38,7 @@
                                 @csrf
                                 <div class="profile--info mb-4">
                                     <div class="position-relative profile-img mb-3">
-                                        <img id="blah" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" src="{{asset('storage/app/public/profile')}}/{{$customerDetail['image']}}" alt="">
+                                        <img id="blah" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" src="{{asset('storage/profile')}}/{{$customerDetail['image']}}" alt="">
                                         <label class="change-profile-icon m-0">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                                 <path d="M7.3125 9.75C7.3125 9.30245 7.49029 8.87323 7.80676 8.55676C8.12323 8.24029 8.55245 8.0625 9 8.0625C9.44755 8.0625 9.87678 8.24029 10.1932 8.55676C10.5097 8.87323 10.6875 9.30245 10.6875 9.75C10.6875 10.1976 10.5097 10.6268 10.1932 10.9432C9.87678 11.2597 9.44755 11.4375 9 11.4375C8.55245 11.4375 8.12323 11.2597 7.80676 10.9432C7.49029 10.6268 7.3125 10.1976 7.3125 9.75Z" fill="white"/>
@@ -185,3 +185,5 @@
     </script>
 
 @endpush
+
+

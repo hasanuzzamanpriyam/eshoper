@@ -32,7 +32,7 @@
 
                             <div class="d-flex justify-content-center align-items-center py-2 mb-3">
                                 <div class="banner-img">
-                                    <img class="img-fluid" src="{{ asset('public/assets/front-end/img/refer-and-earn.png') }}" alt="" width="300">
+                                    <img class="img-fluid" src="{{ asset('assets/front-end/img/refer-and-earn.png') }}" alt="" width="300">
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@
                                     <div class="refer_code_box">
                                         <div class="refer_code" onclick="click_to_copy('{{ $customer_detail->referral_code }}')">{{ $customer_detail->referral_code }}</div>
                                         <span class="refer_code_copy" onclick="click_to_copy('{{ $customer_detail->referral_code }}')">
-                                <img class="w-100" src="{{ asset('public/assets/front-end/img/icons/solar_copy-bold-duotone.png') }}" alt="">
+                                <img class="w-100" src="{{ asset('assets/front-end/img/icons/solar_copy-bold-duotone.png') }}" alt="">
                             </span>
                                     </div>
 
@@ -59,16 +59,16 @@
                                             $link = url('/');
                                         @endphp
                                         <a href="https://api.whatsapp.com/send?text={{$text}}.{{$link}}" target="_blank">
-                                            <img src="{{ asset('public/assets/front-end/img/icons/whatsapp.png') }}" alt=""
-                                                 onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'">
+                                            <img src="{{ asset('assets/front-end/img/icons/whatsapp.png') }}" alt=""
+                                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'">
                                         </a>
                                         <a href="mailto:recipient@example.com?subject=Referral%20Code%20Text&body={{$text}}%20Link:%20{{$link}}"target="_blank">
-                                            <img src="{{ asset('public/assets/front-end/img/icons/gmail.png') }}" alt=""
-                                                 onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'">
+                                            <img src="{{ asset('assets/front-end/img/icons/gmail.png') }}" alt=""
+                                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'">
                                         </a>
                                         <a href="javascript:" onclick="click_to_copy('{{ route('home') }}?referral_code={{ $customer_detail->referral_code }}')">
-                                            <img src="{{ asset('public/assets/front-end/img/icons/share.png') }}" alt=""
-                                                 onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'">
+                                            <img src="{{ asset('assets/front-end/img/icons/share.png') }}" alt=""
+                                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'">
                                         </a>
                                     </div>
                                 </div>
@@ -113,3 +113,4 @@
     }
 </script>
 @endpush
+

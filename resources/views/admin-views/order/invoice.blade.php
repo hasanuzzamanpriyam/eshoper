@@ -221,7 +221,7 @@
                 Order Invoice
             </th>
             <th>
-                <img height="40" src="{{asset("storage/app/public/company/$company_web_logo")}}" alt="">
+                <img height="40" src="{{asset("storage/company/$company_web_logo")}}" alt="">
             </th>
         </tr>
     </table>
@@ -510,3 +510,4 @@
 
 </body>
 </html>
+

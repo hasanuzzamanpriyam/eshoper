@@ -20,15 +20,15 @@
                         @foreach ($top_sellers as $seller)
                             <a href="{{route('shopView',['id'=>$seller['id']])}}" class="others-store-card text-capitalize">
                                 <div class="overflow-hidden other-store-banner">
-                                    <img src="{{asset('storage/app/public/shop/banner/'.$seller->shop->banner)}}"
-                                        onerror="this.src='{{ asset('/public/assets/front-end/img/seller-banner.png') }}'"
+                                    <img src="{{asset('storage/shop/banner/'.$seller->shop->banner)}}"
+                                        onerror="this.src='{{ asset('assets/front-end/img/seller-banner.png') }}'"
                                         class="w-100 h-100 object-cover" alt="">
                                 </div>
                                 <div class="name-area">
                                     <div class="position-relative">
                                         <div class="overflow-hidden other-store-logo rounded-full">
-                                            <img class="rounded-full" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                src="{{ asset('storage/app/public/shop/'.$seller->shop->image)}}" alt="others-store">
+                                            <img class="rounded-full" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                src="{{ asset('storage/shop/'.$seller->shop->image)}}" alt="others-store">
                                         </div>
                                         <!-- Temporary Closed Store Status -->
                                         @if($seller->shop->temporary_close || ($seller->shop->vacation_status && ($current_date >= $seller->shop->vacation_start_date) && ($current_date <= $seller->shop->vacation_end_date)))
@@ -64,3 +64,6 @@
         </div>
     </div>
 </div>
+
+
+

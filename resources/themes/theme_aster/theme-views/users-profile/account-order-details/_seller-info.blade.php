@@ -20,7 +20,7 @@
                                         <div class="media align-items-center gap-3">
                                             <div class="avatar rounded store-avatar">
                                                 <img  onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                    src="{{ asset('storage/app/public/shop/'.$order->seller->shop->image)}}" class="dark-support rounded img-fit" alt="">
+                                                    src="{{ asset('storage/shop/'.$order->seller->shop->image)}}" class="dark-support rounded img-fit" alt="">
                                             </div>
                                             <div class="media-body d-flex flex-column gap-2">
                                                 <h4>{{$order->seller->shop->name}}</h4>
@@ -81,7 +81,7 @@
                                             <div class="media align-items-center gap-3">
                                                 <div class="avatar rounded store-avatar">
                                                     <img  class="dark-support rounded img-fit" alt=""
-                                                         src="{{asset("storage/app/public/company")}}/{{$web_config['fav_icon']->value}}"
+                                                         src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}"
                                                          onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'">
                                                 </div>
                                                 <div class="media-body d-flex flex-column gap-2">
@@ -158,3 +158,4 @@
         });
     </script>
 @endpush
+

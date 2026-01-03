@@ -59,7 +59,7 @@
                 <tr>
                     <td> {{++$key}}	</td>
                     <td style="height: 200px"></td>
-                    <td>{{asset('storage/app/public/product/thumbnail/'.$item->thumbnail)}}</td>
+                    <td>{{asset('storage/product/thumbnail/'.$item->thumbnail)}}</td>
                     <td> {{$item->name}}</td>
                     <td>{{$item->code}}</td>
                     <td>{!! $item->details !!}</td>
@@ -92,3 +92,4 @@
         </thead>
     </table>
 </html>
+

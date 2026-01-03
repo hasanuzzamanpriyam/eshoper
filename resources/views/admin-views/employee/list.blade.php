@@ -2,7 +2,7 @@
 @section('title', translate('employee_list'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/employee.png')}}" width="20" alt="">
+                <img src="{{asset('assets/back-end/img/employee.png')}}" width="20" alt="">
                 {{translate('employee_list')}}
             </h2>
         </div>
@@ -74,7 +74,7 @@
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <li>
                                         <a class="dropdown-item" href="{{route('admin.employee.export',['role'=>request('employee_role_id'),'search'=>request('search')])}}">
-                                            <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                            <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                             {{translate('excel')}}
                                         </a>
                                     </li>
@@ -116,8 +116,8 @@
                                 <td class="text-capitalize">
                                     <div class="media align-items-center gap-10">
                                         <img class="rounded-circle avatar avatar-lg"
-                                                onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
-                                                src="{{asset('storage/app/public/admin')}}/{{$e['image']}}">
+                                                onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                                                src="{{asset('storage/admin')}}/{{$e['image']}}">
                                         <div class="media-body">
                                             {{$e['name']}}
                                         </div>
@@ -188,3 +188,7 @@
         });
     </script>
 @endpush
+
+
+
+

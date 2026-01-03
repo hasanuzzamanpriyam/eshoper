@@ -1,7 +1,7 @@
 @foreach ($products as $key => $product)
     <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
         <img class="avatar avatar-xl border" width="75"
-        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
             alt="">
         <div class="media-body d-flex flex-column gap-1">
@@ -17,3 +17,4 @@
         </div>
     </div>
 @endforeach
+

@@ -12,9 +12,9 @@
             <!-- Product gallery-->
             <div class="d-flex align-items-center justify-content-center active">
                 <img class="img-responsive w-100 rounded"
-                    src="{{asset('storage/app/public/product/thumbnail')}}/{{$product->thumbnail}}"
-                     onerror="this.src='{{asset('public/assets/back-end/img/160x160/img2.jpg')}}'"
-                     data-zoom="{{asset('storage/app/public/product')}}/{{$product['image']}}"
+                    src="{{asset('storage/product/thumbnail')}}/{{$product->thumbnail}}"
+                     onerror="this.src='{{asset('assets/back-end/img/160x160/img2.jpg')}}'"
+                     data-zoom="{{asset('storage/product')}}/{{$product['image']}}"
                      alt="Product image">
                 <div class="cz-image-zoom-pane"></div>
             </div>
@@ -239,4 +239,6 @@
         $('#label-'+val.id).addClass("border-add");
     }
 </script>
+
+
 

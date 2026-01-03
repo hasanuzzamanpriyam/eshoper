@@ -4,7 +4,7 @@
             <div class="row d-flex justify-content-between mx-1 mb-3">
                 <div>
                     <img class="size-30"
-                        src="{{asset("public/assets/front-end/png/best sellings.png")}}"
+                        src="{{asset("assets/front-end/png/best sellings.png")}}"
                         alt="">
                     <span class="font-bold pl-1">{{ translate('best_sellings')}}</span>
                 </div>
@@ -35,7 +35,7 @@
                                 <div class="d-flex flex-wrap">
                                     <div class="best-selleing-image">
                                         <img class="rounded"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$bestSell->product['thumbnail']}}"
                                             alt="Product"/>
                                     </div>
@@ -86,3 +86,5 @@
         </div>
     </div>
 </div>
+
+

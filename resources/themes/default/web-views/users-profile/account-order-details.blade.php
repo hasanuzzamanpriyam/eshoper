@@ -210,7 +210,7 @@
                             </div>
                             <div class="d-flex align-items-start gap-2">
                                 <button type="button" class="btn btn-square d-none d-md-block" onclick="location.href='{{route('generate-invoice',[$order->id])}}'">
-                                    <img src="{{asset('public/assets/front-end/img/icons/downloads.png')}}">
+                                    <img src="{{asset('assets/front-end/img/icons/downloads.png')}}">
                                 </button>
                                 @if($order->order_status=='delivered')
                                     <button class="btn btn--primary btn-sm h-40px rounded text_capitalize d-none d-md-block" onclick="order_again({{ $order->id }})">
@@ -230,7 +230,7 @@
                                                         <div class="_1 py-2 d-flex justify-content-between align-items-center">
                                                             <h6 class="font-weight-bold text-capitalize">{{translate('payment_info')}}</h6>
                                                             <button type="button" class="btn btn-square d-sm-none" onclick="location.href='{{route('generate-invoice',[$order->id])}}'">
-                                                                <img src="{{asset('public/assets/front-end/img/icons/downloads.png')}}">
+                                                                <img src="{{asset('assets/front-end/img/icons/downloads.png')}}">
                                                             </button>
                                                         </div>
                                                         <div class="fs-12">
@@ -351,12 +351,12 @@
 
                                                                     @if($detail->product_all_status)
                                                                         <img class="d-block" onclick="location.href='{{route('product',$product['slug'])}}'"
-                                                                             onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                                              src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$detail->product_all_status['thumbnail']}}"
                                                                              alt="VR Collection" width="100">
                                                                     @else
                                                                         <img class="d-block" onclick="location.href='{{route('product',$product['slug'])}}'"
-                                                                             onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                                             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                                              src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                                                              alt="VR Collection" width="100">
                                                                     @endif
@@ -467,7 +467,7 @@
                                                             </span>
                                                         @endif
                                                         <img class="d-block" onclick="location.href='{{route('product',$product['slug'])}}'"
-                                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
                                                             alt="VR Collection" width="80">
                                                     </div>
@@ -824,7 +824,7 @@
         });
     </script>
 
-    <script src="{{asset('public/assets/front-end/js/spartan-multi-image-picker.js') }}"></script>
+    <script src="{{asset('assets/front-end/js/spartan-multi-image-picker.js') }}"></script>
     <script type="text/javascript">
         {{--$(function () {--}}
         {{--    $(".coba_review").spartanMultiImagePicker({--}}
@@ -833,7 +833,7 @@
         {{--        rowHeight: '70px',--}}
         {{--        groupClassName: 'w-70px',--}}
         {{--        placeholderImage: {--}}
-        {{--            image: "{{ asset('public/assets/front-end/img/image-place-holder2.png') }}",--}}
+        {{--            image: "{{ asset('assets/front-end/img/image-place-holder2.png') }}",--}}
         {{--            width: '100%'--}}
         {{--        },--}}
         {{--        dropFileLabel: "{{ translate('drop_here') }}",--}}
@@ -866,7 +866,7 @@
         {{--        rowHeight: '70px',--}}
         {{--        groupClassName: 'w-70px',--}}
         {{--        placeholderImage: {--}}
-        {{--            image: "{{ asset('public/assets/front-end/img/image-place-holder2.png') }}",--}}
+        {{--            image: "{{ asset('assets/front-end/img/image-place-holder2.png') }}",--}}
         {{--            width: '100%'--}}
         {{--        },--}}
         {{--        dropFileLabel: "{{ translate('drop_here') }}",--}}
@@ -1070,3 +1070,4 @@
         });
     </script>
 @endpush
+

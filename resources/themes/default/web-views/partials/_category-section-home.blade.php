@@ -23,8 +23,8 @@
                                             <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
                                                 <div class="__img">
                                                     <img
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                        src="{{asset("storage/app/public/category/$category->icon")}}"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                        src="{{asset("storage/category/$category->icon")}}"
                                                         alt="{{$category->name}}">
                                                 </div>
                                                 <p class="text-center small mt-2">{{Str::limit($category->name, 12)}}</p>
@@ -42,8 +42,8 @@
                                             <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
                                                 <div class="__img mw-100 h-auto">
                                                     <img
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                        src="{{asset("storage/app/public/category/$category->icon")}}"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                        src="{{asset("storage/category/$category->icon")}}"
                                                         alt="{{$category->name}}">
                                                 </div>
                                                 <p class="text-center small mt-2">{{Str::limit($category->name, 12)}}</p>
@@ -59,3 +59,5 @@
         </div>
     </section>
 @endif
+
+

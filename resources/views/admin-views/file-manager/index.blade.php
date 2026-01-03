@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/file-manager.png')}}" width="20" alt="">
+                <img src="{{asset('assets/back-end/img/file-manager.png')}}" width="20" alt="">
                 {{translate('file_manager')}}
             </h2>
         </div>
@@ -50,7 +50,7 @@
                                         <a class="btn p-0"
                                            href="{{route('admin.file-manager.index', base64_encode($file['path']))}}">
                                             <img class="img-thumbnail mb-2"
-                                                 src="{{asset('public/assets/back-end/img/folder.png')}}" alt="">
+                                                 src="{{asset('assets/back-end/img/folder.png')}}" alt="">
                                             <p class="title-color">{{Str::limit($file['name'],10)}}</p>
                                         </a>
                                     @elseif($file['type']=='file')
@@ -187,3 +187,6 @@
         }
     </script>
 @endpush
+
+
+

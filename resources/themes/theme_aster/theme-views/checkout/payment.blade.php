@@ -84,7 +84,7 @@
                                                     <label>
                                                         @php($additional_data = $payment_gateway['additional_data'] != null ? json_decode($payment_gateway['additional_data']) : [])
                                                         <button class="payment-method border-0 d-flex align-iems-center gap-3 digital-payment-card overflow-hidden" type="submit">
-                                                            <img width="100" src="{{asset('storage/app/public/payment_modules/gateway_image')}}/{{$additional_data != null ? $additional_data->gateway_image : ''}}"
+                                                            <img width="100" src="{{asset('storage/payment_modules/gateway_image')}}/{{$additional_data != null ? $additional_data->gateway_image : ''}}"
                                                                  class="dark-support" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder-4_1.png')}}'">
                                                         </button>
                                                     </label>
@@ -274,3 +274,4 @@
         }
     </script>
 @endpush
+

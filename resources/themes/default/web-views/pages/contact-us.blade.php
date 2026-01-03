@@ -3,12 +3,12 @@
 @section('title',translate('contact_us'))
 
 @push('css_or_js')
-    <meta property="og:image" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="og:title" content="Contact {{$web_config['name']->value}} "/>
     <meta property="og:url" content="{{env('APP_URL')}}">
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
-    <meta property="twitter:card" content="{{asset('storage/app/public/company')}}/{{$web_config['web_logo']->value}}"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
     <meta property="twitter:title" content="Contact {{$web_config['name']->value}}"/>
     <meta property="twitter:url" content="{{env('APP_URL')}}">
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -35,7 +35,7 @@
     <div class="container rtl" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
         <div class="row no-gutters py-5">
             <div class="col-lg-6 iframe-full-height-wrap ">
-                <img class="for-contac-image" src="{{asset("public/assets/front-end/png/contact.png")}}" alt="">
+                <img class="for-contac-image" src="{{asset("assets/front-end/png/contact.png")}}" alt="">
             </div>
             <div class="col-lg-6">
                 <div class="card">
@@ -150,4 +150,5 @@
 @endif
 {{-- recaptcha scripts end --}}
 @endpush
+
 

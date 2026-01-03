@@ -2,7 +2,7 @@
 @section('title', translate('shop_view'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/shop-info.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/shop-info.png')}}" alt="">
                 {{translate('shop_Info')}}
             </h2>
         </div>
@@ -63,13 +63,13 @@
                             @if($shop->image=='def.png')
                                 <div class="text-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}">
                                     <img height="200" width="200" class="rounded-circle border"
-                                         onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                         src="{{asset('public/assets/back-end')}}/img/shop.png">
+                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                         src="{{asset('assets/back-end')}}/img/shop.png">
                                 </div>
                             @else
                                 <div class="text-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}">
-                                    <img src="{{asset('storage/app/public/shop/'.$shop->image)}}"
-                                         onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                    <img src="{{asset('storage/shop/'.$shop->image)}}"
+                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                          class="rounded-circle border"
                                          height="200" width="200" alt="">
                                 </div>
@@ -194,3 +194,7 @@
         })
     </script>
 @endpush
+
+
+
+

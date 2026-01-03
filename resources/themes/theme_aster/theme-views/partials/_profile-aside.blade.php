@@ -24,7 +24,7 @@
             <div class="d-flex flex-row flex-lg-column gap-2 gap-lg-4 align-items-center">
                 <div class="avatar overflow-hidden profile-sidebar-avatar border border-primary rounded-circle p-1">
                     <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                         src="{{asset('storage/app/public/profile')}}/{{$customer_info->image}}" alt="" class="img-fit dark-support rounded-circle">
+                         src="{{asset('storage/profile')}}/{{$customer_info->image}}" alt="" class="img-fit dark-support rounded-circle">
                 </div>
 
                 <div class="text-lg-center">
@@ -121,3 +121,4 @@
         </div>
     </div>
 </div>
+

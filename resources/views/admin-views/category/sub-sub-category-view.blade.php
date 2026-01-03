@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 d-flex gap-2">
-                <img src="{{asset('/public/assets/back-end/img/brand-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/brand-setup.png')}}" alt="">
                 {{translate('sub_Sub_Category_Setup')}}
             </h2>
         </div>
@@ -192,7 +192,7 @@
 
                     @if(count($categories)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
                     @endif
@@ -204,8 +204,8 @@
 
 @push('script')
     <!-- Page level plugins -->
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
     <script>
@@ -309,3 +309,6 @@
         });
     </script>
 @endpush
+
+
+

@@ -55,7 +55,7 @@
                                                         <div class="avatar rounded-circle ">
                                                             <img
                                                                 onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                                src="{{ $shop->delivery_man_id ?asset('storage/app/public/delivery-man/'.$shop->image) : asset('storage/app/public/shop/'.$shop->image)}}"
+                                                                src="{{ $shop->delivery_man_id ?asset('storage/delivery-man/'.$shop->image) : asset('storage/shop/'.$shop->image)}}"
                                                                 loading="lazy"
                                                                 class="img-fit rounded-circle dark-support" alt="">
                                                         </div>
@@ -88,7 +88,7 @@
                                             <div class="avatar rounded-circle">
                                                 <img
                                                     onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                    src="{{ $last_chat->delivery_man ?asset('storage/app/public/delivery-man/'.$last_chat->delivery_man->image) : asset('storage/app/public/shop/'.$last_chat->shop->image)}}"
+                                                    src="{{ $last_chat->delivery_man ?asset('storage/delivery-man/'.$last_chat->delivery_man->image) : asset('storage/shop/'.$last_chat->shop->image)}}"
                                                     loading="lazy" id="image" class="img-fit rounded-circle dark-support"
                                                     alt="">
                                             </div>
@@ -118,9 +118,9 @@
                                                                 @if (json_decode($chat['attachment']) !=null)
                                                                     <div class="row g-2 flex-wrap mt-3 justify-content-start">
                                                                         @foreach (json_decode($chat['attachment']) as $index => $photo)
-                                                                            @if(file_exists(base_path("storage/app/public/chatting/".$photo)))
+                                                                            @if(file_exists(base_path("storage/chatting/".$photo)))
                                                                             <div class="col-sm-6 col-md-3">
-                                                                                <img src="{{asset("storage/app/public/chatting/".$photo)}}" class="height-100 rounded remove-mask-img"
+                                                                                <img src="{{asset("storage/chatting/".$photo)}}" class="height-100 rounded remove-mask-img"
                                                                                      onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'">
                                                                             </div>
                                                                             @endif
@@ -141,9 +141,9 @@
                                                             @if (json_decode($chat['attachment']) !=null)
                                                                 <div class="row g-2 flex-wrap mt-3 justify-content-end">
                                                                     @foreach (json_decode($chat['attachment']) as $index => $photo)
-                                                                        @if(file_exists(base_path("storage/app/public/chatting/".$photo)))
+                                                                        @if(file_exists(base_path("storage/chatting/".$photo)))
                                                                             <div class="col-sm-6 col-md-3">
-                                                                                <img src="{{asset("storage/app/public/chatting/".$photo)}}" class="height-100 rounded remove-mask-img"
+                                                                                <img src="{{asset("storage/chatting/".$photo)}}" class="height-100 rounded remove-mask-img"
                                                                                      onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'">
                                                                             </div>
                                                                         @endif
@@ -273,5 +273,7 @@
     <script src="{{ theme_asset('assets/js/lightbox.min.js') }}"></script>
 
 @endpush
+
+
 
 

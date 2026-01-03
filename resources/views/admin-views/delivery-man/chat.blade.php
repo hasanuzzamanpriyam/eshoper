@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/support-ticket.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/support-ticket.png')}}" alt="">
                 {{translate('chatting_List')}}
             </h2>
         </div>
@@ -20,7 +20,7 @@
                     <div class="card card-body px-0 h-100">
                         <div class="media align-items-center px-3 gap-3 mb-4">
                             <div class="avatar avatar-sm avatar-circle">
-                                <img class="avatar-img" onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'" src="{{asset('storage/app/public/admin/')}}/{{auth('admin')->user()->image}}" alt="Image Description">
+                                <img class="avatar-img" onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'" src="{{asset('storage/admin/')}}/{{auth('admin')->user()->image}}" alt="Image Description">
                                 <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                             </div>
                             <div class="media-body">
@@ -45,12 +45,12 @@
                                 @foreach($chattings_user as $key => $chatting)
                                     <div class="list_search">
                                         <div class="chat_list p-3 d-flex gap-2 user_{{$chatting->delivery_man_id}} seller-list @if ($key == 0) active @endif"
-                                             id="{{$chatting->delivery_man_id}}" data-name="{{$chatting->f_name}} {{$chatting->l_name}}" data-phone="{{ $chatting->phone }}" data-image="{{ asset('storage/app/public/delivery-man/'.$chatting->image) }}"
+                                             id="{{$chatting->delivery_man_id}}" data-name="{{$chatting->f_name}} {{$chatting->l_name}}" data-phone="{{ $chatting->phone }}" data-image="{{ asset('storage/delivery-man/'.$chatting->image) }}"
                                         onclick="message_view('{{$chatting->delivery_man_id}}')">
                                             <div class="chat_people media gap-10" id="chat_people">
                                                 <div class="chat_img avatar avatar-sm avatar-circle">
-                                                    <img src="{{ asset('storage/app/public/delivery-man/'.$chatting->image) }}"
-                                                         onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                    <img src="{{ asset('storage/delivery-man/'.$chatting->image) }}"
+                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                          alt="">
                                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                                 </div>
@@ -81,7 +81,7 @@
                             <!-- Profile -->
                             <div class="media align-items-center gap-3">
                                 <div class="avatar avatar-sm avatar-circle">
-                                    <img class="avatar-img" id="profile_image" src="{{ asset('storage/app/public/delivery-man/'.$chattings_user[0]->image) }}" onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'" alt="Image Description">
+                                    <img class="avatar-img" id="profile_image" src="{{ asset('storage/delivery-man/'.$chattings_user[0]->image) }}" onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'" alt="Image Description">
                                     <span class="avatar-status avatar-sm-status avatar-status-success"></span>
                                 </div>
                                 <div class="media-body">
@@ -115,10 +115,10 @@
                                                                 <div class="row g-2 flex-wrap pt-1">
                                                                     @foreach (json_decode($message['attachment']) as $index => $photo)
                                                                         <div class="col-sm-3 col-md-2 position-relative img_row{{$index}}">
-                                                                            <a data-lightbox="mygallery" href="{{asset("storage/app/public/chatting/".$photo)}}"
+                                                                            <a data-lightbox="mygallery" href="{{asset("storage/chatting/".$photo)}}"
                                                                                class="aspect-1 overflow-hidden d-block border rounded">
-                                                                                <img onerror="this.src=' {{asset('public/assets/back-end/img/image-place-holder.png')}}'"
-                                                                                     src="{{asset('storage/app/public/chatting/'.$photo)}}"
+                                                                                <img onerror="this.src=' {{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                                                                     src="{{asset('storage/chatting/'.$photo)}}"
                                                                                      alt="" class="img-fit">
                                                                             </a>
                                                                         </div>
@@ -145,10 +145,10 @@
                                                             <div class="row g-2 flex-wrap pt-1 justify-content-end">
                                                                 @foreach (json_decode($message['attachment']) as $index => $photo)
                                                                     <div class="col-sm-3 col-md-2 position-relative img_row{{$index}}">
-                                                                        <a data-lightbox="mygallery" href="{{asset("storage/app/public/chatting/".$photo)}}"
+                                                                        <a data-lightbox="mygallery" href="{{asset("storage/chatting/".$photo)}}"
                                                                            class="aspect-1 overflow-hidden d-block border rounded">
-                                                                            <img onerror="this.src=' {{asset('public/assets/back-end/img/image-place-holder.png')}}'"
-                                                                                 src="{{asset('storage/app/public/chatting/'.$photo)}}"
+                                                                            <img onerror="this.src=' {{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                                                                 src="{{asset('storage/chatting/'.$photo)}}"
                                                                                  alt="" class="img-fit">
                                                                         </a>
                                                                     </div>
@@ -165,7 +165,7 @@
 
                                         @if (count($chattings) == 0)
                                             <div class="d-flex flex-column justify-content-center align-items-center vh-100">
-                                                <img src="{{ asset('public/assets/back-end/img/icons/nodata.svg') }}" alt="">
+                                                <img src="{{ asset('assets/back-end/img/icons/nodata.svg') }}" alt="">
                                                 <h4 class="text-muted py-4">{{ translate('Inbox_Empty') }}</h4>
                                             </div>
                                         @endif
@@ -279,11 +279,11 @@
                             let imageContainer = ''
                             if(response.image && response.image.length !== 0){
                                 response.image.forEach(function (imageUrl, index) {
-                                    let img_path = `{{ asset('storage/app/public/chatting') }}/${imageUrl}`;
+                                    let img_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
                                     imageContainer += `
                                     <div class="col-sm-3 col-md-2 position-relative img_row${index}">
                                         <a data-lightbox="mygallery" href="${img_path}" class="aspect-1 overflow-hidden d-block border rounded">
-                                            <img onerror="this.src='{{ asset('public/assets/back-end/img/image-place-holder.png') }}'"
+                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
                                                 src="${img_path}" alt="img" class="img-fit">
                                         </a>
                                     </div>`;
@@ -433,11 +433,11 @@
                             if(attachment_files.length !== 0){
                                 imageContainer = '';
                                 JSON.parse(attachment_files).map((imageUrl, index) => {
-                                    let img_path = `{{ asset('storage/app/public/chatting') }}/${imageUrl}`;
+                                    let img_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
                                     imageContainer += `
                                     <div class="col-sm-3 col-md-2 position-relative img_row${index}">
                                         <a data-lightbox="mygallery" href="${img_path}" class="aspect-1 overflow-hidden d-block border rounded">
-                                            <img onerror="this.src='{{ asset('public/assets/back-end/img/image-place-holder.png') }}'"
+                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
                                                 src="${img_path}" alt="img" class="img-fit">
                                         </a>
                                     </div>`;
@@ -463,7 +463,7 @@
                                 $(".msg_history").prepend(`
                                       <div class="incoming_msg" id="incoming_msg">
                                         <div class="incoming_msg_img" id="">
-                                          <img src="${window.location.origin}/storage/app/public/profile/${element.image}" class="__rounded-10" alt="">
+                                          <img src="${window.location.origin}/storage/profile/${element.image}" class="__rounded-10" alt="">
                                         </div>
                                         <div class="received_msg">
                                           <div class="received_withd_msg">
@@ -495,4 +495,10 @@
     </script>
 
 @endpush
+
+
+
+
+
+
 

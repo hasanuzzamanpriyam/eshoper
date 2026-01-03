@@ -10,8 +10,8 @@
         <div class="mb-4 text-center">
             <img
                 width="200"
-                src="{{asset("storage/app/public/company")."/".$web_config['web_logo']->value}}"
-                onerror="this.src='{{ asset('public/assets/back-end/img/900x400/img1.jpg') }}'"
+                src="{{asset("storage/company")."/".$web_config['web_logo']->value}}"
+                onerror="this.src='{{ asset('assets/back-end/img/900x400/img1.jpg') }}'"
                 alt=""
                 class="dark-support"
             />
@@ -43,4 +43,6 @@
             </div>
         </form>
     </div>
+
+
 

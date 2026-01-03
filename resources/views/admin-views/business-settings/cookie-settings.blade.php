@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_setup')}}
             </h2>
         </div>
@@ -29,7 +29,7 @@
                 <div class="border-bottom py-3 px-4">
                     <div class="d-flex justify-content-between align-items-center gap-10">
                         <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                            <img width="20" src="{{asset('/public/assets/back-end/img/cookie.png')}}" alt="">
+                            <img width="20" src="{{asset('assets/back-end/img/cookie.png')}}" alt="">
                             {{translate('cookie_settings')}}:
                         </h5>
                         <label class="switcher" for="cookie_setting_status"
@@ -60,3 +60,5 @@
     </div>
 
 @endsection
+
+

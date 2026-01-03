@@ -5,7 +5,7 @@
             @if(isset($footer_banner[0]))
                 <div class="col-12 d-sm-none">
                     <a href="{{ $footer_banner[0]['url'] }}" class="ad-hover">
-                        <img src="{{asset('storage/app/public/banner')}}/{{$footer_banner[0]['photo']}}" loading="lazy" alt=""
+                        <img src="{{asset('storage/banner')}}/{{$footer_banner[0]['photo']}}" loading="lazy" alt=""
                                 onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                                 class="dark-support rounded w-100">
                     </a>
@@ -69,7 +69,7 @@
                 <div class="d-none d-sm-block">
                     @if($sidebar_banner)
                         <a href="{{ $sidebar_banner['url'] }}">
-                            <img src="{{asset('storage/app/public/banner')}}/{{$sidebar_banner ? $sidebar_banner['photo'] : ''}}"
+                            <img src="{{asset('storage/banner')}}/{{$sidebar_banner ? $sidebar_banner['photo'] : ''}}"
                                  onerror="this.src='{{ theme_asset('assets/img/top-side-banner-placeholder.png') }}'"alt="" class="dark-support rounded w-100">
                         </a>
                     @else
@@ -137,7 +137,7 @@
                                                                     <div
                                                                         class="ov-hidden rounded w-100" style="height: 5rem;">
                                                                         <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                                             src="{{asset('storage/app/public/category')}}/{{$sub_category['icon']}}" alt=""
+                                                                             src="{{asset('storage/category')}}/{{$sub_category['icon']}}" alt=""
                                                                              loading="lazy" class="dark-support img-fit " >
                                                                     </div>
                                                                 </div>
@@ -183,7 +183,7 @@
                                                         <div
                                                             class="avatar avatar-xxl ov-hidden hover-zoom-in rounded">
                                                             <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
-                                                                    src="{{asset('storage/app/public/category')}}/{{$sub_category['icon']}}" alt=""
+                                                                    src="{{asset('storage/category')}}/{{$sub_category['icon']}}" alt=""
                                                                     loading="lazy" class="dark-support img-fit " >
                                                         </div>
                                                         <div class="text-truncate">{{$sub_category['name']}}</div>
@@ -247,7 +247,7 @@
                 <div class="col-12 d-sm-none">
                     @if($top_side_banner)
                         <a href="{{ $top_side_banner['url'] }}">
-                            <img src="{{asset('storage/app/public/banner')}}/{{$top_side_banner ? $top_side_banner['photo'] : ''}}"
+                            <img src="{{asset('storage/banner')}}/{{$top_side_banner ? $top_side_banner['photo'] : ''}}"
                                     onerror="this.src='{{ theme_asset('assets/img/top-side-banner-placeholder.png') }}'"
                                     alt="" class="dark-support rounded w-100">
                         </a>
@@ -260,3 +260,4 @@
         </div>
     </div>
 </section>
+

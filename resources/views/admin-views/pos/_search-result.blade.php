@@ -3,7 +3,7 @@
     @foreach($products as $product)
     <li>
         <div class="media gap-3 border-bottom pb-2 cursor-pointer" onclick="$('.search-bar-input-mobile').val('{{$product['name']}}'); $('.search-bar-input').val('{{$product['name']}}'); quickView('{{$product->id}}')">
-                <img class="avatar avatar-xl border" width="75" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                <img class="avatar avatar-xl border" width="75" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}" alt="">
                 <div class="media-body d-flex flex-column gap-1">
                     <h6 class="fz-13 mb-1 text-truncate custom-width">{{$product['name']}}</h6>
@@ -26,3 +26,4 @@
 </div>
 
 @endif
+

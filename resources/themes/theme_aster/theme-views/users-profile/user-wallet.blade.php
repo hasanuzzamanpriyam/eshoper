@@ -295,7 +295,7 @@
                                             @php( $payment_method_title = !empty($gateway->additional_data) ? (json_decode($gateway->additional_data)->gateway_title ?? ucwords(str_replace('_',' ', $gateway->key_name))) : ucwords(str_replace('_',' ', $gateway->key_name)) )
                                             @php( $payment_method_img = !empty($gateway->additional_data) ? json_decode($gateway->additional_data)->gateway_image : '' )
                                             <div class="form-check-label d-flex align-items-center">
-                                                <img width="60" src="{{ asset('storage/app/public/payment_modules/gateway_image/'.$payment_method_img) }}"
+                                                <img width="60" src="{{ asset('storage/payment_modules/gateway_image/'.$payment_method_img) }}"
                                                 onerror="this.src='{{ theme_asset('assets/img/image-place-holder-2_1.png') }}'"
                                                 alt="img" >
                                                 <span class="ms-3">{{ $payment_method_title }}</span>
@@ -343,3 +343,4 @@
         })
     </script>
 @endpush
+

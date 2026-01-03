@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/deliveryman.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/deliveryman.png')}}" alt="">
                 {{translate('deliveryman_List')}}
                 <span class="badge badge-soft-dark radius-50 fz-14">{{ $delivery_men->total() }}</span>
             </h2>
@@ -69,8 +69,8 @@
                             <td>
                                 <div class="media align-items-center gap-10">
                                     <img class="avatar avatar-lg rounded-circle"
-                                            onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
-                                            src="{{asset('storage/app/public/delivery-man')}}/{{$dm['image']}}">
+                                            onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                                            src="{{asset('storage/delivery-man')}}/{{$dm['image']}}">
                                     <div class="media-body">
                                         <a title="Earning Statement"
                                            class="title-color hover-c1"
@@ -137,7 +137,7 @@
                         <tr>
                             <td colspan="7">
                                 <div class="text-center p-4">
-                                    <img class="mb-3 w-160" src="{{ asset('public/assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
+                                    <img class="mb-3 w-160" src="{{ asset('assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
                                     <p class="mb-0">{{translate('no_delivery_man_found')}}</p>
                                 </div>
                             </td>
@@ -191,3 +191,7 @@
         });
     </script>
 @endpush
+
+
+
+

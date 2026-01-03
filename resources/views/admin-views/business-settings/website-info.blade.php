@@ -3,8 +3,8 @@
 @section('title', translate('general_settings'))
 
 @push('css_or_js')
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/back-end/css/custom.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('business_Setup')}}
             </h2>
 
@@ -27,7 +27,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                     <div class="d-flex align-items-center gap-2 mb-3">
-                        <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                        <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                         <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                     </div>
                     <p class="title-color font-weight-medium mb-0">{{ translate('please_click_save_information_button_below_to_save_all_the_changes') }}</p>
@@ -746,7 +746,7 @@
                                 <label class="title-color d-flex">
                                     {{translate('latitude')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('copy_the_latitude_of_your_business_location_from_Google_Maps_and_paste_it_here')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input class="form-control" type="text" name="latitude"
@@ -759,7 +759,7 @@
                                 <label class="title-color d-flex">
                                     {{translate('longitude')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('copy_the_longitude_of_your_business_location_from_Google_Maps_and_paste_it_here')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input class="form-control" type="text" name="longitude"
@@ -817,7 +817,7 @@
                             <label class="title-color d-flex">
                                 {{translate('forgot_password_verification_by')}}
                                 <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('set_how_users_of_recover_their_forgotten_password')}}">
-                                    <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                    <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                 </span>
                             </label>
                             <div class="form-control form-group d-flex gap-2">
@@ -861,7 +861,7 @@
                                     <span class="title-color">
                                         {{translate('email_Verification')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_users_can_receive_verification_codes_on_their_registered_email_addresses')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -883,7 +883,7 @@
                                     <span class="title-color">
                                         {{translate('OTP_Verification')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_users_can_receive_verification_codes_via_OTP_messages_on_their_registered_phone_numbers')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -900,7 +900,7 @@
                                 <label class="title-color d-flex">
                                     {{translate('pagination')}}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('this_number_indicates_how_much_data_will_be_shown_in_the_list_or_table')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input type="number" value="{{ $business_setting['pagination_limit'] }}"
@@ -939,7 +939,7 @@
                     <div class="row gy-3">
                         <div class="col-lg-6">
                             <div class="d-flex gap-2 align-items-center text-capitalize mb-3">
-                                <img width="22" src="{{asset('/public/assets/back-end/img/apple.png')}}" alt="">
+                                <img width="22" src="{{asset('assets/back-end/img/apple.png')}}" alt="">
                                 {{translate('apple_store')}}:
                             </div>
 
@@ -950,7 +950,7 @@
                                     <span class="title-color text-capitalize">
                                         {{translate('download_link')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_the_download_button_from_the_App_Store_will_be_visible_in_the_Footer_section')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -966,7 +966,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="d-flex gap-2 align-items-center text-capitalize mb-3">
-                                <img width="22" src="{{asset('/public/assets/back-end/img/play_store.png')}}" alt="">
+                                <img width="22" src="{{asset('assets/back-end/img/play_store.png')}}" alt="">
                                 {{translate('google_play_store')}}:
                             </div>
 
@@ -977,7 +977,7 @@
                                     <span class="title-color text-capitalize">
                                         {{translate('download_link')}}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{translate('if_enabled_the_Google_Play_Store_will_be_visible_in_the_website_footer_section')}}">
-                                            <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </span>
 
@@ -1001,7 +1001,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/website-color.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/website-color.png')}}" alt="">
                                 {{translate('website_Color')}}
                             </h5>
                         </div>
@@ -1057,7 +1057,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/header-logo.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/header-logo.png')}}" alt="">
                                 {{translate('website_Header_Logo')}}
                             </h5>
                             <span class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Main website Logo'] }}</span>
@@ -1065,8 +1065,8 @@
                         <div class="card-body d-flex flex-column justify-content-around">
                             <center>
                                 <img height="60" id="viewerWL"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_web_logo'])->pluck('value')[0]}}">
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_web_logo'])->pluck('value')[0]}}">
                             </center>
                             <div class="mt-4 position-relative">
                                 <input type="file" name="company_web_logo" id="customFileUploadWL"
@@ -1082,7 +1082,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/footer-logo.png')}}" alt="">
                                 {{translate('website_Footer_Logo')}}
                             </h5>
                             <span class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Main website Logo'] }}</span>
@@ -1090,8 +1090,8 @@
                         <div class="card-body d-flex flex-column justify-content-around">
                             <center>
                                 <img height="60" id="viewerWFL"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_footer_logo'])->pluck('value')[0]}}">
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_footer_logo'])->pluck('value')[0]}}">
                             </center>
                             <div class="position-relative mt-4">
                                 <input type="file" name="company_footer_logo" id="customFileUploadWFL"
@@ -1107,7 +1107,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/footer-logo.png')}}" alt="">
                                 {{translate('website_Favicon')}}
                             </h5>
                             <span class="badge badge-soft-info">( {{translate('ratio')}} 1:1)</span>
@@ -1115,8 +1115,8 @@
                         <div class="card-body d-flex flex-column justify-content-around">
                             <center>
                                 <img height="60" id="viewerFI"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_fav_icon'])->pluck('value')[0]}}">
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_fav_icon'])->pluck('value')[0]}}">
                             </center>
                             <div class="position-relative mt-4">
                                 <input type="file" name="company_fav_icon" id="customFileUploadFI"
@@ -1132,7 +1132,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/footer-logo.png')}}" alt="">
                                 {{translate('loading_Gif')}}
                             </h5>
                             <span class="badge badge-soft-info">( {{translate('ratio')}} 1:1 )</span>
@@ -1140,8 +1140,8 @@
                         <div class="card-body d-flex flex-column justify-content-around">
                             <center>
                                 <img height="60" id="viewerLoader"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/company')}}/{{\App\CPU\Helpers::get_business_settings('loader_gif')}}">
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/company')}}/{{\App\CPU\Helpers::get_business_settings('loader_gif')}}">
                             </center>
                             <div class="position-relative mt-4">
                                 <input type="file" name="loader_gif" id="customFileUploadLoader"
@@ -1157,7 +1157,7 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h5 class="mb-0 text-capitalize d-flex align-items-center gap-2">
-                                <img src="{{asset('/public/assets/back-end/img/footer-logo.png')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/footer-logo.png')}}" alt="">
                                 {{translate('App_Logo')}}
                             </h5>
                             <span class="badge badge-soft-info">( 100X60 px )</span>
@@ -1165,8 +1165,8 @@
                         <div class="card-body d-flex flex-column justify-content-around">
                             <center>
                                 <img height="60" id="viewerML"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_mobile_logo'])->pluck('value')[0]}}">
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/company')}}/{{\App\Model\BusinessSetting::where(['type' => 'company_mobile_logo'])->pluck('value')[0]}}">
                             </center>
                             <div class="mt-4 position-relative">
                                 <input type="file" name="company_mobile_logo" id="customFileUploadML"
@@ -1188,8 +1188,8 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{ asset('public/assets/select2/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{ asset('assets/select2/js/select2.min.js')}}"></script>
     <script>
 
         $("#customFileUploadShop").change(function () {
@@ -1332,3 +1332,7 @@
         });
     </script>
 @endpush
+
+
+
+

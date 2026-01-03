@@ -13,7 +13,7 @@
             <!-- Page Title -->
             <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
                 <h2 class="h1 mb-0">
-                    <img src="{{asset('/public/assets/back-end/img/all-orders.png')}}" class="mb-1 mr-1" alt="">
+                    <img src="{{asset('assets/back-end/img/all-orders.png')}}" class="mb-1 mr-1" alt="">
                     <span class="page-header-title">
                         @if($status =='processing')
                             {{translate('packaging')}}
@@ -178,7 +178,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a type="submit" class="dropdown-item d-flex align-items-center gap-2" href="{{ route('admin.orders.order-bulk-export', ['delivery_man_id' => request('delivery_man_id'), 'status' => $status, 'from' => $from, 'to' => $to, 'filter' => $filter, 'search' => $search,'seller_id'=>$seller_id,'customer_id'=>$customer_id, 'date_type'=>$date_type]) }}">
-                                                <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                                <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -322,7 +322,7 @@
                                         <div class="d-flex justify-content-center gap-2">
                                             <a class="btn btn-outline--primary square-btn btn-sm mr-1" title="{{translate('view')}}"
                                                 href="{{route('admin.orders.details',['id'=>$order['id']])}}">
-                                                <img src="{{asset('/public/assets/back-end/img/eye.svg')}}" class="svg" alt="">
+                                                <img src="{{asset('assets/back-end/img/eye.svg')}}" class="svg" alt="">
                                             </a>
                                             <a class="btn btn-outline-success square-btn btn-sm mr-1" target="_blank" title="{{translate('invoice')}}"
                                                 href="{{route('admin.orders.generate-invoice',[$order['id']])}}">
@@ -556,3 +556,5 @@
         });
     </script>
 @endpush
+
+

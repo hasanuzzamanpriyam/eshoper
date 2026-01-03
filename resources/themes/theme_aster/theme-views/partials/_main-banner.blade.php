@@ -55,7 +55,7 @@
                                             @foreach($main_banner as $key=>$banner)
                                                 <div class="swiper-slide">
                                                     <a href="{{ $banner['url'] }}" class="h-100">
-                                                        <img src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}" loading="lazy"
+                                                        <img src="{{asset('storage/banner')}}/{{$banner['photo']}}" loading="lazy"
                                                              onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                                                              alt="" class="dark-support rounded">
                                                     </a>
@@ -73,7 +73,7 @@
                             @foreach($footer_banner as $key=>$banner)
                                 <div class="col-6 d-none d-sm-block">
                                     <a href="{{ $banner['url'] }}" class="ad-hover h-100">
-                                        <img src="{{asset('storage/app/public/banner')}}/{{$banner['photo']}}" loading="lazy" alt=""
+                                        <img src="{{asset('storage/banner')}}/{{$banner['photo']}}" loading="lazy" alt=""
                                              onerror="this.src='{{theme_asset('assets/img/image-place-holder-2_1.png')}}'"
                                              class="dark-support rounded w-100 img-fit">
                                     </a>
@@ -150,7 +150,7 @@
                         <div class="col-xl-3 d-none d-sm-block">
                             @if($top_side_banner)
                                 <a href="{{ $top_side_banner['url'] }}">
-                                    <img src="{{asset('storage/app/public/banner')}}/{{$top_side_banner ? $top_side_banner['photo'] : ''}}"
+                                    <img src="{{asset('storage/banner')}}/{{$top_side_banner ? $top_side_banner['photo'] : ''}}"
                                          onerror="this.src='{{ theme_asset('assets/img/top-side-banner-placeholder.png') }}'"
                                          alt="" class="dark-support rounded w-100">
                                 </a>
@@ -164,3 +164,4 @@
         </div>
     </div>
 </section>
+

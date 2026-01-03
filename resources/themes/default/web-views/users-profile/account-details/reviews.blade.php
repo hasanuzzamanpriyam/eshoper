@@ -203,7 +203,7 @@
                                         <div class="media gap-3">
                                             <div class="position-relative">
                                                 <img class="d-block review-item-img" onclick="location.href='{{route('product',$order_details->product['slug'])}}'"
-                                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$order_details->product['thumbnail']}}"
                                                     alt="VR Collection" width="100">
 
@@ -246,9 +246,9 @@
                                                 <div class="mt-3">
                                                     <div class="d-flex gap-2 flex-wrap">
                                                         @foreach (json_decode($order_details->product->reviews_by_customer[0]->attachment) as $key => $photo)
-                                                        <a data-lightbox="mygallery" href="{{asset('storage/app/public/review')}}/{{$photo}}">
-                                                            <img class="border rounded border-primary-light" onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                                src="{{asset('storage/app/public/review')}}/{{$photo}}"
+                                                        <a data-lightbox="mygallery" href="{{asset('storage/review')}}/{{$photo}}">
+                                                            <img class="border rounded border-primary-light" onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                                src="{{asset('storage/review')}}/{{$photo}}"
                                                                 alt="VR Collection" width="60">
                                                         </a>
                                                         @endforeach
@@ -263,7 +263,7 @@
                         @endforeach
                         @if ($review_count == 0)
                         <div class="text-center pt-5 text-capitalize">
-                            <img class="mb-3" src="{{asset('public/assets/front-end/img/icons/empty-review.svg')}}" alt="">
+                            <img class="mb-3" src="{{asset('assets/front-end/img/icons/empty-review.svg')}}" alt="">
                             <p class="opacity-60 mt-3 text-capitalize">{{translate('no_review_found')}}!</p>
                         </div>
                         @endif
@@ -276,7 +276,7 @@
 
 
 @push('script')
-<script src="{{asset('public/assets/front-end/js/spartan-multi-image-picker.js') }}"></script>
+<script src="{{asset('assets/front-end/js/spartan-multi-image-picker.js') }}"></script>
 <script type="text/javascript">
 
     function showInstaImage(link) {
@@ -348,4 +348,6 @@
 </script>
 
 @endpush
+
+
 

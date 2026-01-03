@@ -6,7 +6,7 @@
             <div class="modal-body p-0">
                 <button type="button" class="btn-close outside" data-bs-dismiss="modal" aria-label="Close"></button>
                 <div onclick="location.href='{{$web_config['popup_banner']['url']}}'">
-                    <img src="{{ asset('storage/app/public/banner')}}/{{$web_config['popup_banner']['photo'] }}"
+                    <img src="{{ asset('storage/banner')}}/{{$web_config['popup_banner']['photo'] }}"
                          onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
                          class="dark-support rounded img-fit" alt="">
                 </div>
@@ -15,3 +15,4 @@
     </div>
 </div>
 @endif
+

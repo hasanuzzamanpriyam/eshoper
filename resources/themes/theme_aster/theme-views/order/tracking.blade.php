@@ -227,7 +227,7 @@
                                                 <div class="media align-items-center gap-3">
                                                     <img class="rounded border"
                                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" width="100px"                                                src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" width="100px"                                                src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$productDetails['thumbnail']}}"
                                                         alt="Image Description">
                                                     <div >
                                                         <h6 class="title-color mb-2">{{Str::limit($productDetails['name'],30)}}</h6>
@@ -578,4 +578,5 @@
 
 </script>
 @endpush
+
 

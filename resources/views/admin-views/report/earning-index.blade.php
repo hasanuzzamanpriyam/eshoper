@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/earning_report.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/earning_report.png')}}" alt="">
                 {{translate('Earning_Report')}}
             </h2>
         </div>
@@ -22,7 +22,7 @@
                 <div class="media align-items-center">
                     <!-- Avatar -->
                     <div class="avatar avatar-xl avatar-4by3">
-                        <img class="avatar-img" src="{{asset('public/assets/back-end')}}/svg/illustrations/earnings.png"
+                        <img class="avatar-img" src="{{asset('assets/back-end')}}/svg/illustrations/earnings.png"
                              alt="Image Description">
                     </div>
                     <!-- End Avatar -->
@@ -456,10 +456,10 @@
 
 @push('script_2')
 
-    <script src="{{asset('public/assets/back-end')}}/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/chart.js/dist/Chart.min.js"></script>
     <script
-        src="{{asset('public/assets/back-end')}}/vendor/chartjs-chart-matrix/dist/chartjs-chart-matrix.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/js/hs.chartjs-matrix.js"></script>
+        src="{{asset('assets/back-end')}}/vendor/chartjs-chart-matrix/dist/chartjs-chart-matrix.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/hs.chartjs-matrix.js"></script>
 
     <script>
         $(document).on('ready', function () {
@@ -665,4 +665,7 @@
         })
     </script>
 @endpush
+
+
+
 

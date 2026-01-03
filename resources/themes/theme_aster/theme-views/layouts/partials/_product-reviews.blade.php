@@ -2,7 +2,7 @@
 <div class="card border-primary-light flex-grow-1">
     <div class="media flex-wrap align-items-centr gap-3 p-3">
         <div class="avatar border rounded-circle" style="--size: 3.437rem">
-            <img src="{{asset("storage/app/public/profile")}}/{{(isset($item->user)?$item->user->image:'')}}" alt=""
+            <img src="{{asset("storage/profile")}}/{{(isset($item->user)?$item->user->image:'')}}" alt=""
             class="img-fit dark-support rounded-circle" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
         </div>
         <div class="media-body d-flex flex-column gap-2">
@@ -29,3 +29,4 @@
     </div>
 </div>
 @endforeach
+

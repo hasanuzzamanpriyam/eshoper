@@ -7,7 +7,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-seller.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('earning_statement')}}
             </h2>
         </div>
@@ -53,7 +53,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.delivery-man.order-history-log-export',['id'=>$delivery_man->id,'type'=>'log','search'=>$search])}}">
-                                                <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                                <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -132,7 +132,7 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="text-center p-4">
-                                                    <img class="mb-3 w-160" src="{{ asset('public/assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
+                                                    <img class="mb-3 w-160" src="{{ asset('assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
                                                     <p class="mb-0">{{ translate('no_order_history_found') }}</p>
                                                 </div>
                                             </td>
@@ -192,3 +192,6 @@
         }
     </script>
 @endpush
+
+
+

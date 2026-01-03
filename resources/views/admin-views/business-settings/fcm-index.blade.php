@@ -3,7 +3,7 @@
 @section('title', translate('FCM_Settings'))
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
 @endpush
 
 @section('content')
@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('push_Notification_Setup')}}
             </h2>
         </div>
@@ -125,7 +125,7 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/firebase-console.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/firebase-console.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">Go to Firebase Console</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                         <li>Open your web browser and go to the Firebase Console <br> ( <span class="text-decoration-underline">https://console.firebase.google.com/</span> ).</li>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/navigate-settings.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/navigate-settings.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">Navigate to Project Settings</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                         <li>In the left-hand menu, click on the "Settings" gear icon, and then select "Project settings" from the dropdown.</li>
@@ -145,7 +145,7 @@
                             </div>
                             {{-- <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center text-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/file.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/file.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">Please Visit the Docs to Set FCM on Mobile Apps</h4>
                                     <p>Please check the documentation below for detailed instructions on setting up your mobile app to receive Firebase Cloud Messaging (FCM) notifications.</p>
 
@@ -156,7 +156,7 @@
                             </div> --}}
                             <div class="swiper-slide">
                                 <div class="d-flex flex-column align-items-center gap-2">
-                                    <img width="80" class="mb-3" src="{{asset('/public/assets/back-end/img/info-asked.png')}}" loading="lazy" alt="">
+                                    <img width="80" class="mb-3" src="{{asset('assets/back-end/img/info-asked.png')}}" loading="lazy" alt="">
                                     <h4 class="lh-md mb-3">Obtain All The Information Asked!</h4>
                                     <ul class="d-flex flex-column px-4 gap-2 mb-4">
                                         <li>In the Firebase Project settings page, click on the "General" tab from the top menu.</li>
@@ -178,7 +178,7 @@
 @endsection
 
 @push('script_2')
-    <script src="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
     <script>
         var swiper = new Swiper(".mySwiper", {
             autoHeight: true,
@@ -208,3 +208,6 @@
         });
     </script>
 @endpush
+
+
+

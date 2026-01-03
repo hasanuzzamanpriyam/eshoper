@@ -3,8 +3,8 @@
 @section('title',translate('Seller Apply'))
 
 @push('css_or_js')
-<link href="{{asset('public/assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
-<link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+<link href="{{asset('assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
+<link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -66,7 +66,7 @@
                     <div class="col-sm-12">
                         <center>
                             <img class="__img-125px object-cover" id="viewer"
-                                src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                         </center>
                         <div class="custom-file mt-3">
                             <input type="file" name="image" id="customFileUpload" class="custom-file-input"
@@ -96,7 +96,7 @@
                         <div class="pb-3">
                             <center>
                                 <img class="__img-125px object-cover" id="viewerLogo"
-                                    src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                    src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                             </center>
                         </div>
 
@@ -112,7 +112,7 @@
                         <div class="pb-3">
                             <center>
                                 <img class="__img-125px object-cover" id="viewerBanner"
-                                        src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
+                                        src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="banner image"/>
                             </center>
                         </div>
 
@@ -316,3 +316,5 @@
     });
 </script>
 @endpush
+
+

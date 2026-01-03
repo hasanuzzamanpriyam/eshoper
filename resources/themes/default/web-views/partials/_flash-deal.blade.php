@@ -22,8 +22,8 @@
                         </div>
                         
                             <div class="flush-sale">
-                                @if(file_exists('storage/app/public/deal/'.$web_config['flash_deals']->banner))
-                                    @php($deal_banner = asset('storage/app/public/deal/'. $web_config['flash_deals']->banner ))
+                                @if(file_exists('storage/deal/'.$web_config['flash_deals']->banner))
+                                    @php($deal_banner = asset('storage/deal/'. $web_config['flash_deals']->banner ))
                                     <img src="{{$deal_banner}}" />
                                 @endif
                                 
@@ -112,3 +112,5 @@
         </div>
     </div>
 </section>
+
+

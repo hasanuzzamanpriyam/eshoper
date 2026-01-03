@@ -3,8 +3,8 @@
 @section('title', translate('product_Edit'))
 
 @push('css_or_js')
-    <link href="{{asset('public/assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
-    <link href="{{ asset('public/assets/select2/css/select2.min.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/back-end/css/tags-input.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <style>
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
@@ -25,7 +25,7 @@
         <!-- Page Title -->
         <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
             <h2 class="h1 mb-0 d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" alt="">
                 {{translate('product_Edit')}}
             </h2>
         </div>
@@ -168,7 +168,7 @@
                                 <label for="digital_product_type" class="title-color">{{ translate("delivery_type") }}</label>
                                 <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
                                     title="{{translate('for_“Ready_Product”_deliveries,_customers_can_pay_&_instantly_download_pre-uploaded_digital_products._For_“Ready_After_Sale”_deliveries,_customers_pay_first,_then_admin_uploads_the_digital_products_that_become_available_to_customers_for_download')}}">
-                                    <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                    <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                 </span>
                                 <select name="digital_product_type" id="digital_product_type" class="form-control" required>
                                     <option value="{{ old('category_id') }}" {{ !$product->digital_product_type ? 'selected' : ''}} disabled>---{{translate('select')}}---</option>
@@ -183,7 +183,7 @@
                                     <label for="digital_file_ready" class="title-color mb-0">{{ translate("upload_file") }}</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('upload_the_digital_products_from_here')}}">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
                                 <div class="input-group">
@@ -202,7 +202,7 @@
                                     <div class="d-flex align-items-center gap-2">
                                         {{ translate('product_SKU') }}
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('create_a_unique_product_code_by_clicking_on_the_“Generate_Code”_button')}}">
-                                            <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                     <a class="style-one-pro cursor-pointer" onclick="document.getElementById('generate_number').value = getRndInteger()">
@@ -231,7 +231,7 @@
                                 <label class="title-color d-flex align-items-center gap-2">
                                     {{ translate('search_tags') }}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('add_the_product_search_tag_for_this_product_that_customers_can_use_to_search_quickly')}}">
-                                        <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 {{-- <input type="text" class="form-control" placeholder="{{translate('enter_tag')}}" name="tags" data-role="tagsinput"> --}}
@@ -259,7 +259,7 @@
                                     <label class="title-color">{{ translate('purchase_price') }} ({{ \App\CPU\BackEndHelper::currency_symbol() }}) </label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('add_the_purchase_price_for_this_product')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -275,7 +275,7 @@
                                     <label class="title-color">{{ translate('unit_price') }} ({{ \App\CPU\BackEndHelper::currency_symbol() }})</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('set_the_selling_price_for_each_unit_of_this_product._This_Unit_Price_section_won’t_be_applied_if_you_set_a_variation_wise_price')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -291,7 +291,7 @@
                                     <label class="title-color" for="minimum_order_qty">{{ translate('minimum_order_qty') }}</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('set_the_minimum_order_quantity_that_customers_must_choose._Otherwise,_the_checkout_process_won’t_start')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -306,7 +306,7 @@
                                     <label class="title-color" for="current_stock">{{ translate('current_stock_qty') }}</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('add_the_Stock_Quantity_of_this_product_that_will_be_visible_to_customers')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
                                 <input type="number" min="0" value={{ $product->current_stock }} step="1"
@@ -320,7 +320,7 @@
                                     <label class="title-color" for="discount_Type">{{ translate('discount_Type') }}</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('if_“Flat”,_discount_amount_will_be_set_as_fixed_amount._If_“Percentage”,_discount_amount_will_be_set_as_percentage.')}}">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -339,7 +339,7 @@
                                     </label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('add_the_discount_amount_in_percentage_or_a_fixed_value_here')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -355,7 +355,7 @@
                                     <label class="title-color" for="tax">{{ translate('tax_amount') }}(%)</label>
 
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"  title="{{translate('set_the_Tax_Amount_in_percentage_here')}}">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -371,7 +371,7 @@
                                     <label class="title-color" for="tax_model">{{ translate('tax_calculation') }}</label>
 
                                     <span class="input-label-secondary cursor-pointer"  data-toggle="tooltip"  title="{{translate('set_the_tax_calculation_method_from_here._Select_“Include_with_product”_to_combine_product_price_and_tax_on_the_checkout._Pick_“Exclude_from_product”_to_display_product_price_and_tax_amount_separately.')}}">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
                                 <select name="tax_model" id="tax_model" class="form-control" required>
@@ -386,7 +386,7 @@
                                     <label class="title-color">{{ translate('shipping_cost') }} ({{\App\CPU\BackEndHelper::currency_symbol()}})</label>
 
                                     <span class="input-label-secondary cursor-pointer"  data-toggle="tooltip"  title="{{translate('set_the_shipping_cost_for_this_product_here._Shipping_cost_will_only_be_applicable_if_product-wise_shipping_is_enabled.')}}">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
 
@@ -402,7 +402,7 @@
                                         <label class="title-color text-capitalize" for="shipping_cost">{{ translate('shipping_cost_multiply_with_quantity') }}</label>
 
                                         <span class="input-label-secondary cursor-pointer"  data-toggle="tooltip"  title="{{translate('if_enabled,_the_shipping_charge_will_increase_with_the_product_quantity')}}">
-                                            <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
 
@@ -504,7 +504,7 @@
                                         <label for="name" class="title-color text-capitalize font-weight-bold mb-0">{{ translate('product_thumbnail') }}</label>
                                         <span class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Product Image'] }}</span>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" title="{{translate('add_your_products_thumbnail_in')}} JPG, PNG or JPEG {{translate('format_within')}} 2MB">
-                                            <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
                                 </div>
@@ -516,7 +516,7 @@
                                             onchange="uploadColorImage(this)">
 
                                         <span class="delete_file_input btn btn-outline-danger btn-sm square-btn"
-                                        style="display: @if (File::exists(base_path('storage/app/public/product/thumbnail/'. $product->thumbnail))) flex @else none @endif">
+                                        style="display: @if (File::exists(base_path('storage/product/thumbnail/'. $product->thumbnail))) flex @else none @endif">
                                             <i class="tio-delete"></i>
                                         </span>
 
@@ -525,7 +525,7 @@
                                         </div>
                                         <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                 <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                             </div>
                                         </div>
@@ -546,7 +546,7 @@
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <label for="name" class="title-color text-capitalize font-weight-bold mb-0">{{ translate('colour_wise_product_image') }}</label>
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" title="{{translate('add_color-wise_product_images_here')}}.">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </div>
                                 <p class="text-muted">{{translate('must_upload_colour_wise_images_first._Colour_is_shown_in_the_image_section_top_right.')}} </p>
@@ -572,7 +572,7 @@
                                         <label for="name" class="title-color text-capitalize font-weight-bold mb-0">{{ translate('upload_additional_image') }}</label>
                                         <span class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Product Image'] }}</span>
                                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" title="{{translate('upload_any_additional_images_for_this_product_from_here')}}.">
-                                            <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                            <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                         </span>
                                     </div>
 
@@ -595,11 +595,11 @@
                                                         </a>
 
                                                         <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                            <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/app/public/product/$photo")}}" onerror="this.classList.add('d-none')">
+                                                            <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/product/$photo")}}" onerror="this.classList.add('d-none')">
                                                         </div>
                                                         <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                                                <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                                <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                                 <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                                             </div>
                                                         </div>
@@ -618,11 +618,11 @@
                                                                 </a>
 
                                                                 <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                                    <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/app/public/product/".$photo->image_name)}}" onerror="this.classList.add('d-none')">
+                                                                    <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/product/".$photo->image_name)}}" onerror="this.classList.add('d-none')">
                                                                 </div>
                                                                 <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                                                        <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                                        <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                                         <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                                                     </div>
                                                                 </div>
@@ -641,11 +641,11 @@
                                                             </a>
 
                                                             <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                                                <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/app/public/product/".$photo)}}" onerror="this.classList.add('d-none')">
+                                                                <img id="additional_Image_{{ $unique_id }}" class="h-auto aspect-1 bg-white" src="{{asset("storage/product/".$photo)}}" onerror="this.classList.add('d-none')">
                                                             </div>
                                                             <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                                                    <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                                    <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                                     <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                                                 </div>
                                                             </div>
@@ -669,7 +669,7 @@
                                                 </div>
                                                 <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                                        <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                        <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                         <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                                     </div>
                                                 </div>
@@ -696,7 +696,7 @@
                         <i class="tio-user-big"></i>
                         <h4 class="mb-0">{{ translate('product_video') }}</h4>
                         <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" title="{{translate('add_the_YouTube_video_link_here._Only_the_YouTube-embedded_link_is_supported')}}.">
-                            <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                            <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                         </span>
                     </div>
                 </div>
@@ -719,7 +719,7 @@
                         <h4 class="mb-0">
                             {{ translate('seo_section') }}
                             <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{ translate('add_meta_titles_descriptions_and_images_for_products').', '.translate('this_will_help_more_people_to_find_them_on_search_engines_and_see_the_right_details_while_sharing_on_other_social_platforms') }}">
-                                <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                             </span>
                         </h4>
                     </div>
@@ -731,7 +731,7 @@
                                 <label class="title-color">
                                     {{ translate('meta_Title') }}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{ translate('add_the_products_title_name_taglines_etc_here').' '.translate('this_title_will_be_seen_on_Search_Engine_Results_Pages_and_while_sharing_the_products_link_on_social_platforms') .' [ '. translate('character_Limit') }} : 100 ]">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <input type="text" name="meta_title" value="{{$product['meta_title']}}" placeholder="" class="form-control">
@@ -740,7 +740,7 @@
                                 <label class="title-color">
                                     {{ translate('meta_Description') }}
                                     <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="{{ translate('write_a_short_description_of_the_InHouse_shops_product').' '.translate('this_description_will_be_seen_on_Search_Engine_Results_Pages_and_while_sharing_the_products_link_on_social_platforms') .' [ '. translate('character_Limit') }} : 100 ]">
-                                        <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                     </span>
                                 </label>
                                 <textarea rows="4" type="text" name="meta_description" class="form-control">{{$product['meta_description']}}</textarea>
@@ -757,7 +757,7 @@
                                             </label>
                                             <span class="badge badge-soft-info">{{ THEME_RATIO[theme_root_path()]['Meta Thumbnail'] }}</span>
                                             <span class="input-label-secondary cursor-pointer"  data-toggle="tooltip"  title="{{translate('add_Meta_Image_in')}} JPG, PNG or JPEG {{translate('format_within')}} 2MB, {{translate('which_will_be_shown_in_search_engine_results')}}.">
-                                                <img src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                                <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                             </span>
                                         </div>
 
@@ -769,16 +769,16 @@
                                                 accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" onchange="uploadColorImage(this)">
 
                                             <span class="delete_file_input btn btn-outline-danger btn-sm square-btn"
-                                            style="display: @if (File::exists(base_path('storage/app/public/product/meta/'. $product['meta_image']))) flex @else none @endif">
+                                            style="display: @if (File::exists(base_path('storage/product/meta/'. $product['meta_image']))) flex @else none @endif">
                                                 <i class="tio-delete"></i>
                                             </span>
 
                                             <div class="img_area_with_preview position-absolute z-index-2">
-                                                <img id="pre_meta_image_viewer" class="h-auto aspect-1 bg-white" src="{{ asset("storage/app/public/product/meta/". $product['meta_image'])}}" onerror="this.classList.add('d-none')">
+                                                <img id="pre_meta_image_viewer" class="h-auto aspect-1 bg-white" src="{{ asset("storage/product/meta/". $product['meta_image'])}}" onerror="this.classList.add('d-none')">
                                             </div>
                                             <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                                    <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                    <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                     <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                                 </div>
                                             </div>
@@ -803,8 +803,8 @@
 @endsection
 
 @push('script_2')
-    <script src="{{asset('public/assets/back-end')}}/js/tags-input.min.js"></script>
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end')}}/js/tags-input.min.js"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script>
          $(document).ready(function() {
             if ($('#color_switcher').prop('checked')) {
@@ -821,7 +821,7 @@
         });
         var colors = {{ count($product->colors) }};
         var imageCount = {{15-count(json_decode($product->images))}};
-        var thumbnail = '{{\App\CPU\ProductManager::product_image_path('thumbnail').'/'.$product->thumbnail??asset('public/assets/back-end/img/400x400/img2.jpg')}}';
+        var thumbnail = '{{\App\CPU\ProductManager::product_image_path('thumbnail').'/'.$product->thumbnail??asset('assets/back-end/img/400x400/img2.jpg')}}';
         $(function () {
             if ( imageCount > 0) {
                 $("#coba").spartanMultiImagePicker({
@@ -831,7 +831,7 @@
                     groupClassName: 'col-6 col-md-4 col-xl-3 col-xxl-2',
                     maxFileSize: '',
                     placeholderImage: {
-                        image: '{{asset("public/assets/back-end/img/400x400/img2.jpg")}}',
+                        image: '{{asset("assets/back-end/img/400x400/img2.jpg")}}',
                         width: '100%',
                     },
                     dropFileLabel: "Drop Here",
@@ -866,7 +866,7 @@
                 groupClassName: 'col-12',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{\App\CPU\ProductManager::product_image_path('thumbnail').'/'.$product->thumbnail??asset('public/assets/back-end/img/400x400/img2.jpg')}}',
+                    image: '{{\App\CPU\ProductManager::product_image_path('thumbnail').'/'.$product->thumbnail??asset('assets/back-end/img/400x400/img2.jpg')}}',
                     width: '100%',
                 },
                 dropFileLabel: "Drop Here",
@@ -1053,8 +1053,8 @@
                                     class="btn btn-outline-danger btn-sm square-btn"><i class="tio-delete"></i></a>
                                     </div>
                                     <img class="w-100" height="auto"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('storage/app/public/product/`+image_name+`')}}"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        src="{{asset('storage/product/`+image_name+`')}}"
                                         alt="Product image">
                                 </div>
                             </div>`;
@@ -1079,7 +1079,7 @@
 
                                         <div class="h-100 top-0 aspect-1 w-100 d-flex align-content-center justify-content-center overflow-hidden">
                                             <div class="d-flex flex-column justify-content-center align-items-center">
-                                                <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                 <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                             </div>
                                         </div>
@@ -1353,7 +1353,7 @@
                             </div>
                             <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                    <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                     <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
                                 </div>
                             </div>
@@ -1391,3 +1391,9 @@
             }
     </script>
 @endpush
+
+
+
+
+
+

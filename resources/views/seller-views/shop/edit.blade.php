@@ -3,9 +3,9 @@
 @section('title', translate('shop_Edit'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
      <!-- Custom styles for this page -->
-     <link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+     <link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
      <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 @section('content')
@@ -15,7 +15,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/shop-info.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/shop-info.png')}}" alt="">
             {{translate('edit_Shop_Info')}}
         </h2>
     </div>
@@ -62,8 +62,8 @@
                                 </div>
                                 <div class="text-center">
                                     <img class="upload-img-view" id="viewer"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/app/public/shop/'.$shop->image)}}" alt="Product thumbnail"/>
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset('storage/shop/'.$shop->image)}}" alt="Product thumbnail"/>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-4 mt-2">
@@ -83,8 +83,8 @@
                                 <div class="text-center">
                                     <center>
                                         <img class="upload-img-view upload-img-view__banner" id="viewerBanner"
-                                             onerror="this.src='{{asset('public/assets/back-end/img/400x400/img2.jpg')}}'"
-                                             src="{{asset('storage/app/public/shop/banner/'.$shop->banner)}}"alt="banner image"/>
+                                             onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
+                                             src="{{asset('storage/shop/banner/'.$shop->banner)}}"alt="banner image"/>
                                     </center>
                                 </div>
                             </div>
@@ -107,8 +107,8 @@
                                 <div class="text-center">
                                     <center>
                                         <img class="upload-img-view upload-img-view__banner" id="viewerBottomBanner"
-                                             onerror="this.src='{{asset('public/assets/back-end/img/400x400/img2.jpg')}}'"
-                                             src="{{asset('storage/app/public/shop/banner/'.$shop->bottom_banner)}}"alt="banner image"/>
+                                             onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
+                                             src="{{asset('storage/shop/banner/'.$shop->bottom_banner)}}"alt="banner image"/>
                                     </center>
                                 </div>
                             </div>
@@ -132,8 +132,8 @@
                                     <div class="text-center">
                                         <center>
                                             <img class="upload-img-view upload-img-view__banner" id="viewerOfferBanner"
-                                                onerror="this.src='{{asset('public/assets/back-end/img/400x400/img2.jpg')}}'"
-                                                src="{{asset('storage/app/public/shop/banner/'.$shop->offer_banner)}}"alt="banner image"/>
+                                                onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"
+                                                src="{{asset('storage/shop/banner/'.$shop->offer_banner)}}"alt="banner image"/>
                                         </center>
                                     </div>
                                 </div>
@@ -225,3 +225,7 @@
    </script>
 
 @endpush
+
+
+
+

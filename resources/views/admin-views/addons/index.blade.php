@@ -4,7 +4,7 @@
 
 @push('css_or_js')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
+    <link rel="stylesheet" href="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.css')}}"/>
 @endpush
 
 @section('content')
@@ -12,14 +12,14 @@
         <!-- Page Title -->
         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/teheme-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/teheme-setup.png')}}" alt="">
                 {{translate('system_setup')}}
             </h2>
 
             <div class="text-primary d-flex align-items-center gap-3 font-weight-bolder">
                 {{ translate('How_the_Setting_Works') }}
                 <div class="ripple-animation" data-toggle="modal" data-target="#settingModal">
-                    <img src="{{asset('public/assets/back-end/img/icons/info.svg')}}" class="svg" alt="">
+                    <img src="{{asset('assets/back-end/img/icons/info.svg')}}" class="svg" alt="">
                 </div>
             </div>
 
@@ -40,13 +40,13 @@
                                     <div class="swiper mySwiper pb-3">
                                         <div class="swiper-wrapper">
                                             <div class="swiper-slide">
-                                                <img src="{{asset('public/assets/back-end/img/slider-1.png')}}"
+                                                <img src="{{asset('assets/back-end/img/slider-1.png')}}"
                                                      loading="lazy"
                                                      alt="" class="dark-support rounded">
                                             </div>
                                             <div class="swiper-slide">
                                                 <div class="d-flex flex-column align-items-center mx-w450 mx-auto">
-                                                    <img src="{{asset('public/assets/back-end/img/slider-2.png')}}"
+                                                    <img src="{{asset('assets/back-end/img/slider-2.png')}}"
                                                          loading="lazy"
                                                          alt="" class="dark-support rounded mb-4">
                                                     <p>
@@ -57,7 +57,7 @@
                                             </div>
                                             <div class="swiper-slide">
                                                 <div class="d-flex flex-column align-items-center mx-w450 mx-auto">
-                                                    <img src="{{asset('public/assets/back-end/img/slider-3.png')}}"
+                                                    <img src="{{asset('assets/back-end/img/slider-3.png')}}"
                                                          loading="lazy"
                                                          alt="" class="dark-support rounded mb-4">
                                                     <p>
@@ -105,7 +105,7 @@
                             <div class="mt-5 card px-3 py-2 d--none" id="progress-bar">
                                 <div class="d-flex flex-wrap align-items-center gap-3">
                                     <div class="">
-                                        <img width="24" src="{{asset('public/assets/back-end/img/zip.png')}}" alt="">
+                                        <img width="24" src="{{asset('assets/back-end/img/zip.png')}}" alt="">
                                     </div>
                                     <div class="flex-grow-1 text-start">
                                         <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
@@ -170,7 +170,7 @@
                                 @if ($data['is_published'] == 0)
                                     <button class="text-danger bg-transparent p-0 border-0" data-toggle="modal"
                                             data-target="#deleteThemeModal_{{ $key }}"><img
-                                            src="{{asset('public/assets/back-end/img/icons/delete.svg')}}" class="svg"
+                                            src="{{asset('assets/back-end/img/icons/delete.svg')}}" class="svg"
                                             alt=""></button>
 
                                     <!-- Delete Theme Modal -->
@@ -189,7 +189,7 @@
                                                 <div class="modal-body px-4 px-sm-5 text-center">
                                                     <div class="mb-3 text-center">
                                                         <img width="75"
-                                                             src="{{asset('public/assets/back-end/img/delete.png')}}"
+                                                             src="{{asset('assets/back-end/img/delete.png')}}"
                                                              alt="">
                                                     </div>
 
@@ -211,7 +211,7 @@
 
                                     <button class="text-muted bg-transparent p-0 border-0" data-toggle="modal"
                                             data-target="#shiftThemeModal_{{ $key }}"><img
-                                            src="{{asset('public/assets/back-end/img/icons/check.svg')}}" class="svg {{ $data['is_published'] == 1 ? 'text--primary' : '' }}"
+                                            src="{{asset('assets/back-end/img/icons/check.svg')}}" class="svg {{ $data['is_published'] == 1 ? 'text--primary' : '' }}"
                                             alt=""></button>
 
                                     <div class="modal fade" id="shiftThemeModal_{{ $key }}" tabindex="-1"
@@ -229,7 +229,7 @@
                                                 <div class="modal-body px-4 px-sm-5 text-center">
                                                     <div class="mb-3 text-center">
                                                         <img width="75"
-                                                             src="{{asset('public/assets/back-end/img/shift.png')}}"
+                                                             src="{{asset('assets/back-end/img/shift.png')}}"
                                                              alt="">
                                                     </div>
 
@@ -257,7 +257,7 @@
                         <div class="p-2 p-sm-3">
                             <div class="aspect-ration-3:2 border border-color-primary-light radius-10">
                                 <img class="img-fit radius-10"
-                                onerror="this.src='{{asset('public/assets/back-end/img/placeholder.png')}}'"\
+                                onerror="this.src='{{asset('assets/back-end/img/placeholder.png')}}'"\
                                      src="{{asset($addon.'/public/addon.png')}}">
                             </div>
                         </div>
@@ -279,7 +279,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
+    <script src="{{ asset('assets/back-end/vendor/swiper/swiper-bundle.min.js')}}"></script>
 
     <script>
         function readUrl(input) {
@@ -438,3 +438,6 @@
         });
     </script>
 @endpush
+
+
+

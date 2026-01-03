@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/system-setting.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/system-setting.png')}}" alt="">
                 {{translate('system_Setup')}}
             </h2>
         </div>
@@ -65,3 +65,5 @@
 @push('script_2')
 
 @endpush
+
+

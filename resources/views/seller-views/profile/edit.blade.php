@@ -14,7 +14,7 @@
             <div class="row gy-2 align-items-center">
                 <div class="col-sm">
                     <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                        <img src="{{asset('/public/assets/back-end/img/support-ticket.png')}}" alt="">
+                        <img src="{{asset('assets/back-end/img/support-ticket.png')}}" alt="">
                         {{translate('settings')}}
                     </h2>
                 </div>
@@ -81,7 +81,7 @@
                     <div class="card mb-3 mb-lg-5" id="generalDiv">
                         <!-- Profile Cover -->
                         <div class="profile-cover">
-                        @php($shop_banners = $shop_banner ? asset('storage/app/public/shop/banner/'.$shop_banner) : 'https://images.pexels.com/photos/866398/pexels-photo-866398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+                        @php($shop_banners = $shop_banner ? asset('storage/shop/banner/'.$shop_banner) : 'https://images.pexels.com/photos/866398/pexels-photo-866398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
 
                             <div class="profile-cover-img-wrapper" style="background-image: url({{ $shop_banners }}); background-repeat: no-repeat; background-size: cover;">
                             </div>
@@ -93,9 +93,9 @@
                             class="avatar avatar-xxl avatar-circle avatar-border-lg avatar-uploader profile-cover-avatar"
                             for="avatarUploader">
                             <img id="viewer"
-                                 onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
+                                 onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
                                  class="avatar-img"
-                                 src="{{asset('storage/app/public/seller')}}/{{$data->image}}"
+                                 src="{{asset('storage/seller')}}/{{$data->image}}"
                                  alt="Image">
                         </label>
                         <!-- End Avatar -->
@@ -313,3 +313,7 @@
 @push('script')
 
 @endpush
+
+
+
+

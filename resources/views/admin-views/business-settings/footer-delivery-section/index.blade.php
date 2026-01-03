@@ -7,7 +7,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/Pages.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/Pages.png')}}" alt="">
             {{ translate('pages') }}
         </h2>
     </div>
@@ -30,7 +30,7 @@
                                         <span class="title-color">
                                             {{translate($value->item)}}
                                             <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="top" title="{{translate('if_enabled,_the_'.$value->item.'_will_be_available_on_the_system.')}}.">
-                                                <img width="16" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                                                <img width="16" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                                             </span>
                                         </span>
                                         <label class="switcher" for="{{$value->item}}">
@@ -57,11 +57,11 @@
                                             </span>
 
                                             <div class="img_area_with_preview position-absolute z-index-2">
-                                                <img id="pre_img_header_logo{{$key}}" class="h-auto aspect-ratio-3-15 bg-white" src="{{asset('storage/app/public/company-reliability')}}/{{$value->image}}" onerror="this.classList.add('d-none')">
+                                                <img id="pre_img_header_logo{{$key}}" class="h-auto aspect-ratio-3-15 bg-white" src="{{asset('storage/company-reliability')}}/{{$value->image}}" onerror="this.classList.add('d-none')">
                                             </div>
                                             <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                 <div class="d-flex flex-column justify-content-center align-items-center">
-                                                    <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                    <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                     <h3 class="text-muted">{{ translate('Upload_Icon') }}</h3>
                                                 </div>
                                             </div>
@@ -93,3 +93,7 @@
     </script>
 
 @endpush
+
+
+
+

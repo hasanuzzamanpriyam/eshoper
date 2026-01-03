@@ -12,7 +12,7 @@
     <!--    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">-->
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{asset('storage/app/public/company/'.$web_config['fav_icon']->value)}}">
+    <link rel="shortcut icon" href="{{asset('storage/company/'.$web_config['fav_icon']->value)}}">
 
     <!-- Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,20 +20,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
           rel="stylesheet">
     <!-- CSS Implementing Plugins -->
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/vendor.min.css">
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/custom.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/vendor.min.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/custom.css">
 
 
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/vendor/icon-set/style.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/vendor/icon-set/style.css">
     <!-- CSS Front Template -->
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/theme.minc619.css?v=1.0">
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/style.css">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/theme.minc619.css?v=1.0">
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/style.css">
     @if(Session::get('direction') === "rtl")
-        <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/menurtl.css">
+        <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/menurtl.css">
     @endif
     {{-- light box --}}
-    <link rel="stylesheet" href="{{asset('public/css/lightbox.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/lightbox.css')}}">
     @stack('css_or_js')
     <!-- <style>
         :root {
@@ -50,21 +50,21 @@
     </style> -->
     <style>
         select {
-            background-image: url('{{asset('/public/assets/back-end/img/arrow-down.png')}}');
+            background-image: url('{{asset('assets/back-end/img/arrow-down.png')}}');
             background-size: 7px;
             background-position: 96% center;
         }
     </style>
     <script
-        src="{{asset('public/assets/back-end')}}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>
-    <link rel="stylesheet" href="{{asset('public/assets/back-end')}}/css/toastr.css">
+        src="{{asset('assets/back-end')}}/vendor/hs-navbar-vertical-aside/hs-navbar-vertical-aside-mini-cache.js"></script>
+    <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/toastr.css">
 </head>
 
 <body class="footer-offset">
 <!-- Builder -->
 @include('layouts.back-end.partials._front-settings')
 <!-- End Builder -->
-<span class="d-none" id="placeholderImg" data-img="{{asset('public/assets/back-end/img/400x400/img3.png')}}"></span>
+<span class="d-none" id="placeholderImg" data-img="{{asset('assets/back-end/img/400x400/img3.png')}}"></span>
 {{--loader--}}
 <div class="row">
     <div class="col-12 position-fixed z-9999 mt-10rem">
@@ -100,16 +100,17 @@
 <span class="please_fill_out_this_field" data-text="{{ translate('please_fill_out_this_field') }}"></span>
 
 <!-- ========== END SECONDARY CONTENTS ========== -->
-<script src="{{asset('public/assets/back-end')}}/js/custom.js"></script>
+<script src="{{asset('assets/back-end')}}/js/custom.js"></script>
 <!-- JS Implementing Plugins -->
 
 {{--@stack('script')--}}
 
 <!-- JS Front -->
-<script src="{{asset('public/assets/back-end')}}/js/vendor.min.js"></script>
-<script src="{{asset('public/assets/back-end')}}/js/theme.min.js"></script>
-<script src="{{asset('public/assets/back-end')}}/js/sweet_alert.js"></script>
-<script src="{{asset('public/assets/back-end')}}/js/toastr.js"></script>
+<script src="{{asset('assets/back-end')}}/js/jquery.js"></script>
+<script src="{{asset('assets/back-end')}}/js/vendor.min.js"></script>
+<script src="{{asset('assets/back-end')}}/js/theme.min.js"></script>
+<script src="{{asset('assets/back-end')}}/js/sweet_alert.js"></script>
+<script src="{{asset('assets/back-end')}}/js/toastr.js"></script>
 {!! Toastr::message() !!}
 
 <script>
@@ -330,11 +331,11 @@
 @stack('script')
 
 
-<script src="{{asset('public/assets/back-end')}}/js/bootstrap.min.js"></script>
+<script src="{{asset('assets/back-end')}}/js/bootstrap.min.js"></script>
 {{-- light box --}}
-<script src="{{asset('public/js/lightbox.min.js')}}"></script>
+<script src="{{asset('/js/lightbox.min.js')}}"></script>
 <audio id="myAudio">
-    <source src="{{asset('public/assets/back-end/sound/notification.mp3')}}" type="audio/mpeg">
+    <source src="{{asset('assets/back-end/sound/notification.mp3')}}" type="audio/mpeg">
 </audio>
 <script>
     var audio = document.getElementById("myAudio");
@@ -416,7 +417,7 @@
 
 <!-- IE Support -->
 <script>
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{asset('public/assets/back-end')}}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
+    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) document.write('<script src="{{asset('assets/back-end')}}/vendor/babel-polyfill/polyfill.min.js"><\/script>');
 </script>
 @stack('script_2')
 
@@ -434,12 +435,12 @@
         if ($('#'+toggle_id).is(':checked')) {
             $('#toggle-title').empty().append(on_title);
             $('#toggle-message').empty().append(on_message);
-            $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+on_image);
+            $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+on_image);
             $('#toggle-ok-button').attr('toggle-ok-button', toggle_id);
         } else {
             $('#toggle-title').empty().append(off_title);
             $('#toggle-message').empty().append(off_message);
-            $('#toggle-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+off_image);
+            $('#toggle-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+off_image);
             $('#toggle-ok-button').attr('toggle-ok-button', toggle_id);
         }
         $('#toggle-modal').modal('show');
@@ -473,12 +474,12 @@
         if ($('#'+toggle_id).is(':checked')) {
             $('#toggle-status-title').empty().append(on_title);
             $('#toggle-status-message').empty().append(on_message);
-            $('#toggle-status-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+on_image);
+            $('#toggle-status-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+on_image);
             $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
         } else {
             $('#toggle-status-title').empty().append(off_title);
             $('#toggle-status-message').empty().append(off_message);
-            $('#toggle-status-image').attr('src', "{{asset('/public/assets/back-end/img/modal')}}/"+off_image);
+            $('#toggle-status-image').attr('src', "{{asset('assets/back-end/img/modal')}}/"+off_image);
             $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
         }
         $('#toggle-status-modal').modal('show');
@@ -523,3 +524,7 @@
 </script>
 </body>
 </html>
+
+
+
+

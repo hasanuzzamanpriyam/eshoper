@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -41,7 +41,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right bg-aliceblue border border-color-primary-light p-4 dropdown-w-lg">
                                 <div class="d-flex align-items-center gap-2 mb-3">
-                                    <img width="20" src="{{asset('/public/assets/back-end/img/note.png')}}" alt="">
+                                    <img width="20" src="{{asset('assets/back-end/img/note.png')}}" alt="">
                                     <h5 class="text-primary mb-0">{{translate('note')}}</h5>
                                 </div>
                                 <p class="title-color font-weight-medium mb-0">{{ translate('without_configuring_this_section_map_functionality_will_not_work_properly').' '.translate('thus_the_whole_system_will_not_work_as_it_planned')}}</p>
@@ -50,7 +50,7 @@
                     </div>
 
                     <div class="mt-2 mb-4 valley-alert">
-                        <img width="16" class="mt-1" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="">
+                        <img width="16" class="mt-1" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
                         <p class="mb-0">
                             <strong>{{translate('NB')}}</strong>
                             : {{ translate('client_key_should_have_enable_map_javascript_api_and_you_can_restrict_it_with_http_refere').' '.translate('server_key_should_have_enable_place_api_key_and_you_can_restrict_it_with_ip').' '.translate('you_can_use_same_api_for_both_field_without_any_restrictions')}}.</p>
@@ -87,3 +87,5 @@
 @push('script_2')
 
 @endpush
+
+

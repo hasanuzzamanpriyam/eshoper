@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/add-new-seller.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/add-new-seller.png')}}" alt="">
                 {{translate('earning_statement')}}
             </h2>
         </div>
@@ -37,7 +37,7 @@
                         <div class="business-analytics">
                             <h5 class="business-analytics__subtitle">{{ translate('total_earning') }}</h5>
                             <h2 class="business-analytics__title">{{ $total_earn ? \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_earn)) : \App\CPU\BackEndHelper::set_symbol(0) }}</h2>
-                            <img src="{{ asset('public/assets/back-end/img/aw.png') }}" width="40" class="business-analytics__img" alt="">
+                            <img src="{{ asset('assets/back-end/img/aw.png') }}" width="40" class="business-analytics__img" alt="">
                         </div>
                         <!-- End Total Earning Card -->
                     </div>
@@ -46,7 +46,7 @@
                         <div class="business-analytics">
                             <h5 class="business-analytics__subtitle">{{ translate('withdrawable_balance') }}</h5>
                             <h2 class="business-analytics__title">{{ $withdrawable_balance <= 0 ? \App\CPU\BackEndHelper::set_symbol(0) : \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($withdrawable_balance)) }}</h2>
-                            <img src="{{ asset('public/assets/back-end/img/pw.png') }}" width="40" class="business-analytics__img" alt="">
+                            <img src="{{ asset('assets/back-end/img/pw.png') }}" width="40" class="business-analytics__img" alt="">
                         </div>
                         <!-- End Withdrawable balance Card -->
                     </div>
@@ -55,7 +55,7 @@
                         <div class="business-analytics">
                             <h5 class="business-analytics__subtitle">{{ translate('withdrawn') }}</h5>
                             <h2 class="business-analytics__title">{{ $delivery_man->wallet? \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($delivery_man->wallet->total_withdraw)) : \App\CPU\BackEndHelper::set_symbol(0) }}</h2>
-                            <img src="{{ asset('public/assets/back-end/img/withdraw.png') }}" width="40" class="business-analytics__img" alt="">
+                            <img src="{{ asset('assets/back-end/img/withdraw.png') }}" width="40" class="business-analytics__img" alt="">
                         </div>
                         <!-- End Business Analytics Card -->
                     </div>
@@ -98,7 +98,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.delivery-man.order-history-log-export',['id'=>$delivery_man->id,'type'=>'earn','search'=>$search])}}">
-                                                <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                                <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -180,7 +180,7 @@
                                         <tr>
                                             <td colspan="4">
                                                 <div class="text-center p-4">
-                                                    <img class="mb-3 w-160" src="{{ asset('public/assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
+                                                    <img class="mb-3 w-160" src="{{ asset('assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
                                                     <p class="mb-0">{{ translate('no_earning_history_found') }}</p>
                                                 </div>
                                             </td>
@@ -212,3 +212,6 @@
 @push('script')
 
 @endpush
+
+
+

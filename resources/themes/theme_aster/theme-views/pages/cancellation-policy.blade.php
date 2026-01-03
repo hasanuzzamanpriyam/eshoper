@@ -9,8 +9,8 @@
     <div class="page-title overlay py-5 __opacity-half background-custom-fit" style="--opacity: .5"
 
     @if ($page_title_banner)
-        @if (File::exists(base_path('storage/app/public/banner/'.json_decode($page_title_banner['value'])->image)))
-        data-bg-img="{{ asset('storage/app/public/banner/'.json_decode($page_title_banner['value'])->image) }}"
+        @if (File::exists(base_path('storage/banner/'.json_decode($page_title_banner['value'])->image)))
+        data-bg-img="{{ asset('storage/banner/'.json_decode($page_title_banner['value'])->image) }}"
         @else
         data-bg-img="{{theme_asset('assets/img/media/page-title-bg.png')}}"
         @endif
@@ -33,3 +33,5 @@
 <!-- End Main Content -->
 
 @endsection
+
+

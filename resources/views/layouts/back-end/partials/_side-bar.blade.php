@@ -8,9 +8,9 @@
                     <!-- Logo -->
                     @php($e_commerce_logo=\App\Model\BusinessSetting::where(['type'=>'company_web_logo'])->first()->value)
                     <a class="navbar-brand" href="{{route('admin.dashboard.index')}}" aria-label="Front">
-                        <img onerror="this.src='{{asset('public/assets/back-end/img/900x400/img1.jpg')}}'"
+                        <img onerror="this.src='{{asset('assets/back-end/img/900x400/img1.jpg')}}'"
                              class="navbar-brand-logo-mini for-web-logo max-h-30"
-                             src="{{asset("storage/app/public/company/$e_commerce_logo")}}" alt="Logo">
+                             src="{{asset("storage/company/$e_commerce_logo")}}" alt="Logo">
                     </a>
                     <!-- Navbar Vertical Toggle -->
                     <button type="button"
@@ -502,7 +502,7 @@
                                     <a class="js-navbar-vertical-aside-menu-link nav-link"
                                        href="{{route('admin.notification.add-new')}}"
                                        title="{{translate('send_notification')}}">
-                                        <img src="{{ asset('public/assets/back-end/img/icons/send-notification.svg') }}" alt="Send Notification.svg" width="15" class="mr-2">
+                                        <img src="{{ asset('assets/back-end/img/icons/send-notification.svg') }}" alt="Send Notification.svg" width="15" class="mr-2">
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('Send_Notification')}}
                                         </span>
@@ -512,7 +512,7 @@
                                     <a class="js-navbar-vertical-aside-menu-link nav-link"
                                     href="{{route('admin.notification.push')}}"
                                     title="{{translate('Push_Notification')}}">
-                                        <img src="{{ asset('public/assets/back-end/img/icons/push-notification.svg') }}" alt="Push Notification.svg" width="15" class="mr-2">
+                                        <img src="{{ asset('assets/back-end/img/icons/push-notification.svg') }}" alt="Push Notification.svg" width="15" class="mr-2">
                                         <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
                                             {{translate('Push_Notification')}}
                                         </span>
@@ -1093,4 +1093,6 @@
 
     </script>
 @endpush
+
+
 

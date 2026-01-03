@@ -70,7 +70,7 @@
                                     @php($verify_status = \App\CPU\OrderManager::minimum_order_amount_verify($request, $group_key))
                                     @if($cartItem->seller_is=='admin')
                                         <a href="{{route('shopView',['id'=>0])}}" class="text-primary d-flex align-items-center gap-2">
-                                            <img src="{{asset('public/assets/front-end/img/cart-store.png')}}" alt="">
+                                            <img src="{{asset('assets/front-end/img/cart-store.png')}}" alt="">
                                             {{\App\CPU\Helpers::get_business_settings('company_name')}}
                                             @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
                                                 <span class="pl-1 text-danger pulse-button" data-toggle="tooltip" data-placement="right"
@@ -82,7 +82,7 @@
                                         </a>
                                     @else
                                         <a href="{{route('shopView',['id'=>$cartItem->seller_id])}}" class="text-primary d-flex align-items-center gap-2">
-                                            <img src="{{asset('public/assets/front-end/img/cart-store.png')}}" alt="">
+                                            <img src="{{asset('assets/front-end/img/cart-store.png')}}" alt="">
                                             {{\App\Model\Shop::where(['seller_id'=>$cartItem['seller_id']])->first()->name}}
                                             @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
                                                 <span class="pl-1 text-danger pulse-button" data-toggle="tooltip" data-placement="right"
@@ -159,7 +159,7 @@
                                             <div class="">
                                                 <a href="{{ $product_status == 1 ? route('product',$cartItem['slug']) : 'javascript:'}}" class="position-relative overflow-hidden">
                                                     <img class="rounded __img-62 {{ $product_status == 0?'blur-section':'' }}"
-                                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
                                                             alt="Product">
                                                     @if ($product_status == 0)
@@ -239,7 +239,7 @@
                         @if ($free_delivery_status['status'] && (session()->missing('coupon_type') || session('coupon_type') !='free_delivery'))
                             <div class="free-delivery-area px-3 mb-3 mb-lg-2">
                                 <div class="d-flex align-items-center gap-8">
-                                    <img class="__w-30px" src="{{ asset('public/assets/front-end/img/icons/free-shipping.png') }}" alt="" >
+                                    <img class="__w-30px" src="{{ asset('assets/front-end/img/icons/free-shipping.png') }}" alt="" >
                                     @if ($free_delivery_status['amount_need'] <= 0)
                                         <span class="text-muted fs-12 mt-1">{{ translate('you_Get_Free_Delivery_Bonus') }}</span>
                                     @else
@@ -297,7 +297,7 @@
                             @php($verify_status = \App\CPU\OrderManager::minimum_order_amount_verify($request, $group_key))
                             @if($cartItem->seller_is=='admin')
                                 <a href="{{route('shopView',['id'=>0])}}" class="text-primary d-flex align-items-center gap-2">
-                                    <img src="{{asset('public/assets/front-end/img/cart-store.png')}}">
+                                    <img src="{{asset('assets/front-end/img/cart-store.png')}}">
                                     {{\App\CPU\Helpers::get_business_settings('company_name')}}
                                     @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
                                         <span class="pl-1 text-danger pulse-button" data-toggle="tooltip" data-placement="right"
@@ -309,7 +309,7 @@
                                 </a>
                             @else
                                 <a href="{{route('shopView',['id'=>$cartItem->seller_id])}}" class="text-primary d-flex align-items-center gap-2">
-                                    <img src="{{asset('public/assets/front-end/img/cart-store.png')}}">
+                                    <img src="{{asset('assets/front-end/img/cart-store.png')}}">
                                     {{\App\Model\Shop::where(['seller_id'=>$cartItem['seller_id']])->first()->name}}
                                     @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
                                         <span class="pl-1 text-danger pulse-button" data-toggle="tooltip" data-placement="right"
@@ -382,7 +382,7 @@
                             <div class="">
                                 <a href="{{ $product_status == 1 ? route('product',$cartItem['slug']) : 'javascript:'}}" class="position-relative overflow-hidden">
                                     <img class="rounded __img-48 {{ $product_status == 0?'blur-section':'' }}"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$cartItem['thumbnail']}}"
                                             alt="Product">
                                     @if ($product_status == 0)
@@ -465,7 +465,7 @@
                 @if ($free_delivery_status['status'] && (session()->missing('coupon_type') || session('coupon_type') !='free_delivery'))
                     <div class="free-delivery-area px-3 mb-3 mb-lg-2">
                         <div class="d-flex align-items-center gap-8">
-                            <img class="__w-30px" src="{{ asset('public/assets/front-end/img/icons/free-shipping.png') }}" alt="" >
+                            <img class="__w-30px" src="{{ asset('assets/front-end/img/icons/free-shipping.png') }}" alt="" >
                             @if ($free_delivery_status['amount_need'] <= 0)
                                 <span class="text-muted fs-12 mt-1">{{ translate('you_Get_Free_Delivery_Bonus') }}</span>
                             @else
@@ -530,7 +530,7 @@
                 <div class="card-body py-5">
                     <div class="py-md-4">
                         <div class="text-center text-capitalize">
-                            <img class="mb-3 mw-100" src="{{asset('/public/assets/front-end/img/icons/empty-cart.svg')}}" alt="">
+                            <img class="mb-3 mw-100" src="{{asset('assets/front-end/img/icons/empty-cart.svg')}}" alt="">
                             <p class="text-capitalize">{{translate('Your_Cart_is_Empty')}}!</p>
                         </div>
                     </div>
@@ -709,3 +709,5 @@
 
 </script>
 @endpush
+
+

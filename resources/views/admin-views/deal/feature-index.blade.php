@@ -9,7 +9,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/featured_deal.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/featured_deal.png')}}" alt="">
                 {{translate('feature_deal')}}
             </h2>
         </div>
@@ -169,7 +169,7 @@
 
                     @if(count($flash_deals)==0)
                         <div class="text-center p-4">
-                            <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                            <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                             <p class="mb-0">{{translate('no_data_to_show')}}</p>
                         </div>
                     @endif
@@ -274,3 +274,6 @@
         });
     </script>
 @endpush
+
+
+

@@ -24,7 +24,7 @@
                 <span data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip"
                         data-bs-title="Follow our documentation">
 
-                    <img src="{{asset('public/assets/installation')}}/assets/img/svg-icons/info.svg" alt=""
+                    <img src="{{asset('assets/installation')}}/assets/img/svg-icons/info.svg" alt=""
                             class="svg">
                 </span>
             </a>
@@ -103,10 +103,10 @@
                                                <input type="hidden" name="types[]" value="DB_PASSWORD">
                                         <div class="togglePassword">
                                             <img
-                                                src="{{asset('public/assets/installation')}}/assets/img/svg-icons/eye.svg"
+                                                src="{{asset('assets/installation')}}/assets/img/svg-icons/eye.svg"
                                                 alt="" class="svg eye">
                                             <img
-                                                src="{{asset('public/assets/installation')}}/assets/img/svg-icons/eye-off.svg"
+                                                src="{{asset('assets/installation')}}/assets/img/svg-icons/eye-off.svg"
                                                 alt=""
                                                 class="svg eye-off">
                                         </div>
@@ -124,3 +124,4 @@
         </div>
     </div>
 @endsection
+

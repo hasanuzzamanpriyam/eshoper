@@ -26,7 +26,7 @@
                     <div class="row flex-between align-items-center g-2 mb-3">
                         <div class="col-sm-6">
                             <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-                                <img src="{{asset('/public/assets/back-end/img/business_analytics.png')}}" alt="">{{translate('business_analytics')}}</h4>
+                                <img src="{{asset('assets/back-end/img/business_analytics.png')}}" alt="">{{translate('business_analytics')}}</h4>
                         </div>
                         <div class="col-sm-6 d-flex justify-content-sm-end">
                             <select class="custom-select w-auto" name="statistics_type"
@@ -58,7 +58,7 @@
             <div class="card mb-3 remove-card-shadow">
                 <div class="card-body">
                     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-3">
-                        <img width="20" class="mb-1" src="{{asset('/public/assets/back-end/img/admin-wallet.png')}}" alt="">
+                        <img width="20" class="mb-1" src="{{asset('assets/back-end/img/admin-wallet.png')}}" alt="">
                         {{translate('admin_wallet')}}
                     </h4>
 
@@ -78,7 +78,7 @@
                             <div class="row g-2 align-items-center">
                                 <div class="col-md-6">
                                     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-                                        <img src="{{asset('/public/assets/back-end/img/earning_statictics.png')}}" alt="">
+                                        <img src="{{asset('assets/back-end/img/earning_statictics.png')}}" alt="">
                                         {{translate('earning_statistics')}}
                                     </h4>
                                 </div>
@@ -270,10 +270,10 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/vendor/chart.js/dist/Chart.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/chart.js.extensions/chartjs-extensions.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/chart.js.extensions/chartjs-extensions.js"></script>
     <script
-        src="{{asset('public/assets/back-end')}}/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
+        src="{{asset('assets/back-end')}}/vendor/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js"></script>
 @endpush
 
 
@@ -612,4 +612,7 @@
     </script>
 
 @endpush
+
+
+
 

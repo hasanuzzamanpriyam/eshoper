@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img width="20" src="{{asset('/public/assets/back-end/img/deliveryman.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/deliveryman.png')}}" alt="">
                 {{translate('add_new_deliveryman')}}
             </h2>
         </div>
@@ -89,7 +89,7 @@
                                 </div>
                                 <center class="mt-4">
                                     <img class="upload-img-view" id="viewer"
-                                            src="{{asset('public\assets\back-end\img\400x400\img2.jpg')}}" alt="delivery-man image"/>
+                                            src="{{asset('assets\back-end\img\400x400\img2.jpg')}}" alt="delivery-man image"/>
                                 </center>
 
                             </div>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                     </div>
-                    <span class="d-none" id="placeholderImg" data-img="{{asset('public/assets/back-end/img/400x400/img3.png')}}"></span>
+                    <span class="d-none" id="placeholderImg" data-img="{{asset('assets/back-end/img/400x400/img3.png')}}"></span>
 
                     <div class="d-flex gap-3 justify-content-end">
                         <button type="reset" id="reset" class="btn btn-secondary">{{translate('reset')}}</button>
@@ -168,7 +168,7 @@
         });
     </script>
 
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -178,7 +178,7 @@
                 groupClassName: 'col-6',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset("public/assets/back-end/img/400x400/img3.png")}}',
+                    image: '{{asset("assets/back-end/img/400x400/img3.png")}}',
                     width: '100%'
                 },
                 dropFileLabel: "Drop Here",
@@ -207,3 +207,8 @@
         });
     </script>
 @endpush
+
+
+
+
+

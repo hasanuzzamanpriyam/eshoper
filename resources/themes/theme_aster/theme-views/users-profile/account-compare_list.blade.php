@@ -60,7 +60,7 @@
                                                     @if(isset($compare_list->product->brand->image))
                                                     <td>
                                                         <a href="{{ route('products',['id'=> $compare_list->product->brand['id'],'data_from'=>'brand','page'=>1]) }}">
-                                                            <img width="48" src="{{asset("storage/app/public/brand/".$compare_list->product->brand->image)}}"
+                                                            <img width="48" src="{{asset("storage/brand/".$compare_list->product->brand->image)}}"
                                                                  onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'" class="rounded dark-support" alt="">
                                                         </a>
                                                     </td>
@@ -100,3 +100,4 @@
     </main>
     <!-- End Main Content -->
 @endsection
+

@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/deliveryman.png')}}" width="20" alt="">
+                <img src="{{asset('assets/back-end/img/deliveryman.png')}}" width="20" alt="">
                 {{translate('delivery_man')}} <span class="badge badge-soft-dark radius-50 fz-12">{{ $delivery_men->count() }}</span>
             </h2>
         </div>
@@ -54,7 +54,7 @@
                                     <ul class="dropdown-menu dropdown-menu-right">
                                         <li>
                                             <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.delivery-man.export',['search' => $search])}}">
-                                                <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                                <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                                 {{translate('excel')}}
                                             </a>
                                         </li>
@@ -91,8 +91,8 @@
                                     <td>
                                         <div class="media align-items-center gap-10">
                                             <img class="rounded-circle avatar avatar-lg"
-                                                 onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
-                                                 src="{{asset('storage/app/public/delivery-man')}}/{{$dm['image']}}">
+                                                 onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                                                 src="{{asset('storage/delivery-man')}}/{{$dm['image']}}">
                                             <div class="media-body">
                                                 <a title="Earning Statement"
                                                    class="title-color hover-c1"
@@ -157,7 +157,7 @@
                                 <tr>
                                     <td colspan="7">
                                         <div class="text-center p-4">
-                                            <img class="mb-3 w-160" src="{{ asset('public/assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
+                                            <img class="mb-3 w-160" src="{{ asset('assets/back-end/svg/illustrations/sorry.svg') }}" alt="Image Description">
                                             <p class="mb-0">{{translate('no_delivery_man_found')}}</p>
                                         </div>
                                     </td>
@@ -203,3 +203,7 @@
         });
     </script>
 @endpush
+
+
+
+

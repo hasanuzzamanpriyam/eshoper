@@ -3,8 +3,8 @@
 @section('title',translate('my_Wallet'))
 
 @push('css_or_js')
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="{{asset('public/assets/front-end')}}/css/owl.theme.default.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.theme.default.min.css"/>
 @endpush
 
 @section('content')
@@ -63,7 +63,7 @@
                                                     </h2>
                                                 </div>
                                             </div>
-                                            <img class="wallet-card-bg z-1" src="{{ asset('public/assets/front-end/img/icons/wallet-card.png') }}" alt="">
+                                            <img class="wallet-card-bg z-1" src="{{ asset('assets/front-end/img/icons/wallet-card.png') }}" alt="">
                                         </div>
                                     </div>
                                     <div class="col-md-7">
@@ -85,7 +85,7 @@
                                                             @endif
                                                             <p class="fw-bold text-accent mb-0">{{ $bonus->description ? Str::limit($bonus->description, 40):'' }}</p>
                                                         </div>
-                                                        <img class="slider-card-bg-img" width="50" src="{{ asset('public/assets/front-end/img/icons/add_fund_vector.png') }}" alt="">
+                                                        <img class="slider-card-bg-img" width="50" src="{{ asset('assets/front-end/img/icons/add_fund_vector.png') }}" alt="">
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -132,8 +132,8 @@
                                                                 @php( $payment_method_title = !empty($gateway->additional_data) ? (json_decode($gateway->additional_data)->gateway_title ?? ucwords(str_replace('_',' ', $gateway->key_name))) : ucwords(str_replace('_',' ', $gateway->key_name)) )
                                                                 @php( $payment_method_img = !empty($gateway->additional_data) ? json_decode($gateway->additional_data)->gateway_image : '' )
                                                                 <div class="form-check-label d-flex align-items-center">
-                                                                    <img width="60" src="{{ asset('storage/app/public/payment_modules/gateway_image/'.$payment_method_img) }}"
-                                                                    onerror="this.src='{{ asset('public/assets/front-end/img/image-place-holder.png') }}'"
+                                                                    <img width="60" src="{{ asset('storage/payment_modules/gateway_image/'.$payment_method_img) }}"
+                                                                    onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
                                                                     alt="img" >
                                                                     <span class="ml-3">{{ $payment_method_title }}</span>
                                                                 </div>
@@ -205,9 +205,9 @@
                                                 <div class="w-100">
                                                     <h6 class="mb-2 d-flex align-items-center gap-8">
                                                         @if($item['debit'] != 0)
-                                                            <img src="{{ asset('public/assets/front-end/img/icons/coin-danger.png') }}" width="25" alt="">
+                                                            <img src="{{ asset('assets/front-end/img/icons/coin-danger.png') }}" width="25" alt="">
                                                         @else
-                                                            <img src="{{ asset('public/assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
+                                                            <img src="{{ asset('assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
                                                         @endif
 
                                                         {{ $item['debit'] != 0 ? ' - '.\App\CPU\Helpers::currency_converter($item['debit']) : ' + '.\App\CPU\Helpers::currency_converter($item['credit']) }}
@@ -241,7 +241,7 @@
                                             <div class="bg-light my-1 p-3 p-sm-3 rounded d-flex justify-content-between g-2">
                                                 <div class="">
                                                     <h6 class="mb-2 d-flex align-items-center gap-8">
-                                                        <img src="{{ asset('public/assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
+                                                        <img src="{{ asset('assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
                                                         <span>+ {{ \App\CPU\Helpers::currency_converter($item['admin_bonus']) }}</span>
                                                     </h6>
                                                     <h6 class="text-muted mb-0 small">
@@ -264,7 +264,7 @@
                                     </div>
                                     @if($wallet_transactio_list->count()==0)
                                     <div class="d-flex flex-column gap-3 align-items-center text-center my-5">
-                                        <img width="72" src="{{ asset('public/assets/front-end/img/icons/empty-transaction-history.png')}}" class="dark-support" alt="">
+                                        <img width="72" src="{{ asset('assets/front-end/img/icons/empty-transaction-history.png')}}" class="dark-support" alt="">
                                         <h6 class="text-muted mt-3">{{translate('you_do_not_have_any')}}<br> {{ request('type') != 'all' ? ucwords(translate(request('type'))) : '' }} {{translate('transaction_yet')}}</h6>
                                     </div>
                                     @endif
@@ -293,13 +293,13 @@
 
 @push('script')
 {{-- Owl Carousel --}}
-<script src="{{asset('public/assets/front-end')}}/js/owl.carousel.min.js"></script>
+<script src="{{asset('assets/front-end')}}/js/owl.carousel.min.js"></script>
 <script>
 
     $(document).ready(function(){
         const img = $("img");
         img.on("error", function (event) {
-            event.target.src = '{{asset('public/assets/front-end/img/image-place-holder.png')}}';
+            event.target.src = '{{asset('assets/front-end/img/image-place-holder.png')}}';
             event.onerror = null
         })
     });
@@ -334,3 +334,5 @@
     })
 </script>
 @endpush
+
+

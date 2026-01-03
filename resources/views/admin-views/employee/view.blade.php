@@ -2,7 +2,7 @@
 @section('title', translate('employee_details'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/employee.png')}}" width="20" alt="">
+                <img src="{{asset('assets/back-end/img/employee.png')}}" width="20" alt="">
                 {{translate('employee_details')}}
             </h2>
         </div>
@@ -22,8 +22,8 @@
                 <div class="row g-2">
                     <div class="col-lg-7 col-xl-8">
                         <div class="media align-items-center flex-wrap flex-sm-nowrap gap-3">
-                            <img width="250" class="rounded" onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
-                            src="{{asset('storage/app/public/admin')}}/{{$employee['image']}}" alt="Image Description">
+                            <img width="250" class="rounded" onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                            src="{{asset('storage/admin')}}/{{$employee['image']}}" alt="Image Description">
                             <div class="media-body">
                                 <div class="text-capitalize mb-4">
                                     <h4 class="mb-2">{{$employee->name}}</h4>
@@ -142,3 +142,7 @@
         });
     </script>
 @endpush
+
+
+
+

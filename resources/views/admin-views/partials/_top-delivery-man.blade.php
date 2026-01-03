@@ -1,7 +1,7 @@
 <!-- Header -->
 <div class="card-header">
     <h4 class="d-flex align-items-center text-capitalize gap-10 mb-0">
-        <img src="{{asset('/public/assets/back-end/img/top-customers.png')}}" alt="">
+        <img src="{{asset('assets/back-end/img/top-customers.png')}}" alt="">
         {{translate('top_Delivery_Man')}}
     </h4>
 </div>
@@ -18,8 +18,8 @@
                             <div class="text-center">
                                 <img class="avatar rounded-circle avatar-lg"
                                      onclick="location.href='{{route('admin.delivery-man.earning-statement-overview',[$item['delivery_man_id']])}}'"
-                                     onerror="this.src='{{asset('public/assets/back-end/img/160x160/img1.jpg')}}'"
-                                     src="{{asset('storage/app/public/delivery-man/'.$item->delivery_man->image??'')}}">
+                                     onerror="this.src='{{asset('assets/back-end/img/160x160/img1.jpg')}}'"
+                                     src="{{asset('storage/delivery-man/'.$item->delivery_man->image??'')}}">
                             </div>
 
                             <h5 class="mb-0">
@@ -38,8 +38,12 @@
     @else
         <div class="text-center">
             <p class="text-muted">{{translate('no_Top_Selling_Products')}}</p>
-            <img class="w-75" src="{{asset('/public/assets/back-end/img/no-data.png')}}" alt="">
+            <img class="w-75" src="{{asset('assets/back-end/img/no-data.png')}}" alt="">
         </div>
     @endif
 </div>
 <!-- End Body -->
+
+
+
+

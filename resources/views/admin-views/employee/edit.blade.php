@@ -1,7 +1,7 @@
 @extends('layouts.back-end.app')
 @section('title', translate('employee_Edit'))
 @push('css_or_js')
-    <link href="{{asset('public/assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
+    <link href="{{asset('assets/back-end')}}/css/select2.min.css" rel="stylesheet"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endpush
 
@@ -10,7 +10,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img src="{{asset('/public/assets/back-end/img/add-new-employee.png')}}" alt="">
+            <img src="{{asset('assets/back-end/img/add-new-employee.png')}}" alt="">
             {{translate('employee_Update')}}
         </h2>
     </div>
@@ -74,8 +74,8 @@
                                 <div class="form-group">
                                     <div class="text-center mb-3">
                                         <img class="upload-img-view" id="viewer"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/app/public/admin')}}/{{$e['image']}}"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('storage/admin')}}/{{$e['image']}}"
                                             alt="Product thumbnail"/>
                                     </div>
                                     <label for="name" class="title-color">{{translate('employee_image')}}</label>
@@ -98,8 +98,8 @@
                                                 @foreach(json_decode($e['identify_image'],true) as $img)
                                                     <div class="col-md-4 mb-3">
                                                         <img height="150"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
-                                                        src="{{asset('storage/app/public/admin').'/'.$img}}">
+                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                        src="{{asset('storage/admin').'/'.$img}}">
                                                     </div>
                                                 @endforeach
                                             @endif
@@ -159,7 +159,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/back-end')}}/js/select2.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
     <script>
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -187,7 +187,7 @@
         });
 
     </script>
-    <script src="{{asset('public/assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/back-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $("#coba").spartanMultiImagePicker({
@@ -197,7 +197,7 @@
                 groupClassName: 'col-6 col-lg-4',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{asset("public/assets/back-end/img/400x400/img2.jpg")}}',
+                    image: '{{asset("assets/back-end/img/400x400/img2.jpg")}}',
                     width: '100%'
                 },
                 dropFileLabel: "Drop Here",
@@ -234,3 +234,8 @@
    'route'=>route('image-upload')
    ])
 @endpush
+
+
+
+
+

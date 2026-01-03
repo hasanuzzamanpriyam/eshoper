@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-4 pb-2">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/3rd-party.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/3rd-party.png')}}" alt="">
                 {{translate('3rd_party')}}
             </h2>
         </div>
@@ -36,7 +36,7 @@
                                 </h5>
 
                                 <?php
-                                    $img_path = asset('/public/assets/back-end/img/modal/sms/'.$sms_config->key_name.'.png');
+                                    $img_path = asset('assets/back-end/img/modal/sms/'.$sms_config->key_name.'.png');
                                 ?>
 
                                 <label class="switcher show-status-text">
@@ -96,12 +96,12 @@
                 $('#toggle-status-title').empty().append(on_title);
                 $('#toggle-status-message').empty().append(on_message);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
-                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("/public/assets/back-end/img/modal/status-green.png") }}');
+                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("assets/back-end/img/modal/status-green.png") }}');
             } else {
                 $('#toggle-status-title').empty().append(off_title);
                 $('#toggle-status-message').empty().append(off_message);
                 $('#toggle-status-ok-button').attr('toggle-ok-button', toggle_id);
-                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("/public/assets/back-end/img/modal/status-warning.png") }}');
+                $('.toggle-modal-img-box .status-icon').attr('src', '{{ asset("assets/back-end/img/modal/status-warning.png") }}');
             }
             $('#toggle-status-modal').modal('show');
         }
@@ -122,3 +122,5 @@
         @endif
     </script>
 @endpush
+
+

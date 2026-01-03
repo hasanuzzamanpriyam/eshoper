@@ -30,11 +30,11 @@
                                     <div class="ticket-start">
 
                                         @if ($item->coupon_type == "free_delivery")
-                                            <img width="30" src="{{ asset('public/assets/front-end/img/icons/bike.png') }}" alt="">
+                                            <img width="30" src="{{ asset('assets/front-end/img/icons/bike.png') }}" alt="">
                                         @elseif ($item->coupon_type != "free_delivery" && $item->discount_type == "percentage")
-                                            <img width="30" src="{{ asset('public/assets/front-end/img/icons/fire.png') }}" alt="">
+                                            <img width="30" src="{{ asset('assets/front-end/img/icons/fire.png') }}" alt="">
                                         @elseif ($item->coupon_type != "free_delivery" && $item->discount_type == "amount")
-                                            <img width="30" src="{{ asset('public/assets/front-end/img/icons/dollar.png') }}" alt="">
+                                            <img width="30" src="{{ asset('assets/front-end/img/icons/dollar.png') }}" alt="">
                                         @endif
 
                                         <h2 class="ticket-amount">
@@ -74,7 +74,7 @@
                             @if(count($coupons) == 0)
                                 <div class="col-12">
                                     <div class="text-center py-5 text-capitalize">
-                                        <img src="{{asset('public/assets/front-end/img/icons/coupon.svg')}}" alt="" class="mb-4" width="70">
+                                        <img src="{{asset('assets/front-end/img/icons/coupon.svg')}}" alt="" class="mb-4" width="70">
                                         <h5 class="fs-14">{{translate('no_Coupon_Found')}}!</h5>
                                     </div>
                                 </div>
@@ -106,3 +106,4 @@ function click_to_copy_coupon(copied_text) {
 }
 </script>
 @endpush
+

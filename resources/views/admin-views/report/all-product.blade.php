@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2 align-items-center">
-                <img width="20" src="{{asset('/public/assets/back-end/img/seller_sale.png')}}" alt="">
+                <img width="20" src="{{asset('assets/back-end/img/seller_sale.png')}}" alt="">
                 {{translate('product_Report')}}
             </h2>
         </div>
@@ -76,7 +76,7 @@
         <div class="store-report-content mb-2">
             <div class="left-content">
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/cart.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/cart.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">{{ $product_count['reject_product_count']+$product_count['active_product_count']+$product_count['pending_product_count'] }}</h4>
                         <h6 class="subtext">{{translate('total_Product')}}</h6>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/products.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/products.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">
                             {{ $total_product_sale }}
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <div class="left-content-card">
-                    <img src="{{asset('/public/assets/back-end/img/stores.svg')}}" alt="">
+                    <img src="{{asset('assets/back-end/img/stores.svg')}}" alt="">
                     <div class="info">
                         <h4 class="subtitle">
                             {{ \App\CPU\BackEndHelper::set_symbol(\App\CPU\BackEndHelper::usd_to_currency($total_discount_given)) }}
@@ -120,7 +120,7 @@
                         <h6 class="subtext d-flex">
                             {{translate('total_Discount_Given')}}
                             <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('product_wise_discounted_amount_will_be_shown_here')}}">
-                                <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                                <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                             </span>
                         </h6>
                     </div>
@@ -133,7 +133,7 @@
                 <div class="center-chart-header">
                     <h3 class="title d-flex">{{translate('product_Statistics')}}
                         <span class="ml-2" data-toggle="tooltip" data-placement="top" title="{{translate('the_product_report_will_show_based_on_the_product_added_date')}}">
-                            <img class="info-img" src="{{asset('/public/assets/back-end/img/info-circle.svg')}}" alt="img">
+                            <img class="info-img" src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="img">
                         </span>
                     </h3>
                 </div>
@@ -233,7 +233,7 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
                                 <a class="dropdown-item" href="{{ route('admin.report.all-product-excel', ['seller_id' => request('seller_id'), 'search' => request('search'), 'date_type' => request('date_type'), 'from' => request('from'), 'to' => request('to')]) }}">
-                                    <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                    <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                     {{translate('excel')}}
                                 </a>
                             </li>
@@ -309,7 +309,7 @@
                             <tr>
                                 <td colspan="7">
                                     <div class="text-center p-4">
-                                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                              alt="Image Description">
                                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                                     </div>
@@ -335,14 +335,14 @@
 @push('script')
 
     <!-- Chart JS -->
-        <script src="{{ asset('public/assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
-        <script src="{{ asset('public/assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
-        <script src="{{ asset('public/assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
+        <script src="{{ asset('assets/back-end') }}/js/chart.js/dist/Chart.min.js"></script>
+        <script src="{{ asset('assets/back-end') }}/js/chart.js.extensions/chartjs-extensions.js"></script>
+        <script src="{{ asset('assets/back-end') }}/js/chartjs-plugin-datalabels/dist/chartjs-plugin-datalabels.min.js">
         </script>
     <!-- Chart JS -->
 
     <!-- Apex Charts -->
-    <script src="{{ asset('/public/assets/back-end/js/apexcharts.js') }}"></script>
+    <script src="{{ asset('assets/back-end/js/apexcharts.js') }}"></script>
     <!-- Apex Charts -->
 
 @endpush
@@ -399,3 +399,6 @@
     </script>
 
 @endpush
+
+
+

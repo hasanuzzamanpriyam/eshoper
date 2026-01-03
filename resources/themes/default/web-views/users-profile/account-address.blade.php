@@ -4,8 +4,8 @@
 
 @push('css_or_js')
     <link rel="stylesheet" media="screen"
-          href="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
-    <link rel="stylesheet" href="{{ asset('public/assets/front-end/css/bootstrap-select.min.css') }}">
+          href="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
+    <link rel="stylesheet" href="{{ asset('assets/front-end/css/bootstrap-select.min.css') }}">
 
     <style>
         .cz-sidebar-body h3:hover + .divider-role {
@@ -200,13 +200,13 @@
                             <h5 class="font-bold m-0">{{translate('addresses')}}</h5>
                             <button type="submit" class="btn btn--primary text-capitalize" data-toggle="modal"
                                 data-target="#exampleModal" id="add_new_address">
-                                <img src="{{asset('/public/assets/front-end/img/add-address-icon.png')}}" class="" alt="">
+                                <img src="{{asset('assets/front-end/img/add-address-icon.png')}}" class="" alt="">
                                 {{translate('add_address')}}
                             </button>
                         </div>
                         @if ($shippingAddresses->count() ==0)
                             <div class="text-center text-capitalize pb-5 pt-5">
-                                <img class="mb-4" src="{{asset('public/assets/front-end/img/icons/address.svg')}}" alt="" width="70">
+                                <img class="mb-4" src="{{asset('assets/front-end/img/icons/address.svg')}}" alt="" width="70">
                                 <h5 class="fs-14">{{translate('no_address_found')}}!</h5>
                             </div>
                         @endif
@@ -221,7 +221,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between gap-2 align-items-center">
                                                 <a class="" title="Edit Address" id="edit" href="{{route('address-edit',$shippingAddress->id)}}">
-                                                    <img src="{{asset('/public/assets/front-end/img/address-edit-icon.png')}}" width="19" alt="">
+                                                    <img src="{{asset('assets/front-end/img/address-edit-icon.png')}}" width="19" alt="">
                                                 </a>
 
                                                 <button class="no-gutter remove-address-by-modal" data-link="{{ route('address-delete',['id'=>$shippingAddress->id])}}">
@@ -260,7 +260,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/assets/front-end/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('assets/front-end/js/bootstrap-select.min.js') }}"></script>
     <script>
         $(document).ready(function (){
 
@@ -428,3 +428,5 @@
         });
     </script>
 @endpush
+
+

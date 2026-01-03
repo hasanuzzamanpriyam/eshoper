@@ -5,7 +5,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img src="{{asset('/public/assets/back-end/img/Pages.png')}}" width="20" alt="">
+            <img src="{{asset('assets/back-end/img/Pages.png')}}" width="20" alt="">
             {{translate('pages')}}
         </h2>
     </div>
@@ -51,3 +51,5 @@
     </script>
     {{--ck editor--}}
 @endpush
+
+

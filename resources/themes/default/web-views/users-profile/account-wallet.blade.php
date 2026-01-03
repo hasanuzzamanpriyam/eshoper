@@ -4,7 +4,7 @@
 
 @push('css_or_js')
     <link rel="stylesheet" media="screen"
-          href="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
+          href="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.css"/>
 @endpush
 
 @section('content')
@@ -96,5 +96,6 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
+    <script src="{{asset('assets/front-end')}}/vendor/nouislider/distribute/nouislider.min.js"></script>
 @endpush
+

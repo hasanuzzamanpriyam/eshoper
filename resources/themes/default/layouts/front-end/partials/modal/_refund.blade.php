@@ -15,7 +15,7 @@
                             @if (isset($order_details->product))
                                 <div class="position-relative">
                                     <img class="d-block" onclick="location.href='{{route('product',$order_details->product['slug'])}}'"
-                                    onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$order_details->product['thumbnail']}}"
                                     alt="VR Collection" width="100">
 
@@ -120,7 +120,7 @@
                                     <label class="py-0 d-flex align-items-center m-0 cursor-pointer">
                                         <span class="position-relative">
                                             <img class="border rounded border-primary-light h-70px"
-                                                 src="{{asset('public/assets/front-end/img/image-place-holder.png')}}" alt="">
+                                                 src="{{asset('assets/front-end/img/image-place-holder.png')}}" alt="">
                                         </span>
                                         <input type="file" class="msgfilesValue h-100 position-absolute w-100 " hidden multiple accept=".jpg, .png, .jpeg, .gif, .bmp, .webp |image/*">
                                     </label>
@@ -138,3 +138,4 @@
         </div>
     </div>
 </div>
+

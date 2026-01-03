@@ -11,7 +11,7 @@
                         <div class="wishlist-img position-relative">
                             <a href="{{route('product',$product->slug)}}" class="d-block h-100">
                                 <img class="__img-full" src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'" alt="wishlist"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" alt="wishlist"
                                     >
                             </a>
 
@@ -60,7 +60,7 @@
     @else
         <div class="login-card">
             <div class="text-center py-3 text-capitalize">
-                <img src="{{asset('public/assets/front-end/img/icons/wishlist.png')}}" alt="" class="mb-4" width="70">
+                <img src="{{asset('assets/front-end/img/icons/wishlist.png')}}" alt="" class="mb-4" width="70">
                 <h5 class="fs-14">{{translate('no_product_found_in_wishlist')}}!</h5>
             </div>
         </div>
@@ -68,3 +68,4 @@
 </div>
 
 <div class="card-footer border-0">{{$wishlists->links()}}</div>
+

@@ -7,7 +7,7 @@
 
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img src="{{asset('/public/assets/back-end/img/refund-request.png')}}" alt="">
+            <img src="{{asset('assets/back-end/img/refund-request.png')}}" alt="">
             {{translate('pending_Refund_Requests')}}
             <span class="badge badge-soft-dark radius-50">{{$refund_list->total()}}</span>
         </h2>
@@ -48,7 +48,7 @@
                             <ul class="dropdown-menu dropdown-menu-right">
                                 <li>
                                     <a type="submit" class="dropdown-item d-flex align-items-center gap-2 " href="{{route('admin.refund-section.refund.export',['status'=>request('status'),'search'=>$search])}}">
-                                        <img width="14" src="{{asset('/public/assets/back-end/img/excel.png')}}" alt="">
+                                        <img width="14" src="{{asset('assets/back-end/img/excel.png')}}" alt="">
                                         {{translate('excel')}}
                                     </a>
                                 </li>
@@ -97,7 +97,7 @@
 {{--                                @dd($refund->product->thumbnail )--}}
                                 <div class="d-flex flex-wrap gap-2">
                                     <a href="{{route('admin.product.view',[$refund->product->id])}}">
-                                        <img onerror="this.src='{{asset('/public/assets/back-end/img/brand-logo.png')}}'"
+                                        <img onerror="this.src='{{asset('assets/back-end/img/brand-logo.png')}}'"
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{ $refund->product->thumbnail }}"
                                              class="avatar border" alt="">
                                     </a>
@@ -171,7 +171,7 @@
 
         @if(count($refund_list)==0)
             <div class="text-center p-4">
-                <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                 <p class="mb-0">{{ translate('no_data_to_show')}}</p>
             </div>
         @endif
@@ -202,3 +202,6 @@
         };
     </script>
 @endpush
+
+
+

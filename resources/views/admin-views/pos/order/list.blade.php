@@ -11,7 +11,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex flex-wrap align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/inhouse-product-list.png')}}" class="mb-1 mr-1" alt="">
+                <img src="{{asset('assets/back-end/img/inhouse-product-list.png')}}" class="mb-1 mr-1" alt="">
                 {{translate('POS_Orders')}}
                 <span class="badge badge-soft-dark radius-50 fz-14">{{$orders->total()}}</span>
             </h2>
@@ -154,7 +154,7 @@
                 </table>
                 @if(count($orders)==0)
                     <div class="text-center p-4">
-                        <img class="mb-3 w-160" src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
+                        <img class="mb-3 w-160" src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg" alt="Image Description">
                         <p class="mb-0">{{ translate('no_data_to_show')}}</p>
                     </div>
                 @endif
@@ -218,3 +218,6 @@
         })
     </script>
 @endpush
+
+
+

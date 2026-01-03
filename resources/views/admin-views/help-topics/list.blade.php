@@ -2,7 +2,7 @@
 @section('title', translate('FAQ'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -10,7 +10,7 @@
         <!-- Page Title -->
         <div class="mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/Pages.png')}}" width="20" alt="">
+                <img src="{{asset('assets/back-end/img/Pages.png')}}" width="20" alt="">
                 {{translate('pages')}}
             </h2>
         </div>
@@ -200,11 +200,11 @@
 
 @push('script')
     <!-- Page level plugins -->
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="{{asset('public/assets/back-end')}}/js/demo/datatables-demo.js"></script>
+    <script src="{{asset('assets/back-end')}}/js/demo/datatables-demo.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -284,3 +284,6 @@
         });
     </script>
 @endpush
+
+
+

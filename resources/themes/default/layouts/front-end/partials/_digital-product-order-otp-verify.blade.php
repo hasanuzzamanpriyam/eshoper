@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center">
     <a href="javascript:">
-        <img src="{{ asset("public/assets/front-end/img/media/OTP-Verification.png")}}" alt="logo" class="img-fluid" width="220">
+        <img src="{{ asset("assets/front-end/img/media/OTP-Verification.png")}}" alt="logo" class="img-fluid" width="220">
     </a>
 </div>
 <h3 class="title text-center my-3 text-capitalize">{{ translate('OTP_Verification') }}</h3>
@@ -36,3 +36,4 @@
             <span type="button" class="btn btn--primary w-auto min-w-180 submit-btn" onclick="download_otp_verify()">{{translate('verify')}}</span>
     </div>
 </form>
+

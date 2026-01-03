@@ -7,7 +7,7 @@
     <!-- Page Title -->
     <div class="mb-3">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-            <img width="20" src="{{asset('/public/assets/back-end/img/Pages.png')}}" alt="">
+            <img width="20" src="{{asset('assets/back-end/img/Pages.png')}}" alt="">
             {{ translate('pages') }}
         </h2>
     </div>
@@ -153,8 +153,8 @@
 
                                             <div class="mb-2 d-flex">
                                                 <div class="custom_img_upload aspect-ratio-3-15">
-                                                    <img id="pre_img_header_logo{{ $card_index }}" src="{{asset('storage/app/public/banner')}}/{{$item->icon}}"
-                                                        onerror="this.src='{{asset('public/assets/front-end/img/placeholder.png')}}'" class="w-100">
+                                                    <img id="pre_img_header_logo{{ $card_index }}" src="{{asset('storage/banner')}}/{{$item->icon}}"
+                                                        onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'" class="w-100">
                                                 </div>
                                             </div>
 
@@ -198,7 +198,7 @@
                                                 </div>
                                                 <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                                        <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                                        <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                                         <h3 class="text-muted">{{ translate('Upload_Icon') }}</h3>
                                                     </div>
                                                 </div>
@@ -341,7 +341,7 @@
                                     </div>
                                     <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                         <div class="d-flex flex-column justify-content-center align-items-center">
-                                            <img src="{{asset('public/assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                            <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
                                             <h3 class="text-muted">{{ translate('Upload_Icon') }}</h3>
                                         </div>
                                     </div>
@@ -446,3 +446,7 @@
     });
 </script>
 @endpush
+
+
+
+

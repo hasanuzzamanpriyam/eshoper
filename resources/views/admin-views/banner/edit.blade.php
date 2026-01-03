@@ -12,7 +12,7 @@
         <div class="d-flex justify-content-between mb-3">
             <div>
                 <h2 class="h1 mb-1 text-capitalize d-flex align-items-center gap-2">
-                    <img width="20" src="{{asset('/public/assets/back-end/img/banner.png')}}" alt="">
+                    <img width="20" src="{{asset('assets/back-end/img/banner.png')}}" alt="">
                     {{translate('banner_update_form')}}
                 </h2>
             </div>
@@ -139,14 +139,14 @@
                                     <div>
                                         <center class="mx-auto">
                                             <div class="uploadDnD">
-                                                <div class="form-group inputDnD input_image input_image_edit" style="background-image: url('{{asset('storage/app/public/banner')}}/{{$banner['photo']}}')" data-title="{{ file_exists('storage/app/public/banner/'.$banner['photo']) ? '': 'Drag and drop file or Browse file'}}">
+                                                <div class="form-group inputDnD input_image input_image_edit" style="background-image: url('{{asset('storage/banner')}}/{{$banner['photo']}}')" data-title="{{ file_exists('storage/banner/'.$banner['photo']) ? '': 'Drag and drop file or Browse file'}}">
                                                     <input type="file" name="image" class="form-control-file text--primary font-weight-bold" onchange="readUrl(this)"  accept=".jpg, .png, .jpeg, .gif, .bmp, .webp |image/*">
                                                 </div>
                                             </div>
                                         </center>
                                         <label for="name" class="title-color text-capitalize">
                                             <span class="input-label-secondary cursor-pointer" data-toggle="tooltip" data-placement="right" title="" data-original-title="{{translate('banner_image_ratio_is_not_same_for_all_sections_in_website').' '.translate('Please_review_the_ratio_before_upload')}}">
-                                                <img width="16" src={{asset('public/assets/back-end/img/info-circle.svg')}} alt="" class="m-1">
+                                                <img width="16" src={{asset('assets/back-end/img/info-circle.svg')}} alt="" class="m-1">
                                             </span>
                                             {{ translate('banner_image')}}
                                         </label>
@@ -293,3 +293,8 @@
     <!-- New Added JS - End -->
 
 @endpush
+
+
+
+
+

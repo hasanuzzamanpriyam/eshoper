@@ -53,7 +53,7 @@
 @endsection
 
 @push('script')
-    <script src="{{asset('public/assets/front-end/js/spartan-multi-image-picker.js')}}"></script>
+    <script src="{{asset('assets/front-end/js/spartan-multi-image-picker.js')}}"></script>
     <script type="text/javascript">
         $(function () {
             $(".coba").spartanMultiImagePicker({
@@ -62,7 +62,7 @@
                 rowHeight: '150px',
                 groupClassName: 'col-md-4',
                 placeholderImage: {
-                    image: '{{asset('public/assets/front-end/img/image-place-holder.png')}}',
+                    image: '{{asset('assets/front-end/img/image-place-holder.png')}}',
                     width: '100%'
                 },
                 dropFileLabel: "{{translate('drop_here')}}",
@@ -91,3 +91,4 @@
         });
     </script>
 @endpush
+

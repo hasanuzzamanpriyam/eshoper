@@ -38,7 +38,7 @@
     <div class="coupon__details-right">
         <div class="coupon">
             @if($coupon->coupon_type == 'free_delivery')
-                <img src="{{ asset('public/assets/back-end/img/free-delivery.png') }}" alt="Free delivery" width="100">
+                <img src="{{ asset('assets/back-end/img/free-delivery.png') }}" alt="Free delivery" width="100">
             @else
                 <div class="d-flex">
                     <h4 id="discount">
@@ -51,3 +51,4 @@
         </div>
     </div>
 </div>
+

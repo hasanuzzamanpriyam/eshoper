@@ -238,7 +238,7 @@
                 {{ ucwords('order Invoice')}}
             </th>
             <th class="p-0 text-right">
-                <img height="40" src="{{asset("storage/app/public/company/$company_web_logo")}}" alt="">
+                <img height="40" src="{{asset("storage/company/$company_web_logo")}}" alt="">
             </th>
         </tr>
 
@@ -533,3 +533,4 @@ if ($order['extra_discount_type'] == 'percent') {
 
 </body>
 </html>
+

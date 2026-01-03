@@ -13,7 +13,7 @@
         <!-- Page Title -->
         <div class="pb-2 mb-3">
             <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
-                <img src="{{asset('/public/assets/back-end/img/business-setup.png')}}" alt="">
+                <img src="{{asset('assets/back-end/img/business-setup.png')}}" alt="">
                 {{translate('All_Pages_Banner')}}
             </h2>
         </div>
@@ -73,7 +73,7 @@
                                             <img
                                                 class="ratio-6:1"
                                                 id="mbImageviewer"
-                                                src="{{asset('public/assets/front-end/img/placeholder.png')}}"
+                                                src="{{asset('assets/front-end/img/placeholder.png')}}"
                                                 alt="banner image"/>
                                         </center>
                                     </div>
@@ -156,8 +156,8 @@
                                     <td class="pl-xl-5">{{$page_banners->firstItem()+$key}}</td>
                                     <td>
                                         <img class="ratio-4:1" width="80"
-                                             onerror="this.src='{{asset('public/assets/front-end/img/placeholder.png')}}'"
-                                             src="{{asset('storage/app/public/banner')}}/{{json_decode($banner['value'])->image}}">
+                                             onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'"
+                                             src="{{asset('storage/banner')}}/{{json_decode($banner['value'])->image}}">
                                     </td>
                                     <td>{{translate(ucwords(str_replace('_',' ',$banner->type)))}}</td>
                                     <td>
@@ -200,7 +200,7 @@
                     @if(count($page_banners)==0)
                         <div class="text-center p-4">
                             <img class="mb-3 w-160"
-                                 src="{{asset('public/assets/back-end')}}/svg/illustrations/sorry.svg"
+                                 src="{{asset('assets/back-end')}}/svg/illustrations/sorry.svg"
                                  alt="Image Description">
                             <p class="mb-0">{{ translate('No_data_to_show')}}</p>
                         </div>
@@ -298,3 +298,7 @@
     </script>
     <!-- Page level plugins -->
 @endpush
+
+
+
+

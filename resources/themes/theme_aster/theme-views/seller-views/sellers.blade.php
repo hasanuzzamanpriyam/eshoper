@@ -52,7 +52,7 @@
                         <a href="{{route('shopView',['id'=>$shop['seller_id']])}}" class="store-item grid-center py-2">
                             <div class="position-relative">
                                 <div class="avatar rounded-circle border" style="--size: 6.875rem">
-                                    <img src="{{asset('storage/app/public/shop/'.$shop->image)}}"
+                                    <img src="{{asset('storage/shop/'.$shop->image)}}"
                                     onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'"
                                     alt="{{$shop->name}}" loading="lazy" class="dark-support img-fit rounded-circle img-w-h-100">
                                 </div>
@@ -95,3 +95,4 @@
 @push('script')
 
 @endpush
+

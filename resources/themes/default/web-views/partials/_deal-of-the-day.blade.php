@@ -13,7 +13,7 @@
                                 <div class="position-relative">
                                     <img class="__rounded-top"
                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$deal_of_the_day->product['thumbnail']}}"
-                                        onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                         alt="">
                                     @if($deal_of_the_day->discount > 0)
                                     <span class="for-discoutn-value p-1 pl-2 pr-2">
@@ -78,7 +78,7 @@
                                     <div class="position-relative">
                                         <img
                                             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                            onerror="this.src='{{asset('public/assets/front-end/img/image-place-holder.png')}}'"
+                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                             alt="">
                                         @if($product->discount > 0)
                                             <span class="for-discoutn-value p-1 pl-2 pr-2">
@@ -166,3 +166,4 @@
         </div>
     </div>
 @endif
+

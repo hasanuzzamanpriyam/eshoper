@@ -2,8 +2,8 @@
 @section('title', translate('attribute'))
 @push('css_or_js')
     <!-- Custom styles for this page -->
-    <link href="{{asset('public/assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <link href="{{asset('public/assets/back-end/css/croppie.css')}}" rel="stylesheet">
+    <link href="{{asset('assets/back-end')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="{{asset('assets/back-end/css/croppie.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -12,7 +12,7 @@
         <!-- Page Title -->
         <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
             <h2 class="h1 mb-0">
-                <img src="{{asset('/public/assets/back-end/img/attribute.png')}}" class="mb-1 mr-1" alt="">
+                <img src="{{asset('assets/back-end/img/attribute.png')}}" class="mb-1 mr-1" alt="">
                 {{translate('update_attribute')}}
             </h2>
         </div>
@@ -98,3 +98,6 @@
                     });
                 </script>
     @endpush
+
+
+

@@ -4,7 +4,7 @@
 </div>
 <div class="modal-body px-4 px-sm-5 text-center">
     <div class="mb-3 text-center">
-        <img width="75" src="{{asset('public/assets/back-end/img/shift.png')}}" alt="">
+        <img width="75" src="{{asset('assets/back-end/img/shift.png')}}" alt="">
     </div>
 
     <h3>
@@ -59,3 +59,4 @@
         <button type="button" class="fs-16 btn btn-secondary px-sm-5 w-fit-content" data-dismiss="modal" onclick="location.reload()">{{ translate('skip') }}</button>
     </div>
 </div>
+

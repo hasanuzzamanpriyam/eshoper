@@ -32,7 +32,7 @@
                             <div class="position-relative">
                                 <button type="button" class="border-0 bg-trnasparent p-0 how-to-use-info-button rounded-circle lh-1">
 
-                                    <img src="{{asset('public/assets/front-end/img/icons/icon-i.png')}}" width="18">
+                                    <img src="{{asset('assets/front-end/img/icons/icon-i.png')}}" width="18">
                                 </button>
                                 <div class="how-to-use-hover-ele">
                                     <h6 class='subtitle text-capitalize mb-2 fs-14 font-bold'>{{translate('how_to_use')}}</h6>
@@ -60,7 +60,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <img class="wallet-card-bg z-1" src="{{ asset('public/assets/front-end/img/reward-card.png') }}" alt="">
+                                    <img class="wallet-card-bg z-1" src="{{ asset('assets/front-end/img/reward-card.png') }}" alt="">
                                 </div>
                             </div>
                             <div class="col-md-6 d-none d-sm-block">
@@ -161,9 +161,9 @@
                                 <div class="">
                                     <h6 class="mb-2 d-flex align-items-center gap-8">
                                         @if($item['debit'] != 0)
-                                            <img src="{{ asset('public/assets/front-end/img/icons/coin-danger.png') }}" width="25" alt="">
+                                            <img src="{{ asset('assets/front-end/img/icons/coin-danger.png') }}" width="25" alt="">
                                         @else
-                                            <img src="{{ asset('public/assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
+                                            <img src="{{ asset('assets/front-end/img/icons/coin-success.png') }}" width="25" alt="">
                                         @endif
 
                                         {{ $item['debit'] != 0 ? ' - '.\App\CPU\Helpers::currency_converter($item['debit']) : ' + '.\App\CPU\Helpers::currency_converter($item['credit']) }}
@@ -186,7 +186,7 @@
                         </div>
                         @if($loyalty_point_list->count()==0)
                         <div class="d-flex flex-column gap-3 align-items-center text-center my-5">
-                            <img width="72" src="{{ asset('public/assets/front-end/img/icons/empty-transaction-history.png')}}" class="dark-support" alt="">
+                            <img width="72" src="{{ asset('assets/front-end/img/icons/empty-transaction-history.png')}}" class="dark-support" alt="">
                             <h6 class="text-muted mt-3">{{translate('you_do_not_have_any')}}<br> {{ request('type') != 'all' ? ucwords(translate(request('type'))) : '' }} {{translate('transaction_yet')}}</h6>
                         </div>
                         @endif
@@ -288,3 +288,4 @@
     });
 </script>
 @endpush
+
