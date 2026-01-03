@@ -98,6 +98,19 @@ class ProductController extends BaseController
     {
         Log::info('Product store attempt started', ['request_data' => $request->except(['image', 'images'])]);
 
+        if ($request->hasFile('digital_file_ready')) {
+            $file = $request->file('digital_file_ready');
+            Log::info('Digital File Ready Details:', [
+                'original_name' => $file->getClientOriginalName(),
+                'client_mime' => $file->getClientMimeType(),
+                'server_mime' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'extension' => $file->getClientOriginalExtension(),
+            ]);
+        } else {
+            Log::info('No digital_file_ready file found in request');
+        }
+
         $validator = Validator::make($request->all(), [
             'name'                 => 'required',
             'category_id'          => 'required',
