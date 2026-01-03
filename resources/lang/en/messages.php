@@ -6839,4 +6839,5 @@
   'brand_is_required' => 'Brand is required',
   'product_images_is_required' => 'Product images is required',
   'name_field_is_required' => 'Name field is required',
+  'this_page_is_for_A4_size_page_printer_so_it_will_not_be_visible_in_smaller_devices.' => 'This page is for A4 size page printer so it will not be visible in smaller devices.',
 );
