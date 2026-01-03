@@ -45,80 +45,184 @@
 <link rel="stylesheet" href="{{asset('assets/front-end/css/product-details.css')}}" />
 <style>
     .btn-number:hover {
-        color: {{$web_config['secondary_color']}};
+        color: {
+                {
+                $web_config['secondary_color']
+            }
+        }
+
+        ;
     }
 
     .for-total-price {
-        margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: -30%;
+        margin- {
+                {
+                Session: :get('direction')==="rtl" ? 'right': 'left'
+            }
+        }
+
+        : -30%;
     }
 
     .feature_header span {
-        padding-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 15px;
+        padding- {
+                {
+                Session: :get('direction')==="rtl" ? 'right': 'left'
+            }
+        }
+
+        : 15px;
     }
 
-    .flash-deals-background-image{
-        background: {{$web_config['primary_color']}}10;
+    .flash-deals-background-image {
+        background: {
+                {
+                $web_config['primary_color']
+            }
+        }
+
+        10;
     }
 
     @media (max-width: 768px) {
         .for-total-price {
-            padding-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 30%;
+            padding- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 30%;
         }
 
         .product-quantity {
-            padding-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 4%;
+            padding- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 4%;
         }
 
         .for-margin-bnt-mobile {
-            margin-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 7px;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'left': 'right'
+                }
+            }
+
+            : 7px;
         }
 
     }
 
     @media (max-width: 375px) {
         .for-margin-bnt-mobile {
-            margin-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: 3px;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'left': 'right'
+                }
+            }
+
+            : 3px;
         }
 
         .for-discount {
-            margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 10% !important;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 10% !important;
         }
 
         .for-dicount-div {
             margin-top: -5%;
-            margin-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: -7%;
+
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'left': 'right'
+                }
+            }
+
+            : -7%;
         }
 
         .product-quantity {
-            margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 4%;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 4%;
         }
 
     }
 
     @media (max-width: 500px) {
         .for-dicount-div {
-            margin-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: -5%;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'left': 'right'
+                }
+            }
+
+            : -5%;
         }
 
         .for-total-price {
-            margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: -20%;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : -20%;
         }
 
         .view-btn-div {
-            float: {{Session::get('direction') === "rtl" ? 'left' : 'right'}};
+            float: {
+                    {
+                    Session: :get('direction')==="rtl" ? 'left': 'right'
+                }
+            }
+
+            ;
         }
 
         .for-discount {
-            margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 7%;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 7%;
         }
+
         .for-mobile-capacity {
-            margin-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}: 7%;
+            margin- {
+                    {
+                    Session: :get('direction')==="rtl" ? 'right': 'left'
+                }
+            }
+
+            : 7%;
         }
     }
 </style>
 <style>
     thead {
-        background: {{$web_config['primary_color']}} !important;
+        background: {
+                {
+                $web_config['primary_color']
+            }
+        }
+
+        !important;
     }
 </style>
 @endpush
@@ -978,9 +1082,13 @@
         });
         $.ajax({
             type: "post",
-            url: '{{route('review-list-product')}}',
+            url: "{{route('review-list-product')}}",
             data: {
-                product_id: {{$product->id}},
+                product_id: {
+                    {
+                        $product - > id
+                    }
+                },
                 offset: load_review_count
             },
             success: function(data) {
@@ -1009,7 +1117,7 @@
 
         $.ajax({
             type: "post",
-            url: '{{route('messages_store')}}',
+            url: "{{route('messages_store')}}",
             data: $('#chat-form').serialize(),
             success: function(respons) {
 

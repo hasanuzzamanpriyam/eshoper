@@ -61,15 +61,15 @@
                                         <div class="swiper-container quickviewSlider2 border rounded aspect-1"
                                             style="--bs-border-color: #d6d6d6">
                                             <div class="product__actions d-flex flex-column gap-2">
-                                                <a onclick="addWishlist('{{$product['id']}}','{{route('store-wishlist')}}')"
-                                                    id="wishlist-{{$product['id']}}"
-                                                    class="btn-wishlist add_to_wishlist cursor-pointer wishlist-{{$product['id']}} {{($wishlist_status == 1?'wishlist_icon_active':'')}}"
+                                                <a onclick="addWishlist('{{$product->id}}','{{route('store-wishlist')}}')"
+                                                    id="wishlist-{{$product->id}}"
+                                                    class="btn-wishlist add_to_wishlist cursor-pointer wishlist-{{$product->id}} {{($wishlist_status == 1?'wishlist_icon_active':'')}}"
                                                     title="{{translate('add_to_wishlist')}}">
                                                     <i class="bi bi-heart"></i>
                                                 </a>
-                                                <a onclick="addCompareList('{{$product['id']}}','{{route('store-compare-list')}}')"
-                                                    id="compare_list-{{$product['id']}}"
-                                                    class="btn-compare stopPropagation add_to_compare compare_list-{{$product['id']}} {{($compare_list == 1?'compare_list_icon_active':'')}}"
+                                                <a onclick="addCompareList('{{$product->id}}','{{route('store-compare-list')}}')"
+                                                    id="compare_list-{{$product->id}}"
+                                                    class="btn-compare stopPropagation add_to_compare compare_list-{{$product->id}} {{($compare_list == 1?'compare_list_icon_active':'')}}"
                                                     title="{{translate('add_to_wishlist')}}">
                                                     <i class="bi bi-repeat"></i>
                                                 </a>
