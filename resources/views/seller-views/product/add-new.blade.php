@@ -23,7 +23,7 @@
     <div class="content container-fluid">
         <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
             <h2 class="h1 mb-0 d-flex gap-2">
-                <img src="http://localhost/6valley/public/assets/back-end/img/all-orders.png" alt="">
+                <img src="{{asset('assets/back-end/img/all-orders.png')}}" alt="">
                 {{ translate('add_new_product') }}
             </h2>
         </div>
