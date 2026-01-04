@@ -44,70 +44,72 @@ trait Payment
 
         if ($payment->payment_method == 'ssl_commerz') {
             return url("payment/sslcommerz/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'stripe'){
+        } else if ($payment->payment_method == 'stripe') {
             return url("payment/stripe/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'paymob_accept'){
+        } else if ($payment->payment_method == 'paymob_accept') {
             return url("payment/paymob/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'flutterwave'){
+        } else if ($payment->payment_method == 'flutterwave') {
             return url("payment/flutterwave-v3/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'paytm'){
+        } else if ($payment->payment_method == 'paytm') {
             return url("payment/paytm/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'paypal'){
+        } else if ($payment->payment_method == 'paypal') {
             return url("payment/paypal/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'paytabs'){
+        } else if ($payment->payment_method == 'paytabs') {
             return url("payment/paytabs/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'liqpay'){
+        } else if ($payment->payment_method == 'liqpay') {
             return url("payment/liqpay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'razor_pay'){
+        } else if ($payment->payment_method == 'razor_pay') {
             return url("payment/razor-pay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'senang_pay'){
+        } else if ($payment->payment_method == 'senang_pay') {
             return url("payment/senang-pay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'mercadopago'){
+        } else if ($payment->payment_method == 'mercadopago') {
             return url("payment/mercadopago/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'bkash'){
+        } else if ($payment->payment_method == 'bkash') {
             return url("payment/bkash/make-payment/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'paystack'){
+        } else if ($payment->payment_method == 'paystack') {
             return url("payment/paystack/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'fatoorah'){
+        } else if ($payment->payment_method == 'fatoorah') {
             return url("payment/fatoorah/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'xendit'){
+        } else if ($payment->payment_method == 'xendit') {
             return url("payment/xendit/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'amazon_pay'){
+        } else if ($payment->payment_method == 'amazon_pay') {
             return url("payment/amazon/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'iyzi_pay'){
+        } else if ($payment->payment_method == 'iyzi_pay') {
             return url("payment/iyzipay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'hyper_pay'){
+        } else if ($payment->payment_method == 'hyper_pay') {
             return url("payment/hyperpay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'foloosi'){
+        } else if ($payment->payment_method == 'foloosi') {
             return url("payment/foloosi/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'ccavenue'){
+        } else if ($payment->payment_method == 'ccavenue') {
             return url("payment/ccavenue/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'pvit'){
+        } else if ($payment->payment_method == 'pvit') {
             return url("payment/pvit/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'moncash'){
+        } else if ($payment->payment_method == 'moncash') {
             return url("payment/moncash/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'thawani'){
+        } else if ($payment->payment_method == 'thawani') {
             return url("payment/thawani/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'tap'){
+        } else if ($payment->payment_method == 'tap') {
             return url("payment/tap/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'viva_wallet'){
+        } else if ($payment->payment_method == 'viva_wallet') {
             return url("payment/viva/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'hubtel'){
+        } else if ($payment->payment_method == 'hubtel') {
             return url("payment/hubtel/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'maxicash'){
+        } else if ($payment->payment_method == 'maxicash') {
             return url("payment/maxicash/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'esewa'){
+        } else if ($payment->payment_method == 'esewa') {
             return url("payment/esewa/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'swish'){
+        } else if ($payment->payment_method == 'swish') {
             return url("payment/swish/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'momo'){
+        } else if ($payment->payment_method == 'momo') {
             return url("payment/momo/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'payfast'){
+        } else if ($payment->payment_method == 'payfast') {
             return url("payment/payfast/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'worldpay'){
+        } else if ($payment->payment_method == 'worldpay') {
             return url("payment/worldpay/pay/?payment_id={$payment->id}");
-        }else if($payment->payment_method == 'sixcash'){
+        } else if ($payment->payment_method == 'sixcash') {
             return url("payment/sixcash/pay/?payment_id={$payment->id}");
+        } else if ($payment->payment_method == 'nagad') {
+            return url("payment/nagad/pay/?payment_id={$payment->id}");
         }
 
         return false;

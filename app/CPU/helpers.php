@@ -78,13 +78,11 @@ class Helpers
         } elseif (is_object($request) && method_exists($request, 'user')) {
             $user = $request->user() ?? $request->user; //for api
 
-        } elseif (isset($request['payment_request_from']) && in_array($request['payment_request_from'], ['app', 'react']) && !isset($request->user)){
+        } elseif (isset($request['payment_request_from']) && in_array($request['payment_request_from'], ['app', 'react']) && !isset($request->user)) {
             $user = $request['is_guest'] ? 'offline' : User::find($request['customer_id']);
-
         } elseif (session()->has('customer_id') && !session('is_guest')) {
             $user = User::find(session('customer_id'));
-
-        } elseif(isset($request->user)){
+        } elseif (isset($request->user)) {
             $user = $request->user;
         }
 
@@ -202,7 +200,7 @@ class Helpers
 
     public static function get_image_path($type)
     {
-        $path = asset('storage/app/public/brand');
+        $path = asset('storage/brand');
         return $path;
     }
 
@@ -227,7 +225,7 @@ class Helpers
         if ((is_array($data['attributes']) ? $data['attributes'] : json_decode($data['attributes'])) != null) {
             $attributes_arr = is_array($data['attributes']) ? $data['attributes'] : json_decode($data['attributes']);
             foreach ($attributes_arr as $attribute) {
-                $attributes[] = (integer)$attribute;
+                $attributes[] = (int)$attribute;
             }
         }
         $data['attributes'] = $attributes;
@@ -236,9 +234,9 @@ class Helpers
         foreach ($variation_arr as $var) {
             $variation[] = [
                 'type' => $var['type'],
-                'price' => (double)$var['price'],
+                'price' => (float)$var['price'],
                 'sku' => $var['sku'],
-                'qty' => (integer)$var['qty'],
+                'qty' => (int)$var['qty'],
             ];
         }
         $data['variation'] = $variation;
@@ -286,7 +284,8 @@ class Helpers
             'paytabs',
             'liqpay',
             'mercadopago',
-            'bkash'
+            'bkash',
+            'nagad'
         ];
         return $methods;
     }
@@ -426,23 +425,23 @@ class Helpers
             }
         }
 
-        if($product->discount >0){
+        if ($product->discount > 0) {
             $discounted_lowest_price = Helpers::currency_converter($lowest_price - Helpers::get_product_discount($product, $lowest_price));
             $discounted_highest_price = Helpers::currency_converter($highest_price - Helpers::get_product_discount($product, $highest_price));
 
             if ($discounted_lowest_price == $discounted_highest_price) {
-                if($discounted_lowest_price == self::currency_converter($lowest_price)){
+                if ($discounted_lowest_price == self::currency_converter($lowest_price)) {
                     return $discounted_lowest_price;
-                }else{
-                    return theme_root_path() === "default" ? $discounted_lowest_price." <del class='align-middle fs-16 text-muted'>".self::currency_converter($lowest_price)."</del> " : $discounted_lowest_price." <del>".self::currency_converter($lowest_price)."</del> ";
+                } else {
+                    return theme_root_path() === "default" ? $discounted_lowest_price . " <del class='align-middle fs-16 text-muted'>" . self::currency_converter($lowest_price) . "</del> " : $discounted_lowest_price . " <del>" . self::currency_converter($lowest_price) . "</del> ";
                 }
             }
-            return  theme_root_path() === "default" ? "<span>".$discounted_lowest_price."</span>"." <del class='align-middle fs-16 text-muted'>".self::currency_converter($lowest_price)."</del> ". ' - ' ."<span>".$discounted_highest_price."</span>"." <del class='align-middle fs-16 text-muted'>".self::currency_converter($highest_price)."</del> " : $discounted_lowest_price." <del>".self::currency_converter($lowest_price)."</del> ". ' - ' .$discounted_highest_price." <del>".self::currency_converter($highest_price)."</del> ";
-        }else{
-            if(json_decode($product->variation)){
-                return  theme_root_path() === "default" ? "<span>".self::currency_converter($lowest_price)."</span>".' - ' ."<span>".self::currency_converter($highest_price)."</span>" : self::currency_converter($lowest_price). ' - ' .self::currency_converter($highest_price);
-            }else{
-                return  theme_root_path() === "default" ? "<span>".self::currency_converter($lowest_price)."</span> " : self::currency_converter($lowest_price);
+            return  theme_root_path() === "default" ? "<span>" . $discounted_lowest_price . "</span>" . " <del class='align-middle fs-16 text-muted'>" . self::currency_converter($lowest_price) . "</del> " . ' - ' . "<span>" . $discounted_highest_price . "</span>" . " <del class='align-middle fs-16 text-muted'>" . self::currency_converter($highest_price) . "</del> " : $discounted_lowest_price . " <del>" . self::currency_converter($lowest_price) . "</del> " . ' - ' . $discounted_highest_price . " <del>" . self::currency_converter($highest_price) . "</del> ";
+        } else {
+            if (json_decode($product->variation)) {
+                return  theme_root_path() === "default" ? "<span>" . self::currency_converter($lowest_price) . "</span>" . ' - ' . "<span>" . self::currency_converter($highest_price) . "</span>" : self::currency_converter($lowest_price) . ' - ' . self::currency_converter($highest_price);
+            } else {
+                return  theme_root_path() === "default" ? "<span>" . self::currency_converter($lowest_price) . "</span> " : self::currency_converter($lowest_price);
             }
         }
     }
@@ -515,17 +514,18 @@ class Helpers
     }
 
     /** push notification order related  */
-    public static function send_order_notification($key,$type,$order){
+    public static function send_order_notification($key, $type, $order)
+    {
         try {
             $lang = self::default_lang();
 
             /** for customer  */
-            if($type == 'customer') {
+            if ($type == 'customer') {
                 $fcm_token = $order->customer?->cm_firebase_token;
                 $lang = $order->customer?->app_language ?? $lang;
-                $value = Helpers::push_notificatoin_message($key,'customer', $lang);
-                $value = Helpers::text_variable_data_format(value: $value,key:$key,shopName:$order->seller?->shop?->name,order_id:$order->id,user_name:"{$order->customer?->f_name} {$order->customer?->l_name}",delivery_man_name:"{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}",time:now()->diffForHumans());
-                if(!empty($fcm_token) || $value) {
+                $value = Helpers::push_notificatoin_message($key, 'customer', $lang);
+                $value = Helpers::text_variable_data_format(value: $value, key: $key, shopName: $order->seller?->shop?->name, order_id: $order->id, user_name: "{$order->customer?->f_name} {$order->customer?->l_name}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}", time: now()->diffForHumans());
+                if (!empty($fcm_token) || $value) {
                     $data = [
                         'title' => translate('order'),
                         'description' => $value,
@@ -538,32 +538,32 @@ class Helpers
             }
             /** end for customer  */
             /**for seller */
-            if($type == 'seller') {
+            if ($type == 'seller') {
                 $seller_fcm_token = $order->seller?->cm_firebase_token;
-                if(!empty($seller_fcm_token)) {
+                if (!empty($seller_fcm_token)) {
                     $lang = $order->seller?->app_language ?? $lang;
-                    $value_seller = Helpers::push_notificatoin_message($key,'seller',$lang);
-                    $value_seller = Helpers::text_variable_data_format(value:$value_seller,key:$key,shopName:$order->seller?->shop?->name,order_id:$order->id,user_name:"{$order->customer?->f_name} {$order->customer?->l_name}",delivery_man_name:"{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}",time:now()->diffForHumans());
+                    $value_seller = Helpers::push_notificatoin_message($key, 'seller', $lang);
+                    $value_seller = Helpers::text_variable_data_format(value: $value_seller, key: $key, shopName: $order->seller?->shop?->name, order_id: $order->id, user_name: "{$order->customer?->f_name} {$order->customer?->l_name}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}", time: now()->diffForHumans());
 
-                        if ($value_seller != null) {
-                            $data = [
-                                'title' => translate('order'),
-                                'description' => $value_seller,
-                                'order_id' => $order['id'],
-                                'image' => '',
-                                'type' => 'order'
-                            ];
-                            Helpers::send_push_notif_to_device($seller_fcm_token, $data);
-                        }
+                    if ($value_seller != null) {
+                        $data = [
+                            'title' => translate('order'),
+                            'description' => $value_seller,
+                            'order_id' => $order['id'],
+                            'image' => '',
+                            'type' => 'order'
+                        ];
+                        Helpers::send_push_notif_to_device($seller_fcm_token, $data);
+                    }
                 }
             }
             /**end for seller */
             /** for delivery man*/
-            if($type == 'delivery_man') {
-                $fcm_token_delivery_man =$order->delivery_man?->fcm_token;
+            if ($type == 'delivery_man') {
+                $fcm_token_delivery_man = $order->delivery_man?->fcm_token;
                 $lang = $order->delivery_man?->app_language ?? $lang;
-                $value_delivery_man = Helpers::push_notificatoin_message($key,'delivery_man', $lang);
-                $value_delivery_man = Helpers::text_variable_data_format(value:$value_delivery_man,key:$key,shopName:$order->seller?->shop?->name,order_id:$order->id,user_name:"{$order->customer?->f_name} {$order->customer?->l_name}",delivery_man_name:"{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}",time:now()->diffForHumans());
+                $value_delivery_man = Helpers::push_notificatoin_message($key, 'delivery_man', $lang);
+                $value_delivery_man = Helpers::text_variable_data_format(value: $value_delivery_man, key: $key, shopName: $order->seller?->shop?->name, order_id: $order->id, user_name: "{$order->customer?->f_name} {$order->customer?->l_name}", delivery_man_name: "{$order->delivery_man?->f_name} {$order->delivery_man?->l_name}", time: now()->diffForHumans());
                 $data = [
                     'title' => translate('order'),
                     'description' => $value_delivery_man,
@@ -571,98 +571,98 @@ class Helpers
                     'image' => '',
                     'type' => 'order'
                 ];
-                if($order->delivery_man_id) {
+                if ($order->delivery_man_id) {
                     self::add_deliveryman_push_notification($data, $order->delivery_man_id);
                 }
-                if($fcm_token_delivery_man){
+                if ($fcm_token_delivery_man) {
                     Helpers::send_push_notif_to_device($fcm_token_delivery_man, $data);
                 }
             }
 
             /** end delivery man*/
         } catch (\Exception $e) {
-
         }
     }
     /** end push notification to seller  */
 
     /** push notification variable message formate  */
-    public static function text_variable_data_format($value,$key=null,$user_name=null,$shopName=null,$delivery_man_name=null,$time=null,$order_id=null)
+    public static function text_variable_data_format($value, $key = null, $user_name = null, $shopName = null, $delivery_man_name = null, $time = null, $order_id = null)
     {
         $data =  $value;
         if ($data) {
             $order = $order_id ? Order::find($order_id) : null;
-            $data =  $user_name ? str_replace("{userName}", $user_name, $data):$data;
-            $data =  $shopName ? str_replace("{shopName}", $shopName, $data) :$data;
-            $data =  $delivery_man_name ? str_replace("{deliveryManName}", $delivery_man_name, $data):$data;
-            $data =  $key=='expected_delivery_date' ? ($order ? str_replace("{time}", $order->expected_delivery_date, $data):$data): ($time ? str_replace("{time}", $time, $data):$data);
-            $data =  $order_id ? str_replace("{orderId}", $order_id, $data):$data;
+            $data =  $user_name ? str_replace("{userName}", $user_name, $data) : $data;
+            $data =  $shopName ? str_replace("{shopName}", $shopName, $data) : $data;
+            $data =  $delivery_man_name ? str_replace("{deliveryManName}", $delivery_man_name, $data) : $data;
+            $data =  $key == 'expected_delivery_date' ? ($order ? str_replace("{time}", $order->expected_delivery_date, $data) : $data) : ($time ? str_replace("{time}", $time, $data) : $data);
+            $data =  $order_id ? str_replace("{orderId}", $order_id, $data) : $data;
         }
         return $data;
     }
     /* end **/
-    public static function push_notificatoin_message($key,$user_type, $lang)
+    public static function push_notificatoin_message($key, $user_type, $lang)
     {
         try {
-        $notification_key = [
-            'pending'   =>'order_pending_message',
-            'confirmed' =>'order_confirmation_message',
-            'processing'=>'order_processing_message',
-            'out_for_delivery'=>'out_for_delivery_message',
-            'delivered' =>'order_delivered_message',
-            'returned'  =>'order_returned_message',
-            'failed'    =>'order_failed_message',
-            'canceled'  =>'order_canceled',
-            'order_refunded_message'    =>'order_refunded_message',
-            'refund_request_canceled_message'   =>'refund_request_canceled_message',
-            'new_order_message' =>'new_order_message',
-            'order_edit_message'=>'order_edit_message',
-            'new_order_assigned_message'=>'new_order_assigned_message',
-            'delivery_man_assign_by_admin_message'=>'delivery_man_assign_by_admin_message',
-            'order_rescheduled_message'=>'order_rescheduled_message',
-            'expected_delivery_date'=>'expected_delivery_date',
-            'message_from_admin'=>'message_from_admin',
-            'message_from_seller'=>'message_from_seller',
-            'message_from_delivery_man'=>'message_from_delivery_man',
-            'message_from_customer'=>'message_from_customer',
-            'refund_request_status_changed_by_admin'=>'refund_request_status_changed_by_admin',
-            'withdraw_request_status_message'=>'withdraw_request_status_message',
-            'cash_collect_by_seller_message'=>'cash_collect_by_seller_message',
-            'cash_collect_by_admin_message'=>'cash_collect_by_admin_message',
-            'fund_added_by_admin_message' => 'fund_added_by_admin_message',
-            'delivery_man_charge' => 'delivery_man_charge',
-        ];
-        $data = NotificationMessage::with(['translations'=>function($query)use($lang){
-            $query->where('locale', $lang);
-        }])->where(['key'=>$notification_key[$key],'user_type'=>$user_type])->first() ?? ["status"=>0,"message"=>"","translations"=>[]];
-        if($data){
-            if ($data['status'] == 0) {
-                return 0;
+            $notification_key = [
+                'pending'   => 'order_pending_message',
+                'confirmed' => 'order_confirmation_message',
+                'processing' => 'order_processing_message',
+                'out_for_delivery' => 'out_for_delivery_message',
+                'delivered' => 'order_delivered_message',
+                'returned'  => 'order_returned_message',
+                'failed'    => 'order_failed_message',
+                'canceled'  => 'order_canceled',
+                'order_refunded_message'    => 'order_refunded_message',
+                'refund_request_canceled_message'   => 'refund_request_canceled_message',
+                'new_order_message' => 'new_order_message',
+                'order_edit_message' => 'order_edit_message',
+                'new_order_assigned_message' => 'new_order_assigned_message',
+                'delivery_man_assign_by_admin_message' => 'delivery_man_assign_by_admin_message',
+                'order_rescheduled_message' => 'order_rescheduled_message',
+                'expected_delivery_date' => 'expected_delivery_date',
+                'message_from_admin' => 'message_from_admin',
+                'message_from_seller' => 'message_from_seller',
+                'message_from_delivery_man' => 'message_from_delivery_man',
+                'message_from_customer' => 'message_from_customer',
+                'refund_request_status_changed_by_admin' => 'refund_request_status_changed_by_admin',
+                'withdraw_request_status_message' => 'withdraw_request_status_message',
+                'cash_collect_by_seller_message' => 'cash_collect_by_seller_message',
+                'cash_collect_by_admin_message' => 'cash_collect_by_admin_message',
+                'fund_added_by_admin_message' => 'fund_added_by_admin_message',
+                'delivery_man_charge' => 'delivery_man_charge',
+            ];
+            $data = NotificationMessage::with(['translations' => function ($query) use ($lang) {
+                $query->where('locale', $lang);
+            }])->where(['key' => $notification_key[$key], 'user_type' => $user_type])->first() ?? ["status" => 0, "message" => "", "translations" => []];
+            if ($data) {
+                if ($data['status'] == 0) {
+                    return 0;
+                }
+                return count($data->translations) > 0 ? $data->translations[0]->value : $data['message'];
+            } else {
+                return false;
             }
-            return count($data->translations) > 0 ? $data->translations[0]->value : $data['message'];
-        }else{
-            return false;
-        }
         } catch (\Exception $exception) {
         }
     }
 
     /** chatting related push notification */
-    public static function chatting_notification($key,$type,$user_data,$message_form=null){
+    public static function chatting_notification($key, $type, $user_data, $message_form = null)
+    {
         try {
-            $fcm_token = $type=='delivery_man' ? $user_data?->fcm_token : $user_data?->cm_firebase_token;
-            if($fcm_token){
+            $fcm_token = $type == 'delivery_man' ? $user_data?->fcm_token : $user_data?->cm_firebase_token;
+            if ($fcm_token) {
                 $lang = $user_data?->app_language ?? self::default_lang();
-                $value = Helpers::push_notificatoin_message($key,$type,$lang);
+                $value = Helpers::push_notificatoin_message($key, $type, $lang);
 
                 $value = Helpers::text_variable_data_format(
-                        value:$value,
-                        key:$key,
-                        shopName:$message_form?->shop?->name,
-                        user_name:"{$message_form?->f_name} {$message_form?->l_name}",
-                        delivery_man_name:"{$message_form?->f_name} {$message_form?->l_name}",
-                        time:now()->diffForHumans()
-                    );
+                    value: $value,
+                    key: $key,
+                    shopName: $message_form?->shop?->name,
+                    user_name: "{$message_form?->f_name} {$message_form?->l_name}",
+                    delivery_man_name: "{$message_form?->f_name} {$message_form?->l_name}",
+                    time: now()->diffForHumans()
+                );
                 $data = [
                     'title' => translate('message'),
                     'description' => $value,
@@ -674,19 +674,19 @@ class Helpers
             }
         } catch (\Exception $exception) {
         }
-
     }
     /** end chatting related push notification */
 
     /**
-    * Device wise notification send
-    */
+     * Device wise notification send
+     */
 
-    public static function send_push_notif_to_device($fcm_token,$data)
+    public static function send_push_notif_to_device($fcm_token, $data)
     {
         $key = BusinessSetting::where(['type' => 'push_notification_key'])->first()->value;
         $url = "https://fcm.googleapis.com/fcm/send";
-        $header = array("authorization: key=" . $key . "",
+        $header = array(
+            "authorization: key=" . $key . "",
             "content-type: application/json"
         );
 
@@ -739,11 +739,12 @@ class Helpers
         $key = BusinessSetting::where(['type' => 'push_notification_key'])->first()->value;
 
         $url = "https://fcm.googleapis.com/fcm/send";
-        $header = ["authorization: key=" . $key . "",
+        $header = [
+            "authorization: key=" . $key . "",
             "content-type: application/json",
         ];
 
-        $image = asset('storage/app/public/notification') . '/' . $data['image'];
+        $image = asset('storage/notification') . '/' . $data['image'];
         $postdata = '{
             "to" : "/topics/' . $topic . '",
             "data" : {
@@ -806,7 +807,8 @@ class Helpers
             $objects = scandir($dir);
             foreach ($objects as $object) {
                 if ($object != "." && $object != "..") {
-                    if (filetype($dir . "/" . $object) == "dir") Helpers::remove_dir($dir . "/" . $object); else unlink($dir . "/" . $object);
+                    if (filetype($dir . "/" . $object) == "dir") Helpers::remove_dir($dir . "/" . $object);
+                    else unlink($dir . "/" . $object);
                 }
             }
             reset($objects);
@@ -1045,7 +1047,8 @@ function auto_translator($q, $sl, $tl)
 
 function getLanguageCode(string $country_code): string
 {
-    $locales = array('af-ZA',
+    $locales = array(
+        'af-ZA',
         'am-ET',
         'ar-AE',
         'ar-BH',
@@ -1192,7 +1195,8 @@ function getLanguageCode(string $country_code): string
         'zh-HK',
         'zh-MO',
         'zh-SG',
-        'zh-TW');
+        'zh-TW'
+    );
 
     foreach ($locales as $locale) {
         $locale_region = explode('-', $locale);
@@ -1226,7 +1230,6 @@ if (!function_exists('customer_info')) {
     function customer_info()
     {
         return User::where('id', auth('customer')->id())->first();
-
     }
 }
 
@@ -1350,9 +1353,9 @@ if (!function_exists('product_image_path')) {
     {
         $path = '';
         if ($image_type == 'thumbnail') {
-            $path = asset('storage/app/public/product/thumbnail');
+            $path = asset('storage/product/thumbnail');
         } elseif ($image_type == 'product') {
-            $path = asset('storage/app/public/product');
+            $path = asset('storage/product');
         }
         return $path;
     }
@@ -1378,5 +1381,3 @@ if (!function_exists('currency_converter')) {
         return Helpers::set_symbol(round($amount * $rate, 2));
     }
 }
-
-

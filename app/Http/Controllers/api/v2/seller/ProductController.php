@@ -664,7 +664,7 @@ class ProductController extends Controller
             $pdf = app()->make(PDF::class);
             $pdf->loadView('seller-views.product.barcode-pdf', compact('product', 'quantity'));
             $pdf->save(storage_path('app/public/product/barcode.pdf'));
-            return response()->json(asset('storage/app/public/product/barcode.pdf'));
+            return response()->json(asset('storage/product/barcode.pdf'));
         } else {
             return response()->json(['message' => translate('Please update product code!')], 203);
         }

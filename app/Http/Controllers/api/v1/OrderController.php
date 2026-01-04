@@ -485,10 +485,10 @@ class OrderController extends Controller
                 if($user != 'offline' && $user->id == $order_details_data->order->customer->id) {
                     $file_name = '';
                     if( $order_details_data->product->digital_product_type == 'ready_product' && $order_details_data->product->digital_file_ready) {
-                        $file_path = asset('storage/app/public/product/digital-product/' .$order_details_data->product->digital_file_ready);
+                        $file_path = asset('storage/product/digital-product/' .$order_details_data->product->digital_file_ready);
                         $file_name = $order_details_data->product->digital_file_ready;
                     }else{
-                        $file_path = asset('storage/app/public/product/digital-product/' . $order_details_data->digital_file_after_sell);
+                        $file_path = asset('storage/product/digital-product/' . $order_details_data->digital_file_after_sell);
                         $file_name = $order_details_data->digital_file_after_sell;
                     }
 
