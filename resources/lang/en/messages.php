@@ -6849,4 +6849,6 @@
   'newest_first' => 'Newest first',
   'best_rating' => 'Best rating',
   'top_reviews' => 'Top reviews',
+  'error_loading_suggestions' => 'Error loading suggestions',
+  'no_products_found' => 'No products found',
 );

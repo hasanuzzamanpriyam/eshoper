@@ -319,7 +319,7 @@
             !function (f, b, e, v, n, t, s) {
                 if (f.fbq) return; n = f.fbq = function () {
                     n.callMethod ?
-                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
                 };
                 if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
                 n.queue = []; t = b.createElement(e); t.async = !0;
@@ -375,7 +375,7 @@
     {{--loader--}}
 
     <!-- Page Content-->
-@yield('content')
+    @yield('content')
 
     <span id="update_nav_cart_url" data-url="{{route('cart.nav-cart')}}"></span>
     <span id="remove_from_cart_url" data-url="{{ route('cart.remove') }}"></span>
@@ -1113,10 +1113,89 @@
                     @else
                         window.location.href = "{{route('customer.auth.sign-up')}}?referral_code=" + referral_code_parameter;
                     @endif
-            }
+                }
             });
         </script>
     @endif
+
+    <script>
+        // Search Autocomplete Functionality
+        $(document).ready(function () {
+            let searchTimer;
+            const $searchInput = $('#search-input');
+            const $searchResults = $('#search-results-ajax');
+            const $searchResultBox = $searchResults.find('.search-result-box');
+            const $loadingIndicator = $('.loading-indicator');
+
+            // Debounced search function
+            $searchInput.on('keyup', function () {
+                const searchTerm = $(this).val().trim();
+
+                // Clear previous timer
+                clearTimeout(searchTimer);
+
+                // Hide results if search term is too short
+                if (searchTerm.length < 2) {
+                    $searchResults.addClass('d-none');
+                    return;
+                }
+
+                // Show loading indicator
+                $loadingIndicator.removeClass('d-none');
+
+                // Set new timer to debounce requests
+                searchTimer = setTimeout(function () {
+                    $.ajax({
+                        url: '{{ route("search.suggestions") }}',
+                        method: 'GET',
+                        data: { term: searchTerm },
+                        success: function (products) {
+                            $loadingIndicator.addClass('d-none');
+
+                            if (products.length > 0) {
+                                let html = '';
+                                products.forEach(function (product) {
+                                    const imageUrl = '{{asset("storage/product/thumbnail")}}/' + product.thumbnail;
+                                    html += `
+                                        <a href="${product.url}" class="search-result-item d-flex align-items-center gap-3 p-2 border-bottom">
+                                            <img src="${imageUrl}" alt="${product.name}" 
+                                                 class="rounded" style="width: 50px; height: 50px; object-fit: cover;"
+                                                 onerror="this.src='{{asset("assets/front-end/img/image-place-holder.png")}}'">
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0 text-dark">${product.name}</h6>
+                                            </div>
+                                        </a>
+                                    `;
+                                });
+                                $searchResultBox.html(html);
+                                $searchResults.removeClass('d-none');
+                            } else {
+                                $searchResultBox.html('<p class="text-center text-muted p-3">{{ translate("no_products_found") }}</p>');
+                                $searchResults.removeClass('d-none');
+                            }
+                        },
+                        error: function () {
+                            $loadingIndicator.addClass('d-none');
+                            $searchResultBox.html('<p class="text-center text-danger p-3">{{ translate("error_loading_suggestions") }}</p>');
+                            $searchResults.removeClass('d-none');
+                        }
+                    });
+                }, 300); // 300ms debounce delay
+            });
+
+            // Hide results when clicking outside
+            $(document).on('click', function (e) {
+                if (!$(e.target).closest('.search-form-mobile, #search-results-ajax').length) {
+                    $searchResults.addClass('d-none');
+                }
+            });
+
+            // Hide results when form is submitted
+            $('.search_form').on('submit', function () {
+                $searchResults.addClass('d-none');
+            });
+        });
+    </script>
 
     <script>
         /*========================

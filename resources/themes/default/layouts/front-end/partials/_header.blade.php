@@ -167,6 +167,7 @@
                         </button>
                      </div>
                     <form action="{{route('products')}}" type="submit" class="search_form">
+                        <input type="hidden" name="data_from" value="search">
                         <div class="input-group position-relative">
                             <div class="loading-indicator d-none">
                                 <div class="spinner-border spinner-border-sm text-primary"></div>
@@ -181,15 +182,13 @@
                                 <span class="input-group-text __text-20px">
                                     <i class="czi-search text-white"></i>
                                 </span>
+                            </button>
                         </div>
                         <div id="search-results-ajax" class="d-none">
                             <div id="search-box" class="card search-card __inline-13">
                                 <div class="card-body search-result-box __h-400px overflow-x-hidden overflow-y-auto"></div>
                             </div>
                         </div>
-                        <diV class="card search-card __inline-13">
-                            <div class="card-body search-result-box __h-400px overflow-x-hidden overflow-y-auto"></div>
-                        </diV>
                     </form>
                 </div>
                 <!-- Toolbar-->

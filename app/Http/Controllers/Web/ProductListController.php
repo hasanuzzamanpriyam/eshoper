@@ -26,7 +26,7 @@ class ProductListController extends Controller
     {
         $theme_name = theme_root_path();
 
-        return match ($theme_name){
+        return match ($theme_name) {
             'default' => self::default_theme($request),
             'theme_aster' => self::theme_aster($request),
             'theme_fashion' => self::theme_fashion($request),
@@ -34,7 +34,37 @@ class ProductListController extends Controller
         };
     }
 
-    public function default_theme($request){
+    public function searchSuggestions(Request $request)
+    {
+        $term = $request->term;
+
+        if (strlen($term) < 2) {
+            return response()->json([]);
+        }
+
+        $products = Product::active()
+            ->where('name', 'like', "%{$term}%")
+            ->orWhereHas('tags', function ($query) use ($term) {
+                $query->where('tag', 'like', "%{$term}%");
+            })
+            ->limit(10)
+            ->get(['id', 'name', 'slug', 'thumbnail']);
+
+        $suggestions = $products->map(function ($product) {
+            return [
+                'id' => $product->id,
+                'name' => $product->name,
+                'slug' => $product->slug,
+                'thumbnail' => $product->thumbnail,
+                'url' => route('product', $product->slug)
+            ];
+        });
+
+        return response()->json($suggestions);
+    }
+
+    public function default_theme($request)
+    {
         $request['sort_by'] == null ? $request['sort_by'] == 'latest' : $request['sort_by'];
 
         $porduct_data = Product::active()->with(['reviews']);
@@ -102,24 +132,25 @@ class ProductListController extends Controller
         }
 
         if ($request['data_from'] == 'featured_deal') {
-            $featured_deal_id = FlashDeal::where(['status'=>1])->where(['deal_type'=>'feature_deal'])->pluck('id')->first();
-            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id',$featured_deal_id)->pluck('product_id')->toArray();
+            $featured_deal_id = FlashDeal::where(['status' => 1])->where(['deal_type' => 'feature_deal'])->pluck('id')->first();
+            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id', $featured_deal_id)->pluck('product_id')->toArray();
             $query = Product::with(['reviews'])->active()->whereIn('id', $featured_deal_product_ids);
         }
 
         if ($request['data_from'] == 'search') {
             $key = explode(' ', $request['name']);
+            $search_term = $request['name'];
+
             $product_ids = Product::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
-                        ->orWhereHas('tags',function($query)use($value){
+                        ->orWhereHas('tags', function ($query) use ($value) {
                             $query->where('tag', 'like', "%{$value}%");
                         });
                 }
             })->pluck('id');
 
-            if($product_ids->count()==0)
-            {
+            if ($product_ids->count() == 0) {
                 $product_ids = Translation::where('translationable_type', 'App\Model\Product')
                     ->where('key', 'name')
                     ->where(function ($q) use ($key) {
@@ -128,19 +159,43 @@ class ProductListController extends Controller
                         }
                     })
                     ->pluck('translationable_id');
-
-
             }
 
-            $query = $porduct_data->WhereIn('id', $product_ids);
-
+            // Add relevance scoring for better search results
+            $query = $porduct_data->whereIn('id', $product_ids)
+                ->selectRaw(
+                    'products.*, 
+                    CASE 
+                        WHEN LOWER(name) = LOWER(?) THEN 1
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 2
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 3
+                        ELSE 4
+                    END as relevance_score',
+                    [$search_term, $search_term . '%', '%' . $search_term . '%']
+                )
+                ->orderBy('relevance_score', 'ASC');
         }
 
         if ($request['data_from'] == 'discounted') {
             $query = Product::with(['reviews'])->active()->where('discount', '!=', 0);
         }
 
-        if ($request['sort_by'] == 'latest') {
+        // Apply user-selected sorting, but preserve relevance ordering for search results
+        if ($request['data_from'] == 'search' && isset($query)) {
+            // For search results, always order by relevance first
+            if ($request['sort_by'] == 'low-high') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'ASC');
+            } elseif ($request['sort_by'] == 'high-low') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'DESC');
+            } elseif ($request['sort_by'] == 'a-z') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'ASC');
+            } elseif ($request['sort_by'] == 'z-a') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'DESC');
+            } else {
+                // Default or 'latest' - order by relevance then by created_at
+                $fetched = $query->orderBy('relevance_score', 'ASC')->latest();
+            }
+        } elseif ($request['sort_by'] == 'latest') {
             $fetched = $query->latest();
         } elseif ($request['sort_by'] == 'low-high') {
             $fetched = $query->orderBy('unit_price', 'ASC');
@@ -173,7 +228,7 @@ class ProductListController extends Controller
         if ($request->ajax()) {
 
             return response()->json([
-                'total_product'=>$products->total(),
+                'total_product' => $products->total(),
                 'view' => view('web-views.products._ajax-products', compact('products'))->render()
             ], 200);
         }
@@ -182,9 +237,9 @@ class ProductListController extends Controller
         }
         if ($request['data_from'] == 'brand') {
             $brand_data = Brand::active()->find((int)$request['id']);
-            if($brand_data) {
+            if ($brand_data) {
                 $data['brand_name'] = $brand_data->name;
-            }else {
+            } else {
                 Toastr::warning(translate('not_found'));
                 return redirect('/');
             }
@@ -193,16 +248,18 @@ class ProductListController extends Controller
         return view(VIEW_FILE_NAMES['products_view_page'], compact('products', 'data'));
     }
 
-    public function theme_aster($request){
+    public function theme_aster($request)
+    {
         $request['sort_by'] == null ? $request['sort_by'] == 'latest' : $request['sort_by'];
 
         $porduct_data = Product::active()->with([
-            'reviews','rating',
+            'reviews',
+            'rating',
             'seller.shop',
-            'wish_list'=>function($query){
+            'wish_list' => function ($query) {
                 return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
             },
-            'compare_list'=>function($query){
+            'compare_list' => function ($query) {
                 return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
             }
         ]);
@@ -281,25 +338,27 @@ class ProductListController extends Controller
 
         if ($request['data_from'] == 'featured') {
             $query = Product::with([
-                'reviews','seller.shop',
-                'wish_list'=>function($query){
+                'reviews',
+                'seller.shop',
+                'wish_list' => function ($query) {
                     return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
                 },
-                'compare_list'=>function($query){
+                'compare_list' => function ($query) {
                     return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
                 }
             ])->active()->where('featured', 1);
         }
 
         if ($request['data_from'] == 'featured_deal') {
-            $featured_deal_id = FlashDeal::where(['status'=>1])->where(['deal_type'=>'feature_deal'])->pluck('id')->first();
-            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id',$featured_deal_id)->pluck('product_id')->toArray();
+            $featured_deal_id = FlashDeal::where(['status' => 1])->where(['deal_type' => 'feature_deal'])->pluck('id')->first();
+            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id', $featured_deal_id)->pluck('product_id')->toArray();
             $query = Product::with([
-                'reviews','seller.shop',
-                'wish_list'=>function($query){
+                'reviews',
+                'seller.shop',
+                'wish_list' => function ($query) {
                     return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
                 },
-                'compare_list'=>function($query){
+                'compare_list' => function ($query) {
                     return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
                 }
             ])->active()->whereIn('id', $featured_deal_product_ids);
@@ -307,26 +366,27 @@ class ProductListController extends Controller
 
         if ($request['data_from'] == 'search') {
             $key = explode(' ', $request['name']);
-                $product_ids = Product::with([
-                    'seller.shop',
-                    'wish_list'=>function($query){
-                        return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
-                    },
-                    'compare_list'=>function($query){
-                        return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
-                    }
-                ])
+            $search_term = $request['name'];
+
+            $product_ids = Product::with([
+                'seller.shop',
+                'wish_list' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compare_list' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])
                 ->where(function ($q) use ($key) {
                     foreach ($key as $value) {
                         $q->orWhere('name', 'like', "%{$value}%")
-                            ->orWhereHas('tags',function($query)use($value){
+                            ->orWhereHas('tags', function ($query) use ($value) {
                                 $query->where('tag', 'like', "%{$value}%");
                             });
                     }
                 })->pluck('id');
 
-            if($product_ids->count()==0)
-            {
+            if ($product_ids->count() == 0) {
                 $product_ids = Translation::where('translationable_type', 'App\Model\Product')
                     ->where('key', 'name')
                     ->where(function ($q) use ($key) {
@@ -337,26 +397,54 @@ class ProductListController extends Controller
                     ->pluck('translationable_id');
             }
 
-            $query = $porduct_data->WhereIn('id', $product_ids);
+            // Add relevance scoring for better search results
+            $query = $porduct_data->whereIn('id', $product_ids)
+                ->selectRaw(
+                    'products.*, 
+                    CASE 
+                        WHEN LOWER(name) = LOWER(?) THEN 1
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 2
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 3
+                        ELSE 4
+                    END as relevance_score',
+                    [$search_term, $search_term . '%', '%' . $search_term . '%']
+                )
+                ->orderBy('relevance_score', 'ASC');
         }
 
         if ($request['data_from'] == 'discounted') {
             $query = Product::with([
-                'reviews','seller.shop',
-                'wish_list'=>function($query){
+                'reviews',
+                'seller.shop',
+                'wish_list' => function ($query) {
                     return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
                 },
-                'compare_list'=>function($query){
+                'compare_list' => function ($query) {
                     return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
                 }
             ])->active()->where('discount', '!=', 0);
         }
 
-        if(!$request['data_from'] && !$request['name'] && $request['ratings']){
+        if (!$request['data_from'] && !$request['name'] && $request['ratings']) {
             $query = $query ?? $porduct_data;
         }
 
-        if ($request['sort_by'] == 'latest') {
+        // Apply user-selected sorting, but preserve relevance ordering for search results
+        if ($request['data_from'] == 'search' && isset($query)) {
+            // For search results, always order by relevance first
+            if ($request['sort_by'] == 'low-high') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'ASC');
+            } elseif ($request['sort_by'] == 'high-low') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'DESC');
+            } elseif ($request['sort_by'] == 'a-z') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'ASC');
+            } elseif ($request['sort_by'] == 'z-a') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'DESC');
+            } else {
+                // Default or 'latest' - order by relevance then by created_at
+                $fetched = $query->orderBy('relevance_score', 'ASC')->latest();
+            }
+        } elseif ($request['sort_by'] == 'latest') {
             $fetched = $query->latest();
         } elseif ($request['sort_by'] == 'low-high') {
             $fetched = $query->orderBy('unit_price', 'ASC');
@@ -374,9 +462,8 @@ class ProductListController extends Controller
             $fetched = $fetched->whereBetween('unit_price', [Helpers::convert_currency_to_usd($request['min_price']), Helpers::convert_currency_to_usd($request['max_price'])]);
         }
 
-        if ($request['ratings'] != null)
-        {
-            $fetched->with('rating')->whereHas('rating', function($query) use($request){
+        if ($request['ratings'] != null) {
+            $fetched->with('rating')->whereHas('rating', function ($query) use ($request) {
                 return $query;
             });
         }
@@ -398,44 +485,43 @@ class ProductListController extends Controller
         $rating_4 = 0;
         $rating_5 = 0;
 
-        foreach($common_query->get() as $rating){
-            if(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >0 && $rating->rating[0]['average'] <2)){
+        foreach ($common_query->get() as $rating) {
+            if (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] > 0 && $rating->rating[0]['average'] < 2)) {
                 $rating_1 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=2 && $rating->rating[0]['average'] <3)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 2 && $rating->rating[0]['average'] < 3)) {
                 $rating_2 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=3 && $rating->rating[0]['average'] <4)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 3 && $rating->rating[0]['average'] < 4)) {
                 $rating_3 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=4 && $rating->rating[0]['average'] <5)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 4 && $rating->rating[0]['average'] < 5)) {
                 $rating_4 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] == 5)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] == 5)) {
                 $rating_5 += 1;
             }
         }
         $ratings = [
-            'rating_1'=>$rating_1,
-            'rating_2'=>$rating_2,
-            'rating_3'=>$rating_3,
-            'rating_4'=>$rating_4,
-            'rating_5'=>$rating_5,
+            'rating_1' => $rating_1,
+            'rating_2' => $rating_2,
+            'rating_3' => $rating_3,
+            'rating_4' => $rating_4,
+            'rating_5' => $rating_5,
         ];
 
         $products = $common_query->paginate(20)->appends($data);
 
-        if ($request['ratings'] != null)
-        {
-            $products = $products->map(function($product) use($request){
+        if ($request['ratings'] != null) {
+            $products = $products->map(function ($product) use ($request) {
                 $product->rating = $product->rating->pluck('average')[0];
                 return $product;
             });
-            $products = $products->where('rating','>=',$request['ratings'])
-                ->where('rating','<',$request['ratings']+1)
+            $products = $products->where('rating', '>=', $request['ratings'])
+                ->where('rating', '<', $request['ratings'] + 1)
                 ->paginate(20)->appends($data);
         }
 
         if ($request->ajax()) {
             return response()->json([
-                'total_product'=>$products->total(),
-                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products','product_ids'))->render(),
+                'total_product' => $products->total(),
+                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products', 'product_ids'))->render(),
             ], 200);
         }
         if ($request['data_from'] == 'category') {
@@ -443,9 +529,9 @@ class ProductListController extends Controller
         }
         if ($request['data_from'] == 'brand') {
             $brand_data = Brand::active()->find((int)$request['id']);
-            if($brand_data) {
+            if ($brand_data) {
                 $data['brand_name'] = $brand_data->name;
-            }else {
+            } else {
                 Toastr::warning(translate('not_found'));
                 return redirect('/');
             }
@@ -458,27 +544,30 @@ class ProductListController extends Controller
     {
 
         $tag_category = [];
-        if($request->data_from == 'category')
-        {
-            $tag_category = Category::where('id',$request->id)->select('id', 'name')->get();
+        if ($request->data_from == 'category') {
+            $tag_category = Category::where('id', $request->id)->select('id', 'name')->get();
         }
 
         $tag_brand = [];
-        if($request->data_from == 'brand')
-        {
-            $tag_brand = Brand::where('id', $request->id)->select('id','name')->get();
+        if ($request->data_from == 'brand') {
+            $tag_brand = Brand::where('id', $request->id)->select('id', 'name')->get();
         }
         $request['sort_by'] == null ? $request['sort_by'] == 'latest' : $request['sort_by'];
 
         $porduct_data = Product::active()->withSum('order_details', 'qty', function ($query) {
-                            $query->where('delivery_status', 'delivered');
-                        })
-                        ->with(['category','reviews','rating','wish_list'=>function($query){
-                            return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
-                        },
-                        'compare_list'=>function($query){
-                            return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
-                        }]);
+            $query->where('delivery_status', 'delivered');
+        })
+            ->with([
+                'category',
+                'reviews',
+                'rating',
+                'wish_list' => function ($query) {
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compare_list' => function ($query) {
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ]);
 
         $product_ids = [];
         if ($request['data_from'] == 'category') {
@@ -561,31 +650,33 @@ class ProductListController extends Controller
 
         if ($request->has('shop_id') && $request['shop_id'] == 0) {
             $query = Product::active()
-                    ->with(['reviews'])
-                    ->where(['added_by'=>'admin','featured'=>1]);
-        }elseif($request->has('shop_id') && $request['shop_id'] != 0){
+                ->with(['reviews'])
+                ->where(['added_by' => 'admin', 'featured' => 1]);
+        } elseif ($request->has('shop_id') && $request['shop_id'] != 0) {
             $query = Product::active()
-                        ->where(['added_by' => 'seller', 'featured' => 1])
-                        ->with(['reviews', 'seller.shop' => function($query) use ($request) {
-                            $query->where('id', $request->shop_id);
-                        }])
-                        ->whereHas('seller.shop', function($query) use ($request) {
-                            $query->where('id', $request->shop_id)->whereNotNull('id');
-                        });
+                ->where(['added_by' => 'seller', 'featured' => 1])
+                ->with(['reviews', 'seller.shop' => function ($query) use ($request) {
+                    $query->where('id', $request->shop_id);
+                }])
+                ->whereHas('seller.shop', function ($query) use ($request) {
+                    $query->where('id', $request->shop_id)->whereNotNull('id');
+                });
         }
 
         if ($request['data_from'] == 'featured_deal') {
-            $featured_deal_id = FlashDeal::where(['status'=>1])->where(['deal_type'=>'feature_deal'])->pluck('id')->first();
-            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id',$featured_deal_id)->pluck('product_id')->toArray();
+            $featured_deal_id = FlashDeal::where(['status' => 1])->where(['deal_type' => 'feature_deal'])->pluck('id')->first();
+            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id', $featured_deal_id)->pluck('product_id')->toArray();
             $query = Product::with(['reviews'])->active()->whereIn('id', $featured_deal_product_ids);
         }
 
         if ($request['data_from'] == 'search') {
             $key = explode(' ', $request['name']);
+            $search_term = $request['name'];
+
             $product_ids = Product::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
-                        ->orWhereHas('tags',function($query)use($value){
+                        ->orWhereHas('tags', function ($query) use ($value) {
                             $query->where('tag', 'like', "%{$value}%");
                         });
                 }
@@ -595,14 +686,13 @@ class ProductListController extends Controller
                 $q->orWhere('name', 'like', "%{$request['name']}%");
             })->whereHas('seller', function ($query) {
                 return $query->where(['status' => 'approved']);
-            })->with('product', function($query){
+            })->with('product', function ($query) {
                 return $query->active()->where('added_by', 'seller');
             })->get();
 
             $seller_products = [];
-            foreach($sellers as $seller){
-                if(isset($seller->product) && $seller->product->count() > 0)
-                {
+            foreach ($sellers as $seller) {
+                if (isset($seller->product) && $seller->product->count() > 0) {
                     $ids = $seller->product->pluck('id');
                     array_push($seller_products, ...$ids);
                 }
@@ -618,8 +708,7 @@ class ProductListController extends Controller
             $product_ids = $product_ids->merge($seller_products)->merge($inhouse_product);
 
 
-            if($product_ids->count()==0)
-            {
+            if ($product_ids->count() == 0) {
                 $product_ids = Translation::where('translationable_type', 'App\Model\Product')
                     ->where('key', 'name')
                     ->where(function ($q) use ($key) {
@@ -630,15 +719,41 @@ class ProductListController extends Controller
                     ->pluck('translationable_id');
             }
 
-            $query = $porduct_data->WhereIn('id', $product_ids);
-
+            // Add relevance scoring for better search results
+            $query = $porduct_data->whereIn('id', $product_ids)
+                ->selectRaw(
+                    'products.*, 
+                    CASE 
+                        WHEN LOWER(name) = LOWER(?) THEN 1
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 2
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 3
+                        ELSE 4
+                    END as relevance_score',
+                    [$search_term, $search_term . '%', '%' . $search_term . '%']
+                )
+                ->orderBy('relevance_score', 'ASC');
         }
 
         if ($request['data_from'] == 'discounted') {
             $query = Product::with(['reviews'])->active()->where('discount', '!=', 0);
         }
 
-        if ($request['sort_by'] == 'latest') {
+        // Apply user-selected sorting, but preserve relevance ordering for search results
+        if ($request['data_from'] == 'search' && isset($query)) {
+            // For search results, always order by relevance first
+            if ($request['sort_by'] == 'low-high') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'ASC');
+            } elseif ($request['sort_by'] == 'high-low') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'DESC');
+            } elseif ($request['sort_by'] == 'a-z') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'ASC');
+            } elseif ($request['sort_by'] == 'z-a') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'DESC');
+            } else {
+                // Default or 'latest' - order by relevance then by created_at
+                $fetched = $query->orderBy('relevance_score', 'ASC')->latest();
+            }
+        } elseif ($request['sort_by'] == 'latest') {
             $fetched = $query->latest();
         } elseif ($request['sort_by'] == 'low-high') {
             $fetched = $query->orderBy('unit_price', 'ASC');
@@ -659,25 +774,24 @@ class ProductListController extends Controller
 
         $products = $common_query->paginate(20);
 
-        if ($request['ratings'] != null)
-        {
-            $products = $products->map(function($product) use($request){
+        if ($request['ratings'] != null) {
+            $products = $products->map(function ($product) use ($request) {
                 $product->rating = $product->rating->pluck('average')[0];
                 return $product;
             });
-            $products = $products->where('rating','>=',$request['ratings'])
-                ->where('rating','<',$request['ratings']+1)
+            $products = $products->where('rating', '>=', $request['ratings'])
+                ->where('rating', '<', $request['ratings'] + 1)
                 ->paginate(20);
         }
 
         // Categories start
-        $categories = Category::withCount(['product'=>function($query){
-                $query->active();
-            }])->with(['childes' => function ($query) {
-                $query->with(['childes' => function ($query) {
-                    $query->withCount(['sub_sub_category_product'])->where('position', 2);
-                }])->withCount(['sub_category_product'])->where('position', 1);
-            }, 'childes.childes'])
+        $categories = Category::withCount(['product' => function ($query) {
+            $query->active();
+        }])->with(['childes' => function ($query) {
+            $query->with(['childes' => function ($query) {
+                $query->withCount(['sub_sub_category_product'])->where('position', 2);
+            }])->withCount(['sub_category_product'])->where('position', 1);
+        }, 'childes.childes'])
             ->where('position', 0)->get();
         // Categories End
 
@@ -699,27 +813,27 @@ class ProductListController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'total_product'=>$products->total(),
-                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products','product_ids'))->render(),
+                'total_product' => $products->total(),
+                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products', 'product_ids'))->render(),
             ], 200);
         }
 
         if ($request['data_from'] == 'brand') {
             $brand_data = Brand::active()->find((int)$request['id']);
-            if(!$brand_data) {
+            if (!$brand_data) {
                 Toastr::warning(translate('not_found'));
                 return redirect('/');
             }
         }
 
-        return view(VIEW_FILE_NAMES['products_view_page'], compact('products','tag_category','tag_brand','product_ids','categories','colors_in_shop','banner'));
+        return view(VIEW_FILE_NAMES['products_view_page'], compact('products', 'tag_category', 'tag_brand', 'product_ids', 'categories', 'colors_in_shop', 'banner'));
     }
 
     public function theme_all_purpose(Request $request)
     {
         $request['sort_by'] == null ? $request['sort_by'] == 'latest' : $request['sort_by'];
 
-        $porduct_data = Product::active()->with(['reviews','rating']);
+        $porduct_data = Product::active()->with(['reviews', 'rating']);
 
         $product_ids = [];
         if ($request['data_from'] == 'category') {
@@ -798,24 +912,25 @@ class ProductListController extends Controller
         }
 
         if ($request['data_from'] == 'featured_deal') {
-            $featured_deal_id = FlashDeal::where(['status'=>1])->where(['deal_type'=>'feature_deal'])->pluck('id')->first();
-            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id',$featured_deal_id)->pluck('product_id')->toArray();
+            $featured_deal_id = FlashDeal::where(['status' => 1])->where(['deal_type' => 'feature_deal'])->pluck('id')->first();
+            $featured_deal_product_ids = FlashDealProduct::where('flash_deal_id', $featured_deal_id)->pluck('product_id')->toArray();
             $query = Product::with(['reviews'])->active()->whereIn('id', $featured_deal_product_ids);
         }
 
         if ($request['data_from'] == 'search') {
             $key = explode(' ', $request['name']);
+            $search_term = $request['name'];
+
             $product_ids = Product::where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
-                        ->orWhereHas('tags',function($query)use($value){
+                        ->orWhereHas('tags', function ($query) use ($value) {
                             $query->where('tag', 'like', "%{$value}%");
                         });
                 }
             })->pluck('id');
 
-            if($product_ids->count()==0)
-            {
+            if ($product_ids->count() == 0) {
                 $product_ids = Translation::where('translationable_type', 'App\Model\Product')
                     ->where('key', 'name')
                     ->where(function ($q) use ($key) {
@@ -826,15 +941,41 @@ class ProductListController extends Controller
                     ->pluck('translationable_id');
             }
 
-            $query = $porduct_data->WhereIn('id', $product_ids);
-
+            // Add relevance scoring for better search results
+            $query = $porduct_data->whereIn('id', $product_ids)
+                ->selectRaw(
+                    'products.*, 
+                    CASE 
+                        WHEN LOWER(name) = LOWER(?) THEN 1
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 2
+                        WHEN LOWER(name) LIKE LOWER(?) THEN 3
+                        ELSE 4
+                    END as relevance_score',
+                    [$search_term, $search_term . '%', '%' . $search_term . '%']
+                )
+                ->orderBy('relevance_score', 'ASC');
         }
 
         if ($request['data_from'] == 'discounted') {
             $query = Product::with(['reviews'])->active()->where('discount', '!=', 0);
         }
 
-        if ($request['sort_by'] == 'latest') {
+        // Apply user-selected sorting, but preserve relevance ordering for search results
+        if ($request['data_from'] == 'search' && isset($query)) {
+            // For search results, always order by relevance first
+            if ($request['sort_by'] == 'low-high') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'ASC');
+            } elseif ($request['sort_by'] == 'high-low') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('unit_price', 'DESC');
+            } elseif ($request['sort_by'] == 'a-z') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'ASC');
+            } elseif ($request['sort_by'] == 'z-a') {
+                $fetched = $query->orderBy('relevance_score', 'ASC')->orderBy('name', 'DESC');
+            } else {
+                // Default or 'latest' - order by relevance then by created_at
+                $fetched = $query->orderBy('relevance_score', 'ASC')->latest();
+            }
+        } elseif ($request['sort_by'] == 'latest') {
             $fetched = $query->latest();
         } elseif ($request['sort_by'] == 'low-high') {
             $fetched = $query->orderBy('unit_price', 'ASC');
@@ -859,25 +1000,25 @@ class ProductListController extends Controller
         $rating_4 = 0;
         $rating_5 = 0;
 
-        foreach($common_query->get() as $rating){
-            if(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >0 && $rating->rating[0]['average'] <2)){
+        foreach ($common_query->get() as $rating) {
+            if (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] > 0 && $rating->rating[0]['average'] < 2)) {
                 $rating_1 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=2 && $rating->rating[0]['average'] <3)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 2 && $rating->rating[0]['average'] < 3)) {
                 $rating_2 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=3 && $rating->rating[0]['average'] <4)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 3 && $rating->rating[0]['average'] < 4)) {
                 $rating_3 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >=4 && $rating->rating[0]['average'] <5)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] >= 4 && $rating->rating[0]['average'] < 5)) {
                 $rating_4 += 1;
-            }elseif(isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] == 5)){
+            } elseif (isset($rating->rating[0]['average']) && ($rating->rating[0]['average'] == 5)) {
                 $rating_5 += 1;
             }
         }
         $ratings = [
-            'rating_1'=>$rating_1,
-            'rating_2'=>$rating_2,
-            'rating_3'=>$rating_3,
-            'rating_4'=>$rating_4,
-            'rating_5'=>$rating_5,
+            'rating_1' => $rating_1,
+            'rating_2' => $rating_2,
+            'rating_3' => $rating_3,
+            'rating_4' => $rating_4,
+            'rating_5' => $rating_5,
         ];
         $data = [
             'id' => $request['id'],
@@ -886,14 +1027,14 @@ class ProductListController extends Controller
         ];
         $products_count = $common_query->count();
         $products = $common_query->paginate(4)->appends($data);
-        $categories = Category::withCount(['product'=>function($query){
-                        $query->where(['status'=>'1']);
-                    }])->with(['childes' => function ($sub_query) {
-                        $sub_query->with(['childes' => function ($sub_sub_query) {
-                            $sub_sub_query->withCount(['sub_sub_category_product'])->where('position', 2);
-                        }])->withCount(['sub_category_product'])->where('position', 1);
-                    }, 'childes.childes'])
-                    ->where('position', 0)->get();
+        $categories = Category::withCount(['product' => function ($query) {
+            $query->where(['status' => '1']);
+        }])->with(['childes' => function ($sub_query) {
+            $sub_query->with(['childes' => function ($sub_sub_query) {
+                $sub_sub_query->withCount(['sub_sub_category_product'])->where('position', 2);
+            }])->withCount(['sub_category_product'])->where('position', 1);
+        }, 'childes.childes'])
+            ->where('position', 0)->get();
         // Categories End
         // Colors Start
         $colors_in_shop_merge = [];
@@ -913,18 +1054,18 @@ class ProductListController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'total_product'=>$products->total(),
-                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products','product_ids'))->render(),
+                'total_product' => $products->total(),
+                'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products', 'product_ids'))->render(),
             ], 200);
         }
 
         if ($request['data_from'] == 'brand') {
             $brand_data = Brand::active()->find((int)$request['id']);
-            if(!$brand_data) {
+            if (!$brand_data) {
                 Toastr::warning(translate('not_found'));
                 return redirect('/');
             }
         }
-        return view(VIEW_FILE_NAMES['products_view_page'], compact('products','product_ids','products_count','categories','colors_in_shop','banner','ratings'));
+        return view(VIEW_FILE_NAMES['products_view_page'], compact('products', 'product_ids', 'products_count', 'categories', 'colors_in_shop', 'banner', 'ratings'));
     }
 }
