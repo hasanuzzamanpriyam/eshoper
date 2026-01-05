@@ -3,46 +3,50 @@
 @section('title', $product->meta_title ?? $product->name)
 
 @push('css_or_js')
-<meta name="description" content="{{$product->meta_description ?? $product->slug}}">
-<meta name="keywords" content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
+<!-- Meta Tags -->
+<meta name="description" content="{{ $product->meta_description ?? $product->slug }}">
+@if($product->meta_tag)
+<meta name="keywords" content="{{ is_array($product->meta_tag) ? implode(', ', $product->meta_tag) : $product->meta_tag }}">
+@else
+<meta name="keywords" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
+@endif
 @if($product->added_by=='seller')
-<meta name="author" content="{{ $product->seller->shop?$product->seller->shop->name:$product->seller->f_name}}">
+<meta name="author" content="{{ $product->seller->shop ? $product->seller->shop->name : $product->seller->f_name }}">
 @elseif($product->added_by=='admin')
-<meta name="author" content="{{$web_config['name']->value}}">
+<meta name="author" content="{{ $web_config['name']->value }}">
 @endif
-<!-- Viewport-->
 
-@if($product['meta_image']!=null)
-<meta property="og:image" content="{{asset("storage/product/meta")}}/{{$product->meta_image}}" />
-<meta property="twitter:card"
-    content="{{asset("storage/product/meta")}}/{{$product->meta_image}}" />
+<!-- Open Graph Meta Tags -->
+@if($product['meta_image'] != null)
+<meta property="og:image" content="{{ asset("storage/product/meta") }}/{{ $product->meta_image }}" />
+<meta property="twitter:card" content="{{ asset("storage/product/meta") }}/{{ $product->meta_image }}" />
 @else
-<meta property="og:image" content="{{asset("storage/product/thumbnail")}}/{{$product->thumbnail}}" />
-<meta property="twitter:card"
-    content="{{asset("storage/product/thumbnail/")}}/{{$product->thumbnail}}" />
+<meta property="og:image" content="{{ asset("storage/product/thumbnail") }}/{{ $product->thumbnail }}" />
+<meta property="twitter:card" content="{{ asset("storage/product/thumbnail") }}/{{ $product->thumbnail }}" />
 @endif
 
-@if($product['meta_title']!=null)
-<meta property="og:title" content="{{$product->meta_title}}" />
-<meta property="twitter:title" content="{{$product->meta_title}}" />
+@if($product['meta_title'] != null)
+<meta property="og:title" content="{{ $product->meta_title }}" />
+<meta property="twitter:title" content="{{ $product->meta_title }}" />
 @else
-<meta property="og:title" content="{{$product->name}}" />
-<meta property="twitter:title" content="{{$product->name}}" />
+<meta property="og:title" content="{{ $product->name }}" />
+<meta property="twitter:title" content="{{ $product->name }}" />
 @endif
-<meta property="og:url" content="{{route('product',[$product->slug])}}">
 
-@if($product['meta_description']!=null)
+<meta property="og:url" content="{{ route('product', [$product->slug]) }}">
+
+@if($product['meta_description'] != null)
 <meta property="twitter:description" content="{!! $product['meta_description'] !!}">
 <meta property="og:description" content="{!! $product['meta_description'] !!}">
 @else
-<meta property="og:description"
-    content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
-<meta property="twitter:description"
-    content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
+<meta property="og:description" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
+<meta property="twitter:description" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
 @endif
-<meta property="twitter:url" content="{{route('product',[$product->slug])}}">
 
-<link rel="stylesheet" href="{{asset('assets/front-end/css/product-details.css')}}" />
+<meta property="twitter:url" content="{{ route('product', [$product->slug]) }}">
+
+<!-- CSS -->
+<link rel="stylesheet" href="{{ asset('assets/front-end/css/product-details.css') }}">
 <style>
     .btn-number:hover {
         color: {
@@ -114,7 +118,6 @@
 
             : 7px;
         }
-
     }
 
     @media (max-width: 375px) {
@@ -159,7 +162,6 @@
 
             : 4%;
         }
-
     }
 
     @media (max-width: 500px) {
@@ -226,6 +228,7 @@
     }
 </style>
 @endpush
+
 
 @section('content')
 <div class="__inline-23">
@@ -742,12 +745,11 @@
             <div class="product-details-shipping-details">
                 <div class="shipping-details-bottom-border">
                     <div class="px-3 py-3">
-                        <span>{{$product->meta_title ?? $product->name}}</span>
-                    </div>
-                </div>
-                <div class="shipping-details-bottom-border">
-                    <div class="px-3 py-3">
-                        <span class="d-block text-justify text-break">{{$product->meta_description ?? $product->slug}}</span>
+                        <ul>
+                            @foreach($product->meta_tag as $tag)
+                            <li>{{ $tag }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
