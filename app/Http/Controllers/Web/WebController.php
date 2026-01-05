@@ -238,15 +238,18 @@ class WebController extends Controller
 		], [
 			'name.required' => 'Product name is required!',
 		]);
-
+ 
+		$is_ajax = $request->header('X-Requested-With') == 'XMLHttpRequest';
+		$sort_by = $request->input('sort_by', 'best_rating');
+ 
 		$result = ProductManager::search_products_web($request['name'], $request['category_id'] ?? 'all');
 		$products = $result['products'];
-
+ 
 		if ($products == null) {
 			$result = ProductManager::translated_product_search_web($request['name'], $request['category_id'] ?? 'all');
 			$products = $result['products'];
 		}
-
+ 
 		$sellers = Shop::where(function ($q) use ($request) {
 			$q->orWhere('name', 'like', "%{$request['name']}%");
 		})->whereHas('seller', function ($query) {
@@ -254,7 +257,7 @@ class WebController extends Controller
 		})->with('product', function ($query) {
 			return $query->active()->where('added_by', 'seller');
 		})->get();
-
+ 
 		$product_ids = [];
 		foreach ($sellers as $seller) {
 			if (isset($seller->product) && $seller->product->count() > 0) {
@@ -262,21 +265,31 @@ class WebController extends Controller
 				array_push($product_ids, ...$ids);
 			}
 		}
-
+ 
 		$inhouse_product = [];
 		$company_name = Helpers::get_business_settings('company_name');
-
+ 
 		if (strpos($request['name'], $company_name) !== false) {
 			$ids = Product::active()->Where('added_by', 'admin')->pluck('id');
 			array_push($product_ids, ...$ids);
 		}
 
-		$seller_products = Product::active()->whereIn('id', $product_ids)->get();
+		$all_products = collect($products)->merge($seller_products);
 
-		return response()->json([
-			'result' => view(VIEW_FILE_NAMES['product_search_result'], compact('products', 'seller_products'))->render(),
-			'seller_products' => $seller_products->count(),
-		]);
+		$html = view(VIEW_FILE_NAMES['product_search_result'], ['products' => $all_products, 'seller_products' => $seller_products])->render();
+ 
+		if ($is_ajax) {
+			return response()->json([
+				'result' => $html,
+				'seller_products' => $seller_products->count(),
+			]);
+		} else {
+			return response()->json([
+				'result' => $html,
+				'seller_products' => $seller_products->count(),
+				'sort_by' => $sort_by,
+			]);
+		}
 	}
 
 	// global search for theme fashion compare list

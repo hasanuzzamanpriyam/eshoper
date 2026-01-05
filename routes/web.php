@@ -38,7 +38,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('quick-view', 'WebController@quick_view')->name('quick-view');
-    Route::get('searched-products', 'WebController@searched_products')->name('searched-products');
+    Route::get('/search', 'SearchController@index')->name('search');
+    Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
+    Route::get('/search', 'SearchController@index')->name('search');
+    Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
 
     Route::group(['middleware' => ['customer']], function () {
         Route::get('submit-review/{id}', 'UserProfileController@submit_review')->name('submit-review');
@@ -60,7 +63,6 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::post('digital-product-download-otp-verify', 'WebController@digital_product_download_otp_verify')->name('digital-product-download-otp-verify');
     Route::post('digital-product-download-otp-reset', 'WebController@digital_product_download_otp_reset')->name('digital-product-download-otp-reset');
     Route::get('pay-offline-method-list', 'WebController@pay_offline_method_list')->name('pay-offline-method-list')->middleware('guestCheck');
-
     // address name (District name and Thana name)
     Route::get('/district-names', [AddressNameController::class, 'district_names'])->name('district-names');
     Route::get('/thana-names/{distId}', [AddressNameController::class, 'thana_names'])->name('thana-names');

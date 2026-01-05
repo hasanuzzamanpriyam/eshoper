@@ -158,13 +158,14 @@ class ProductManager
             ->limit(10)
             ->get();
     }
-
-    public static function search_products($request, $name, $category='all', $limit = 10, $offset = 1)
+    
+    public static function advancedSearch($query, $category = 'all', $filters = [], $limit = 12, $offset = 1)
     {
-        $key = [base64_decode($name)];
-        $user = Helpers::get_customer($request);
+        $key = [base64_decode($query)];
+        $sort = $filters['sort'] ?? 'best_match';
+        $user = Helpers::get_customer($filters['request'] ?? null);
 
-        $paginator = Product::active()->with(['rating','tags'])
+        $paginator = Product::active()->with(['rating','reviews','category','brand','orderDetails'])
             ->where(function ($q) use ($key) {
                 foreach ($key as $value) {
                     $q->orWhere('name', 'like', "%{$value}%")
@@ -205,7 +206,7 @@ class ProductManager
             'products' => $fetched->items()
         ];
     }
-
+    
     public static function suggestion_products($name, $limit = 10, $offset = 1)
     {
         $key = [base64_decode($name)];

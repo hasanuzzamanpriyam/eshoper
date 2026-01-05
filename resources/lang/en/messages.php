@@ -6842,4 +6842,11 @@
   'this_page_is_for_A4_size_page_printer_so_it_will_not_be_visible_in_smaller_devices.' => 'This page is for A4 size page printer so it will not be visible in smaller devices.',
   'your_order_is_being_processed_and_will_be_completed.' => 'Your order is being processed and will be completed.',
   'You_will_receive_an_email_confirmation_when_your_order_is_placed.' => 'You will receive an email confirmation when your order is placed.',
+  'nagad' => 'Nagad',
+  'search_by_name_description_tags' => 'Search by name description tags',
+  'best_to_buy' => 'Best to buy',
+  'price_low_to_high' => 'Price low to high',
+  'newest_first' => 'Newest first',
+  'best_rating' => 'Best rating',
+  'top_reviews' => 'Top reviews',
 );

@@ -1,34 +1,41 @@
 @extends('layouts.front-end.app')
 
-@section('title', $web_config['name']->value.' '.translate('online_Shopping').' | '.$web_config['name']->value.' '.translate('ecommerce'))
+@section('title', $web_config['name']->value . ' ' . translate('online_Shopping') . ' | ' . $web_config['name']->value . ' ' . translate('ecommerce'))
 
 @section('canonical', $_SERVER['REQUEST_URI'] == '/' ? env('APP_URL') : env('APP_URL') . $_SERVER['REQUEST_URI'])
 
 @push('css_or_js')
-    <meta name="description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
-    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
-    <meta property="og:title" content="Welcome To {{$web_config['name']->value}} Home"/>
+    <meta name="description"
+        content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
+    <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}" />
+    <meta property="og:title" content="Welcome To {{$web_config['name']->value}} Home" />
     <meta property="og:url" content="{{env('APP_URL')}}">
-    <meta property="og:description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
+    <meta property="og:description"
+        content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today." />
 
-    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}"/>
-    <meta property="twitter:title" content="Welcome To {{$web_config['name']->value}} Home"/>
+    <meta property="twitter:card" content="{{asset('storage/company')}}/{{$web_config['web_logo']->value}}" />
+    <meta property="twitter:title" content="Welcome To {{$web_config['name']->value}} Home" />
     <meta property="twitter:url" content="{{env('APP_URL')}}">
-    <meta property="twitter:description" content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today.">
+    <meta property="twitter:description"
+        content="Discover endless possibilities at eShoper - your ultimate destination for online shopping. Explore a wide range of products and enjoy seamless ecommerce experiences. Shop smarter, shop eShoper today.">
 
-    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/home.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/home.css" />
     <style>
         .cz-countdown-days {
             border: .5px solid{{$web_config['primary_color']}};
         }
 
         .btn-scroll-top {
-            background: {{$web_config['primary_color']}};
+            background:
+                {{$web_config['primary_color']}}
+            ;
         }
 
         .__best-selling:hover .ptr,
         .flash_deal_product:hover .flash-product-title {
-            color: {{$web_config['primary_color']}};
+            color:
+                {{$web_config['primary_color']}}
+            ;
         }
 
         .cz-countdown-hours {
@@ -44,251 +51,298 @@
         }
 
         .flash_deal_product_details .flash-product-price {
-            color: {{$web_config['primary_color']}};
+            color:
+                {{$web_config['primary_color']}}
+            ;
         }
 
         .featured_deal_left {
-            background: {{$web_config['primary_color']}} 0% 0% no-repeat padding-box;
+            background:
+                {{$web_config['primary_color']}}
+                0% 0% no-repeat padding-box;
         }
 
         .category_div:hover {
-            color: {{$web_config['secondary_color']}};
+            color:
+                {{$web_config['secondary_color']}}
+            ;
         }
 
         .deal_of_the_day {
-            background: {{$web_config['secondary_color']}};
+            background:
+                {{$web_config['secondary_color']}}
+            ;
         }
 
         .best-selleing-image {
-            background: {{$web_config['primary_color']}}10;
+            background:
+                {{$web_config['primary_color']}}
+                10;
         }
 
         .top-rated-image {
-            background: {{$web_config['primary_color']}}10;
+            background:
+                {{$web_config['primary_color']}}
+                10;
         }
 
         @media (max-width: 800px) {
             .categories-view-all {
-            {{session('direction') === "rtl" ? 'margin-left: 10px;' : 'margin-right: 6px;'}}
+                {{session('direction') === "rtl" ? 'margin-left: 10px;' : 'margin-right: 6px;'}}
 
             }
 
             .categories-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 0px;' : 'margin-left: 6px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 0px;' : 'margin-left: 6px;'}}
 
             }
 
             .seller-list-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 0px;' : 'margin-left: 10px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 0px;' : 'margin-left: 10px;'}}
 
             }
 
             .seller-list-view-all {
-            {{Session::get('direction') === "rtl" ? 'margin-left: 20px;' : 'margin-right: 10px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-left: 20px;' : 'margin-right: 10px;'}}
 
             }
 
             .category-product-view-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 16px;' : 'margin-left: -8px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 16px;' : 'margin-left: -8px;'}}
 
             }
 
             .category-product-view-all {
-            {{Session::get('direction') === "rtl" ? 'margin-left: -7px;' : 'margin-right: 5px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-left: -7px;' : 'margin-right: 5px;'}}
 
             }
         }
 
         @media (min-width: 801px) {
             .categories-view-all {
-            {{session('direction') === "rtl" ? 'margin-left: 30px;' : 'margin-right: 27px;'}}
+                {{session('direction') === "rtl" ? 'margin-left: 30px;' : 'margin-right: 27px;'}}
 
             }
 
             .categories-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 25px;' : 'margin-left: 25px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 25px;' : 'margin-left: 25px;'}}
 
             }
 
             .seller-list-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 6px;' : 'margin-left: 10px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 6px;' : 'margin-left: 10px;'}}
 
             }
 
             .seller-list-view-all {
-            {{Session::get('direction') === "rtl" ? 'margin-left: 12px;' : 'margin-right: 10px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-left: 12px;' : 'margin-right: 10px;'}}
 
             }
 
             .seller-card {
-            {{Session::get('direction') === "rtl" ? 'padding-left:0px !important;' : 'padding-right:0px !important;'}}
+                {{Session::get('direction') === "rtl" ? 'padding-left:0px !important;' : 'padding-right:0px !important;'}}
 
             }
 
             .category-product-view-title {
-            {{Session::get('direction') === "rtl" ? 'margin-right: 10px;' : 'margin-left: -12px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-right: 10px;' : 'margin-left: -12px;'}}
 
             }
 
             .category-product-view-all {
-            {{Session::get('direction') === "rtl" ? 'margin-left: -20px;' : 'margin-right: 0px;'}}
+                {{Session::get('direction') === "rtl" ? 'margin-left: -20px;' : 'margin-right: 0px;'}}
 
             }
         }
 
         .countdown-card {
-            background: {{$web_config['primary_color']}}10;
+            background:
+                {{$web_config['primary_color']}}
+                10;
 
         }
 
         .flash-deal-text {
-            color: {{$web_config['primary_color']}};
+            color:
+                {{$web_config['primary_color']}}
+            ;
         }
 
         .countdown-background {
-            background: {{$web_config['primary_color']}};
+            background:
+                {{$web_config['primary_color']}}
+            ;
         }
 
         .czi-arrow-left {
-            color: {{$web_config['primary_color']}};
-            background: {{$web_config['primary_color']}}10;
+            color:
+                {{$web_config['primary_color']}}
+            ;
+            background:
+                {{$web_config['primary_color']}}
+                10;
         }
 
         .czi-arrow-right {
-            color: {{$web_config['primary_color']}};
-            background: {{$web_config['primary_color']}}10;
+            color:
+                {{$web_config['primary_color']}}
+            ;
+            background:
+                {{$web_config['primary_color']}}
+                10;
         }
 
         .flash-deals-background-image {
-            background: {{$web_config['primary_color']}}10;
+            background:
+                {{$web_config['primary_color']}}
+                10;
         }
 
         .view-all-text {
-            color: {{$web_config['secondary_color']}}  !important;
+            color:
+                {{$web_config['secondary_color']}}
+                !important;
         }
 
         .feature-product .czi-arrow-left {
-            color: {{$web_config['primary_color']}};
-            background: {{$web_config['primary_color']}}10
+            color:
+                {{$web_config['primary_color']}}
+            ;
+            background:
+                {{$web_config['primary_color']}}
+                10
         }
 
         .feature-product .czi-arrow-right {
-            color: {{$web_config['primary_color']}};
-            background: {{$web_config['primary_color']}}10;
+            color:
+                {{$web_config['primary_color']}}
+            ;
+            background:
+                {{$web_config['primary_color']}}
+                10;
             font-size: 12px;
         }
 
         /*  */
     </style>
 
-    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.carousel.min.css"/>
-    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.theme.default.min.css"/>
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/owl.theme.default.min.css" />
 @endpush
 
 @section('content')
-    <div class="__inline-61">
-        @php($decimal_point_settings = !empty(\App\CPU\Helpers::get_business_settings('decimal_point_settings')) ? \App\CPU\Helpers::get_business_settings('decimal_point_settings') : 0)
-        <!-- Hero (Banners + Slider)-->
-        <section class="bg-transparent py-3">
-            <div class="container position-relative">
-                @include('web-views.partials._home-top-slider',['main_banner'=>$main_banner])
-            </div>
-        </section>
+<div class="__inline-61">
+    @php($decimal_point_settings = !empty(\App\CPU\Helpers::get_business_settings('decimal_point_settings')) ? \App\CPU\Helpers::get_business_settings('decimal_point_settings') : 0)
+    <!-- Hero (Banners + Slider)-->
+    <section class="bg-transparent py-3">
+        <div class="container position-relative">
+            @include('web-views.partials._home-top-slider', ['main_banner' => $main_banner])
+        </div>
+    </section>
 
-        <!--flash deal-->
-        @if ($web_config['flash_deals'] && count($web_config['flash_deals']->products) >0 )
-            @include('web-views.partials._flash-deal')
-        @endif
+    <!--flash deal-->
+    @if ($web_config['flash_deals'] && count($web_config['flash_deals']->products) > 0)
+        @include('web-views.partials._flash-deal')
+    @endif
 
-        <!-- Products grid (featured products)-->
-        @if ($featured_products->count() > 0 )
-            <div class="container py-4 rtl px-0 px-md-3">
-                <div class="__inline-62 pt-3">
-                    <div class="feature-product-title mt-0"  style="color: {{$web_config['primary_color']}}">
-                        {{ translate('featured_products')}}
-                    </div>
-                    <div class="text-end px-3 d-none d-md-block">
-                        <a class="text-capitalize view-all-text" href="{{route('products',['data_from'=>'featured','page'=>1])}}" style="color: {{$web_config['primary_color']}}!important">
-                            {{ translate('view_all')}}
-                            <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
-                        </a>
-                    </div>
-                    <div class="feature-product">
-                        <div class="carousel-wrap p-1">
-                            <div class="owl-carousel owl-theme " id="featured_products_list">
-                                @foreach($featured_products as $product)
-                                    <div>
-                                        @include('web-views.partials._feature-product',['product'=>$product, 'decimal_point_settings'=>$decimal_point_settings])
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="text-center pt-2 d-md-none">
-                            <a class="text-capitalize view-all-text" href="{{route('products',['data_from'=>'featured','page'=>1])}}" style="color: {{$web_config['primary_color']}}!important">
-                                {{ translate('view_all')}}
-                                <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
-                            </a>
-                        </div>
-                    </div>
+    <!-- Products grid (featured products)-->
+    @if ($featured_products->count() > 0)
+        <div class="container py-4 rtl px-0 px-md-3">
+            <div class="__inline-62 pt-3">
+                <div class="feature-product-title mt-0" style="color: {{$web_config['primary_color']}}">
+                    {{ translate('featured_products')}}
                 </div>
-            </div>
-        @endif
-
-        <!-- category -->
-        @include('web-views.partials._category-section-home')
-
-        <!--featured deal-->
-        @if($web_config['featured_deals'] && (count($web_config['featured_deals'])>0))
-            <section class="featured_deal rtl">
-                <div class="container">
-                    <div class="__featured-deal-wrap bg--light">
-                        <div class="d-flex flex-wrap justify-content-between gap-8 mb-3">
-                            <div class="w-0 flex-grow-1">
-                                <span class="featured_deal_title font-bold text-dark">{{ translate('featured_deal')}}</span>
-                                <br>
-                                <span class="text-left text-nowrap">{{ translate('see_the_latest_deals_and_exciting_new_offers')}}!</span>
-                            </div>
-                            <div>
-                                <a class="text-capitalize view-all-text" href="{{route('products',['data_from'=>'featured_deal'])}}" style="color: {{$web_config['primary_color']}}!important">
-                                    {{ translate('view_all')}}
-                                    <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="owl-carousel owl-theme new-arrivals-product">
-                            @foreach($web_config['featured_deals'] as $key=>$product)
-                                @include('web-views.partials._product-card-1',['product'=>$product, 'decimal_point_settings'=>$decimal_point_settings])
+                <div class="text-end px-3 d-none d-md-block">
+                    <a class="text-capitalize view-all-text"
+                        href="{{route('products', ['data_from' => 'featured', 'page' => 1])}}"
+                        style="color: {{$web_config['primary_color']}}!important">
+                        {{ translate('view_all')}}
+                        <i
+                            class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
+                    </a>
+                </div>
+                <div class="feature-product">
+                    <div class="carousel-wrap p-1">
+                        <div class="owl-carousel owl-theme " id="featured_products_list">
+                            @foreach($featured_products as $product)
+                                <div>
+                                    @include('web-views.partials._feature-product', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
+                                </div>
                             @endforeach
                         </div>
                     </div>
+                    <div class="text-center pt-2 d-md-none">
+                        <a class="text-capitalize view-all-text"
+                            href="{{route('products', ['data_from' => 'featured', 'page' => 1])}}"
+                            style="color: {{$web_config['primary_color']}}!important">
+                            {{ translate('view_all')}}
+                            <i
+                                class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
+                        </a>
+                    </div>
                 </div>
-            </section>
-        @endif
-
-        @if (isset($main_section_banner))
-            <div class="container rtl pt-4 px-0 px-md-3">
-                <a href="{{$main_section_banner->url}}"
-                    class="cursor-pointer d-block">
-                    <img class="d-block footer_banner_img __inline-63"
-                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                        src="{{asset('storage/banner')}}/{{$main_section_banner['photo']}}">
-                </a>
             </div>
-        @endif
+        </div>
+    @endif
 
-        <!--top seller-->
-        @php($business_mode=\App\CPU\Helpers::get_business_settings('business_mode'))
-        @if ($business_mode == 'multi' && count($top_sellers) > 0)
-            @include('web-views.partials._top-sellers')
-        @endif
+    <!-- category -->
+    @include('web-views.partials._category-section-home')
 
-        <!-- deal of the day and latest product -->
-        @include('web-views.partials._deal-of-the-day')
-        <!-- end deal of the day and latest product -->
+    <!--featured deal-->
+    @if($web_config['featured_deals'] && (count($web_config['featured_deals']) > 0))
+        <section class="featured_deal rtl">
+            <div class="container">
+                <div class="__featured-deal-wrap bg--light">
+                    <div class="d-flex flex-wrap justify-content-between gap-8 mb-3">
+                        <div class="w-0 flex-grow-1">
+                            <span class="featured_deal_title font-bold text-dark">{{ translate('featured_deal')}}</span>
+                            <br>
+                            <span
+                                class="text-left text-nowrap">{{ translate('see_the_latest_deals_and_exciting_new_offers')}}!</span>
+                        </div>
+                        <div>
+                            <a class="text-capitalize view-all-text"
+                                href="{{route('products', ['data_from' => 'featured_deal'])}}"
+                                style="color: {{$web_config['primary_color']}}!important">
+                                {{ translate('view_all')}}
+                                <i
+                                    class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1' : 'right ml-1'}}"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="owl-carousel owl-theme new-arrivals-product">
+                        @foreach($web_config['featured_deals'] as $key => $product)
+                            @include('web-views.partials._product-card-1', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 
-        <!-- Banner  mobile-->
-        @if ($footer_banner->count() > 0 )
-            @foreach($footer_banner as $key=>$banner)
+    @if (isset($main_section_banner))
+        <div class="container rtl pt-4 px-0 px-md-3">
+            <a href="{{$main_section_banner->url}}" class="cursor-pointer d-block">
+                <img class="d-block footer_banner_img __inline-63"
+                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                    src="{{asset('storage/banner')}}/{{$main_section_banner['photo']}}">
+            </a>
+        </div>
+    @endif
+
+    <!--top seller-->
+    @php($business_mode = \App\CPU\Helpers::get_business_settings('business_mode'))
+    @if ($business_mode == 'multi' && count($top_sellers) > 0)
+        @include('web-views.partials._top-sellers')
+    @endif
+
+    <!-- deal of the day and latest product -->
+    @include('web-views.partials._deal-of-the-day')
+    <!-- end deal of the day and latest product -->
+
+    <!-- Banner  mobile-->
+    @if ($footer_banner->count() > 0)
+        @foreach($footer_banner as $key => $banner)
             @if ($key == 0)
                 <div class="container rtl d-sm-none">
                     <div class="row g-3">
@@ -302,54 +356,54 @@
                     </div>
                 </div>
             @endif
-            @endforeach
-        @endif
+        @endforeach
+    @endif
 
-        <!-- new-arrival -->
+    <!-- new-arrival -->
 
-        <section class="new-arrival-section">
+    <section class="new-arrival-section">
 
-            <div class="container rtl mt-4">
-                @if ($latest_products->count() >0 )
-                    <div class="section-header">
-                        <div class="arrival-title d-block">
-                            <div class="text-capitalize">
-                                {{ translate('new_arrivals')}}
-                            </div>
+        <div class="container rtl mt-4">
+            @if ($latest_products->count() > 0)
+                <div class="section-header">
+                    <div class="arrival-title d-block">
+                        <div class="text-capitalize">
+                            {{ translate('new_arrivals')}}
                         </div>
                     </div>
+                </div>
+            @endif
+        </div>
+        <div class="container rtl mb-3 overflow-hidden">
+            <div class="py-2">
+                <div class="new_arrival_product">
+                    <div class="carousel-wrap">
+                        <div class="owl-carousel owl-theme new-arrivals-product">
+                            @foreach($latest_products as $key => $product)
+                                @include('web-views.partials._product-card-2', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container rtl px-0 px-md-3">
+            <div class="row g-3 mx-max-md-0">
+                <!-- best selling product -->
+                @if ($bestSellProduct->count() > 0)
+                    @include('web-views.partials._best-selling')
+                @endif
+                <!-- top rated  product -->
+                @if ($topRated->count() > 0)
+                    @include('web-views.partials._top-rated')
                 @endif
             </div>
-            <div class="container rtl mb-3 overflow-hidden">
-                <div class="py-2">
-                    <div class="new_arrival_product">
-                        <div class="carousel-wrap">
-                            <div class="owl-carousel owl-theme new-arrivals-product">
-                                @foreach($latest_products as $key=>$product)
-                                    @include('web-views.partials._product-card-2',['product'=>$product,'decimal_point_settings'=>$decimal_point_settings])
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container rtl px-0 px-md-3">
-                <div class="row g-3 mx-max-md-0">
-                    <!-- best selling product -->
-                    @if ($bestSellProduct->count() >0)
-                        @include('web-views.partials._best-selling')
-                    @endif
-                    <!-- top rated  product -->
-                    @if ($topRated->count() >0)
-                        @include('web-views.partials._top-rated')
-                    @endif
-                </div>
-            </div>
-        </section>
-        <!-- Banner  mobile-->
-        @if ($footer_banner->count() > 0 )
-            @foreach($footer_banner as $key=>$banner)
+        </div>
+    </section>
+    <!-- Banner  mobile-->
+    @if ($footer_banner->count() > 0)
+        @foreach($footer_banner as $key => $banner)
             @if ($key == 1)
                 <div class="container rtl pt-4 d-sm-none">
                     <div class="row g-3">
@@ -363,88 +417,88 @@
                     </div>
                 </div>
             @endif
-            @endforeach
-        @endif
-        <!-- Banner  -->
-        @if ($footer_banner->count() > 0 )
-            <div class="container rtl d-md-block d-none">
-                <div class="row g-3">
-                    @foreach($footer_banner as $banner)
-                        <div class="col-md-6">
-                            <a href="{{$banner->url}}" class="d-block">
-                                <img class="footer_banner_img __inline-63"
-                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                    src="{{asset('storage/banner')}}/{{$banner['photo']}}">
+        @endforeach
+    @endif
+    <!-- Banner  -->
+    @if ($footer_banner->count() > 0)
+        <div class="container rtl d-md-block d-none">
+            <div class="row g-3">
+                @foreach($footer_banner as $banner)
+                    <div class="col-md-6">
+                        <a href="{{$banner->url}}" class="d-block">
+                            <img class="footer_banner_img __inline-63"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                src="{{asset('storage/banner')}}/{{$banner['photo']}}">
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    <!-- Brands -->
+    @if($web_config['brand_setting'] && $brands->count() > 0)
+        <section class="container rtl pt-4">
+            <!-- Heading-->
+            <div class="section-header">
+                <div class="text-black font-bold __text-22px">
+                    <span> {{translate('brands')}}</span>
+                </div>
+                <div class="__mr-2px">
+                    <a class="text-capitalize view-all-text" href="{{route('brands')}}"
+                        style="color: {{$web_config['primary_color']}}!important">
+                        {{ translate('view_all')}}
+                        <i
+                            class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i>
+                    </a>
+                </div>
+            </div>
+            <!-- Grid-->
+            <div class="mt-sm-3 mb-3 brand-slider">
+                <div class="owl-carousel owl-theme p-2 brands-slider pb-5 pb-sm-0">
+                    @foreach($brands as $brand)
+                        <div class="text-center">
+                            <a href="{{route('products', ['id' => $brand['id'], 'data_from' => 'brand', 'page' => 1])}}"
+                                class="__brand-item">
+                                <img onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                    src="{{asset("storage/brand/$brand->image")}}" alt="{{$brand->name}}">
                             </a>
                         </div>
                     @endforeach
                 </div>
             </div>
-        @endif
-        <!-- Brands -->
-        @if($web_config['brand_setting'] && $brands->count() > 0)
-            <section class="container rtl pt-4">
-                <!-- Heading-->
-                <div class="section-header">
-                    <div class="text-black font-bold __text-22px">
-                        <span> {{translate('brands')}}</span>
-                    </div>
-                    <div class="__mr-2px">
-                        <a class="text-capitalize view-all-text" href="{{route('brands')}}" style="color: {{$web_config['primary_color']}}!important">
-                            {{ translate('view_all')}}
-                            <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Grid-->
-                <div class="mt-sm-3 mb-3 brand-slider">
-                    <div class="owl-carousel owl-theme p-2 brands-slider pb-5 pb-sm-0">
-                        @foreach($brands as $brand)
-                            <div class="text-center">
-                                <a href="{{route('products',['id'=> $brand['id'],'data_from'=>'brand','page'=>1])}}"
-                                   class="__brand-item">
-                                    <img
-                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                        src="{{asset("storage/brand/$brand->image")}}"
-                                        alt="{{$brand->name}}">
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </section>
-        @endif
+        </section>
+    @endif
 
-        <!-- Categorized product -->
-        @if ($home_categories->count() > 0)
-            @foreach($home_categories as $category)
-                @include('web-views.partials._category-wise-product')
-            @endforeach
-        @endif
+    <!-- Categorized product -->
+    @if ($home_categories->count() > 0)
+        @foreach($home_categories as $category)
+            @include('web-views.partials._category-wise-product')
+        @endforeach
+    @endif
 
-        <!--delivery type -->
-        @php($company_reliability = \App\CPU\Helpers::get_business_settings('company_reliability'))
-        @if($company_reliability != null)
-            @include('web-views.partials._company-reliability')
-        @endif
-    </div>
+    <!--delivery type -->
+    @php($company_reliability = \App\CPU\Helpers::get_business_settings('company_reliability'))
+    @if($company_reliability != null)
+        @include('web-views.partials._company-reliability')
+    @endif
+</div>
 @endsection
 
 @push('script')
     <script>
         /*--flash deal Progressbar --*/
-        function update_flash_deal_progress_bar(){
+        function update_flash_deal_progress_bar() {
             const current_time_stamp = new Date().getTime();
             const start_date = new Date('{{$web_config['flash_deals']['start_date'] ?? ''}}').getTime();
             const countdownElement = document.querySelector('.cz-countdown');
             const get_end_time = countdownElement.getAttribute('data-countdown');
             const end_time = new Date(get_end_time).getTime();
-            let time_progress = ((current_time_stamp - start_date) / (end_time - start_date))*100;
+            let time_progress = ((current_time_stamp - start_date) / (end_time - start_date)) * 100;
             const progress_bar = document.querySelector('.flash-deal-progress-bar');
             progress_bar.style.width = time_progress + '%';
         }
-            update_flash_deal_progress_bar();
-            setInterval(update_flash_deal_progress_bar, 10000);
+        update_flash_deal_progress_bar();
+        setInterval(update_flash_deal_progress_bar, 10000);
         /*-- end flash deal Progressbar --*/
     </script>
 
@@ -455,7 +509,7 @@
         $('.flash-deal-slider').owlCarousel({
             loop: false,
             autoplay: true,
-            center:false,
+            center: false,
             margin: 10,
             nav: true,
             navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
@@ -498,7 +552,7 @@
         $('.flash-deal-slider-mobile').owlCarousel({
             loop: false,
             autoplay: true,
-            center:true,
+            center: true,
             margin: 10,
             nav: true,
             navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
@@ -910,6 +964,3 @@
         });
     </script>
 @endpush
-
-
-

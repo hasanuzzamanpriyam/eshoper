@@ -54,65 +54,69 @@
                             @if (isset($order_ids) && count($order_ids) > 0)
                                 @php
                                     $summary = [];
+                                    $orderDetails = null;
+                                    $orderData = null;
+                                    $order_summary = null;
                                 @endphp
                                 @foreach ($order_ids as $key => $order)
                                     @php
-                                        $orderDetails = \App\CPU\OrderManager::track_order($order);
-                                        $orderData = \App\CPU\OrderManager::get_order_details($order);
-                                        $order_summary = \App\CPU\OrderManager::order_summary($orderDetails);
+                                        $currentOrderDetails = \App\CPU\OrderManager::track_order($order);
+                                        $currentOrderData = \App\CPU\OrderManager::get_order_details($order);
+                                        $currentOrderSummary = \App\CPU\OrderManager::order_summary($currentOrderDetails);
+ 
+                                        // Initialize or append to summary values
+                                        $summary['invoice_no'] = $summary['invoice_no'] ?? [];
+                                        $summary['invoice_no'][] = $currentOrderDetails->id;
+                                        $summary['order_date'] = date('F d, Y', strtotime($currentOrderDetails->created_at));
+                                        $summary['total_price'] = $summary['total_price'] ?? 0;
+                                        $summary['total_price'] += $currentOrderDetails->order_amount - $currentOrderDetails->shipping_cost;
+                                        $summary['total_shipping'] = $summary['total_shipping'] ?? 0;
+                                        $summary['total_shipping'] += $currentOrderDetails->shipping_cost;
+                                        $summary['payment_method'] = $summary['payment_method'] ?? [];
+                                        $payment_method = translate($currentOrderDetails->payment_method);
+                                        if (!in_array($payment_method, $summary['payment_method'])){
+                                            $summary['payment_method'][] = $payment_method;
+                                        }
+                                        
+                                        // Store first order details for script section
+                                        if ($orderDetails === null) {
+                                            $orderDetails = $currentOrderDetails;
+                                            $orderData = $currentOrderData;
+                                            $order_summary = $currentOrderSummary;
+                                        }
                                     @endphp
-
-                                    {{-- Ensure $orderDetails exists --}}
-                                    @if($orderDetails)
-                                        @php
-                                            // Initialize or append to summary values
-                                            $summary['invoice_no'] = $summary['invoice_no'] ?? [];
-                                            $summary['invoice_no'][] = $orderDetails->id;
-
-                                            $summary['order_date'] = date('F d, Y', strtotime($orderDetails->created_at));
-
-                                            $summary['total_price'] = $summary['total_price'] ?? 0;
-                                            $summary['total_price'] += $orderDetails->order_amount - $orderDetails->shipping_cost;
-
-                                            $summary['total_shipping'] = $summary['total_shipping'] ?? 0;
-                                            $summary['total_shipping'] += $orderDetails->shipping_cost;
-
-                                            $summary['payment_method'] = $summary['payment_method'] ?? [];
-                                            $payment_method = translate($orderDetails->payment_method);
-                                            if (!in_array($payment_method, $summary['payment_method'])){
-                                                $summary['payment_method'][] = $payment_method;
-                                            }
-                                        @endphp
-                                    @endif
                                 @endforeach
-                                <h6 class="font-black fw-bold mt-4 text-center">{{ translate('order_details') }}</h6>
-                                <div class="table-wrapper table-wrapper-desktop table-responsive" style="max-width: 800px; margin: 0 auto;">
-                                    <table class="table table-hover table-thead-bordered table-nowrap table-align-middle card-table">
-                                        <thead>
-                                            <tr>
-                                                <th><strong>{{translate('order_id')}}</strong></th>
-                                                <th><strong>{{translate('date')}}</strong></th>
-                                                <th><strong>{{translate('line_total')}}</strong></th>
-                                                <th><strong>{{translate('delivery_charge')}}</strong></th>
-                                                <th><strong>{{translate('total')}}</strong></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{ implode(', ', $summary['invoice_no'])}}</td>
-                                                <td>{{ $summary['order_date'] }}</td>
-                                                <td>{{ $summary['total_price'] }} BDT</td>
-                                                <td>{{ $summary['total_shipping'] }} BDT</td>
-                                                <td>{{ $summary['total_price'] + $summary['total_shipping'] }} BDT</td>
-                                            </tr>
-                                            <tr>
-                                                <th><strong>{{translate('payment_Method')}}</strong></th>
-                                                <td colspan="4">{{ implode(', ', $summary['payment_method'])}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
+                                
+                                {{-- Only show summary table if we have orders --}}
+                                @if($orderDetails)
+                                    <h6 class="font-black fw-bold mt-4 text-center">{{ translate('order_details') }}</h6>
+                                    <div class="table-wrapper table-wrapper-desktop table-responsive" style="max-width: 800px; margin: 0 auto;">
+                                        <table class="table table-hover table-thead-bordered table-nowrap table-align-middle card-table">
+                                            <thead>
+                                                <tr>
+                                                    <th><strong>{{translate('order_id')}}</strong></th>
+                                                    <th><strong>{{translate('date')}}</strong></th>
+                                                    <th><strong>{{translate('line_total')}}</strong></th>
+                                                    <th><strong>{{translate('delivery_charge')}}</strong></th>
+                                                    <th><strong>{{translate('total')}}</strong></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ implode(', ', $summary['invoice_no'])}}</td>
+                                                    <td>{{ $summary['order_date'] }}</td>
+                                                    <td>{{ $summary['total_price'] }} BDT</td>
+                                                    <td>{{ $summary['total_shipping'] }} BDT</td>
+                                                    <td>{{ $summary['total_price'] + $summary['total_shipping'] }} BDT</td>
+                                                </tr>
+                                                <tr>
+                                                    <th><strong>{{translate('payment_Method')}}</strong></th>
+                                                    <td colspan="4">{{ implode(', ', $summary['payment_method'])}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+ 
                                 <div class="table-wrapper table-wrapper-mobile table-responsive" style="max-width: 800px; margin: 0 auto;">
                                     <table class="table table-hover table-thead-bordered table-nowrap table-align-middle card-table">
                                         <tbody>
@@ -143,7 +147,7 @@
                                         </tbody>
                                     </table>
                                 </div>
-
+                                @endif
                             @else
                                 <p class="text-center fs-12">{{ translate('your_order_is_being_processed_and_will_be_completed.') }} {{ translate('You_will_receive_an_email_confirmation_when_your_order_is_placed.') }}</p>
                             @endif
@@ -167,52 +171,53 @@
 @endsection
 
 @push('script')
+@isset($orderDetails) && $orderDetails
 <script>
 	var customerInfo = {
-		customer_shipping_name: '{{ $orderDetails->shipping_address_data->contact_person_name }}',
-		customer_shipping_address: '{{ $orderDetails->shipping_address_data->address }}',
-		customer_shipping_city: '{{ $orderDetails->shipping_address_data->city }}',
-		customer_shipping_country: '{{ $orderDetails->shipping_address_data->country }}',
-		customer_shipping_zip: '{{ $orderDetails->shipping_address_data->zip }}',
-		customer_shipping_phone: '{{ $orderDetails->shipping_address_data->phone }}',
-		customer_billing_name: '{{ $orderDetails->billing_address_data->contact_person_name }}',
-		customer_billing_address: '{{ $orderDetails->billing_address_data->address }}',
-		customer_billing_city: '{{ $orderDetails->billing_address_data->city }}',
-		customer_billing_country: '{{ $orderDetails->billing_address_data->country }}',
-		customer_billing_zip: '{{ $orderDetails->billing_address_data->zip }}',
-		customer_billing_phone: '{{ $orderDetails->billing_address_data->phone }}'
+		customer_shipping_name: '{{ $orderDetails->shipping_address_data->contact_person_name ?? '' }}',
+		customer_shipping_address: '{{ $orderDetails->shipping_address_data->address ?? '' }}',
+		customer_shipping_city: '{{ $orderDetails->shipping_address_data->city ?? '' }}',
+		customer_shipping_country: '{{ $orderDetails->shipping_address_data->country ?? '' }}',
+		customer_shipping_zip: '{{ $orderDetails->shipping_address_data->zip ?? '' }}',
+		customer_shipping_phone: '{{ $orderDetails->shipping_address_data->phone ?? '' }}',
+		customer_billing_name: '{{ $orderDetails->billing_address_data->contact_person_name ?? '' }}',
+		customer_billing_address: '{{ $orderDetails->billing_address_data->address ?? '' }}',
+		customer_billing_city: '{{ $orderDetails->billing_address_data->city ?? '' }}',
+		customer_billing_country: '{{ $orderDetails->billing_address_data->country ?? '' }}',
+		customer_billing_zip: '{{ $orderDetails->billing_address_data->zip ?? '' }}',
+		customer_billing_phone: '{{ $orderDetails->billing_address_data->phone ?? '' }}'
 	}
-
+ 
 	dataLayer.push(customerInfo);
-
+ 
 	var orderInfo = {
 		ecommerce: {
 			transaction_id: '{{$order}}',
 			currency: 'BDT',
-			value: {{$order_summary['subtotal']}} - {{$order_summary['total_discount_on_product']}},
-			discount: {{$order_summary['total_discount_on_product']}},
-			tax: {{$order_summary['total_tax']}},
-			shipping: {{$order_summary['total_shipping_cost']}},
+			value: {{$order_summary['subtotal'] ?? 0}} - {{$order_summary['total_discount_on_product'] ?? 0}},
+			discount: {{$order_summary['total_discount_on_product'] ?? 0}},
+			tax: {{$order_summary['total_tax'] ?? 0}},
+			shipping: {{$order_summary['total_shipping_cost'] ?? 0}},
 			items: [
 				@foreach ($orderData as $item)
                     @php
                         $productDetails = json_decode($item->product_details, true);
-                        $cats = [];
-
+                        $cats = []; 
+                        
                         if (isset($productDetails['category_ids']) && !empty($productDetails['category_ids'])) {
                             $cats = json_decode($productDetails['category_ids'], true);
                         }
                     @endphp
-
+ 
                     {
-                        item_name: '{{ $productDetails['name'] }}',
-                        item_id: {{ $productDetails['id'] }},
-                        current_stock: {{ $productDetails['current_stock'] }},
-                        brand_id: '{{ $productDetails['brand_id'] }}',
-                        price: {{ $item['price'] }},
-                        quantity: {{ $item->qty }},
-                        unit: '{{ $productDetails['unit'] }}',
-                        seller_id: '{{ $item->seller_id }}',
+                        item_name: '{{ $productDetails['name'] ?? '' }}',
+                        item_id: {{ $productDetails['id'] ?? 0 }},
+                        current_stock: {{ $productDetails['current_stock'] ?? 0 }},
+                        brand_id: '{{ $productDetails['brand_id'] ?? '' }}',
+                        price: {{ $item['price'] ?? 0 }},
+                        quantity: {{ $item->qty ?? 0 }},
+                        unit: '{{ $productDetails['unit'] ?? '' }}',
+                        seller_id: '{{ $item->seller_id ?? '' }}',
                         categories: [
                             @foreach ($cats as $cat)
                                 "{{ $cat['id'] }}",
@@ -224,7 +229,8 @@
 		},
 		event: 'purchase'
 	};
-
+ 
 	dataLayer.push(orderInfo);
 </script>
+@endisset
 @endpush

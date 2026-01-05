@@ -39,6 +39,14 @@
             color: {{$web_config['primary_color']}} !important;
         }
     }
+    @media (max-width: 991px) {
+        .search-form-mobile {
+            display: none;
+        }
+        .search-form-mobile.search-form-mobile-show {
+            display: block;
+        }
+    }
     /**/
 </style>
 @php($announcement=\App\CPU\Helpers::get_business_settings('announcement'))
@@ -150,18 +158,26 @@
                         </button>
                      </div>
                     <form action="{{route('products')}}" type="submit" class="search_form">
-                        <input class="form-control appended-form-control search-bar-input" type="text"
-                               autocomplete="off"
-                               placeholder="{{ translate("search_here")}}..."
-                               name="name">
-                        <button class="input-group-append-overlay search_button" type="submit"
+                        <div class="input-group position-relative">
+                            <div class="loading-indicator d-none">
+                                <div class="spinner-border spinner-border-sm text-primary"></div>
+                            </div>
+                            <input class="form-control appended-form-control search-bar-input" type="text"
+                                   autocomplete="off"
+                                   placeholder="Search for products..."
+                                   name="name"
+                                   id="search-input">
+                            <button class="input-group-append-overlay search_button" type="submit"
                                 style="border-radius: {{Session::get('direction') === "rtl" ? '7px 0px 0px 7px; right: unset; left: 0' : '0px 7px 7px 0px; left: unset; right: 0'}};top:0">
                                 <span class="input-group-text __text-20px">
                                     <i class="czi-search text-white"></i>
                                 </span>
-                        </button>
-                        <input name="data_from" value="search" hidden>
-                        <input name="page" value="1" hidden>
+                        </div>
+                        <div id="search-results-ajax" class="d-none">
+                            <div id="search-box" class="card search-card __inline-13">
+                                <div class="card-body search-result-box __h-400px overflow-x-hidden overflow-y-auto"></div>
+                            </div>
+                        </div>
                         <diV class="card search-card __inline-13">
                             <div class="card-body search-result-box __h-400px overflow-x-hidden overflow-y-auto"></div>
                         </diV>
@@ -482,36 +498,144 @@
 </header>
 @push('script')
     <script>
-        function myFunction() {
-            $('#anouncement').slideUp(300);
-        }
+         function myFunction() {
+             $('#anouncement').slideUp(300);
+         }
+ 
         $(".category-menu").find(".mega_menu").parents("li").addClass("has-sub-item").find("> a").append("<i class='czi-arrow-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}'></i>");
-
-        $('.category-menu-toggle-btn').on('click', function() {
-            $('.megamenu-wrap').toggleClass('show')
-        });
-
-        $('.navbar-tool-icon-box').on('click', function() {
-            $('.megamenu-wrap').removeClass('show')
-        })
-
+ 
+        $('.category-menu-toggle-btn').on('click', function () {
+             $('.megamenu-wrap').toggleClass('show')
+         });
+ 
+        $('.navbar-tool-icon-box').on('click', function () {
+             $('.megamenu-wrap').removeClass('show')
+         });
+ 
         // mega menu will remove when window reload
-        $(window).on('scroll', function() {
-            $('.megamenu-wrap').removeClass('show')
-        });
+        $(window).on('scroll', function () {
+             $('.megamenu-wrap').removeClass('show')
+         });
+  
 
 
 
-    </script>
 
-    <script>
-        $('.close-search-form-mobile').on('click', function(){
-            $('.search-form-mobile').removeClass('active')
-        })
-        $('.open-search-form-mobile').on('click', function(){
-            $('.search-form-mobile').addClass('active')
-        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 @endpush
-
-
