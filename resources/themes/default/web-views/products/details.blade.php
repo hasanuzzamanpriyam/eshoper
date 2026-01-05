@@ -511,9 +511,30 @@
                                                 ($product->added_by == 'admin' && ($inhouse_temporary_close || ($inhouse_vacation_status && $current_date >= $inhouse_vacation_start_date && $current_date <= $inhouse_vacation_end_date))))
                                                     <div class="alert alert-danger" role="alert">
                                                     {{translate('this_shop_is_temporary_closed_or_on_vacation._You_cannot_add_product_to_cart_from_this_shop_for_now')}}
+
                                 </div>
                                 @endif
+                                <button type="button"
+                                    onclick="window.open('https://wa.me/8801896156713?text={{ urlencode('আমি এই প্রোডাক্টটি কিনতে চাই: ' . $product->name . ' - ' . url()->current()) }}','_blank')"
+                                    class="btn btn-success d-none d-sm-block ms-2">
+
+                                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                    <span class="fs-14">WhatsApp</span>
+                                </button>
+
                         </div>
+                        <!-- Other Info Section -->
+                        @if($product->other_info)
+                        <div class="mt-4">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        {{ $product->other_info }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         </form>
 
                     </div>
@@ -746,9 +767,9 @@
                 <div class="shipping-details-bottom-border">
                     <div class="px-3 py-3">
                         <ul>
-                            @foreach($product->meta_tag as $tag)
-                            <li>{{ $tag }}</li>
-                            @endforeach
+                            @foreach($product->meta_tag ?? [] as $tag)
+    <li>{{ $tag }}</li>
+@endforeach
                         </ul>
                     </div>
                 </div>
