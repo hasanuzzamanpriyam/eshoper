@@ -181,7 +181,7 @@ return [
         \App\Providers\PaymentConfigProvider::class,
         \App\Providers\ConfigServiceProvider::class,
         Laravelpkg\Laravelchk\LaravelchkServiceProvider::class,
-       /* Amirami\Localizator\ServiceProvider::class*/
+        /* Amirami\Localizator\ServiceProvider::class*/
 
         App\Providers\ThemeServiceProvider::class,
         /* for export excel */
@@ -241,6 +241,7 @@ return [
         'Helper' => \App\CPU\Helpers::class,
         'Madzipper' => Madnest\Madzipper\Madzipper::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Toastr' => Brian2694\Toastr\Facades\Toastr::class,
     ],
 
 ];

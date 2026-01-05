@@ -41,10 +41,19 @@
     }
     @media (max-width: 991px) {
         .search-form-mobile {
-            display: none;
+            display: none !important;
         }
         .search-form-mobile.search-form-mobile-show {
-            display: block;
+            display: block !important;
+            z-index: 9999;
+            position: absolute;
+            background: #fff;
+            margin-top: 20%;
+            width: 100%;
+            left: 0;
+            top: 0;
+            padding: 0px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
     }
     /**/
@@ -193,7 +202,7 @@
                         </div>
                     </a>
                     <div class="navbar-tool open-search-form-mobile d-lg-none {{Session::get('direction') === "rtl" ? 'mr-md-3' : 'ml-md-3'}}">
-                        <a class="navbar-tool-icon-box bg-secondary" href="#0">
+                        <a class="navbar-tool-icon-box bg-secondary" href="javascript:void(0)">
                             <i class="tio-search"></i>
                         </a>
                     </div>
@@ -504,6 +513,21 @@
  
         $(".category-menu").find(".mega_menu").parents("li").addClass("has-sub-item").find("> a").append("<i class='czi-arrow-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}'></i>");
  
+        $(document).ready(function() {
+            $('.open-search-form-mobile').on('click', function () {
+                $('.search-form-mobile').addClass('search-form-mobile-show');
+            });
+
+            $('.close-search-form-mobile').on('click', function () {
+                $('.search-form-mobile').removeClass('search-form-mobile-show');
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.search-form-mobile').length && !$(e.target).closest('.open-search-form-mobile').length) {
+                    $('.search-form-mobile').removeClass('search-form-mobile-show');
+                }
+            });
+        });
         $('.category-menu-toggle-btn').on('click', function () {
              $('.megamenu-wrap').toggleClass('show')
          });
