@@ -766,11 +766,53 @@
             <div class="product-details-shipping-details">
                 <div class="shipping-details-bottom-border">
                     <div class="px-3 py-3">
-                        <ul>
-                            @foreach($product->meta_tag ?? [] as $tag)
-    <li>{{ $tag }}</li>
-@endforeach
-                        </ul>
+                        @php
+                        $company_reliability = \App\CPU\Helpers::get_business_settings('company_reliability') ?? [];
+                        $company_reliability = collect($company_reliability)
+                        ->filter(fn($item) => $item['status'] == 1 && !empty($item['title']))
+                        ->values();
+
+                        $metaTags = is_array($product->meta_tag ?? null) ? $product->meta_tag : [];
+                        $metaCount = count($metaTags);
+
+                        // reliability থেকে metaTag সংখ্যার সমান শেষের আইটেম বাদ
+                        if ($metaCount > 0) {
+                        $company_reliability = $company_reliability->slice(
+                        0,
+                        max(0, $company_reliability->count() - $metaCount)
+                        );
+                        }
+                        @endphp
+                        @if($company_reliability->count() > 0)
+                        <div class="product-details-shipping-details">
+
+
+                            @foreach ($company_reliability as $value)
+                            <div class="shipping-details-bottom-border">
+                                <div class="px-3 py-3">
+                                    <!-- <img class="{{ Session::get('direction') === 'rtl' ? 'float-right ml-2' : 'mr-2' }} __img-20"
+                                        src="{{ asset('/storage/company-reliability').'/'.$value['image'] }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('/assets/front-end/img/image-place-holder.png') }}'"
+                                        alt=""> -->
+                                    <span>{{ translate($value['title']) }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+
+                        </div>
+                        @endif
+                        @if(count($metaTags) > 0)
+                        <div class="product-details-shipping-details">
+                            @foreach($metaTags as $tag)
+                            <div class="shipping-details-bottom-border">
+                                <div class="px-3 py-3">
+                                    <span>{{ $tag }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -785,7 +827,7 @@
                             <div class="d-flex __seller-author align-items-center">
                                 <div>
                                     <img class="__img-60 img-circle" src="{{asset('storage/shop')}}/{{$product->seller->shop->image}}"
-                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        onerror="this.onerror=null;this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                         alt="">
                                 </div>
                                 <div class="{{Session::get('direction') === "rtl" ? 'mr-2' : 'ml-2'}} w-0 flex-grow">
