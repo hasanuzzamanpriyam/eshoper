@@ -56,6 +56,11 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
     }
+    
+    /* Fix autocomplete visibility */
+    .__inline-13 {
+        display: block !important;
+    }
     /**/
 </style>
 @php($announcement=\App\CPU\Helpers::get_business_settings('announcement'))

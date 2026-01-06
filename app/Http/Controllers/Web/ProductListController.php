@@ -63,6 +63,34 @@ class ProductListController extends Controller
         return response()->json($suggestions);
     }
 
+    public function searchedProducts(Request $request)
+    {
+        $name = $request->name;
+        $category_id = $request->category_id ?? null;
+
+        if (strlen($name) < 2) {
+            return response()->json(['result' => '']);
+        }
+
+        $products = Product::active()
+            ->where('name', 'like', "%{$name}%")
+            ->orWhereHas('tags', function ($query) use ($name) {
+                $query->where('tag', 'like', "%{$name}%");
+            });
+
+        if ($category_id) {
+            $products = $products->whereHas('category', function ($query) use ($category_id) {
+                $query->where('id', $category_id);
+            });
+        }
+
+        $products = $products->limit(10)->get();
+
+        return response()->json([
+            'result' => view('layouts.front-end.partials._search-suggestions', compact('products'))->render()
+        ]);
+    }
+
     public function default_theme($request)
     {
         $request['sort_by'] == null ? $request['sort_by'] == 'latest' : $request['sort_by'];
