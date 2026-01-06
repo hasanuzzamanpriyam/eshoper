@@ -65,6 +65,7 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_POSTFIELDS, $post_token_json);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($url, CURLOPT_SSL_VERIFYPEER, false);
 
         $resultdata = curl_exec($url);
 
@@ -137,6 +138,7 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_POSTFIELDS, $requestbodyJson);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($url, CURLOPT_SSL_VERIFYPEER, false);
         $resultdata = curl_exec($url);
         curl_close($url);
 
@@ -167,6 +169,7 @@ class BkashPaymentController extends Controller
         curl_setopt($url, CURLOPT_POSTFIELDS, $request_body_json);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($url, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+        curl_setopt($url, CURLOPT_SSL_VERIFYPEER, false);
         $resultdata = curl_exec($url);
         curl_close($url);
         $obj = json_decode($resultdata);

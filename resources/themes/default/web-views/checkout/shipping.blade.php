@@ -388,7 +388,13 @@
                                                                 </div>
                                                             </div>
                                                         @endif
+                                                    <div class="col-12">
+                                                        <div class="form-group">
+                                                            <label>{{ translate('order_comment')}}</label>
+                                                            <textarea class="form-control" id="billing_order_comment" type="text" name="billing_order_comment" placeholder="{{translate('your_comment_about_order')}}" ></textarea>
+                                                        </div>
                                                     </div>
+                                                </div>
 
 
                                                     @if($physical_product_view)
