@@ -1113,7 +1113,7 @@
                     @else
                         window.location.href = "{{route('customer.auth.sign-up')}}?referral_code=" + referral_code_parameter;
                     @endif
-                }
+                    }
             });
         </script>
     @endif
