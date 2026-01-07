@@ -77,8 +77,7 @@ class WebController extends Controller
 		private Brand $brand,
 		private Seller $seller,
 		private ProductCompare $compare,
-	) {
-	}
+	) {}
 
 	public function maintenance_mode()
 	{
@@ -238,18 +237,18 @@ class WebController extends Controller
 		], [
 			'name.required' => 'Product name is required!',
 		]);
- 
+
 		$is_ajax = $request->header('X-Requested-With') == 'XMLHttpRequest';
 		$sort_by = $request->input('sort_by', 'best_rating');
- 
+
 		$result = ProductManager::search_products_web($request['name'], $request['category_id'] ?? 'all');
 		$products = $result['products'];
- 
+
 		if ($products == null) {
 			$result = ProductManager::translated_product_search_web($request['name'], $request['category_id'] ?? 'all');
 			$products = $result['products'];
 		}
- 
+
 		$sellers = Shop::where(function ($q) use ($request) {
 			$q->orWhere('name', 'like', "%{$request['name']}%");
 		})->whereHas('seller', function ($query) {
@@ -257,7 +256,7 @@ class WebController extends Controller
 		})->with('product', function ($query) {
 			return $query->active()->where('added_by', 'seller');
 		})->get();
- 
+
 		$product_ids = [];
 		foreach ($sellers as $seller) {
 			if (isset($seller->product) && $seller->product->count() > 0) {
@@ -265,10 +264,10 @@ class WebController extends Controller
 				array_push($product_ids, ...$ids);
 			}
 		}
- 
+
 		$inhouse_product = [];
 		$company_name = Helpers::get_business_settings('company_name');
- 
+
 		if (strpos($request['name'], $company_name) !== false) {
 			$ids = Product::active()->Where('added_by', 'admin')->pluck('id');
 			array_push($product_ids, ...$ids);
@@ -277,7 +276,7 @@ class WebController extends Controller
 		$all_products = collect($products)->merge($seller_products);
 
 		$html = view(VIEW_FILE_NAMES['product_search_result'], ['products' => $all_products, 'seller_products' => $seller_products])->render();
- 
+
 		if ($is_ajax) {
 			return response()->json([
 				'result' => $html,
@@ -377,7 +376,6 @@ class WebController extends Controller
 							$shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
 						}
 					}
-
 				}
 			}
 		}
@@ -976,7 +974,7 @@ class WebController extends Controller
 				$product = Product::find($request->product_id);
 				$cats = json_decode($product->category_ids);
 				$categories = [];
-				foreach($cats as $cat){
+				foreach ($cats as $cat) {
 					$categories[] = $cat->id;
 				}
 
@@ -1026,7 +1024,8 @@ class WebController extends Controller
 
 					return response()->json([
 						'success' => translate("Product has been added to wishlist"),
-						'value' => 1, 'count' => $countWishlist,
+						'value' => 1,
+						'count' => $countWishlist,
 						'id' => $request->product_id,
 						'product_count' => $product_count,
 						'productData' => array(
@@ -1099,30 +1098,32 @@ class WebController extends Controller
 	{
 		//recaptcha validation
 		$recaptcha = Helpers::get_business_settings('recaptcha');
-		if (isset($recaptcha) && $recaptcha['status'] == 1) {
+		if (!in_array($request->ip(), ['127.0.0.1', '::1'])) {
+			if (isset($recaptcha) && $recaptcha['status'] == 1) {
 
-			try {
-				$request->validate([
-					'g-recaptcha-response' => [
-						function ($attribute, $value, $fail) {
-							$secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-							$response = $value;
-							$url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-							$response = \file_get_contents($url);
-							$response = json_decode($response);
-							if (!$response->success) {
-								$fail(\App\CPU\translate('ReCAPTCHA Failed'));
-							}
-						},
-					],
-				]);
-			} catch (\Exception $exception) {
-				return back()->withErrors(\App\CPU\translate('Captcha Failed'))->withInput($request->input());
-			}
-		} else {
-			if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
-				Session::forget('default_captcha_code');
-				return back()->withErrors(\App\CPU\translate('Captcha Failed'))->withInput($request->input());
+				try {
+					$request->validate([
+						'g-recaptcha-response' => [
+							function ($attribute, $value, $fail) {
+								$secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
+								$response = $value;
+								$url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
+								$response = \file_get_contents($url);
+								$response = json_decode($response);
+								if (!$response->success) {
+									$fail(\App\CPU\translate('ReCAPTCHA Failed'));
+								}
+							},
+						],
+					]);
+				} catch (\Exception $exception) {
+					return back()->withErrors(\App\CPU\translate('Captcha Failed'))->withInput($request->input());
+				}
+			} else {
+				if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
+					Session::forget('default_captcha_code');
+					return back()->withErrors(\App\CPU\translate('Captcha Failed'))->withInput($request->input());
+				}
 			}
 		}
 

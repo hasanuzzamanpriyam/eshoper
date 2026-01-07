@@ -21,7 +21,7 @@ class LoginController extends Controller
         $this->middleware('guest:seller', ['except' => ['logout']]);
     }
 
-    public function captcha(Request $request,$tmp)
+    public function captcha(Request $request, $tmp)
     {
 
         $phrase = new PhraseBuilder;
@@ -34,7 +34,7 @@ class LoginController extends Controller
         $builder->build($width = 100, $height = 40, $font = null);
         $phrase = $builder->getPhrase();
 
-        if(Session::has($request->captcha_session_id)) {
+        if (Session::has($request->captcha_session_id)) {
             Session::forget($request->captcha_session_id);
         }
         Session::put($request->captcha_session_id, $phrase);
@@ -58,53 +58,55 @@ class LoginController extends Controller
 
         $recaptcha = Helpers::get_business_settings('recaptcha');
 
-        if (isset($recaptcha) && $recaptcha['status'] == 1) {
-            $request->validate([
-                'g-recaptcha-response' => [
-                    function ($attribute, $value, $fail) {
-                        $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-                        $response = $value;
-                        $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-                        $response = \file_get_contents($url);
-                        $response = json_decode($response);
-                        if (!$response->success) {
-                            $fail(\App\CPU\translate('ReCAPTCHA Failed'));
-                        }
-                    },
-                ],
-            ]);
-        } else {
-            if (strtolower($request->default_recaptcha_id_seller_login) != strtolower(Session('default_recaptcha_id_seller_login'))) {
-                Session::forget('default_recaptcha_id_seller_login');
-                if($request->ajax()) {
-                    return response()->json([
-                        'errors' => [0=>translate('Captcha Failed')]
-                    ]);
-                }else {
-                    return back()->withErrors(\App\CPU\translate('Captcha Failed'));
+        if (!in_array($request->ip(), ['127.0.0.1', '::1'])) {
+            if (isset($recaptcha) && $recaptcha['status'] == 1) {
+                $request->validate([
+                    'g-recaptcha-response' => [
+                        function ($attribute, $value, $fail) {
+                            $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
+                            $response = $value;
+                            $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
+                            $response = \file_get_contents($url);
+                            $response = json_decode($response);
+                            if (!$response->success) {
+                                $fail(\App\CPU\translate('ReCAPTCHA Failed'));
+                            }
+                        },
+                    ],
+                ]);
+            } else {
+                if (strtolower($request->default_recaptcha_id_seller_login) != strtolower(Session('default_recaptcha_id_seller_login'))) {
+                    Session::forget('default_recaptcha_id_seller_login');
+                    if ($request->ajax()) {
+                        return response()->json([
+                            'errors' => [0 => translate('Captcha Failed')]
+                        ]);
+                    } else {
+                        return back()->withErrors(\App\CPU\translate('Captcha Failed'));
+                    }
                 }
             }
         }
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             if ($validator->fails()) {
                 return response()->json([
                     'errors' => $validator->errors()->all()
                 ]);
             }
-        }else {
+        } else {
             $validator->validate();
         }
 
         $se = Seller::where(['email' => $request['email']])->first(['status']);
 
         if (isset($se) && $se['status'] == 'approved' && auth('seller')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
-            if($request->ajax()) {
+            if ($request->ajax()) {
                 return response()->json([
-                    'redirect_url'=> route('seller.dashboard.index'),
+                    'redirect_url' => route('seller.dashboard.index'),
                 ]);
-            }else{
-                Toastr::info(translate('welcome_to_your_dashboard').'!');
+            } else {
+                Toastr::info(translate('welcome_to_your_dashboard') . '!');
                 if (SellerWallet::where('seller_id', auth('seller')->id())->first() == false) {
                     DB::table('seller_wallets')->insert([
                         'seller_id' => auth('seller')->id(),
@@ -120,34 +122,33 @@ class LoginController extends Controller
                 }
                 return redirect()->route('seller.dashboard.index');
             }
-
         } elseif (isset($se) && $se['status'] == 'pending') {
-            if($request->ajax()) {
+            if ($request->ajax()) {
                 return response()->json([
-                    'errors' => [0=>translate('Your account is not approved yet.')]
+                    'errors' => [0 => translate('Your account is not approved yet.')]
                 ]);
-            }else{
+            } else {
                 return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['Your account is not approved yet.']);
+                    ->withErrors(['Your account is not approved yet.']);
             }
         } elseif (isset($se) && $se['status'] == 'suspended') {
-            if($request->ajax()) {
+            if ($request->ajax()) {
                 return response()->json([
-                    'errors' => [0=>translate('Your account has been suspended!')]
+                    'errors' => [0 => translate('Your account has been suspended!')]
                 ]);
-            }else{
+            } else {
                 return redirect()->back()->withInput($request->only('email', 'remember'))
-                ->withErrors(['Your account has been suspended!.']);
+                    ->withErrors(['Your account has been suspended!.']);
             }
         }
 
-        if($request->ajax()) {
+        if ($request->ajax()) {
             return response()->json([
-                'errors' => [0=>translate('Credentials does not match.')]
+                'errors' => [0 => translate('Credentials does not match.')]
             ]);
-        }else{
+        } else {
             return redirect()->back()->withInput($request->only('email', 'remember'))
-            ->withErrors(['Credentials does not match.']);
+                ->withErrors(['Credentials does not match.']);
         }
     }
 
