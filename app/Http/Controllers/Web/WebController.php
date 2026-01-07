@@ -323,6 +323,12 @@ class WebController extends Controller
 		}
 
 		$cart_group_ids = CartManager::get_cart_group_ids();
+
+		if (OrderManager::check_repeat_order_cooldown($cart_group_ids) === false) {
+			Toastr::error(translate('You_cannot_order_the_same_product_within_5_minutes'));
+			return redirect()->route('shop-cart');
+		}
+
 		$shippingMethod = Helpers::get_business_settings('shipping_method');
 
 		$verify_status = OrderManager::minimum_order_amount_verify($request);
@@ -440,6 +446,12 @@ class WebController extends Controller
 		}
 
 		$cart_group_ids = CartManager::get_cart_group_ids();
+
+		if (OrderManager::check_repeat_order_cooldown($cart_group_ids) === false) {
+			Toastr::error(translate('You_cannot_order_the_same_product_within_5_minutes'));
+			return redirect()->route('shop-cart');
+		}
+
 		$shippingMethod = Helpers::get_business_settings('shipping_method');
 
 
@@ -564,6 +576,12 @@ class WebController extends Controller
 		$unique_id = OrderManager::gen_unique_id();
 		$order_ids = [];
 		$cart_group_ids = CartManager::get_cart_group_ids();
+
+		if (OrderManager::check_repeat_order_cooldown($cart_group_ids) === false) {
+			Toastr::error(translate('You_cannot_order_the_same_product_within_5_minutes'));
+			return redirect()->route('shop-cart');
+		}
+
 		$carts = Cart::whereIn('cart_group_id', $cart_group_ids)->get();
 
 		$product_stock = CartManager::product_stock_check($carts);
@@ -610,6 +628,12 @@ class WebController extends Controller
 		$unique_id = OrderManager::gen_unique_id();
 		$order_ids = [];
 		$cart_group_ids = CartManager::get_cart_group_ids();
+
+		if (OrderManager::check_repeat_order_cooldown($cart_group_ids) === false) {
+			Toastr::error(translate('You_cannot_order_the_same_product_within_5_minutes'));
+			return redirect()->route('shop-cart');
+		}
+
 		$carts = Cart::whereIn('cart_group_id', $cart_group_ids)->get();
 
 		$product_stock = CartManager::product_stock_check($carts);

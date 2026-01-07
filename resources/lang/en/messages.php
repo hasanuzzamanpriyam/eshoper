@@ -6851,4 +6851,5 @@
   'top_reviews' => 'Top reviews',
   'error_loading_suggestions' => 'Error loading suggestions',
   'no_products_found' => 'No products found',
+  'You_cannot_order_the_same_product_within_5_minutes' => 'You cannot order the same product within 5 minutes',
 );
