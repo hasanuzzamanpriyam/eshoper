@@ -6858,4 +6858,5 @@
   'meta_tags' => 'Meta tags',
   'enter_meta_tag' => 'Enter meta tag',
   'discount_can_not_be_more_or_equal_to_the_price' => 'Discount can not be more or equal to the price',
+  'download_the_format_file_and_fill_it_with_proper_data' => 'Download the format file and fill it with proper data',
 );
