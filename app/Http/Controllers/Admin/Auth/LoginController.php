@@ -52,31 +52,33 @@ class LoginController extends Controller
         // ====== HANDLE CAPTCHA ======
         $recaptcha = Helpers::get_business_settings('recaptcha');
 
-        if (isset($recaptcha) && $recaptcha['status'] == 1) {
-            // If reCAPTCHA is ON
-            try {
-                $request->validate([
-                    'g-recaptcha-response' => [
-                        function ($attribute, $value, $fail) {
-                            $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
-                            $response = $value;
-                            $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
-                            $response = \file_get_contents($url);
-                            $response = json_decode($response);
-                            if (!$response->success) {
-                                $fail(\App\CPU\translate('ReCAPTCHA Failed'));
-                            }
-                        },
-                    ],
-                ]);
-            } catch (\Exception $exception) {
-                // ignore errors if something goes wrong
-            }
-        } else {
-            // If reCAPTCHA is OFF, use local captcha
-            if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
-                Session::forget('default_captcha_code');
-                return back()->withErrors(\App\CPU\translate('Captcha Failed'));
+        if (!in_array($request->ip(), ['127.0.0.1', '::1'])) {
+            if (isset($recaptcha) && $recaptcha['status'] == 1) {
+                // If reCAPTCHA is ON
+                try {
+                    $request->validate([
+                        'g-recaptcha-response' => [
+                            function ($attribute, $value, $fail) {
+                                $secret_key = Helpers::get_business_settings('recaptcha')['secret_key'];
+                                $response = $value;
+                                $url = 'https://www.google.com/recaptcha/api/siteverify?secret=' . $secret_key . '&response=' . $response;
+                                $response = \file_get_contents($url);
+                                $response = json_decode($response);
+                                if (!$response->success) {
+                                    $fail(\App\CPU\translate('ReCAPTCHA Failed'));
+                                }
+                            },
+                        ],
+                    ]);
+                } catch (\Exception $exception) {
+                    // ignore errors if something goes wrong
+                }
+            } else {
+                // If reCAPTCHA is OFF, use local captcha
+                if (strtolower($request->default_captcha_value) != strtolower(Session('default_captcha_code'))) {
+                    Session::forget('default_captcha_code');
+                    return back()->withErrors(\App\CPU\translate('Captcha Failed'));
+                }
             }
         }
 

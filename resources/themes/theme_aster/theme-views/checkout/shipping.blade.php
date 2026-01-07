@@ -248,14 +248,14 @@
                                             <label class="custom-checkbox">
                                                 {{ translate('Same_as_Delivery_Address') }}
                                                 <input type="checkbox" id="same_as_shipping_address" onclick="hide_billingAddress()"
-                                                       name="same_as_shipping_address" class="billing-address-checkbox" {{$billing_input_by_customer==1?'':'checked'}}>
+                                                       name="same_as_shipping_address" class="billing-address-checkbox" checked>
                                             </label>
                                         @endif
                                     </div>
                                 </div>
 
                                 <form method="post" id="billing-address-form">
-                                    <div class="toggle-billing-address mt-3" id="hide_billing_address">
+                                    <div class="toggle-billing-address mt-3" id="hide_billing_address" style="display: none;">
                                         <div class="d-flex flex-wrap justify-content-between gap-3 mb-3">
                                             <div class="d-flex flex-wrap gap-3 align-items-center">
                                             </div>

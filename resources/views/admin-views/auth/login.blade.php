@@ -45,8 +45,8 @@
                 {{ env('SOFTWARE_VERSION') }}</label>
             @php($e_commerce_logo = \App\Model\BusinessSetting::where(['type' => 'company_web_logo'])->first()->value)
             <a class="d-flex justify-content-center mb-5" href="javascript:">
-                <img class="z-index-2" height="40" src="{{asset("storage/company/" . $e_commerce_logo)}}"
-                    alt="Logo" onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'">
+                <img class="z-index-2" height="40" src="{{asset("storage/company/" . $e_commerce_logo)}}" alt="Logo"
+                    onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'">
             </a>
 
             <div class="row justify-content-center">
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                                 <!-- End Checkbox -->
-                                @if(env('APP_ENV') != 'local')
+                                @if(env('APP_ENV') != 'local' && !in_array(request()->ip(), ['127.0.0.1', '::1']))
                                 {{-- recaptcha --}}
                                 @php($recaptcha = \App\CPU\Helpers::get_business_settings('recaptcha'))
                                 @if(isset($recaptcha) && $recaptcha['status'] == 1)
@@ -259,4 +259,3 @@
 </body>
 
 </html>
-

@@ -55,6 +55,8 @@
                             {{ translate('forgot_password') }}?
                         </a>
                     </div>
+                    {{-- recaptcha --}}
+                    @if(!in_array(request()->ip(), ['127.0.0.1', '::1']))
                     @php($recaptcha = \App\CPU\Helpers::get_business_settings('recaptcha'))
                     @if(isset($recaptcha) && $recaptcha['status'] == 1)
                         <div id="recaptcha_element" class="w-100" data-type="image"></div>
@@ -72,6 +74,7 @@
                                 </a>
                             </div>
                         </div>
+                    @endif
                     @endif
                     <button class="btn btn--primary btn-block btn-shadow"
                             type="submit">{{ translate('log_in') }}</button>

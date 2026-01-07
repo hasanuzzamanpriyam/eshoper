@@ -1244,4 +1244,30 @@ class OrderManager
 
         return $free_delivery;
     }
+
+    public static function check_repeat_order_cooldown($group_ids)
+    {
+        $carts = Cart::whereIn('cart_group_id', $group_ids)->get();
+        $product_ids = [];
+        foreach ($carts as $cart) {
+            $product_ids[] = $cart->product_id;
+        }
+
+        $customer_id = 0;
+        if (auth('customer')->check()) {
+            $customer_id = auth('customer')->id();
+        }
+
+        $exist = OrderDetail::whereIn('product_id', $product_ids)
+            ->whereHas('order', function ($query) use ($customer_id) {
+                $query->where('customer_id', $customer_id)
+                    ->where('created_at', '>=', Carbon::now()->subMinutes(5));
+            })->first();
+
+        if ($exist) {
+            return false;
+        }
+
+        return true;
+    }
 }
