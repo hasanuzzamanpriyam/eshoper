@@ -39,6 +39,7 @@ class ProductController extends BaseController
         private Brand $brand,
         private Seller $seller,
     ) {}
+
     public function add_new()
     {
         $cat = Category::where(['parent_id' => 0])->get();
@@ -333,6 +334,11 @@ class ProductController extends BaseController
         $p->shipping_cost     = $request->product_type == 'physical' ? BackEndHelper::currency_to_usd($request->shipping_cost) : 0;
         $p->multiply_qty      = ($request->product_type == 'physical') ? ($request->multiplyQTY == 'on' ? 1 : 0) : 0;
 
+        // Additional Info and Meta Tags
+        $p->other_info = $request->other_info;
+        $metaTags = $request->meta_tag;
+        $p->meta_tag = !empty($metaTags) ? array_unique(array_map('trim', $metaTags)) : null;
+
         if ($request->ajax()) {
             return response()->json([], 200);
         } else {
@@ -413,340 +419,10 @@ class ProductController extends BaseController
             Translation::insert($data);
 
             Toastr::success(translate('product_added_successfully'));
+            dd($p);
             return redirect()->route('admin.product.list', ['in_house']);
+
         }
-    }
-
-    function list(Request $request, $type)
-    {
-
-        $pro = $this->product->when($type == 'in_house', function ($query) {
-            return $query->where(['added_by' => 'admin']);
-        })->when($type != 'in_house', function ($query) use ($request) {
-            return $query->where(['added_by' => 'seller', 'request_status' => $request->status]);
-        })->when($request->has('search'), function ($query) use ($request) {
-            $key = explode(' ', $request['search']);
-
-            $product_ids = Translation::where('translationable_type', 'App\Model\Product')
-                ->where('key', 'name')
-                ->where(function ($q) use ($key) {
-                    foreach ($key as $value) {
-                        $q->orWhere('value', 'like', "%{$value}%");
-                    }
-                })->pluck('translationable_id');
-
-
-            foreach ($key as $value) {
-                return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
-            }
-        })->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
-            return $query->where('user_id', $request->seller_id);
-        })
-            ->when(!empty($request->brand_id) && $request->has('brand_id'), function ($query) use ($request) {
-                return $query->where(['brand_id' => $request->brand_id]);
-            })
-            ->when(!empty($request->category_id) && $request->has('category_id'), function ($query) use ($request) {
-                return $query->where(['category_id' => $request->category_id]);
-            })
-            ->when(!empty($request->sub_category_id) && $request->has('sub_category_id'), function ($query) use ($request) {
-                return $query->where(['sub_category_id' => $request->sub_category_id]);
-            })
-            ->when(!empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id'), function ($query) use ($request) {
-                return $query->where(['sub_sub_category_id' => $request->sub_sub_category_id]);
-            })
-            ->orderBy('id', 'desc')->paginate(Helpers::pagination_limit())
-            ->appends([
-                'status' => $request['status'],
-                'search' => $request['search'],
-                'seller_id',
-                $request->seller_id,
-                'brand_id' => $request->brand_id,
-                'category_id' => $request->category_id,
-                'sub_category_id' => $request->sub_category_id,
-                'sub_sub_category_id' => $request->sub_sub_category_id
-            ]);
-        /**
-         * For filter
-         */
-        $sellers = $this->seller->with('shop')->where('status', '!=', 'pending')->get();
-        $brands = $this->brand->active()->get();
-        $categories = $this->category->where('position', 0)->get();
-        $sub_category = $this->category->find($request->sub_category_id);
-        $sub_sub_category = $this->category->find($request->sub_sub_category_id);
-        /**
-         * End
-         */
-        return view('admin-views.product.list', compact(
-            'pro',
-            'type',
-            'sellers',
-            'brands',
-            'categories',
-            'sub_category',
-            'sub_sub_category'
-        ));
-    }
-
-    /**
-     * Export product list by excel
-     * @param Request $request
-     * @param $type
-     */
-    public function export_excel(Request $request, $type)
-    {
-        $search = $request['search'];
-        $products = $this->product->when($type == 'in_house', function ($query) {
-            return $query->where(['added_by' => 'admin']);
-        })
-            ->when($type == 'seller', function ($query) use ($request) {
-                return $query->where(['added_by' => 'seller', 'request_status' => $request->status]);
-            })
-            ->when(!empty($request->search), function ($query) use ($request) {
-                $key = explode(' ', $request['search']);
-
-                $product_ids = Translation::where('translationable_type', 'App\Model\Product')
-                    ->where('key', 'name')
-                    ->where(function ($q) use ($key) {
-                        foreach ($key as $value) {
-                            $q->orWhere('value', 'like', "%{$value}%");
-                        }
-                    })->pluck('translationable_id');
-
-
-                foreach ($key as $value) {
-                    return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
-                }
-            })
-            ->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
-                return $query->where('user_id', $request->seller_id);
-            })
-            ->when(!empty($request->brand_id) && $request->has('brand_id'), function ($query) use ($request) {
-                return $query->where(['brand_id' => $request->brand_id]);
-            })
-            ->when(!empty($request->category_id) && $request->has('category_id'), function ($query) use ($request) {
-                return $query->where(['category_id' => $request->category_id]);
-            })
-            ->when(!empty($request->sub_category_id) && $request->has('sub_category_id'), function ($query) use ($request) {
-                return $query->where(['sub_category_id' => $request->sub_category_id]);
-            })
-            ->when(!empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id'), function ($query) use ($request) {
-                return $query->where(['sub_sub_category_id' => $request->sub_sub_category_id]);
-            })->latest()
-            ->get();
-
-        //export from product
-        $category = !empty($request->category_id) && $request->has('category_id') ? $this->category->where(['id' => $request->category_id])->first() : 'all';
-
-        $sub_category = !empty($request->sub_category_id) &&  $request->has('sub_category_id') ? $this->category->where(['id' => $request->sub_category_id])->first() : 'all';
-        $sub_sub_category = !empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id') ? $this->category->where(['id' => $request->sub_sub_category_id])->first() : 'all';
-        $brnad = !empty($request->brand_id) && $request->has('brand_id') ? Brand::where(['id' => $request->brand_id])->first() : 'all';
-        $seller = !empty($request->seller_id) && $request->has('seller_id') ? Seller::where(['id' => $request->seller_id])->first() : '';
-        $data = [
-            'products' => $products,
-            'category' => $category,
-            'sub_category' => $sub_category,
-            'sub_sub_category' => $sub_sub_category,
-            'brand' => $brnad,
-            'search' => $search,
-            'type' => $request->type ?? '',
-            'seller' => $seller,
-            'status' => $request->status ?? '',
-        ];
-        return Excel::download(new ProductListExport($data), ucwords($request->type) . '-' . 'product-list.xlsx');
-    }
-
-    public function updated_product_list(Request $request)
-    {
-        $query_param = [];
-        $search = $request['search'];
-        if ($request->has('search')) {
-            $key = explode(' ', $request['search']);
-            $pro = Product::where(['added_by' => 'seller'])
-                ->where('is_shipping_cost_updated', 0)
-                ->where(function ($q) use ($key) {
-                    foreach ($key as $value) {
-                        $q->Where('name', 'like', "%{$value}%");
-                    }
-                });
-            $query_param = ['search' => $request['search']];
-        } else {
-            $pro = Product::where(['added_by' => 'seller'])->where('is_shipping_cost_updated', 0);
-        }
-        $pro = $pro->orderBy('id', 'DESC')->paginate(Helpers::pagination_limit())->appends($query_param);
-
-        return view('admin-views.product.updated-product-list', compact('pro', 'search'));
-    }
-
-    public function stock_limit_list(Request $request, $type)
-    {
-        $stock_limit = Helpers::get_business_settings('stock_limit');
-        $sort_oqrderQty = $request['sort_oqrderQty'];
-        $query_param = $request->all();
-        $search = $request['search'];
-        if ($type == 'in_house') {
-            $pro = Product::where(['added_by' => 'admin', 'product_type' => 'physical']);
-        } else {
-            $pro = Product::where(['added_by' => 'seller', 'product_type' => 'physical'])->where('request_status', $request->status);
-        }
-
-        if ($request->has('search')) {
-            $key = explode(' ', $request['search']);
-            $pro = $pro->where(function ($q) use ($key) {
-                foreach ($key as $value) {
-                    $q->Where('name', 'like', "%{$value}%");
-                }
-            });
-            $query_param = ['search' => $request['search']];
-        }
-
-        $request_status = $request['status'];
-
-        $pro = $pro->withCount('order_details')->when($request->sort_oqrderQty == 'quantity_asc', function ($q) use ($request) {
-            return $q->orderBy('current_stock', 'asc');
-        })
-            ->when($request->sort_oqrderQty == 'quantity_desc', function ($q) use ($request) {
-                return $q->orderBy('current_stock', 'desc');
-            })
-            ->when($request->sort_oqrderQty == 'order_asc', function ($q) use ($request) {
-                return $q->orderBy('order_details_count', 'asc');
-            })
-            ->when($request->sort_oqrderQty == 'order_desc', function ($q) use ($request) {
-                return $q->orderBy('order_details_count', 'desc');
-            })
-            ->when($request->sort_oqrderQty == 'default', function ($q) use ($request) {
-                return $q->orderBy('id');
-            })->where('current_stock', '<', $stock_limit);
-
-        $pro = $pro->orderBy('id', 'DESC')->paginate(Helpers::pagination_limit())->appends(['status' => $request['status']])->appends($query_param);
-        return view('admin-views.product.stock-limit-list', compact('pro', 'search', 'request_status', 'sort_oqrderQty', 'stock_limit'));
-    }
-
-    public function update_quantity(Request $request)
-    {
-        $variations = [];
-        $stock_count = $request['current_stock'];
-        if ($request->has('type')) {
-            foreach ($request['type'] as $key => $str) {
-                $item = [];
-                $item['type'] = $str;
-                $item['price'] = BackEndHelper::currency_to_usd(abs($request['price_' . str_replace('.', '_', $str)]));
-                $item['sku'] = $request['sku_' . str_replace('.', '_', $str)];
-                $item['qty'] = abs($request['qty_' . str_replace('.', '_', $str)]);
-                array_push($variations, $item);
-            }
-        }
-
-        $product = Product::find($request['product_id']);
-        if ($stock_count >= 0) {
-            $product->current_stock = $stock_count;
-            $product->variation = json_encode($variations);
-            $product->save();
-            Toastr::success(translate('product_quantity_updated_successfully'));
-            return back();
-        } else {
-            Toastr::warning(translate('product_quantity_can_not_be_less_than_0_'));
-            return back();
-        }
-    }
-
-    public function status_update(Request $request)
-    {
-
-        $product = Product::where(['id' => $request['id']])->first();
-        $success = 1;
-
-        if ($request['status'] == 1) {
-            if ($product->added_by == 'seller' && ($product->request_status == 0 || $product->request_status == 2)) {
-                $success = 0;
-            } else {
-                $product->status = $request['status'];
-            }
-        } else {
-            $product->status = $request['status'] ?? 0;
-        }
-        $product->save();
-        return response()->json([
-            'success' => $success,
-        ], 200);
-    }
-
-    public function updated_shipping(Request $request)
-    {
-
-        $product = Product::where(['id' => $request['product_id']])->first();
-        if ($request->status == 1) {
-            $product->shipping_cost = $product->temp_shipping_cost;
-            $product->is_shipping_cost_updated = $request->status;
-        } else {
-            $product->is_shipping_cost_updated = $request->status;
-        }
-
-        $product->save();
-        return response()->json([], 200);
-    }
-
-    public function get_categories(Request $request)
-    {
-        $cat = Category::where(['parent_id' => $request->parent_id])->get();
-        $res = '<option value="' . 0 . '" disabled selected>---' . translate("Select") . '---</option>';
-        foreach ($cat as $row) {
-            if ($row->id == $request->sub_category) {
-                $res .= '<option value="' . $row->id . '" selected >' . $row->defaultName . '</option>';
-            } else {
-                $res .= '<option value="' . $row->id . '">' . $row->defaultName . '</option>';
-            }
-        }
-        return response()->json([
-            'select_tag' => $res,
-        ]);
-    }
-
-    public function sku_combination(Request $request)
-    {
-        $options = [];
-        if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $colors_active = 1;
-            array_push($options, $request->colors);
-        } else {
-            $colors_active = 0;
-        }
-
-        $unit_price = $request->unit_price;
-        $product_name = $request->name[array_search('en', $request->lang)];
-
-        if ($request->has('choice_no')) {
-            foreach ($request->choice_no as $key => $no) {
-                $name = 'choice_options_' . $no;
-                $my_str = implode('', $request[$name]);
-                array_push($options, explode(',', $my_str));
-            }
-        }
-
-        $combinations = Helpers::combinations($options);
-        return response()->json([
-            'view' => view('admin-views.product.partials._sku_combinations', compact('combinations', 'unit_price', 'colors_active', 'product_name'))->render(),
-        ]);
-    }
-
-    public function get_variations(Request $request)
-    {
-        $product = Product::find($request['id']);
-        return response()->json([
-            'view' => view('admin-views.product.partials._update_stock', compact('product'))->render()
-        ]);
-    }
-
-    public function edit($id)
-    {
-        $product = Product::withoutGlobalScopes()->with('translations')->find($id);
-        $product_category = json_decode($product->category_ids);
-        $product->colors = json_decode($product->colors);
-        $categories = Category::where(['parent_id' => 0])->get();
-        $br = Brand::orderBY('name', 'ASC')->get();
-        $brand_setting = BusinessSetting::where('type', 'product_brand')->first()->value;
-        $digital_product_setting = BusinessSetting::where('type', 'digital_product')->first()->value;
-
-        return view('admin-views.product.edit', compact('categories', 'br', 'product', 'product_category', 'brand_setting', 'digital_product_setting'));
     }
 
     public function update(Request $request, $id)
@@ -1001,6 +677,11 @@ class ProductController extends BaseController
         $product->discount_type  = $request->discount_type;
         $product->current_stock  = $request->product_type == 'physical' ? abs($stock_count) : 0;
 
+        // Additional Info and Meta Tags
+        $product->other_info = $request->other_info;
+        $metaTags = $request->meta_tag;
+        $product->meta_tag = !empty($metaTags) ? json_encode(array_unique(array_map('trim', $metaTags))) : null;
+
         $product->video_provider = 'youtube';
         $product->video_url = $request->video_link;
         if ($product->added_by == 'seller' && $product->request_status == 2) {
@@ -1094,6 +775,333 @@ class ProductController extends BaseController
         }
     }
 
+    function list(Request $request, $type)
+    {
+        $pro = $this->product->when($type == 'in_house', function ($query) {
+            return $query->where(['added_by' => 'admin']);
+        })->when($type != 'in_house', function ($query) use ($request) {
+            return $query->where(['added_by' => 'seller', 'request_status' => $request->status]);
+        })->when($request->has('search'), function ($query) use ($request) {
+            $key = explode(' ', $request['search']);
+
+            $product_ids = Translation::where('translationable_type', 'App\Model\Product')
+                ->where('key', 'name')
+                ->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->orWhere('value', 'like', "%{$value}%");
+                    }
+                })->pluck('translationable_id');
+
+            foreach ($key as $value) {
+                return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
+            }
+        })->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
+            return $query->where('user_id', $request->seller_id);
+        })
+            ->when(!empty($request->brand_id) && $request->has('brand_id'), function ($query) use ($request) {
+                return $query->where(['brand_id' => $request->brand_id]);
+            })
+            ->when(!empty($request->category_id) && $request->has('category_id'), function ($query) use ($request) {
+                return $query->where(['category_id' => $request->category_id]);
+            })
+            ->when(!empty($request->sub_category_id) && $request->has('sub_category_id'), function ($query) use ($request) {
+                return $query->where(['sub_category_id' => $request->sub_category_id]);
+            })
+            ->when(!empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id'), function ($query) use ($request) {
+                return $query->where(['sub_sub_category_id' => $request->sub_sub_category_id]);
+            })
+            ->orderBy('id', 'desc')->paginate(Helpers::pagination_limit())
+            ->appends([
+                'status' => $request['status'],
+                'search' => $request['search'],
+                'seller_id',
+                $request->seller_id,
+                'brand_id' => $request->brand_id,
+                'category_id' => $request->category_id,
+                'sub_category_id' => $request->sub_category_id,
+                'sub_sub_category_id' => $request->sub_sub_category_id
+            ]);
+        /**
+         * For filter
+         */
+        $sellers = $this->seller->with('shop')->where('status', '!=', 'pending')->get();
+        $brands = $this->brand->active()->get();
+        $categories = $this->category->where('position', 0)->get();
+        $sub_category = $this->category->find($request->sub_category_id);
+        $sub_sub_category = $this->category->find($request->sub_sub_category_id);
+        /**
+         * End
+         */
+        return view('admin-views.product.list', compact(
+            'pro',
+            'type',
+            'sellers',
+            'brands',
+            'categories',
+            'sub_category',
+            'sub_sub_category'
+        ));
+    }
+
+    /**
+     * Export product list by excel
+     * @param Request $request
+     * @param $type
+     */
+    public function export_excel(Request $request, $type)
+    {
+        $search = $request['search'];
+        $products = $this->product->when($type == 'in_house', function ($query) {
+            return $query->where(['added_by' => 'admin']);
+        })
+            ->when($type == 'seller', function ($query) use ($request) {
+                return $query->where(['added_by' => 'seller', 'request_status' => $request->status]);
+            })
+            ->when(!empty($request->search), function ($query) use ($request) {
+                $key = explode(' ', $request['search']);
+
+                $product_ids = Translation::where('translationable_type', 'App\Model\Product')
+                    ->where('key', 'name')
+                    ->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->orWhere('value', 'like', "%{$value}%");
+                        }
+                    })->pluck('translationable_id');
+
+                foreach ($key as $value) {
+                    return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
+                }
+            })
+            ->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
+                return $query->where('user_id', $request->seller_id);
+            })
+            ->when(!empty($request->brand_id) && $request->has('brand_id'), function ($query) use ($request) {
+                return $query->where(['brand_id' => $request->brand_id]);
+            })
+            ->when(!empty($request->category_id) && $request->has('category_id'), function ($query) use ($request) {
+                return $query->where(['category_id' => $request->category_id]);
+            })
+            ->when(!empty($request->sub_category_id) && $request->has('sub_category_id'), function ($query) use ($request) {
+                return $query->where(['sub_category_id' => $request->sub_category_id]);
+            })
+            ->when(!empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id'), function ($query) use ($request) {
+                return $query->where(['sub_sub_category_id' => $request->sub_sub_category_id]);
+            })->latest()
+            ->get();
+
+        //export from product
+        $category = !empty($request->category_id) && $request->has('category_id') ? $this->category->where(['id' => $request->category_id])->first() : 'all';
+
+        $sub_category = !empty($request->sub_category_id) &&  $request->has('sub_category_id') ? $this->category->where(['id' => $request->sub_category_id])->first() : 'all';
+        $sub_sub_category = !empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id') ? $this->category->where(['id' => $request->sub_sub_category_id])->first() : 'all';
+        $brnad = !empty($request->brand_id) && $request->has('brand_id') ? Brand::where(['id' => $request->brand_id])->first() : 'all';
+        $seller = !empty($request->seller_id) && $request->has('seller_id') ? Seller::where(['id' => $request->seller_id])->first() : '';
+        $data = [
+            'products' => $products,
+            'category' => $category,
+            'sub_category' => $sub_category,
+            'sub_sub_category' => $sub_sub_category,
+            'brand' => $brnad,
+            'search' => $search,
+            'type' => $request->type ?? '',
+            'seller' => $seller,
+            'status' => $request->status ?? '',
+        ];
+        return Excel::download(new ProductListExport($data), ucwords($request->type) . '-' . 'product-list.xlsx');
+    }
+
+    public function updated_product_list(Request $request)
+    {
+        $query_param = [];
+        $search = $request['search'];
+        if ($request->has('search')) {
+            $key = explode(' ', $request['search']);
+            $pro = Product::where(['added_by' => 'seller'])
+                ->where('is_shipping_cost_updated', 0)
+                ->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->Where('name', 'like', "%{$value}%");
+                    }
+                });
+            $query_param = ['search' => $request['search']];
+        } else {
+            $pro = Product::where(['added_by' => 'seller'])->where('is_shipping_cost_updated', 0);
+        }
+        $pro = $pro->orderBy('id', 'DESC')->paginate(Helpers::pagination_limit())->appends($query_param);
+
+        return view('admin-views.product.updated-product-list', compact('pro', 'search'));
+    }
+
+    public function stock_limit_list(Request $request, $type)
+    {
+        $stock_limit = Helpers::get_business_settings('stock_limit');
+        $sort_oqrderQty = $request['sort_oqrderQty'];
+        $query_param = $request->all();
+        $search = $request['search'];
+        if ($type == 'in_house') {
+            $pro = Product::where(['added_by' => 'admin', 'product_type' => 'physical']);
+        } else {
+            $pro = Product::where(['added_by' => 'seller', 'product_type' => 'physical'])->where('request_status', $request->status);
+        }
+
+        if ($request->has('search')) {
+            $key = explode(' ', $request['search']);
+            $pro = $pro->where(function ($q) use ($key) {
+                foreach ($key as $value) {
+                    $q->Where('name', 'like', "%{$value}%");
+                }
+            });
+            $query_param = ['search' => $request['search']];
+        }
+
+        $request_status = $request['status'];
+
+        $pro = $pro->withCount('order_details')->when($request->sort_oqrderQty == 'quantity_asc', function ($q) use ($request) {
+            return $q->orderBy('current_stock', 'asc');
+        })
+            ->when($request->sort_oqrderQty == 'quantity_desc', function ($q) use ($request) {
+                return $q->orderBy('current_stock', 'desc');
+            })
+            ->when($request->sort_oqrderQty == 'order_asc', function ($q) use ($request) {
+                return $q->orderBy('order_details_count', 'asc');
+            })
+            ->when($request->sort_oqrderQty == 'order_desc', function ($q) use ($request) {
+                return $q->orderBy('order_details_count', 'desc');
+            })
+            ->when($request->sort_oqrderQty == 'default', function ($q) use ($request) {
+                return $q->orderBy('id');
+            })->where('current_stock', '<', $stock_limit);
+
+        $pro = $pro->orderBy('id', 'DESC')->paginate(Helpers::pagination_limit())->appends(['status' => $request['status']])->appends($query_param);
+        return view('admin-views.product.stock-limit-list', compact('pro', 'search', 'request_status', 'sort_oqrderQty', 'stock_limit'));
+    }
+
+    public function update_quantity(Request $request)
+    {
+        $variations = [];
+        $stock_count = $request['current_stock'];
+        if ($request->has('type')) {
+            foreach ($request['type'] as $key => $str) {
+                $item = [];
+                $item['type'] = $str;
+                $item['price'] = BackEndHelper::currency_to_usd(abs($request['price_' . str_replace('.', '_', $str)]));
+                $item['sku'] = $request['sku_' . str_replace('.', '_', $str)];
+                $item['qty'] = abs($request['qty_' . str_replace('.', '_', $str)]);
+                array_push($variations, $item);
+            }
+        }
+
+        $product = Product::find($request['product_id']);
+        if ($stock_count >= 0) {
+            $product->current_stock = $stock_count;
+            $product->variation = json_encode($variations);
+            $product->save();
+            Toastr::success(translate('product_quantity_updated_successfully'));
+            return back();
+        } else {
+            Toastr::warning(translate('product_quantity_can_not_be_less_than_0_'));
+            return back();
+        }
+    }
+
+    public function status_update(Request $request)
+    {
+        $product = Product::where(['id' => $request['id']])->first();
+        $success = 1;
+
+        if ($request['status'] == 1) {
+            if ($product->added_by == 'seller' && ($product->request_status == 0 || $product->request_status == 2)) {
+                $success = 0;
+            } else {
+                $product->status = $request['status'];
+            }
+        } else {
+            $product->status = $request['status'] ?? 0;
+        }
+        $product->save();
+        return response()->json([
+            'success' => $success,
+        ], 200);
+    }
+
+    public function updated_shipping(Request $request)
+    {
+        $product = Product::where(['id' => $request['product_id']])->first();
+        if ($request->status == 1) {
+            $product->shipping_cost = $product->temp_shipping_cost;
+            $product->is_shipping_cost_updated = $request->status;
+        } else {
+            $product->is_shipping_cost_updated = $request->status;
+        }
+
+        $product->save();
+        return response()->json([], 200);
+    }
+
+    public function get_categories(Request $request)
+    {
+        $cat = Category::where(['parent_id' => $request->parent_id])->get();
+        $res = '<option value="' . 0 . '" disabled selected>---' . translate("Select") . '---</option>';
+        foreach ($cat as $row) {
+            if ($row->id == $request->sub_category) {
+                $res .= '<option value="' . $row->id . '" selected >' . $row->defaultName . '</option>';
+            } else {
+                $res .= '<option value="' . $row->id . '">' . $row->defaultName . '</option>';
+            }
+        }
+        return response()->json([
+            'select_tag' => $res,
+        ]);
+    }
+
+    public function sku_combination(Request $request)
+    {
+        $options = [];
+        if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
+            $colors_active = 1;
+            array_push($options, $request->colors);
+        } else {
+            $colors_active = 0;
+        }
+
+        $unit_price = $request->unit_price;
+        $product_name = $request->name[array_search('en', $request->lang)];
+
+        if ($request->has('choice_no')) {
+            foreach ($request->choice_no as $key => $no) {
+                $name = 'choice_options_' . $no;
+                $my_str = implode('', $request[$name]);
+                array_push($options, explode(',', $my_str));
+            }
+        }
+
+        $combinations = Helpers::combinations($options);
+        return response()->json([
+            'view' => view('admin-views.product.partials._sku_combinations', compact('combinations', 'unit_price', 'colors_active', 'product_name'))->render(),
+        ]);
+    }
+
+    public function get_variations(Request $request)
+    {
+        $product = Product::find($request['id']);
+        return response()->json([
+            'view' => view('admin-views.product.partials._update_stock', compact('product'))->render()
+        ]);
+    }
+
+    public function edit($id)
+    {
+        $product = Product::withoutGlobalScopes()->with('translations')->find($id);
+        $product_category = json_decode($product->category_ids);
+        $product->colors = json_decode($product->colors);
+        $categories = Category::where(['parent_id' => 0])->get();
+        $br = Brand::orderBY('name', 'ASC')->get();
+        $brand_setting = BusinessSetting::where('type', 'product_brand')->first()->value;
+        $digital_product_setting = BusinessSetting::where('type', 'digital_product')->first()->value;
+
+        return view('admin-views.product.edit', compact('categories', 'br', 'product', 'product_category', 'brand_setting', 'digital_product_setting'));
+    }
+
     public function remove_image(Request $request)
     {
         ImageManager::delete('/product/' . $request['image']);
@@ -1167,7 +1175,6 @@ class ProductController extends BaseController
             Toastr::error(translate('you_have_uploaded_a_wrong_format_file') . ',' . translate('please_upload_the_right_file.'));
             return back();
         }
-
 
         $data = [];
         $col_key = ['name', 'category_id', 'sub_category_id', 'sub_sub_category_id', 'brand_id', 'unit', 'minimum_order_qty', 'refundable', 'youtube_video_url', 'unit_price', 'purchase_price', 'tax', 'discount', 'discount_type', 'current_stock', 'details', 'thumbnail'];
@@ -1270,7 +1277,6 @@ class ProductController extends BaseController
 
     public function barcode(Request $request, $id)
     {
-
         if ($request->limit > 270) {
             Toastr::warning(translate('you_can_not_generate_more_than_270_barcode'));
             return back();

@@ -6851,4 +6851,10 @@
   'top_reviews' => 'Top reviews',
   'error_loading_suggestions' => 'Error loading suggestions',
   'no_products_found' => 'No products found',
+  'additional_info' => 'Additional info',
+  'other_info' => 'Other info',
+  'enter_additional_info' => 'Enter additional info',
+  'meta_tags' => 'Meta tags',
+  'enter_meta_tag' => 'Enter meta tag',
+  'discount_can_not_be_more_or_equal_to_the_price' => 'Discount can not be more or equal to the price',
 );

@@ -35,7 +35,6 @@ class Product extends Model
         'temp_shipping_cost' => 'float',
         'is_shipping_cost_updated' => 'integer',
         'meta_tag' => 'array',
-
     ];
 
     public function translations()
@@ -72,7 +71,6 @@ class Product extends Model
         })->orWhere(function ($query) {
             $query->where(['added_by' => 'admin', 'status' => 1]);
         });
-
     }
 
     public function stocks()
@@ -109,14 +107,17 @@ class Product extends Model
     {
         return $this->belongsTo(Seller::class, 'user_id');
     }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
     public function sub_category()
     {
         return $this->belongsTo(Category::class, 'sub_category_id');
     }
+
     public function sub_sub_category()
     {
         return $this->belongsTo(Category::class, 'sub_sub_category_id');
@@ -135,12 +136,10 @@ class Product extends Model
         return $this->hasMany(OrderDetail::class, 'product_id');
     }
 
-
     public function order_delivered()
     {
         return $this->hasMany(OrderDetail::class, 'product_id')
             ->where('delivery_status', 'delivered');
-
     }
 
     public function wish_list()
@@ -177,6 +176,14 @@ class Product extends Model
         return $this->translations[1]->value ?? $detail;
     }
 
+    public function getMetaTagStringAttribute()
+    {
+        if (is_array($this->meta_tag) && !empty($this->meta_tag)) {
+            return implode(', ', $this->meta_tag);
+        }
+        return $this->name;
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -194,13 +201,4 @@ class Product extends Model
             }]);
         });
     }
-
-
-public function getMetaTagStringAttribute()
-{
-    if (is_array($this->meta_tag) && !empty($this->meta_tag)) {
-        return implode(', ', $this->meta_tag);
-    }
-    return $this->name;
-}
 }

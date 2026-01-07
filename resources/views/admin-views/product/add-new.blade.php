@@ -75,6 +75,42 @@
                 </div>
             </div>
 
+            <!-- Additional Info Section -->
+            <div class="card mt-3 rest-part">
+                <div class="card-header">
+                    <div class="d-flex gap-2">
+                        <i class="tio-user-big"></i>
+                        <h4 class="mb-0">{{ translate('additional_info') }}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="title-color">{{ translate('other_info') }}</label>
+                        <textarea name="other_info" class="form-control" rows="3" placeholder="{{ translate('enter_additional_info') }}"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Meta Tags Section -->
+            <div class="card mt-3 rest-part">
+                <div class="card-header">
+                    <div class="d-flex gap-2">
+                        <i class="tio-user-big"></i>
+                        <h4 class="mb-0">{{ translate('meta_tags') }}</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="meta_tags_container">
+                        <div class="form-group d-flex gap-2">
+                            <input type="text" name="meta_tag[]" class="form-control" placeholder="{{ translate('enter_meta_tag') }}">
+                            <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
+                                <i class="tio-add"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- general setup -->
             <div class="card mt-3 rest-part">
                 <div class="card-header">
@@ -531,8 +567,7 @@
                                         <div class="custom_upload_input position-relative border-dashed-2">
                                             <input type="file" name="images[]" class="custom-upload-input-file" data-index="1" data-imgpreview="additional_Image_1"
                                                 accept=".jpg, .png, .webp, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                                                onchange="addMoreImage(this, '#additional_Image_Section')"
-                                                >
+                                                onchange="addMoreImage(this, '#additional_Image_Section')">
 
                                             <span class="delete_file_input delete_file_input_section btn btn-outline-danger btn-sm square-btn" style="display: none">
                                                 <i class="tio-delete"></i>
@@ -557,7 +592,6 @@
                     <!--End other image -->
                 </div>
             </div>
-
 
             {{-- product video --}}
             <div class="card mt-3 rest-part">
@@ -742,7 +776,6 @@
             readURL(this);
         });
 
-
         $(".js-example-theme-single").select2({
             theme: "classic"
         });
@@ -801,7 +834,6 @@
                 $(this).parents('.upload_images').find('.color_image').attr('src','{{ asset('assets/back-end/img/400x400/img2.jpg') }}')
             })
         });
-
 
         function color_wise_image(t){
             let colors = t.val();
@@ -863,7 +895,6 @@
                 document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
             }
         }
-
 
         $('input[name="unit_price"]').on('keyup', function() {
             let product_type = $('#product_type').val();
@@ -1106,8 +1137,6 @@
         })();
     </script>
 
-    {{-- ck editor --}}
-
     <script>
         $('.delete_file_input').click(function () {
             let $parentDiv = $(this).closest('div');
@@ -1168,7 +1197,6 @@
                     $(targetSection).append(newHtmlData);
             }
 
-
             $('.custom-upload-input-file').on('change', function(){
                 if (parseFloat($(this).prop('files').length) != 0) {
                     let $parentDiv = $(this).closest('div');
@@ -1189,8 +1217,23 @@
         }
 
     </script>
+
+    <script>
+        function addMetaTagField() {
+            let container = document.getElementById('meta_tags_container');
+            let newField = document.createElement('div');
+            newField.className = 'form-group d-flex gap-2 mt-2';
+            newField.innerHTML = `
+                <input type="text" name="meta_tag[]" class="form-control" placeholder="{{ translate('enter_meta_tag') }}">
+                <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                    <i class="tio-delete"></i>
+                </button>
+            `;
+            container.appendChild(newField);
+        }
+
+        function removeMetaTagField(button) {
+            button.parentElement.remove();
+        }
+    </script>
 @endpush
-
-
-
-
