@@ -33,7 +33,9 @@ class Product extends Model
         'shipping_cost' => 'float',
         'multiply_qty' => 'integer',
         'temp_shipping_cost' => 'float',
-        'is_shipping_cost_updated' => 'integer'
+        'is_shipping_cost_updated' => 'integer',
+        'meta_tag' => 'array',
+
     ];
 
     public function translations()
@@ -192,4 +194,13 @@ class Product extends Model
             }]);
         });
     }
+
+
+public function getMetaTagStringAttribute()
+{
+    if (is_array($this->meta_tag) && !empty($this->meta_tag)) {
+        return implode(', ', $this->meta_tag);
+    }
+    return $this->name;
+}
 }

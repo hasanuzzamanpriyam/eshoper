@@ -3,46 +3,50 @@
 @section('title', $product->meta_title ?? $product->name)
 
 @push('css_or_js')
-<meta name="description" content="{{$product->meta_description ?? $product->slug}}">
-<meta name="keywords" content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
+<!-- Meta Tags -->
+<meta name="description" content="{{ $product->meta_description ?? $product->slug }}">
+@if($product->meta_tag)
+<meta name="keywords" content="{{ is_array($product->meta_tag) ? implode(', ', $product->meta_tag) : $product->meta_tag }}">
+@else
+<meta name="keywords" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
+@endif
 @if($product->added_by=='seller')
-<meta name="author" content="{{ $product->seller->shop?$product->seller->shop->name:$product->seller->f_name}}">
+<meta name="author" content="{{ $product->seller->shop ? $product->seller->shop->name : $product->seller->f_name }}">
 @elseif($product->added_by=='admin')
-<meta name="author" content="{{$web_config['name']->value}}">
+<meta name="author" content="{{ $web_config['name']->value }}">
 @endif
-<!-- Viewport-->
 
-@if($product['meta_image']!=null)
-<meta property="og:image" content="{{asset("storage/product/meta")}}/{{$product->meta_image}}" />
-<meta property="twitter:card"
-    content="{{asset("storage/product/meta")}}/{{$product->meta_image}}" />
+<!-- Open Graph Meta Tags -->
+@if($product['meta_image'] != null)
+<meta property="og:image" content="{{ asset("storage/product/meta") }}/{{ $product->meta_image }}" />
+<meta property="twitter:card" content="{{ asset("storage/product/meta") }}/{{ $product->meta_image }}" />
 @else
-<meta property="og:image" content="{{asset("storage/product/thumbnail")}}/{{$product->thumbnail}}" />
-<meta property="twitter:card"
-    content="{{asset("storage/product/thumbnail/")}}/{{$product->thumbnail}}" />
+<meta property="og:image" content="{{ asset("storage/product/thumbnail") }}/{{ $product->thumbnail }}" />
+<meta property="twitter:card" content="{{ asset("storage/product/thumbnail") }}/{{ $product->thumbnail }}" />
 @endif
 
-@if($product['meta_title']!=null)
-<meta property="og:title" content="{{$product->meta_title}}" />
-<meta property="twitter:title" content="{{$product->meta_title}}" />
+@if($product['meta_title'] != null)
+<meta property="og:title" content="{{ $product->meta_title }}" />
+<meta property="twitter:title" content="{{ $product->meta_title }}" />
 @else
-<meta property="og:title" content="{{$product->name}}" />
-<meta property="twitter:title" content="{{$product->name}}" />
+<meta property="og:title" content="{{ $product->name }}" />
+<meta property="twitter:title" content="{{ $product->name }}" />
 @endif
-<meta property="og:url" content="{{route('product',[$product->slug])}}">
 
-@if($product['meta_description']!=null)
+<meta property="og:url" content="{{ route('product', [$product->slug]) }}">
+
+@if($product['meta_description'] != null)
 <meta property="twitter:description" content="{!! $product['meta_description'] !!}">
 <meta property="og:description" content="{!! $product['meta_description'] !!}">
 @else
-<meta property="og:description"
-    content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
-<meta property="twitter:description"
-    content="@foreach(explode(' ',$product['name']) as $keyword) {{$keyword.' , '}} @endforeach">
+<meta property="og:description" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
+<meta property="twitter:description" content="@foreach(explode(' ',$product['name']) as $keyword) {{ $keyword . ' , ' }} @endforeach">
 @endif
-<meta property="twitter:url" content="{{route('product',[$product->slug])}}">
 
-<link rel="stylesheet" href="{{asset('assets/front-end/css/product-details.css')}}" />
+<meta property="twitter:url" content="{{ route('product', [$product->slug]) }}">
+
+<!-- CSS -->
+<link rel="stylesheet" href="{{ asset('assets/front-end/css/product-details.css') }}">
 <style>
     .btn-number:hover {
         color: {
@@ -114,7 +118,6 @@
 
             : 7px;
         }
-
     }
 
     @media (max-width: 375px) {
@@ -159,7 +162,6 @@
 
             : 4%;
         }
-
     }
 
     @media (max-width: 500px) {
@@ -226,6 +228,7 @@
     }
 </style>
 @endpush
+
 
 @section('content')
 <div class="__inline-23">
@@ -508,9 +511,30 @@
                                                 ($product->added_by == 'admin' && ($inhouse_temporary_close || ($inhouse_vacation_status && $current_date >= $inhouse_vacation_start_date && $current_date <= $inhouse_vacation_end_date))))
                                                     <div class="alert alert-danger" role="alert">
                                                     {{translate('this_shop_is_temporary_closed_or_on_vacation._You_cannot_add_product_to_cart_from_this_shop_for_now')}}
+
                                 </div>
                                 @endif
+                                <button type="button"
+                                    onclick="window.open('https://wa.me/8801896156713?text={{ urlencode('আমি এই প্রোডাক্টটি কিনতে চাই: ' . $product->name . ' - ' . url()->current()) }}','_blank')"
+                                    class="btn btn-success d-none d-sm-block ms-2">
+
+                                    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                    <span class="fs-14">WhatsApp</span>
+                                </button>
+
                         </div>
+                        <!-- Other Info Section -->
+                        @if($product->other_info)
+                        <div class="mt-4">
+                            <div class="card border-0">
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        {{ $product->other_info }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
                         </form>
 
                     </div>
@@ -742,12 +766,53 @@
             <div class="product-details-shipping-details">
                 <div class="shipping-details-bottom-border">
                     <div class="px-3 py-3">
-                        <span>{{$product->meta_title ?? $product->name}}</span>
-                    </div>
-                </div>
-                <div class="shipping-details-bottom-border">
-                    <div class="px-3 py-3">
-                        <span class="d-block text-justify text-break">{{$product->meta_description ?? $product->slug}}</span>
+                        @php
+                        $company_reliability = \App\CPU\Helpers::get_business_settings('company_reliability') ?? [];
+                        $company_reliability = collect($company_reliability)
+                        ->filter(fn($item) => $item['status'] == 1 && !empty($item['title']))
+                        ->values();
+
+                        $metaTags = is_array($product->meta_tag ?? null) ? $product->meta_tag : [];
+                        $metaCount = count($metaTags);
+
+                        // reliability থেকে metaTag সংখ্যার সমান শেষের আইটেম বাদ
+                        if ($metaCount > 0) {
+                        $company_reliability = $company_reliability->slice(
+                        0,
+                        max(0, $company_reliability->count() - $metaCount)
+                        );
+                        }
+                        @endphp
+                        @if($company_reliability->count() > 0)
+                        <div class="product-details-shipping-details">
+
+
+                            @foreach ($company_reliability as $value)
+                            <div class="shipping-details-bottom-border">
+                                <div class="px-3 py-3">
+                                    <!-- <img class="{{ Session::get('direction') === 'rtl' ? 'float-right ml-2' : 'mr-2' }} __img-20"
+                                        src="{{ asset('/storage/company-reliability').'/'.$value['image'] }}"
+                                        onerror="this.onerror=null;this.src='{{ asset('/assets/front-end/img/image-place-holder.png') }}'"
+                                        alt=""> -->
+                                    <span>{{ translate($value['title']) }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+
+                        </div>
+                        @endif
+                        @if(count($metaTags) > 0)
+                        <div class="product-details-shipping-details">
+                            @foreach($metaTags as $tag)
+                            <div class="shipping-details-bottom-border">
+                                <div class="px-3 py-3">
+                                    <span>{{ $tag }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -762,7 +827,7 @@
                             <div class="d-flex __seller-author align-items-center">
                                 <div>
                                     <img class="__img-60 img-circle" src="{{asset('storage/shop')}}/{{$product->seller->shop->image}}"
-                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                        onerror="this.onerror=null;this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                         alt="">
                                 </div>
                                 <div class="{{Session::get('direction') === "rtl" ? 'mr-2' : 'ml-2'}} w-0 flex-grow">
