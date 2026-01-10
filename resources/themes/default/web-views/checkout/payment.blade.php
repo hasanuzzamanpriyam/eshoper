@@ -55,40 +55,36 @@
                                 <p class="text-capitalize mt-2">{{ translate('select_a_payment_method_to_proceed')}}</p>
 
                             </div>
-                            @if(!$cod_not_show && $cash_on_delivery['status'] || $digital_payment['status']==1)
-                                <div class="d-flex flex-wrap gap-3 mb-5">
-                                    @if(!$cod_not_show && $cash_on_delivery['status'])
-                                        <div id="cod-for-cart">
-                                            <div class="card cursor-pointer">
-                                                <form action="{{route('checkout-complete')}}" method="get" class="needs-validation" id="cash_on_delivery_form">
-                                                    <label class="m-0">
-                                                        <input type="hidden" name="payment_method" value="cash_on_delivery">
-                                                        <span class="btn btn-block click-if-alone d-flex gap-2 align-items-center cursor-pointer">
-                                                            <input type="radio" id="cash_on_delivery" class="custom-radio">
-                                                            <img width="20" src="{{asset('assets/front-end/img/icons/money.png')}}"/>
-                                                            <span class="fs-12">{{translate('cash_on_Delivery')}}</span>
-                                                        </span>
-                                                    </label>
-                                                </form>
-                                            </div>
+                            <div class="d-flex flex-wrap gap-3 mb-5">
+                                @if(!$cod_not_show && $cash_on_delivery['status'])
+                                    <div id="cod-for-cart">
+                                        <div class="card cursor-pointer">
+                                            <form action="{{route('checkout-complete')}}" method="get" class="needs-validation" id="cash_on_delivery_form">
+                                                <label class="m-0">
+                                                    <input type="hidden" name="payment_method" value="cash_on_delivery">
+                                                    <span class="btn btn-block click-if-alone d-flex gap-2 align-items-center cursor-pointer">
+                                                        <input type="radio" id="cash_on_delivery" class="custom-radio">
+                                                        <img width="20" src="{{asset('assets/front-end/img/icons/money.png')}}"/>
+                                                        <span class="fs-12">{{translate('cash_on_Delivery')}}</span>
+                                                    </span>
+                                                </label>
+                                            </form>
                                         </div>
-                                    @endif
+                                    </div>
+                                @endif
 
-                                    @if ($digital_payment['status']==1)
-                                        @if(auth('customer')->check() && $wallet_status==1)
-                                            <div>
-                                                <div class="card cursor-pointer">
-                                                    <button class="btn btn-block click-if-alone d-flex gap-2 align-items-center" type="submit"
-                                                        data-toggle="modal" data-target="#wallet_submit_button">
-                                                        <img width="20" src="{{asset('assets/front-end/img/icons/wallet-sm.png')}}"/>
-                                                        <span class="fs-12">{{translate('pay_via_Wallet')}}</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endif
-                                </div>
-                            @endif
+                                @if ($digital_payment['status']==1 && auth('customer')->check() && $wallet_status==1)
+                                    <div>
+                                        <div class="card cursor-pointer">
+                                            <button class="btn btn-block click-if-alone d-flex gap-2 align-items-center" type="submit"
+                                                data-toggle="modal" data-target="#wallet_submit_button">
+                                                <img width="20" src="{{asset('assets/front-end/img/icons/wallet-sm.png')}}"/>
+                                                <span class="fs-12">{{translate('pay_via_Wallet')}}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
 
                             <div class="d-flex flex-wrap gap-2 align-items-center mb-4 ">
                                 <h5 class="mb-0 text-capitalize">{{ translate('pay_via_online')}}</h5>

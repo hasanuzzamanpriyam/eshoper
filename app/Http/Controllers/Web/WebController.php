@@ -472,20 +472,24 @@ class WebController extends Controller
 			}
 		}
 
-		$physical_products[] = false;
-		foreach ($cart_group_ids as $group_id) {
-			$carts = Cart::where('cart_group_id', $group_id)->get();
-			$physical_product = false;
-			foreach ($carts as $cart) {
-				if ($cart->product_type == 'physical') {
-					$physical_product = true;
-				}
-			}
-			$physical_products[] = $physical_product;
-		}
-		unset($physical_products[0]);
-
-		$cod_not_show = in_array(false, $physical_products);
+		$cod_not_show = false;
+        foreach ($cart_group_ids as $group_id) {
+            $carts = Cart::where('cart_group_id', $group_id)->get();
+            foreach ($carts as $cart) {
+                if ($cart->product_type == 'physical') {
+                    if ($cart->product && $cart->product->is_cash_on_delivery == 0) {
+                        $cod_not_show = true;
+                        break;
+                    }
+                } else {
+                    $cod_not_show = true;
+                    break;
+                }
+            }
+            if($cod_not_show) {
+                break;
+            }
+        }
 
 		foreach ($cart_group_ids as $group_id) {
 			$carts = Cart::where('cart_group_id', $group_id)->get();

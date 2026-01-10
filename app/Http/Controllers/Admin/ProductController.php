@@ -191,6 +191,8 @@ class ProductController extends BaseController
         $p->name     = $request->name[array_search('en', $request->lang)];
         $p->code     = $request->code;
         $p->slug     = Str::slug($request->name[array_search('en', $request->lang)], '-') . '-' . Str::random(6);
+        $p->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
+
 
         $product_images = [];
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
@@ -419,9 +421,7 @@ class ProductController extends BaseController
             Translation::insert($data);
 
             Toastr::success(translate('product_added_successfully'));
-            dd($p);
             return redirect()->route('admin.product.list', ['in_house']);
-
         }
     }
 
@@ -598,6 +598,7 @@ class ProductController extends BaseController
         $product->code                  = $request->code;
         $product->minimum_order_qty     = $request->minimum_order_qty;
         $product->details               = $request->description[array_search('en', $request->lang)];
+        $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
 
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
             $product->colors = $request->product_type == 'physical' ? json_encode($request->colors) : json_encode([]);

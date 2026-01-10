@@ -35,6 +35,8 @@ class Product extends Model
         'temp_shipping_cost' => 'float',
         'is_shipping_cost_updated' => 'integer',
         'meta_tag' => 'array',
+                'is_cash_on_delivery' => 'boolean',
+
     ];
 
     public function translations()
