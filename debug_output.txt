@@ -1,0 +1,21 @@
+
+Warning: PHP Startup: Unable to load dynamic library 'intl' (tried: C:\php\ext\intl (The specified module could not be found), C:\php\ext\php_intl.dll (The specified module could not be found)) in Unknown on line 0
+Loaded Configuration File: C:\Users\Priyam\.config\herd-lite\bin\php.ini
+GD Section:
+Array
+(
+    [GD Version] => bundled (2.1.0 compatible)
+    [FreeType Support] => 
+    [GIF Read Support] => 1
+    [GIF Create Support] => 1
+    [JPEG Support] => 
+    [PNG Support] => 1
+    [WBMP Support] => 1
+    [XPM Support] => 
+    [XBM Support] => 1
+    [WebP Support] => 
+    [BMP Support] => 1
+    [AVIF Support] => 
+    [TGA Read Support] => 1
+    [JIS-mapped Japanese Font Support] => 
+)
