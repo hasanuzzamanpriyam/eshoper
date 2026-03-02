@@ -270,6 +270,15 @@
                                        title="">{{translate('product_management')}}</small>
                                 <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                             </li>
+
+                            <li class="navbar-vertical-aside-has-menu {{Request::is('admin/delivery-charge*')?'active':''}}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link"
+                                href="{{route('admin.delivery-charge.edit')}}"
+                                title="{{translate('delivery_charge')}}">
+                                <i class="tio-money nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{translate('delivery_charge')}}</span>
+                            </a>
+                        </li>
                             <!-- Pages -->
                             <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
                                 <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
