@@ -1,0 +1,8 @@
++--------+--------+--------------+--------------+-------------------------------------------------+-----------------------------------------------+
+| Domain | Method | URI          | Name         | Action                                          | Middleware                                    |
++--------+--------+--------------+--------------+-------------------------------------------------+-----------------------------------------------+
+|        | POST   | coupon-apply | coupon.apply | App\Http\Controllers\Web\CouponController@apply | web                                           |
+|        |        |              |              |                                                 | App\Http\Middleware\MaintenanceModeMiddleware |
+|        |        |              |              |                                                 | App\Http\Middleware\GuestMiddleware           |
+|        | POST   | coupon/apply | coupon.apply | App\Http\Controllers\Web\CouponController@apply | web                                           |
++--------+--------+--------------+--------------+-------------------------------------------------+-----------------------------------------------+
