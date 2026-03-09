@@ -83,16 +83,28 @@ class CouponController extends Controller
         elseif ($coupon && $coupon->coupon_type == 'free_delivery' && ($coupon->customer_id == '0' || $coupon->customer_id == $userId)) {
             $total = 0;
             $shipping_fee = 0;
-            foreach (CartManager::get_cart() as $cart) {
-                if (is_null($coupon->seller_id) || $coupon->seller_id == '0') {
-                    $product_subtotal = $cart['price'] * $cart['quantity'];
-                    $total += $product_subtotal;
-                    $shipping_fee += $cart['shipping_cost'];
+
+            $cart_group_ids = CartManager::get_cart_group_ids();
+            foreach ($cart_group_ids as $group_id) {
+                $cart_group = CartManager::get_cart($group_id);
+                $is_applicable = false;
+
+                foreach ($cart_group as $cart) {
+                    if (is_null($coupon->seller_id) || $coupon->seller_id == '0') {
+                        $is_applicable = true;
+                    }
+                    elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
+                        $is_applicable = true;
+                    }
+
+                    if ($is_applicable) {
+                        $product_subtotal = $cart['price'] * $cart['quantity'];
+                        $total += $product_subtotal;
+                    }
                 }
-                elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
-                    $product_subtotal = $cart['price'] * $cart['quantity'];
-                    $total += $product_subtotal;
-                    $shipping_fee += $cart['shipping_cost'];
+
+                if ($is_applicable) {
+                    $shipping_fee += CartManager::get_shipping_cost($group_id);
                 }
             }
 

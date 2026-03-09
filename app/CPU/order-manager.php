@@ -414,7 +414,7 @@ class OrderManager
                     }
 
                     if ($shipping_type == 'order_wise' && (($coupon->seller_id == null && $cart_group_data[0]->seller_is == 'admin') || $coupon->seller_id == '0' || $coupon->seller_id == $cart_group_data[0]->seller_id)) {
-                        $free_shipping_by_group_id[$cart_group_id] = $cart_group_data[0]->cart_shipping->shipping_cost ?? 0;
+                        $free_shipping_by_group_id[$cart_group_id] = CartManager::get_shipping_cost($cart_group_id);
                     }
                     else {
                         if (($coupon->seller_id == null && $cart_group_data[0]->seller_is == 'admin') || $coupon->seller_id == '0' || $coupon->seller_id == $cart_group_data[0]->seller_id) {
@@ -1298,8 +1298,6 @@ class OrderManager
 
         // We can keep the order-based check for redundancy if desired, but let's stick to the requested IP logic predominantly.
         }
-
-        return true;
 
         return true;
     }

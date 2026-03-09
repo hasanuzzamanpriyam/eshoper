@@ -255,38 +255,7 @@ class CartManager
 
     public static function order_wise_shipping_discount()
     {
-        if (auth('customer')->check()) {
-            $shippingMethod = Helpers::get_business_settings('shipping_method');
-            $cart_group_ids = CartManager::get_cart_group_ids();
-
-            $amount = 0;
-            if (count($cart_group_ids) > 0) {
-
-                foreach ($cart_group_ids as $cart) {
-                    $cart_data = Cart::where('cart_group_id', $cart)->first();
-                    if ($shippingMethod == 'inhouse_shipping') {
-                        $admin_shipping = ShippingType::where('seller_id', 0)->first();
-                        $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                    }
-                    else {
-                        if ($cart_data->seller_is == 'admin') {
-                            $admin_shipping = \App\Model\ShippingType::where('seller_id', 0)->first();
-                            $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                        }
-                        else {
-                            $seller_shipping = \App\Model\ShippingType::where('seller_id', $cart_data->seller_id)->first();
-                            $shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
-                        }
-                    }
-
-                    if ($shipping_type == 'order_wise' && session('coupon_type') == 'free_delivery' && ((session('coupon_seller_id') == '0' && $cart_data->seller_is == 'admin') || (is_null(session('coupon_seller_id')) && $cart_data->seller_is == 'admin') || (session('coupon_seller_id') == $cart_data->seller_id && $cart_data->seller_is == 'seller'))) {
-                        $amount += CartManager::get_shipping_cost($cart);
-                    }
-                }
-            }
-
-            return $amount;
-        }
+        return 0; // Delivery discounts are now correctly generalized in the coupon logic
     }
 
     public static function cart_total($cart)
