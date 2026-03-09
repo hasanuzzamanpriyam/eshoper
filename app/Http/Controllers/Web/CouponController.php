@@ -31,7 +31,8 @@ class CouponController extends Controller
         }
         if ($coupon_f && $coupon_f->coupon_type == 'first_order') {
             $coupon = $coupon_f;
-        } else {
+        }
+        else {
             $coupon = $coupon_f->limit > $couponLimit ? $coupon_f : null;
         }
 
@@ -51,7 +52,8 @@ class CouponController extends Controller
                 if (is_null($coupon->seller_id) || $coupon->seller_id == '0') {
                     $product_subtotal = $cart['price'] * $cart['quantity'];
                     $total += $product_subtotal;
-                } elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
+                }
+                elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
                     $product_subtotal = $cart['price'] * $cart['quantity'];
                     $total += $product_subtotal;
                 }
@@ -59,7 +61,8 @@ class CouponController extends Controller
             if ($total >= $coupon['min_purchase']) {
                 if ($coupon['discount_type'] == 'percentage') {
                     $discount = (($total / 100) * $coupon['discount']) > $coupon['max_discount'] ? $coupon['max_discount'] : (($total / 100) * $coupon['discount']);
-                } else {
+                }
+                else {
                     $discount = $coupon['discount'];
                 }
 
@@ -76,7 +79,8 @@ class CouponController extends Controller
                     'messages' => ['0' => translate('coupon_applied_successfully') . '!']
                 ]);
             }
-        } elseif ($coupon && $coupon->coupon_type == 'free_delivery' && ($coupon->customer_id == '0' || $coupon->customer_id == $userId)) {
+        }
+        elseif ($coupon && $coupon->coupon_type == 'free_delivery' && ($coupon->customer_id == '0' || $coupon->customer_id == $userId)) {
             $total = 0;
             $shipping_fee = 0;
             foreach (CartManager::get_cart() as $cart) {
@@ -84,7 +88,8 @@ class CouponController extends Controller
                     $product_subtotal = $cart['price'] * $cart['quantity'];
                     $total += $product_subtotal;
                     $shipping_fee += $cart['shipping_cost'];
-                } elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
+                }
+                elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
                     $product_subtotal = $cart['price'] * $cart['quantity'];
                     $total += $product_subtotal;
                     $shipping_fee += $cart['shipping_cost'];

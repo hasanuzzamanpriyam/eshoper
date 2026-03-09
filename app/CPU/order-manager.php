@@ -84,7 +84,8 @@ class OrderManager
 
         if ($coupon && ($coupon->seller_id == NULL || $coupon->seller_id == '0' || $coupon->seller_id == $cart[0]->seller_id)) {
             $coupon_discount = $coupon->coupon_type == 'free_delivery' ? 0 : $coupon_discount;
-        } else {
+        }
+        else {
             $coupon_discount = 0;
         }
 
@@ -123,7 +124,8 @@ class OrderManager
                     ]);
                 }
             }
-        } else {
+        }
+        else {
             foreach ($order->details as $detail) {
                 if ($detail['is_stock_decreased'] == 0) {
                     $product = Product::find($detail['product_id']);
@@ -194,7 +196,8 @@ class OrderManager
                 $payer_id = 1;
                 $payment_receiver_id = $order->seller_id;
                 $paid_to = 'seller';
-            } elseif ($order->coupon_discount_bearer == 'seller') {
+            }
+            elseif ($order->coupon_discount_bearer == 'seller') {
                 $paid_by = 'seller';
                 $payer_id = $order->seller_id;
                 $payment_receiver_id = $order->seller_id;
@@ -232,7 +235,8 @@ class OrderManager
                 $payer_id = 1;
                 $payment_receiver_id = $order->seller_id;
                 $paid_to = 'seller';
-            } elseif ($order->free_delivery_bearer == 'seller' && $order->shipping_responsibility == 'inhouse_shipping') {
+            }
+            elseif ($order->free_delivery_bearer == 'seller' && $order->shipping_responsibility == 'inhouse_shipping') {
                 $seller_wallet->delivery_charge_earned -= $order->extra_discount;
                 $seller_wallet->total_earning -= $order->extra_discount;
 
@@ -294,7 +298,8 @@ class OrderManager
 
                 $wallet->total_tax_collected += $order_summary['total_tax'];
                 $wallet->save();
-            } else {
+            }
+            else {
                 $wallet = SellerWallet::where('seller_id', $order['seller_id'])->first();
                 $wallet->commission_given += $commission;
                 $wallet->total_tax_collected += $order_summary['total_tax'];
@@ -302,13 +307,15 @@ class OrderManager
                 if ($shipping_model == 'sellerwise_shipping') {
                     !$order['is_shipping_free'] ? $wallet->delivery_charge_earned += $order['shipping_cost'] : null;
                     $wallet->collected_cash += $order['order_amount']; //total order amount
-                } else {
+                }
+                else {
                     $wallet->total_earning += ($order_amount - $commission) + $order_summary['total_tax'];
                 }
 
                 $wallet->save();
             }
-        } else {
+        }
+        else {
             $transaction = OrderTransaction::where(['order_id' => $order['id']])->first();
             $transaction->status = 'disburse';
             $transaction->save();
@@ -325,14 +332,16 @@ class OrderManager
                 ($shipping_model == 'sellerwise_shipping' && !$order['is_shipping_free']) ? $wallet->delivery_charge_earned += $order['shipping_cost'] : null;
                 $wallet->total_tax_collected += $order_summary['total_tax'];
                 $wallet->save();
-            } else {
+            }
+            else {
                 $wallet = SellerWallet::where('seller_id', $order['seller_id'])->first();
                 $wallet->commission_given += $commission;
 
                 if ($shipping_model == 'sellerwise_shipping') {
                     !$order['is_shipping_free'] ? $wallet->delivery_charge_earned += $order['shipping_cost'] : null;
                     $wallet->total_earning += ($order_amount - $commission) + $order_summary['total_tax'] + $order['shipping_cost'];
-                } else {
+                }
+                else {
                     $wallet->total_earning += ($order_amount - $commission) + $order_summary['total_tax'];
                 }
 
@@ -348,11 +357,12 @@ class OrderManager
         $coupon_discount = 0;
         if (session()->has('coupon_discount')) {
             $coupon_discount = session('coupon_discount');
-        } elseif ($req['coupon_discount']) {
+        }
+        elseif ($req['coupon_discount']) {
             $coupon_discount = $req['coupon_discount'];
         }
 
-        $carts = $req ? CartManager::get_cart_for_api($req) : CartManager::get_cart();
+        $carts = $req ?CartManager::get_cart_for_api($req) : CartManager::get_cart();
         $group_id_wise_cart = CartManager::get_cart($data['cart_group_id']);
         $total_amount = 0;
         foreach ($carts as $cart) {
@@ -368,7 +378,7 @@ class OrderManager
             if ($coupon->coupon_type == 'discount_on_purchase' || $coupon->coupon_type == 'first_order') {
                 $group_id_percent = array();
                 foreach ($cart_group_ids as $cart_group_id) {
-                    $cart_group_data = $req ? CartManager::get_cart_for_api($req, $cart_group_id) : CartManager::get_cart($cart_group_id);
+                    $cart_group_data = $req ?CartManager::get_cart_for_api($req, $cart_group_id) : CartManager::get_cart($cart_group_id);
                     $cart_group_amount = 0;
                     if ($coupon->seller_id == NULL || $coupon->seller_id == '0' || $coupon->seller_id == $cart_group_data[0]->seller_id) {
                         $cart_group_amount = $cart_group_data->sum(function ($item) {
@@ -379,22 +389,25 @@ class OrderManager
                     $group_id_percent[$cart_group_id] = $percent;
                 }
                 $discount = ($group_id_percent[$data['cart_group_id']] * $coupon_discount) / 100;
-            } elseif ($coupon->coupon_type == 'free_delivery') {
+            }
+            elseif ($coupon->coupon_type == 'free_delivery') {
                 $shippingMethod = Helpers::get_business_settings('shipping_method');
 
                 $free_shipping_by_group_id = array();
                 foreach ($cart_group_ids as $cart_group_id) {
-                    $cart_group_data = $req ? CartManager::get_cart_for_api($req, $cart_group_id) : CartManager::get_cart($cart_group_id);
+                    $cart_group_data = $req ?CartManager::get_cart_for_api($req, $cart_group_id) : CartManager::get_cart($cart_group_id);
 
                     if ($shippingMethod == 'inhouse_shipping') {
                         $admin_shipping = \App\Model\ShippingType::where('seller_id', 0)->first();
                         $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                    } else {
+                    }
+                    else {
 
                         if ($cart_group_data[0]->seller_is == 'admin') {
                             $admin_shipping = \App\Model\ShippingType::where('seller_id', 0)->first();
                             $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                        } else {
+                        }
+                        else {
                             $seller_shipping = \App\Model\ShippingType::where('seller_id', $cart_group_data[0]->seller_id)->first();
                             $shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
                         }
@@ -402,7 +415,8 @@ class OrderManager
 
                     if ($shipping_type == 'order_wise' && (($coupon->seller_id == null && $cart_group_data[0]->seller_is == 'admin') || $coupon->seller_id == '0' || $coupon->seller_id == $cart_group_data[0]->seller_id)) {
                         $free_shipping_by_group_id[$cart_group_id] = $cart_group_data[0]->cart_shipping->shipping_cost ?? 0;
-                    } else {
+                    }
+                    else {
                         if (($coupon->seller_id == null && $cart_group_data[0]->seller_is == 'admin') || $coupon->seller_id == '0' || $coupon->seller_id == $cart_group_data[0]->seller_id) {
                             $shipping_cost = CartManager::get_shipping_cost($data['cart_group_id']);
                             $free_shipping_by_group_id[$cart_group_id] = $shipping_cost;
@@ -437,7 +451,7 @@ class OrderManager
 
         $is_guest = ($user == 'offline') ? 1 : 0;
         if ($req) {
-            $is_guest = isset($req['is_guest']) && $req['is_guest']  ? 1 : 0;
+            $is_guest = isset($req['is_guest']) && $req['is_guest'] ? 1 : 0;
         }
 
         $coupon_process = array(
@@ -453,7 +467,7 @@ class OrderManager
                 ->where('status', 1)
                 ->first();
 
-            $coupon_process = $coupon ? self::coupon_process($data, $coupon) : $coupon_process;
+            $coupon_process = $coupon ?self::coupon_process($data, $coupon) : $coupon_process;
         }
 
         $order_id = 100000 + Order::all()->count() + 1;
@@ -476,7 +490,7 @@ class OrderManager
         $free_shipping_type = NULL;
         $free_shipping_responsibility = NULL;
         $free_delivery = OrderManager::free_delivery_order_amount($cart_group_id);
-        if ($free_delivery['status'] && $free_delivery['shipping_cost_saved'] > 0  && $coupon_process['coupon_type'] != 'free_delivery') {
+        if ($free_delivery['status'] && $free_delivery['shipping_cost_saved'] > 0 && $coupon_process['coupon_type'] != 'free_delivery') {
             $is_shipping_free = 1;
             $free_shipping_discount = CartManager::get_shipping_cost($data['cart_group_id']);
             $free_shipping_type = 'free_shipping_over_order_amount';
@@ -495,7 +509,8 @@ class OrderManager
         $shipping_method = CartShipping::where(['cart_group_id' => $cart_group_id])->first();
         if (isset($shipping_method)) {
             $shipping_method_id = $shipping_method->shipping_method_id;
-        } else {
+        }
+        else {
             $shipping_method_id = 0;
         }
 
@@ -503,11 +518,13 @@ class OrderManager
         if ($shipping_model == 'inhouse_shipping') {
             $admin_shipping = ShippingType::where('seller_id', 0)->first();
             $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-        } else {
+        }
+        else {
             if ($seller_data->seller_is == 'admin') {
                 $admin_shipping = ShippingType::where('seller_id', 0)->first();
                 $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-            } else {
+            }
+            else {
                 $seller_shipping = ShippingType::where('seller_id', $seller_data->seller_id)->first();
                 $shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
             }
@@ -521,14 +538,16 @@ class OrderManager
         // guest registration at ordering
         if (auth('customer')->check()) {
             $g_customer_id = $user == 'offline' ? $guest_id : $user->id;
-        } else {
+        }
+        else {
             $customerTempPass = '12345678';
 
             $customerDetails = session('name_guest_reg') . "," . session('email_guest_reg') . "," . session('phone_guest_reg') . "," . $customerTempPass;
 
             if (session('email_guest_reg') == '') {
                 $inputed_email = session('email_guest_reg_value');
-            } else {
+            }
+            else {
                 $inputed_email = session('email_guest_reg');
             }
 
@@ -537,7 +556,8 @@ class OrderManager
 
             if ($check_guest_reg) {
                 $g_customer_id = $check_guest_reg->id;
-            } else {
+            }
+            else {
 
                 $gust_customer_data = [
                     'f_name' => session('name_guest_reg'),
@@ -699,7 +719,8 @@ class OrderManager
 
         if ($seller_data->seller_is == 'admin') {
             $seller = Admin::find($seller_data->seller_id);
-        } else {
+        }
+        else {
             $seller = Seller::find($seller_data->seller_id);
             /**send message to seller  */
             if ($seller) {
@@ -709,7 +730,8 @@ class OrderManager
         if ($user != 'offline') {
             if ($order['payment_method'] != 'cash_on_delivery' && $order['payment_method'] != 'offline_payment') {
                 Helpers::send_order_notification('confirmed', 'customer', $order);
-            } else {
+            }
+            else {
                 Helpers::send_order_notification('pending', 'customer', $order);
             }
         }
@@ -725,25 +747,28 @@ class OrderManager
                         $offline_user = ShippingAddress::find($billing_address_id);
                     }
                     $email = $offline_user->email;
-                } else {
+                }
+                else {
                     if ($req) {
                         $email = User::find($g_customer_id)->email;
-                    } else {
+                    }
+                    else {
                         $email = $user->email;
                     }
                 }
                 Mail::to($email)->send(new \App\Mail\OrderPlaced($order_id));
                 Mail::to($seller->email)->send(new \App\Mail\OrderReceivedNotifySeller($order_id));
             }
-        } catch (\Exception $exception) {
+        }
+        catch (\Exception $exception) {
         }
 
         // অর্ডার সফলভাবে সম্পন্ন হলে আইপি সংরক্ষণ করুন
         // Order successful, save IP restriction (for everyone)
         $ipAddress = request()->ip();
         OrderIpRestriction::updateOrCreate(
-            ['ip_address' => $ipAddress],
-            ['last_order_time' => Carbon::now()]
+        ['ip_address' => $ipAddress],
+        ['last_order_time' => Carbon::now()]
         );
 
         return $order_id;
@@ -763,7 +788,7 @@ class OrderManager
                 ->where('status', 1)
                 ->first();
 
-            $coupon_process = $coupon ? self::coupon_process($data, $coupon) : $coupon_process;
+            $coupon_process = $coupon ?self::coupon_process($data, $coupon) : $coupon_process;
         }
 
         $address_id = session('address_id') ?? null;
@@ -772,7 +797,7 @@ class OrderManager
         }
 
         $order_id = 100000 + Order::all()->count() + 1;
-        $order_id = Order::find($order_id) ? Order::orderBy('id', 'DESC')->first()->id + 1 : $order_id;
+        $order_id = Order::find($order_id) ?Order::orderBy('id', 'DESC')->first()->id + 1 : $order_id;
         $billing_address_id = session('billing_address_id') ?? null;
         $coupon_code = $coupon_process['coupon_code'];
         $coupon_bearer = $coupon_process['coupon_bearer'];
@@ -789,11 +814,13 @@ class OrderManager
         if ($shipping_model == 'inhouse_shipping') {
             $admin_shipping = ShippingType::where('seller_id', 0)->first();
             $shipping_type = isset($admin_shipping) ? $admin_shipping->shipping_type : 'order_wise';
-        } else {
+        }
+        else {
             if ($seller_data->seller_is == 'admin') {
                 $admin_shipping = ShippingType::where('seller_id', 0)->first();
                 $shipping_type = isset($admin_shipping) ? $admin_shipping->shipping_type : 'order_wise';
-            } else {
+            }
+            else {
                 $seller_shipping = ShippingType::where('seller_id', $seller_data->seller_id)->first();
                 $shipping_type = isset($seller_shipping) ? $seller_shipping->shipping_type : 'order_wise';
             }
@@ -820,13 +847,14 @@ class OrderManager
         //order data insert
         self::order_insert($order_data);
         $order = Order::with('customer')->where($order_data['order_id'])->first();
-        $seller = $seller_data->seller_is == 'admin' ? Admin::find($seller_data->seller_id) : Seller::find($seller_data->seller_id);
+        $seller = $seller_data->seller_is == 'admin' ?Admin::find($seller_data->seller_id) : Seller::find($seller_data->seller_id);
         if ($seller_data->seller_is == 'seller') {
             Helpers::send_order_notification('new_order_message', 'seller', $order);
         }
         if ($order['payment_method'] != 'cash_on_delivery' && $order['payment_method'] != 'offline_payment') {
             Helpers::send_order_notification('confirmed', 'customer', $order);
-        } else {
+        }
+        else {
             Helpers::send_order_notification('pending', 'customer', $order);
         }
         try {
@@ -838,7 +866,8 @@ class OrderManager
                 Mail::to($user->email)->send(new \App\Mail\OrderPlaced($order_id));
                 Mail::to($seller->email)->send(new \App\Mail\OrderReceivedNotifySeller($order_id));
             }
-        } catch (\Exception $exception) {
+        }
+        catch (\Exception $exception) {
             dd($exception);
         }
 
@@ -846,8 +875,8 @@ class OrderManager
         // Order successful, save IP restriction (for everyone)
         $ipAddress = request()->ip();
         OrderIpRestriction::updateOrCreate(
-            ['ip_address' => $ipAddress],
-            ['last_order_time' => Carbon::now()]
+        ['ip_address' => $ipAddress],
+        ['last_order_time' => Carbon::now()]
         );
 
         return $order_id;
@@ -1011,7 +1040,8 @@ class OrderManager
                                     $i++;
                                 }
                             }
-                        } else {
+                        }
+                        else {
                             $i = 1;
                             foreach ($variation as $key => $var) {
                                 $choices['choice_' . $i] = $var;
@@ -1030,7 +1060,8 @@ class OrderManager
 
                     if (isset($cart_check)) {
                         $cart_group_id = $cart_check['cart_group_id'];
-                    } else {
+                    }
+                    else {
                         $cart_group_id = $user->id . '-' . Str::random(5) . '-' . time();
                     }
                     //generate group id end
@@ -1048,7 +1079,8 @@ class OrderManager
                                 }
                             }
                         }
-                    } else {
+                    }
+                    else {
                         $price = $product->unit_price;
                     }
 
@@ -1077,10 +1109,11 @@ class OrderManager
                             $cart['thumbnail'] = $product->thumbnail;
                             $cart['seller_id'] = ($product->added_by == 'admin') ? 1 : $product->user_id;
                             $cart['seller_is'] = $product->added_by;
-                            $cart['shipping_cost'] = $product->product_type == 'physical' ? CartManager::get_shipping_cost_for_product_category_wise($product, $order_product_qty) : 0;
+                            $cart['shipping_cost'] = $product->product_type == 'physical' ?CartManager::get_shipping_cost_for_product_category_wise($product, $order_product_qty) : 0;
                             if ($product->added_by == 'seller') {
                                 $cart['shop_info'] = Shop::where(['seller_id' => $product->user_id])->first()->name;
-                            } else {
+                            }
+                            else {
                                 $cart['shop_info'] = Helpers::get_business_settings('company_name');
                             }
 
@@ -1089,11 +1122,13 @@ class OrderManager
                             if ($shippingMethod == 'inhouse_shipping') {
                                 $admin_shipping = ShippingType::where('seller_id', 0)->first();
                                 $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                            } else {
+                            }
+                            else {
                                 if ($product->added_by == 'admin') {
                                     $admin_shipping = ShippingType::where('seller_id', 0)->first();
                                     $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                                } else {
+                                }
+                                else {
                                     $seller_shipping = ShippingType::where('seller_id', $product->user_id)->first();
                                     $shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
                                 }
@@ -1128,14 +1163,15 @@ class OrderManager
         if ($minimum_order_amount_status) {
             $query = Cart::with(['seller', 'all_product'])
                 ->where([
-                    'customer_id' => ($user == 'offline' ? (session('guest_id') ?? $request->guest_id) : $user->id),
-                    'is_guest' => ($user == 'offline' ? 1 : '0'),
-                ]);
+                'customer_id' => ($user == 'offline' ? (session('guest_id') ?? $request->guest_id) : $user->id),
+                'is_guest' => ($user == 'offline' ? 1 : '0'),
+            ]);
             if ($cart_group_id) {
                 $cart_item = $query->where('cart_group_id', $cart_group_id)->first();
                 if ($cart_item->all_product->added_by == 'admin') {
                     $minimum_order_amount = $inhouse_minimum_order_amount;
-                } else {
+                }
+                else {
                     $minimum_order_amount = $minimum_order_amount_by_seller ? $cart_item->seller->minimum_order_amount : 0;
                 }
 
@@ -1150,13 +1186,15 @@ class OrderManager
                 if ($is_physical) {
                     $status = 1; // Temporarily bypassed for testing: $minimum_order_amount > $amount ? 0 : 1;
                 }
-            } else {
+            }
+            else {
                 $cart_groups = $query->get()->groupBy('cart_group_id');
                 foreach ($cart_groups as $group_key => $cart_group) {
                     $seller = $cart_group[0]->seller_is;
                     if ($seller == 'admin') {
                         $minimum_order_amount = $inhouse_minimum_order_amount;
-                    } else {
+                    }
+                    else {
                     }
 
                     $new_amount = CartManager::cart_grand_total($group_key);
@@ -1168,7 +1206,7 @@ class OrderManager
                         }
                     }
                     if ($is_physical) {
-                        // Temporarily bypassed for testing: ($minimum_order_amount > $new_amount ? $status = 0 : '');
+                    // Temporarily bypassed for testing: ($minimum_order_amount > $new_amount ? $status = 0 : '');
                     }
                     $amount = $amount + $new_amount;
                 }
@@ -1208,7 +1246,8 @@ class OrderManager
                 if ($get_cart->seller_is == 'admin') {
                     $free_delivery['amount'] = $free_delivery_over_amount;
                     $free_delivery['status'] = $free_delivery_over_amount > 0 ? 1 : 0;
-                } else {
+                }
+                else {
                     $seller = Seller::where('id', $get_cart->seller_id)->first();
                     $free_delivery['status'] = $seller->free_delivery_status ?? 0;
 
@@ -1229,7 +1268,8 @@ class OrderManager
                 if ($free_delivery['status'] == 1 && $free_delivery['percentage'] == 100) {
                     $free_delivery['shipping_cost_saved'] = CartManager::get_shipping_cost($get_cart->cart_group_id);
                 }
-            } else {
+            }
+            else {
                 $free_delivery['status'] = 0;
             }
         }
@@ -1251,12 +1291,12 @@ class OrderManager
 
         if (auth('customer')->check()) {
             $customer_id = auth('customer')->id();
-            // Also check by user ID if logged in, just in case IP changed (optional, but good for "user" restriction)
-            // But requirement emphasizes IP. Let's keep the existing ID check as secondary or remove if "same IP" is the only rule.
-            // The user said: "user cannot order within 5 minutes with the same IP".
-            // So the IP check above is the critical one.
+        // Also check by user ID if logged in, just in case IP changed (optional, but good for "user" restriction)
+        // But requirement emphasizes IP. Let's keep the existing ID check as secondary or remove if "same IP" is the only rule.
+        // The user said: "user cannot order within 5 minutes with the same IP".
+        // So the IP check above is the critical one.
 
-            // We can keep the order-based check for redundancy if desired, but let's stick to the requested IP logic predominantly.
+        // We can keep the order-based check for redundancy if desired, but let's stick to the requested IP logic predominantly.
         }
 
         return true;

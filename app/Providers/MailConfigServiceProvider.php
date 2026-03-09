@@ -42,6 +42,13 @@ class MailConfigServiceProvider extends ServiceProvider
                     'from' => array('address' => $emailServices_smtp['email_id'], 'name' => $emailServices_smtp['name']),
                     'sendmail' => '/usr/sbin/sendmail -bs',
                     'pretend' => false,
+                    'stream' => [
+                        'ssl' => [
+                            'allow_self_signed' => true,
+                            'verify_peer' => false,
+                            'verify_peer_name' => false,
+                        ],
+                    ],
                 );
                 Config::set('mail', $config);
             }
