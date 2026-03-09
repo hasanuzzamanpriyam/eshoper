@@ -69,6 +69,7 @@
                                 </li>
 
                                 @foreach ($payment_gateways_list as $payment_gateway)
+                                    @if(!str_contains(strtolower($payment_gateway->key_name), 'nagad') && !str_contains(strtolower($payment_gateway->additional_data), 'nagad'))
                                 <li>
                                     <form method="post" class="digital_payment d--none" action="{{ route('customer.web-payment-request') }}">
                                         @csrf
