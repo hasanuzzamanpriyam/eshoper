@@ -434,7 +434,6 @@ class WebController extends Controller
 				'cooldownRemaining'
 			));
 		}
-
 		Toastr::info(translate('no_items_in_basket'));
 		return redirect('/');
 	}
@@ -533,6 +532,9 @@ class WebController extends Controller
 		$order_wise_shipping_discount = CartManager::order_wise_shipping_discount();
 		$get_shipping_cost_saved_for_free_delivery = CartManager::get_shipping_cost_saved_for_free_delivery();
 		$amount = CartManager::cart_grand_total() - $coupon_discount - $order_wise_shipping_discount - $get_shipping_cost_saved_for_free_delivery;
+		if ($amount <= 0) {
+			$amount = 1;
+		}
 		$inr = Currency::where(['symbol' => '₹'])->first();
 		$usd = Currency::where(['code' => 'USD'])->first();
 		$myr = Currency::where(['code' => 'MYR'])->first();

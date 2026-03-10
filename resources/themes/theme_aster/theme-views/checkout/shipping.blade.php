@@ -33,7 +33,6 @@
                             @if($physical_product_view)
                                 <form method="post" id="address-form">
                                     <h5 class="mb-3">{{ translate('Delivery_Information_Details') }}</h5>
-
                                     <div class="d-flex flex-wrap justify-content-between gap-3 mb-3">
                                         <div class="d-flex flex-wrap gap-3 align-items-center">
                                             <h6>{{ translate('Delivery_Address') }}</h6>

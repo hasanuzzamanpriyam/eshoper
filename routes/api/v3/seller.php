@@ -88,7 +88,6 @@ Route::group(['namespace' => 'api\v3\seller', 'prefix' => 'v3/seller', 'middlewa
             Route::get('list', 'RefundController@list');
             Route::get('refund-details', 'RefundController@refund_details');
             Route::post('refund-status-update', 'RefundController@refund_status_update');
-
         });
 
         Route::group(['prefix' => 'coupon'], function () {
@@ -168,12 +167,9 @@ Route::group(['namespace' => 'api\v3\seller', 'prefix' => 'v3/seller', 'middlewa
             Route::get('/', 'ShopController@notification_index');
             Route::get('/view', 'ShopController@seller_notification_view');
         });
-
     });
 
     Route::group(['prefix' => 'products'], function () {
         Route::get('{seller_id}/all-products', 'ProductController@get_seller_all_products');
     });
-    Route::post('ls-lib-update', 'LsLibController@lib_update');
 });
-

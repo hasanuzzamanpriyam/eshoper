@@ -101,9 +101,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['id']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['id']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -297,9 +300,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['id']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['id']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -310,9 +316,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['search_category_value']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['search_category_value']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -602,9 +611,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['id']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['id']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -615,9 +627,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['search_category_value']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['search_category_value']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -833,7 +848,9 @@ class ProductListController extends Controller
 
         foreach ($colors_collection as $color_json) {
             $color_array = json_decode($color_json, true);
-            $colors_in_shop_merge = array_merge($colors_in_shop_merge, $color_array);
+            if (is_array($color_array)) {
+                $colors_in_shop_merge = array_merge($colors_in_shop_merge, $color_array);
+            }
         }
         $colors_in_shop = array_unique($colors_in_shop_merge);
         // Colors End
@@ -868,9 +885,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['id']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['id']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -881,9 +901,12 @@ class ProductListController extends Controller
             $products = $porduct_data->get();
             $product_ids = [];
             foreach ($products as $product) {
-                foreach (json_decode($product['category_ids'], true) as $category) {
-                    if ($category['id'] == $request['search_category_value']) {
-                        array_push($product_ids, $product['id']);
+                $categories = json_decode($product['category_ids'], true);
+                if (is_array($categories)) {
+                    foreach ($categories as $category) {
+                        if ($category['id'] == $request['search_category_value']) {
+                            array_push($product_ids, $product['id']);
+                        }
                     }
                 }
             }
@@ -1074,7 +1097,9 @@ class ProductListController extends Controller
 
         foreach ($colors_collection as $color_json) {
             $color_array = json_decode($color_json, true);
-            $colors_in_shop_merge = array_merge($colors_in_shop_merge, $color_array);
+            if (is_array($color_array)) {
+                $colors_in_shop_merge = array_merge($colors_in_shop_merge, $color_array);
+            }
         }
         $colors_in_shop = array_unique($colors_in_shop_merge);
         // Colors End

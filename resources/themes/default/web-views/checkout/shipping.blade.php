@@ -253,7 +253,6 @@
                                                         <label for="thana">{{ translate('thana')}}<span class="text-danger"> *</span></label>
                                                         <select type="text" class="form-control select-thana" name="thana" id="thana" {{$shipping_addresses->count()==0?'required':''}}>
                                                             <option value="">{{translate('your_district_first')}}</option>
-
                                                         </select>
                                                     </div>
                                                 </div>
@@ -300,7 +299,6 @@
                     <!-- billing methods table-->
                     <div class="billing-methods_label d-flex flex-wrap justify-content-between gap-2 mt-4 pb-3 px-3 px-md-0">
                         <h4 class="mb-0 fs-18 text-capitalize">{{ translate('billing_address')}}</h4>
-
                         @php($billing_addresses=\App\Model\ShippingAddress::where(['customer_id'=>auth('customer')->id(), 'is_billing'=>1, 'is_guest'=>'0'])->get())
                         @if($physical_product_view)
                         <div class="form-check d-flex gap-3 align-items-center">
@@ -457,8 +455,8 @@
                                                     </label>
                                                 </div>
                                                 @endif
-                                                <!--end save or update billing  address -->
-                                                <input type="hidden" id="billing_latitude"
+                                                <input
+                                                    type="hidden" id="billing_latitude"
                                                     name="billing_latitude" class="form-control d-inline"
                                                     placeholder="{{ translate('ex')}} : -94.22213"
                                                     value="{{$default_location?$default_location['lat']:0}}" required
@@ -767,7 +765,7 @@
         if (district && district !== '' && district !== 'select district') {
             // Call AJAX to calculate delivery charge
             $.ajax({
-                url: '{{ route('calculate-delivery-charge') }}',
+                url: '{{ route("calculate-delivery-charge") }}',
                 type: 'POST',
                 data: {
                     district: district,
@@ -781,6 +779,14 @@
                         $('#total-price-value').html(response.grand_total);
                         // Update total payable (mobile)
                         $('#total-price-value-mobile').html(response.grand_total);
+
+                        // Update "You have Saved" section
+                        if (response.total_savings_value > 0) {
+                            $('#total_savings_amount').html(response.total_savings + '!');
+                            $('#you_have_saved_section').removeClass('d-none');
+                        } else {
+                            $('#you_have_saved_section').addClass('d-none');
+                        }
 
                         console.log('Delivery charge updated:', response);
                     }
@@ -966,7 +972,7 @@
             }
         });
         $.post({
-            url: '{{route('customer.choose-shipping-address-other')}}',
+            url: '{{route("customer.choose-shipping-address-other")}}',
             data: {
                 physical_product: physical_product,
                 shipping: physical_product === 'yes' ? $('#address-form').serialize() : null,
@@ -987,7 +993,7 @@
                         });
                     }
                 } else {
-                    location.href = '{{route('checkout-payment')}}';
+                    location.href = '{{route("checkout-payment")}}';
                 }
             },
             complete: function() {
@@ -1059,8 +1065,7 @@
 
         if (distId == '') {
             $('#thana').empty();
-            var data = '<option value="">{{translate('
-            your_district_first ')}}</option>';
+            var data = '<option value="">{{translate("your_district_first")}}</option>';
             $('#thana').append(data);
         } else {
             $.ajaxSetup({
@@ -1075,8 +1080,7 @@
                 success: function(response) {
                     //console.log('Success:', response);
                     $('#thana').empty();
-                    var data = '<option value="">{{translate('
-                    your_thana ')}}</option>';
+                    var data = '<option value="">{{translate("your_thana")}}</option>';
                     $.each(response, function(key, value) {
                         if (currentLang == "en") {
                             data += '<option value="' + value.id + '">' + value.thana_name_en + ' - ' + value.thana_name_bn + '</option>';

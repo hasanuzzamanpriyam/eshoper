@@ -104,7 +104,11 @@
 <script>
     if (typeof window.cooldownTimerRunning === 'undefined') {
         window.cooldownTimerRunning = true;
-        window.cooldownSeconds = <?php echo (int) $cooldownRemaining; ?>;
+        window.cooldownSeconds = <?php
+
+use Illuminate\Support\Facades\Route;
+
+ echo (int) $cooldownRemaining; ?>;
 
         function updateTimer() {
             let minutes = Math.floor(window.cooldownSeconds / 60);

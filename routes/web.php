@@ -38,10 +38,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('/', 'HomeController@index')->name('home');
 
     Route::get('quick-view', 'WebController@quick_view')->name('quick-view');
-    Route::get('/search', 'SearchController@index')->name('search');
-    Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
-    Route::get('/search', 'SearchController@index')->name('search');
-    Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
+    // Route::get('/search', 'SearchController@index')->name('search');
+    // Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
+    // Route::get('/search', 'SearchController@index')->name('search');
+    // Route::post('/search/ajax', 'SearchController@ajax')->name('search-ajax');
 
     Route::group(['middleware' => ['customer']], function () {
         Route::get('submit-review/{id}', 'UserProfileController@submit_review')->name('submit-review');
@@ -67,8 +67,10 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('/district-names', [AddressNameController::class, 'district_names'])->name('district-names');
     Route::get('/thana-names/{distId}', [AddressNameController::class, 'thana_names'])->name('thana-names');
 
+
     // AJAX route for real-time delivery charge calculation
     Route::post('calculate-delivery-charge', 'CartController@calculate_delivery_charge')->name('calculate-delivery-charge');
+
 
 
     //wallet payment
@@ -342,10 +344,10 @@ if (!$is_published) {
         });
 
         //Pay Fast
-        Route::group(['prefix' => 'payfast', 'as' => 'payfast.'], function () {
-            Route::get('pay', [PayFastController::class, 'payment'])->name('payment');
-            Route::any('callback', [PayFastController::class, 'callback'])->name('callback');
-        });
+        // Route::group(['prefix' => 'payfast', 'as' => 'payfast.'], function () {
+        //     Route::get('pay', [PayFastController::class, 'payment'])->name('payment');
+        //     Route::any('callback', [PayFastController::class, 'callback'])->name('callback');
+        // });
     });
 }
 

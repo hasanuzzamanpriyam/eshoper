@@ -1,0 +1,30 @@
+40:                @php($language=\App\Model\BusinessSetting::where('type','pnc_language')->first())
+41:                @php($language = $language->value ?? null)
+42:                @php($default_lang = 'en')
+44:                @php($language = json_decode($language, true))
+46:                    @if(is_array($language))
+47:                    @foreach($language as $lang)
+49:                        <a class="nav-link lang_link {{$lang == $default_lang? 'active':''}}" href="#"
+50:                            id="{{$lang}}-link">{{\App\CPU\Helpers::get_language_name($lang).'('.strtoupper($lang).')'}}</a>
+58:                @if(is_array($language))
+59:                @foreach($language as $lang)
+65:                        if ($t->locale == $lang && $t->key == "name") {
+66:                            $translate[$lang]['name'] = $t->value;
+68:                        if ($t->locale == $lang && $t->key == "description") {
+69:                            $translate[$lang]['description'] = $t->value;
+74:                <div class="{{$lang != 'en'? 'd-none':''}} lang_form" id="{{$lang}}-form">
+76:                        <label class="title-color" for="{{$lang}}_name">{{translate('product_name')}} ({{strtoupper($lang)}})</label>
+77:                        <input type="text" {{$lang == 'en'? 'required':''}} name="name[]"
+78:                            id="{{$lang}}_name"
+79:                            value="{{$translate[$lang]['name']??$product['name']}}"
+82:                    <input type="hidden" name="lang[]" value="{{$lang}}">
+85:                            ({{strtoupper($lang)}})</label>
+86:                        <textarea name="description[]" class="textarea editor-textarea">{!! $translate[$lang]['description']??$product['details'] !!}</textarea>
+1336:    $(".lang_link").click(function(e) {
+1338:        $(".lang_link").removeClass('active');
+1339:        $(".lang_form").addClass('d-none');
+1343:        let lang = form_id.split("-")[0];
+1344:        console.log(lang);
+1345:        $("#" + lang + "-form").removeClass('d-none');
+1346:        if (lang == '{{$default_lang}}') {
+1406:        contentsLangDirection: '{{ Session::get("direction") }}',

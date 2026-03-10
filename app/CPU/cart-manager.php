@@ -7,11 +7,13 @@ use App\Model\CartShipping;
 use App\Model\Color;
 use App\Model\Product;
 use App\Model\Shop;
-use Barryvdh\Debugbar\Twig\Extension\Debug;
-use Cassandra\Collection;
 use Illuminate\Support\Str;
 use App\Model\ShippingType;
 use App\Model\CategoryShippingCost;
+use App\Model\DeliveryCharge;
+use App\Model\ShippingAddress;
+use App\Models\Districtname;
+use Illuminate\Support\Facades\Log;
 
 class CartManager
 {
@@ -91,7 +93,6 @@ class CartManager
                 ->whereIn('cart_group_id', CartManager::get_cart_group_ids())->sum('shipping_cost');
             $cost = $order_wise_shipping_cost + $cart_shipping_cost;
 
-            // Apply district-based delivery charges for products with shipping_cost = 0
             $cost += self::get_district_based_delivery_charge();
         } else {
             $data = CartShipping::whereHas('cart', function ($query) {
@@ -102,7 +103,6 @@ class CartManager
             $cart_shipping_cost = Cart::where(['cart_group_id' => $group_id, 'product_type' => 'physical'])->sum('shipping_cost');
             $cost = $order_wise_shipping_cost + $cart_shipping_cost;
 
-            // Apply district-based delivery charges for products with shipping_cost = 0
             $cost += self::get_district_based_delivery_charge($group_id);
         }
         return $cost;
@@ -115,32 +115,37 @@ class CartManager
     {
         $additional_cost = 0;
 
-        // Get shipping address to determine district
         $address_id = session('address_id');
+        $district = '';
+
         if (!$address_id) {
-            return 0; // No address selected yet
+            // If address_id is not in session (happens during checkout-details before saving),
+            // check if a district was selected via AJAX and stored in session
+            $district = session('selected_district');
+            if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
+                return 0;
+            }
+        } else {
+            $shipping_address = ShippingAddress::find($address_id);
+            if (!$shipping_address) {
+                // Fallback to session district if address record not found
+                $district = session('selected_district');
+                if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
+                    return 0;
+                }
+            } else {
+                $district = $shipping_address->city;
+            }
         }
 
-        $shipping_address = \App\Model\ShippingAddress::find($address_id);
-        if (!$shipping_address) {
+        if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
             return 0;
         }
-
-        $district = $shipping_address->city; // District is stored in 'city' field
-
-        // Check if district is actually selected (not empty or placeholder)
-        if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
-            return 0; // District not selected yet, don't apply any charge
-        }
-
-        // Get delivery charges from database
-        $delivery_charge = \App\Model\DeliveryCharge::first();
+        $delivery_charge = DeliveryCharge::first();
         if (!$delivery_charge) {
             return 0;
         }
 
-        // Determine which charge to use based on district
-        // Check if district contains "Rajshahi" (case-insensitive) to handle bilingual names like "Rajshahi-রাজশাহী"
         $district_charge = 0;
         if (stripos($district, 'Rajshahi') !== false) {
             $district_charge = $delivery_charge->local_delivery_charge;
@@ -158,11 +163,10 @@ class CartManager
                 ->get();
         }
 
-        // Count how many products have shipping_cost = 0
         $products_without_shipping = 0;
         foreach ($cart_items as $cart_item) {
             $product = Product::find($cart_item->product_id);
-            if ($product && $product->shipping_cost == 0) {
+            if ($product && $product->shipping_cost == 0 && $product->is_delivery_free == 0) {
                 $products_without_shipping++;
             }
         }
@@ -185,26 +189,26 @@ class CartManager
 
         // Check if district is provided
         if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
-            \Log::warning('Empty district provided to calculate_delivery_charge_by_district');
+            Log::warning('Empty district provided to calculate_delivery_charge_by_district');
             return 0;
         }
 
         // If district is numeric (ID), try to fetch the name from database
         if (is_numeric($district)) {
-            $districtModel = \App\Models\Districtname::find($district);
+            $districtModel = Districtname::find($district);
             if ($districtModel) {
                 $district = $districtModel->district_name_en;
-                \Log::info('Converted district ID to name', ['id' => $district, 'name' => $districtModel->district_name_en]);
+                Log::info('Converted district ID to name', ['id' => $district, 'name' => $districtModel->district_name_en]);
             } else {
-                \Log::warning('District ID not found in database', ['id' => $district]);
+                Log::warning('District ID not found in database', ['id' => $district]);
                 return 0;
             }
         }
 
         // Get delivery charges from database
-        $delivery_charge = \App\Model\DeliveryCharge::first();
+        $delivery_charge = DeliveryCharge::first();
         if (!$delivery_charge) {
-            \Log::error('No delivery charge configuration found in database');
+            Log::error('No delivery charge configuration found in database');
             return 0;
         }
 
@@ -212,10 +216,10 @@ class CartManager
         $district_charge = 0;
         if (stripos($district, 'Rajshahi') !== false) {
             $district_charge = $delivery_charge->local_delivery_charge;
-            \Log::info('Using local delivery charge for Rajshahi', ['charge' => $district_charge]);
+            Log::info('Using local delivery charge for Rajshahi', ['charge' => $district_charge]);
         } else {
             $district_charge = $delivery_charge->country_delivery_charge;
-            \Log::info('Using country delivery charge', ['district' => $district, 'charge' => $district_charge]);
+            Log::info('Using country delivery charge', ['district' => $district, 'charge' => $district_charge]);
         }
 
         // Get cart items
@@ -232,7 +236,7 @@ class CartManager
         $products_without_shipping = 0;
         foreach ($cart_items as $cart_item) {
             $product = Product::find($cart_item->product_id);
-            if ($product && $product->shipping_cost == 0) {
+            if ($product && $product->shipping_cost == 0 && $product->is_delivery_free == 0) {
                 $products_without_shipping++;
             }
         }
@@ -240,7 +244,7 @@ class CartManager
         // Apply district charge for each product without shipping cost
         $additional_cost = $products_without_shipping * $district_charge;
 
-        \Log::info('District delivery charge calculated', [
+        Log::info('District delivery charge calculated', [
             'district' => $district,
             'products_without_shipping' => $products_without_shipping,
             'district_charge' => $district_charge,
@@ -252,36 +256,7 @@ class CartManager
 
     public static function order_wise_shipping_discount()
     {
-        if (auth('customer')->check()) {
-            $shippingMethod = \App\CPU\Helpers::get_business_settings('shipping_method');
-            $cart_group_ids = CartManager::get_cart_group_ids();
-
-            $amount = 0;
-            if (count($cart_group_ids) > 0) {
-
-                foreach ($cart_group_ids as $cart) {
-                    $cart_data = Cart::where('cart_group_id', $cart)->first();
-                    if ($shippingMethod == 'inhouse_shipping') {
-                        $admin_shipping = \App\Model\ShippingType::where('seller_id', 0)->first();
-                        $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                    } else {
-                        if ($cart_data->seller_is == 'admin') {
-                            $admin_shipping = \App\Model\ShippingType::where('seller_id', 0)->first();
-                            $shipping_type = isset($admin_shipping) == true ? $admin_shipping->shipping_type : 'order_wise';
-                        } else {
-                            $seller_shipping = \App\Model\ShippingType::where('seller_id', $cart_data->seller_id)->first();
-                            $shipping_type = isset($seller_shipping) == true ? $seller_shipping->shipping_type : 'order_wise';
-                        }
-                    }
-
-                    if ($shipping_type == 'order_wise' && session('coupon_type') == 'free_delivery' && (session('coupon_seller_id') == '0' || (is_null(session('coupon_seller_id')) && $cart_data->seller_is == 'admin') || (session('coupon_seller_id') == $cart_data->seller_id && $cart_data->seller_is == 'seller'))) {
-                        $amount += CartManager::get_shipping_cost($cart);
-                    }
-                }
-            }
-
-            return $amount;
-        }
+        return 0; // Delivery discounts are now correctly generalized in the coupon logic
     }
 
     public static function cart_total($cart)
@@ -395,7 +370,7 @@ class CartManager
         if ($data['request']['is_guest']) {
             $cart_ids = Cart::where(['customer_id' => $data['request']['customer_id'], 'is_guest' => 1])->groupBy('cart_group_id')->pluck('cart_group_id')->toArray();
         } else {
-            $cart_ids = Cart::where(['customer_id' =>  $data['request']['customer_id'], 'is_guest' => '0'])->groupBy('cart_group_id')->pluck('cart_group_id')->toArray();
+            $cart_ids = Cart::where(['customer_id' => $data['request']['customer_id'], 'is_guest' => '0'])->groupBy('cart_group_id')->pluck('cart_group_id')->toArray();
         }
 
         CartShipping::whereIn('cart_group_id', $cart_ids)->delete();
@@ -452,10 +427,10 @@ class CartManager
             }
         }
 
-        $cart['color']          = $request->has('color') ? $request['color'] : null;
-        $cart['product_id']     = $product->id;
-        $cart['product_type']   = $product->product_type;
-        $cart['choices']        = json_encode($choices);
+        $cart['color'] = $request->has('color') ? $request['color'] : null;
+        $cart['product_id'] = $product->id;
+        $cart['product_type'] = $product->product_type;
+        $cart['choices'] = json_encode($choices);
 
         //chek if out of stock
         if (($product['product_type'] == 'physical') && ($product['current_stock'] < $request['quantity'])) {
@@ -599,7 +574,7 @@ class CartManager
         if ($status) {
             $qty = $request->quantity;
             $cart['quantity'] = $request->quantity;
-            $cart['shipping_cost'] =  CartManager::get_shipping_cost_for_product_category_wise($product, $request->quantity);
+            $cart['shipping_cost'] = CartManager::get_shipping_cost_for_product_category_wise($product, $request->quantity);
         }
 
         $cart->save();
@@ -613,6 +588,9 @@ class CartManager
 
     public static function get_shipping_cost_for_product_category_wise($product, $qty)
     {
+        if ($product->is_delivery_free) {
+            return 0;
+        }
         $shippingMethod = Helpers::get_business_settings('shipping_method');
         $cost = 0;
 

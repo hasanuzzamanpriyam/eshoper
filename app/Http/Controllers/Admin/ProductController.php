@@ -333,8 +333,15 @@ class ProductController extends BaseController
         $p->video_provider    = 'youtube';
         $p->video_url         = $request->video_link;
         $p->request_status    = 1;
-        $p->shipping_cost     = $request->product_type == 'physical' ? BackEndHelper::currency_to_usd($request->shipping_cost) : 0;
-        $p->multiply_qty      = ($request->product_type == 'physical') ? ($request->multiplyQTY == 'on' ? 1 : 0) : 0;
+        if ($request->product_type == 'physical') {
+            $p->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
+            $p->shipping_cost = $p->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
+            $p->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+        } else {
+            $p->is_delivery_free = 1;
+            $p->shipping_cost = 0;
+            $p->multiply_qty = 0;
+        }
 
         // Additional Info and Meta Tags
         $p->other_info = $request->other_info;
@@ -425,9 +432,10 @@ class ProductController extends BaseController
         }
     }
 
-    public function update(Request $request, $id)
+public function update(Request $request, $id)
     {
         $product = Product::find($id);
+
         $validator = Validator::make($request->all(), [
             'name'                  => 'required',
             'category_id'           => 'required',
@@ -445,8 +453,8 @@ class ProductController extends BaseController
             'minimum_order_qty'     => 'required|numeric|min:1',
         ], [
             'name.required'                     => 'Product name is required!',
-            'category_id.required'              => 'category  is required!',
-            'unit.required_if'                  => 'Unit  is required!',
+            'category_id.required'              => 'Category is required!',
+            'unit.required_if'                  => 'Unit is required!',
             'code.min'                          => 'Code must be positive!',
             'code.digits_between'               => 'Code must be minimum 6 digits!',
             'minimum_order_qty.required'        => 'Minimum order quantity is required!',
@@ -456,13 +464,10 @@ class ProductController extends BaseController
             'shipping_cost.required_if'         => 'Shipping Cost is required!',
         ]);
 
-        $brand_setting = BusinessSetting::where('type', 'product_brand')->first()->value;
+        $brand_setting = Helpers::get_business_settings('product_brand');
         if ($brand_setting && empty($request->brand_id)) {
             $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'brand_id',
-                    'Brand is required!'
-                );
+                $validator->errors()->add('brand_id', 'Brand is required!');
             });
         }
 
@@ -491,114 +496,39 @@ class ProductController extends BaseController
 
         if (is_null($request->name[array_search('en', $request->lang)])) {
             $validator->after(function ($validator) {
-                $validator->errors()->add(
-                    'name',
-                    'Name field is required!'
-                );
+                $validator->errors()->add('name', 'Name field is required!');
             });
         }
 
-        $product_images = json_decode($product->images);
-        $color_image_array = [];
-        if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $db_color_image = $product->color_image ? json_decode($product->color_image, true) : [];
-            if (!$db_color_image) {
-                foreach ($product_images as $image) {
-                    $db_color_image[] = [
-                        'color' => null,
-                        'image_name' => $image,
-                    ];
-                }
-            }
-
-            $db_color_image_final = [];
-            if ($db_color_image) {
-                foreach ($db_color_image as $color_img) {
-                    if ($color_img['color']) {
-                        $db_color_image_final[] = $color_img['color'];
-                    }
-                }
-            }
-
-            $input_colors = [];
-            foreach ($request->colors as $color) {
-                $input_colors[] = str_replace('#', '', $color);
-            }
-            $diff_color = array_diff($db_color_image_final, $input_colors);
-
-            $color_image_required = [];
-            if ($db_color_image) {
-                foreach ($db_color_image as $color_img) {
-                    if ($color_img['color'] != null && !in_array($color_img['color'], $diff_color)) {
-                        $color_image_required[] = [
-                            'color' => $color_img['color'],
-                            'image_name' => $color_img['image_name'],
-                        ];
-                    }
-                }
-            }
-            $color_image_array = $db_color_image;
-
-            foreach ($input_colors as $color) {
-                if (!in_array($color, $db_color_image_final)) {
-                    $img = 'color_image_' . $color;
-                    if ($request->file($img)) {
-                        $image_name = ImageManager::upload('product/', 'webp', $request->file($img));
-                        $product_images[] = $image_name;
-                        $col_img_arr = [
-                            'color' => $color,
-                            'image_name' => $image_name,
-                        ];
-                        $color_image_required[] = $col_img_arr;
-                        $color_image_array[] = $col_img_arr;
-                    }
-                }
-            }
-
-            if (count($color_image_required) != count($request->colors)) {
-                $validator->after(function ($validator) {
-                    $validator->errors()->add(
-                        'images',
-                        'Color images is required!'
-                    );
-                });
-            }
+        if ($validator->errors()->count() > 0) {
+            return response()->json(['errors' => Helpers::error_processor($validator)]);
         }
 
         $product->name = $request->name[array_search('en', $request->lang)];
+        $product->code = $request->code;
+        $product->slug = Str::slug($request->name[array_search('en', $request->lang)], '-') . '-' . Str::random(6);
+        $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
+        $product->product_type = $request->product_type;
+        $product->minimum_order_qty = $request->minimum_order_qty;
+        $product->details = $request->description[array_search('en', $request->lang)];
 
         $category = [];
         if ($request->category_id != null) {
-            array_push($category, [
-                'id' => $request->category_id,
-                'position' => 1,
-            ]);
+            array_push($category, ['id' => $request->category_id, 'position' => 1]);
         }
         if ($request->sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_category_id,
-                'position' => 2,
-            ]);
+            array_push($category, ['id' => $request->sub_category_id, 'position' => 2]);
         }
         if ($request->sub_sub_category_id != null) {
-            array_push($category, [
-                'id' => $request->sub_sub_category_id,
-                'position' => 3,
-            ]);
+            array_push($category, ['id' => $request->sub_sub_category_id, 'position' => 3]);
         }
-
-        $product->product_type          = $request->product_type;
-        $product->category_ids          = json_encode($category);
-        $product->category_id           = $request->category_id;
-        $product->sub_category_id       = $request->sub_category_id;
-        $product->sub_sub_category_id   = $request->sub_sub_category_id;
-        $product->brand_id              = isset($request->brand_id) ? $request->brand_id : null;
-        $product->unit                  = $request->product_type == 'physical' ? $request->unit : null;
-        $product->digital_product_type  = $request->product_type == 'digital' ? $request->digital_product_type : null;
-        $product->code                  = $request->code;
-        $product->minimum_order_qty     = $request->minimum_order_qty;
-        $product->details               = $request->description[array_search('en', $request->lang)];
-        $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
+        $product->category_ids = json_encode($category);
+        $product->category_id = $request->category_id;
+        $product->sub_category_id = $request->sub_category_id;
+        $product->sub_sub_category_id = $request->sub_sub_category_id;
+        $product->brand_id = isset($request->brand_id) ? $request->brand_id : null;
+        $product->unit = $request->product_type == 'physical' ? $request->unit : null;
+        $product->digital_product_type = $request->product_type == 'digital' ? $request->digital_product_type : null;
 
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
             $product->colors = $request->product_type == 'physical' ? json_encode($request->colors) : json_encode([]);
@@ -606,6 +536,7 @@ class ProductController extends BaseController
             $colors = [];
             $product->colors = json_encode($colors);
         }
+
         $choice_options = [];
         if ($request->has('choice')) {
             foreach ($request->choice_no as $key => $no) {
@@ -617,11 +548,10 @@ class ProductController extends BaseController
             }
         }
         $product->choice_options = $request->product_type == 'physical' ? json_encode($choice_options) : json_encode([]);
+
         $variations = [];
-        //combinations start
         $options = [];
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $colors_active = 1;
             array_push($options, $request->colors);
         }
         if ($request->has('choice_no')) {
@@ -631,9 +561,8 @@ class ProductController extends BaseController
                 array_push($options, explode(',', $my_str));
             }
         }
-        //Generates the combinations of customer choice options
+
         $combinations = Helpers::combinations($options);
-        $variations = [];
         $stock_count = 0;
         if (count($combinations[0]) > 0) {
             foreach ($combinations as $key => $combination) {
@@ -661,27 +590,31 @@ class ProductController extends BaseController
         } else {
             $stock_count = (int)$request['current_stock'];
         }
+        $product->variation = $request->product_type == 'physical' ? json_encode($variations) : json_encode([]);
 
-        if ($validator->errors()->count() > 0) {
-            return response()->json(['errors' => Helpers::error_processor($validator)]);
+        $product->unit_price = BackEndHelper::currency_to_usd($request->unit_price);
+        $product->purchase_price = BackEndHelper::currency_to_usd($request->purchase_price);
+        $product->tax = $request->tax_type == 'flat' ? BackEndHelper::currency_to_usd($request->tax) : $request->tax;
+        $product->tax_type = $request->tax_type;
+        $product->tax_model = $request->tax_model;
+        $product->discount = $request->discount_type == 'flat' ? BackEndHelper::currency_to_usd($request->discount) : $request->discount;
+        $product->discount_type = $request->discount_type;
+        $product->attributes = $request->product_type == 'physical' ? json_encode($request->choice_attributes) : json_encode([]);
+        $product->current_stock = $request->product_type == 'physical' ? abs($stock_count) : 0;
+
+        if ($request->product_type == 'physical') {
+            $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
+            $product->shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
+            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+        } else {
+            $product->is_delivery_free = 1;
+            $product->shipping_cost = 0;
+            $product->multiply_qty = 0;
         }
 
-        //combinations end
-        $product->variation      = $request->product_type == 'physical' ? json_encode($variations) : json_encode([]);
-        $product->unit_price     = BackEndHelper::currency_to_usd($request->unit_price);
-        $product->purchase_price = BackEndHelper::currency_to_usd($request->purchase_price);
-        $product->tax            = $request->tax == 'flat' ? BackEndHelper::currency_to_usd($request->tax) : $request->tax;
-        $product->tax_type       = $request->tax_type;
-        $product->tax_model          = $request->tax_model;
-        $product->discount       = $request->discount_type == 'flat' ? BackEndHelper::currency_to_usd($request->discount) : $request->discount;
-        $product->attributes     = $request->product_type == 'physical' ? json_encode($request->choice_attributes) : json_encode([]);
-        $product->discount_type  = $request->discount_type;
-        $product->current_stock  = $request->product_type == 'physical' ? abs($stock_count) : 0;
-
-        // Additional Info and Meta Tags
         $product->other_info = $request->other_info;
         $metaTags = $request->meta_tag;
-        $product->meta_tag = !empty($metaTags) ? json_encode(array_unique(array_map('trim', $metaTags))) : null;
+        $product->meta_tag = !empty($metaTags) ? array_unique(array_map('trim', $metaTags)) : null;
 
         $product->video_provider = 'youtube';
         $product->video_url = $request->video_link;
@@ -689,92 +622,81 @@ class ProductController extends BaseController
             $product->request_status = 1;
         }
 
-        $product->shipping_cost = $request->product_type == 'physical' ? BackEndHelper::currency_to_usd($request->shipping_cost) : 0;
-        $product->multiply_qty = ($request->product_type == 'physical') ? ($request->multiplyQTY == 'on' ? 1 : 0) : 0;
-        if ($request->ajax()) {
-            return response()->json([], 200);
-        } else {
-            if ($request->file('images')) {
-                foreach ($request->file('images') as $img) {
-                    $image_name = ImageManager::upload('product/', 'webp', $img);
-                    $product_images[] = $image_name;
-                    if ($request->has('colors_active')) {
-                        $color_image_array[] = [
-                            'color' => null,
-                            'image_name' => $image_name,
-                        ];
-                    }
-                }
+        if ($request->file('images')) {
+            $product_images = json_decode($product->images, true) ?? [];
+            foreach ($request->file('images') as $img) {
+                $image_name = ImageManager::upload('product/', 'webp', $img);
+                $product_images[] = $image_name;
             }
             $product->images = json_encode($product_images);
-            $product->color_image = json_encode($color_image_array);
+        }
 
-            if ($request->file('image')) {
-                $product->thumbnail = ImageManager::update('product/thumbnail/', $product->thumbnail, 'webp', $request->file('image'));
-            }
+        if ($request->file('image')) {
+            $product->thumbnail = ImageManager::update('product/thumbnail/', $product->thumbnail, 'webp', $request->file('image'));
+        }
 
-            if ($request->product_type == 'digital') {
-                if ($request->digital_product_type == 'ready_product' && $request->hasFile('digital_file_ready')) {
-                    $product->digital_file_ready = ImageManager::update('product/digital-product/', $product->digital_file_ready, $request->digital_file_ready->getClientOriginalExtension(), $request->file('digital_file_ready'), 'file');
-                } elseif (($request->digital_product_type == 'ready_after_sell') && $product->digital_file_ready) {
-                    ImageManager::delete('product/digital-product/' . $product->digital_file_ready);
-                    $product->digital_file_ready = null;
-                }
-            } elseif ($request->product_type == 'physical' && $product->digital_file_ready) {
+        if ($request->product_type == 'digital') {
+            if ($request->digital_product_type == 'ready_product' && $request->hasFile('digital_file_ready')) {
+                $product->digital_file_ready = ImageManager::update('product/digital-product/', $product->digital_file_ready, $request->digital_file_ready->getClientOriginalExtension(), $request->file('digital_file_ready'), 'file');
+            } elseif (($request->digital_product_type == 'ready_after_sell') && $product->digital_file_ready) {
                 ImageManager::delete('product/digital-product/' . $product->digital_file_ready);
                 $product->digital_file_ready = null;
             }
-
-            $product->meta_title = $request->meta_title;
-            $product->meta_description = $request->meta_description;
-            if ($request->file('meta_image')) {
-                $product->meta_image = ImageManager::update('product/meta/', $product->meta_image, 'webp', $request->file('meta_image'));
-            }
-            $product->save();
-
-            $tag_ids = [];
-            if ($request->tags != null) {
-                $tags = explode(",", $request->tags);
-            }
-            if (isset($tags)) {
-                foreach ($tags as $key => $value) {
-                    $tag = Tag::firstOrNew(
-                        ['tag' => trim($value)]
-                    );
-                    $tag->save();
-                    $tag_ids[] = $tag->id;
-                }
-            }
-            $product->tags()->sync($tag_ids);
-
-            foreach ($request->lang as $index => $key) {
-                if ($request->name[$index] && $key != 'en') {
-                    Translation::updateOrInsert(
-                        [
-                            'translationable_type' => 'App\Model\Product',
-                            'translationable_id' => $product->id,
-                            'locale' => $key,
-                            'key' => 'name'
-                        ],
-                        ['value' => $request->name[$index]]
-                    );
-                }
-                if ($request->description[$index] && $key != 'en') {
-                    Translation::updateOrInsert(
-                        [
-                            'translationable_type' => 'App\Model\Product',
-                            'translationable_id' => $product->id,
-                            'locale' => $key,
-                            'key' => 'description'
-                        ],
-                        ['value' => $request->description[$index]]
-                    );
-                }
-            }
-            Toastr::success(translate('product_updated_successfully') . '!');
-            return back();
+        } elseif ($request->product_type == 'physical' && $product->digital_file_ready) {
+            ImageManager::delete('product/digital-product/' . $product->digital_file_ready);
+            $product->digital_file_ready = null;
         }
+
+        $product->meta_title = $request->meta_title;
+        $product->meta_description = $request->meta_description;
+        if ($request->file('meta_image')) {
+            $product->meta_image = ImageManager::update('product/meta/', $product->meta_image, 'webp', $request->file('meta_image'));
+        }
+
+        $product->save();
+
+        $tag_ids = [];
+        if ($request->tags != null) {
+            $tags = explode(",", $request->tags);
+            foreach ($tags as $key => $value) {
+                $tag = Tag::firstOrNew(['tag' => trim($value)]);
+                $tag->save();
+                $tag_ids[] = $tag->id;
+            }
+        }
+        $product->tags()->sync($tag_ids);
+
+        foreach ($request->lang as $index => $key) {
+            if ($request->name[$index] && $key != 'en') {
+                Translation::updateOrInsert(
+                    [
+                        'translationable_type' => 'App\Model\Product',
+                        'translationable_id' => $product->id,
+                        'locale' => $key,
+                        'key' => 'name'
+                    ],
+                    ['value' => $request->name[$index]]
+                );
+            }
+            if ($request->description[$index] && $key != 'en') {
+                Translation::updateOrInsert(
+                    [
+                        'translationable_type' => 'App\Model\Product',
+                        'translationable_id' => $product->id,
+                        'locale' => $key,
+                        'key' => 'description'
+                    ],
+                    ['value' => $request->description[$index]]
+                );
+            }
+        }
+
+        Toastr::success(translate('product_updated_successfully') . '!');
+        return back();
     }
+
+
+
 
     function list(Request $request, $type)
     {

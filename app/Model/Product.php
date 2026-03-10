@@ -35,7 +35,8 @@ class Product extends Model
         'temp_shipping_cost' => 'float',
         'is_shipping_cost_updated' => 'integer',
         'meta_tag' => 'array',
-                'is_cash_on_delivery' => 'boolean',
+        'is_cash_on_delivery' => 'boolean',
+        'is_delivery_free' => 'boolean',
 
     ];
 
@@ -87,7 +88,7 @@ class Product extends Model
 
     public function reviews_by_customer()
     {
-        return $this->hasMany(Review::class, 'product_id')->where('customer_id',auth('customer')->id())->whereNotNull('product_id')->whereNull('delivery_man_id');
+        return $this->hasMany(Review::class, 'product_id')->where('customer_id', auth('customer')->id())->whereNotNull('product_id')->whereNull('delivery_man_id');
     }
 
     public function brand()
@@ -154,11 +155,13 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function flash_deal_product(){
+    public function flash_deal_product()
+    {
         return $this->hasMany(FlashDealProduct::class);
     }
 
-    public function compare_list(){
+    public function compare_list()
+    {
         return $this->hasMany(ProductCompare::class);
     }
 
@@ -196,11 +199,16 @@ class Product extends Model
                 } else {
                     return $query->where('locale', Helpers::default_lang());
                 }
-            }, 'reviews'=>function($query){
+            }, 'reviews' => function ($query) {
                 $query->whereNull('delivery_man_id');
-            }])->withCount(['reviews'=>function($query){
+            }])->withCount(['reviews' => function ($query) {
                 $query->whereNull('delivery_man_id');
             }]);
+        });
+        static::saving(function ($product) {
+            if ($product->product_type === 'digital') {
+                $product->is_delivery_free = 1;
+            }
         });
     }
 }

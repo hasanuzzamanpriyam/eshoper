@@ -14,40 +14,46 @@ class CouponController extends Controller
 {
     public function apply(Request $request)
     {
-        $couponLimit = Order::where(['customer_id'=> auth('customer')->id(), 'coupon_code'=> $request['code']])
+        $userId = auth('customer')->check() ? auth('customer')->id() : 0;
+        $couponLimit = Order::where(['customer_id' => $userId, 'coupon_code' => $request['code']])
             ->groupBy('order_group_id')->get()->count();
 
         $coupon_f = Coupon::where(['code' => $request['code']])
-            ->where('status',1)
+            ->where('status', 1)
             ->whereDate('start_date', '<=', date('Y-m-d'))
             ->whereDate('expire_date', '>=', date('Y-m-d'))->first();
 
-        if(!$coupon_f){
+        if (!$coupon_f) {
             return response()->json([
                 'status' => 0,
                 'messages' => ['0' => translate('invalid_coupon')]
             ]);
         }
-        if($coupon_f && $coupon_f->coupon_type == 'first_order'){
+        if ($coupon_f && $coupon_f->coupon_type == 'first_order') {
             $coupon = $coupon_f;
-        }else{
+        }
+        else {
             $coupon = $coupon_f->limit > $couponLimit ? $coupon_f : null;
         }
 
-        if($coupon && $coupon->coupon_type == 'first_order'){
-            $orders = Order::where(['customer_id'=> auth('customer')->id()])->count();
-            if($orders>0){
+        if ($coupon && $coupon->coupon_type == 'first_order') {
+            $orders = Order::where(['customer_id' => $userId])->count();
+            if ($orders > 0) {
                 return response()->json([
                     'status' => 0,
-                    'messages' => ['0' => translate('sorry_this_coupon_is_not_valid_for_this_user').'!']
+                    'messages' => ['0' => translate('sorry_this_coupon_is_not_valid_for_this_user') . '!']
                 ]);
             }
         }
 
-        if ($coupon && (($coupon->coupon_type == 'first_order') || ($coupon->coupon_type == 'discount_on_purchase' && ($coupon->customer_id == '0' || $coupon->customer_id == auth('customer')->id())))) {
+        if ($coupon && (($coupon->coupon_type == 'first_order') || ($coupon->coupon_type == 'discount_on_purchase' && ($coupon->customer_id == '0' || $coupon->customer_id == $userId)))) {
             $total = 0;
             foreach (CartManager::get_cart() as $cart) {
-                if($coupon->seller_id == '0' || (is_null($coupon->seller_id) && $cart->seller_is=='admin') || ($coupon->seller_id == $cart->seller_id && $cart->seller_is=='seller')){
+                if (is_null($coupon->seller_id) || $coupon->seller_id == '0') {
+                    $product_subtotal = $cart['price'] * $cart['quantity'];
+                    $total += $product_subtotal;
+                }
+                elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
                     $product_subtotal = $cart['price'] * $cart['quantity'];
                     $total += $product_subtotal;
                 }
@@ -55,7 +61,8 @@ class CouponController extends Controller
             if ($total >= $coupon['min_purchase']) {
                 if ($coupon['discount_type'] == 'percentage') {
                     $discount = (($total / 100) * $coupon['discount']) > $coupon['max_discount'] ? $coupon['max_discount'] : (($total / 100) * $coupon['discount']);
-                } else {
+                }
+                else {
                     $discount = $coupon['discount'];
                 }
 
@@ -69,19 +76,35 @@ class CouponController extends Controller
                     'status' => 1,
                     'discount' => Helpers::currency_converter($discount),
                     'total' => Helpers::currency_converter($total - $discount),
-                    'messages' => ['0' => translate('coupon_applied_successfully').'!']
+                    'messages' => ['0' => translate('coupon_applied_successfully') . '!']
                 ]);
             }
-        }elseif($coupon && $coupon->coupon_type == 'free_delivery' && ($coupon->customer_id == '0' || $coupon->customer_id == auth('customer')->id())){
+        }
+        elseif ($coupon && $coupon->coupon_type == 'free_delivery' && ($coupon->customer_id == '0' || $coupon->customer_id == $userId)) {
             $total = 0;
             $shipping_fee = 0;
-            foreach (CartManager::get_cart() as $cart) {
-                if($coupon->seller_id == '0' || (is_null($coupon->seller_id) && $cart->seller_is=='admin') || ($coupon->seller_id == $cart->seller_id && $cart->seller_is=='seller')) {
-                    $product_subtotal = $cart['price'] * $cart['quantity'];
-                    $total += $product_subtotal;
-                    if (is_null($coupon->seller_id) || $coupon->seller_id == '0' || $coupon->seller_id == $cart->seller_id) {
-                        $shipping_fee += $cart['shipping_cost'];
+
+            $cart_group_ids = CartManager::get_cart_group_ids();
+            foreach ($cart_group_ids as $group_id) {
+                $cart_group = CartManager::get_cart($group_id);
+                $is_applicable = false;
+
+                foreach ($cart_group as $cart) {
+                    if (is_null($coupon->seller_id) || $coupon->seller_id == '0') {
+                        $is_applicable = true;
                     }
+                    elseif ($coupon->seller_id == $cart->seller_id && $cart->seller_is == 'seller') {
+                        $is_applicable = true;
+                    }
+
+                    if ($is_applicable) {
+                        $product_subtotal = $cart['price'] * $cart['quantity'];
+                        $total += $product_subtotal;
+                    }
+                }
+
+                if ($is_applicable) {
+                    $shipping_fee += CartManager::get_shipping_cost($group_id);
                 }
             }
 
@@ -96,7 +119,7 @@ class CouponController extends Controller
                     'status' => 1,
                     'discount' => Helpers::currency_converter($shipping_fee),
                     'total' => Helpers::currency_converter($total - $shipping_fee),
-                    'messages' => ['0' => translate('coupon_applied_successfully').'!']
+                    'messages' => ['0' => translate('coupon_applied_successfully') . '!']
                 ]);
             }
         }

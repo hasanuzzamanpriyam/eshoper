@@ -36,7 +36,8 @@
                                     name="value">{{$terms_condition->value}}</textarea>
                             </div>
                             <div class="form-group">
-                                <input class="form-control btn--primary" type="submit" value="{{translate('submit')}}" name="btn">
+                                <input class="form-control btn--primary" type="submit" value="{{translate('submit')}}"
+                                    name="btn">
                             </div>
                         </div>
                     </form>
@@ -51,11 +52,12 @@
     <script src="{{asset('/')}}vendor/ckeditor/ckeditor/ckeditor.js"></script>
     <script src="{{asset('/')}}vendor/ckeditor/ckeditor/adapters/jquery.js"></script>
     <script>
-        $('#editor').ckeditor({
-            contentsLangDirection : '{{Session::get('direction')}}',
-        });
+        if (window.CKEDITOR) {
+            CKEDITOR.env.isCompatible = true;
+            $('#editor').ckeditor({
+                contentsLangDirection: '{{Session::get('direction')}}',
+            });
+        }
     </script>
     {{--ck editor--}}
 @endpush
-
-

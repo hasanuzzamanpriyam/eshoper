@@ -302,8 +302,15 @@ class ProductController extends Controller
         $product->video_url      = $request->video_link;
         $product->request_status = Helpers::get_business_settings('new_product_approval') == 1 ? 0 : 1;
         $product->status         = 0;
-        $product->shipping_cost  = $request->product_type == 'physical' ? Convert::usd($request->shipping_cost) : 0;
-        $product->multiply_qty   = ($request->product_type == 'physical') ? ($request->multiplyQTY == 'on' ? 1 : 0) : 0;
+        if ($request->product_type == 'physical') {
+            $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
+            $product->shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
+            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+        } else {
+            $product->is_delivery_free = 1;
+            $product->shipping_cost = 0;
+            $product->multiply_qty = 0;
+        }
 
         if ($request->ajax()) {
             return response()->json([], 200);
@@ -854,8 +861,19 @@ class ProductController extends Controller
         $product->attributes        = $request->product_type == 'physical' ? json_encode($request->choice_attributes) : json_encode([]);
         $product->discount_type     = $request->discount_type;
         $product->current_stock     = $request->product_type == 'physical' ? abs($stock_count) : 0;
-        $product->shipping_cost     = $request->product_type == 'physical' ? (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 ? $product->shipping_cost : Convert::usd($request->shipping_cost)) : 0;
-        $product->multiply_qty      = ($request->product_type == 'physical') ? ($request->multiplyQTY == 'on' ? 1 : 0) : 0;
+        if ($request->product_type == 'physical') {
+            $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
+            if ($product->is_delivery_free) {
+                $product->shipping_cost = 0;
+            } else {
+                $product->shipping_cost = Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 ? $product->shipping_cost : Convert::usd($request->shipping_cost);
+            }
+            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+        } else {
+            $product->is_delivery_free = 1;
+            $product->shipping_cost = 0;
+            $product->multiply_qty = 0;
+        }
 
         if (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 && $product->shipping_cost != Convert::usd($request->shipping_cost)) {
             $product->temp_shipping_cost = Convert::usd($request->shipping_cost);

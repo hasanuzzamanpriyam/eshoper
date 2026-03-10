@@ -1,22 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use App\Model\Admin;
 use App\Model\AdminWallet;
-use App\Model\Cart;
-use App\Model\CartShipping;
 use App\Model\Order;
 use App\Model\OrderDetail;
-use App\Model\OrderTransaction;
 use App\Model\Product;
-use App\Model\Seller;
-use App\Model\SellerWallet;
 use App\Model\ShippingAddress;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use App\CPU\Helpers;
 use App\User;
 use App\CPU\OrderManager;

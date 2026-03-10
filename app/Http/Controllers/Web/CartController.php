@@ -17,6 +17,7 @@ use App\Model\ShippingType;
 use App\Model\Shop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CartController extends Controller
@@ -24,7 +25,9 @@ class CartController extends Controller
     public function __construct(
         private OrderDetail $order_details,
         private Product $product,
-    ) {}
+        )
+    {
+    }
     public function variant_price(Request $request)
     {
         $product = Product::find($request->id);
@@ -40,7 +43,8 @@ class CartController extends Controller
         foreach (json_decode(Product::find($request->id)->choice_options) as $key => $choice) {
             if ($str != null) {
                 $str .= '-' . str_replace(' ', '', $request[$choice->name]);
-            } else {
+            }
+            else {
                 $str .= str_replace(' ', '', $request[$choice->name]);
             }
         }
@@ -49,7 +53,7 @@ class CartController extends Controller
             $count = count(json_decode($product->variation));
             for ($i = 0; $i < $count; $i++) {
                 if (json_decode($product->variation)[$i]->type == $str) {
-                    $tax = $product->tax_model == 'exclude' ? Helpers::tax_calculation(json_decode($product->variation)[$i]->price, $product['tax'], $product['tax_type']) : 0;
+                    $tax = $product->tax_model == 'exclude' ?Helpers::tax_calculation(json_decode($product->variation)[$i]->price, $product['tax'], $product['tax_type']) : 0;
                     $update_tax = $tax * $request->quantity;
                     $discount = Helpers::get_product_discount($product, json_decode($product->variation)[$i]->price);
                     $price = json_decode($product->variation)[$i]->price - $discount + $tax;
@@ -57,8 +61,9 @@ class CartController extends Controller
                     $quantity = json_decode($product->variation)[$i]->qty;
                 }
             }
-        } else {
-            $tax = $product->tax_model == 'exclude' ? Helpers::tax_calculation($product->unit_price, $product['tax'], $product['tax_type']) : 0;
+        }
+        else {
+            $tax = $product->tax_model == 'exclude' ?Helpers::tax_calculation($product->unit_price, $product['tax'], $product['tax_type']) : 0;
             $update_tax = $tax * $request->quantity;
             $discount = Helpers::get_product_discount($product, $product->unit_price);
             $price = $product->unit_price - $discount + $tax;
@@ -81,10 +86,10 @@ class CartController extends Controller
             'price' => \App\CPU\Helpers::currency_converter($price * $request->quantity),
             'discount' => \App\CPU\Helpers::currency_converter($discount),
             'discount_amount' => $discount,
-            'tax' => $product->tax_model == 'exclude' ? \App\CPU\Helpers::currency_converter($tax) : 'incl.',
-            'update_tax' => $product->tax_model == 'exclude' ? \App\CPU\Helpers::currency_converter($update_tax) : 'incl.', // for others theme
+            'tax' => $product->tax_model == 'exclude' ?\App\CPU\Helpers::currency_converter($tax) : 'incl.',
+            'update_tax' => $product->tax_model == 'exclude' ?\App\CPU\Helpers::currency_converter($update_tax) : 'incl.', // for others theme
             'quantity' => $product['product_type'] == 'physical' ? $quantity : 100,
-            'delivery_cost' => isset($delivery_info['delivery_cost']) ? \App\CPU\Helpers::currency_converter($delivery_info['delivery_cost']) : 0,
+            'delivery_cost' => isset($delivery_info['delivery_cost']) ?\App\CPU\Helpers::currency_converter($delivery_info['delivery_cost']) : 0,
             'unit_price' => \App\CPU\Helpers::currency_converter($price), //fasion theme
             'total_unit_price' => \App\CPU\Helpers::currency_converter($unit_price), //fasion theme
             'color_name' => $color_name,
@@ -219,17 +224,20 @@ class CartController extends Controller
                     'redirect_url' => route('shop-cart'),
                     'message' => translate('added_to_cart_successfully!')
                 ];
-            } else {
+            }
+            else {
                 return response()->json(['message' => 'Added to cart successfully'], 200);
             }
-        } elseif ($add_to_cart_count > 0) {
+        }
+        elseif ($add_to_cart_count > 0) {
             if (auth('customer')->check()) {
                 return [
                     'status' => 1,
                     'redirect_url' => route('shop-cart'),
                     'message' => translate($add_to_cart_count . '_item_added_to_cart_successfully!')
                 ];
-            } else {
+            }
+            else {
                 return response()->json(['message' => $add_to_cart_count . ' item added to cart successfully!'], 200);
             }
         } {
@@ -238,7 +246,8 @@ class CartController extends Controller
                     'status' => 0,
                     'message' => translate('all_items_were_not_added_to_cart_as_they_are_currently_unavailable_for_purchase!')
                 ];
-            } else {
+            }
+            else {
                 return response()->json(['message' => 'All items were not added to cart as they are currently unavailable for purchase'], 403);
             }
         }
@@ -265,7 +274,8 @@ class CartController extends Controller
             $variations[$choice->title] = $request[$choice->name];
             if ($str != null) {
                 $str .= '-' . str_replace(' ', '', $request[$choice->name]);
-            } else {
+            }
+            else {
                 $str .= str_replace(' ', '', $request[$choice->name]);
             }
         }
@@ -274,14 +284,15 @@ class CartController extends Controller
             $count = count(json_decode($product->variation));
             for ($i = 0; $i < $count; $i++) {
                 if (json_decode($product->variation)[$i]->type == $str) {
-                    $tax = $product->tax_model == 'exclude' ? Helpers::tax_calculation(json_decode($product->variation)[$i]->price, $product['tax'], $product['tax_type']) : 0;
+                    $tax = $product->tax_model == 'exclude' ?Helpers::tax_calculation(json_decode($product->variation)[$i]->price, $product['tax'], $product['tax_type']) : 0;
                     $discount = Helpers::get_product_discount($product, json_decode($product->variation)[$i]->price);
                     $price = json_decode($product->variation)[$i]->price - $discount + $tax;
                     $quantity = json_decode($product->variation)[$i]->qty;
                 }
             }
-        } else {
-            $tax = $product->tax_model == 'exclude' ? Helpers::tax_calculation($product->unit_price, $product['tax'], $product['tax_type']) : 0;
+        }
+        else {
+            $tax = $product->tax_model == 'exclude' ?Helpers::tax_calculation($product->unit_price, $product['tax'], $product['tax_type']) : 0;
             $discount = Helpers::get_product_discount($product, $product->unit_price);
             $price = $product->unit_price - $discount + $tax;
             $quantity = $product->current_stock;
@@ -294,11 +305,11 @@ class CartController extends Controller
         ])->first();
         if (isset($cart) == false) {
             $cart = Cart::find($request->id);
-            $cart['color']          = $request->has('color') ? $request['color'] : null;
-            $cart['choices']        = json_encode($choices);
+            $cart['color'] = $request->has('color') ? $request['color'] : null;
+            $cart['choices'] = json_encode($choices);
 
-            $cart['variations']     = json_encode($variations);
-            $cart['variant']        = $str;
+            $cart['variations'] = json_encode($variations);
+            $cart['variant'] = $str;
 
             //Check the string and decreases quantity for the stock
             if ($str != null) {
@@ -314,7 +325,8 @@ class CartController extends Controller
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 $price = $product->unit_price;
             }
             $cart['price'] = $price;
@@ -330,7 +342,8 @@ class CartController extends Controller
                 'discount' => \App\CPU\Helpers::currency_converter($discount * $request['quantity']),
                 'data' => view(VIEW_FILE_NAMES['products_cart_details_partials'], compact('request'))->render()
             ];
-        } else {
+        }
+        else {
             return [
                 'status' => 0,
                 'message' => translate('already_added!')
@@ -389,10 +402,13 @@ class CartController extends Controller
         }
 
         // Calculate grand total
-        $grand_total = $sub_total + $total_tax + $total_shipping - $coupon_discount - $total_discount_on_product - $order_wise_shipping_discount;
+        $grand_total = $sub_total + $total_tax + $total_shipping - $coupon_discount - $order_wise_shipping_discount;
+
+        // Calculate total savings for "You have Saved" section
+        $total_savings = $total_discount_on_product + $coupon_discount + $order_wise_shipping_discount;
 
         // Log for debugging
-        \Log::info('Delivery Charge Calculation', [
+        Log::info('Delivery Charge Calculation', [
             'district' => $district,
             'district_id' => $district_id,
             'cart_shipping_cost' => $cart_shipping_cost,
@@ -400,7 +416,8 @@ class CartController extends Controller
             'total_shipping' => $total_shipping,
             'sub_total' => $sub_total,
             'total_tax' => $total_tax,
-            'grand_total' => $grand_total
+            'grand_total' => $grand_total,
+            'total_savings' => $total_savings
         ]);
 
         return response()->json([
@@ -411,6 +428,8 @@ class CartController extends Controller
             'product_shipping' => Helpers::currency_converter($cart_shipping_cost),
             'grand_total' => Helpers::currency_converter($grand_total),
             'grand_total_value' => $grand_total,
+            'total_savings' => Helpers::currency_converter($total_savings),
+            'total_savings_value' => $total_savings,
             'debug' => [
                 'district_received' => $district,
                 'products_without_shipping' => $district_delivery_charge > 0 ? 'yes' : 'no'
