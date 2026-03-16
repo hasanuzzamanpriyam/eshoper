@@ -40,7 +40,6 @@
 @endpush
 
 @section('content')
-
     @php($decimal_point_settings = \App\CPU\Helpers::get_business_settings('decimal_point_settings'))
     <!-- Page Content-->
     <div class="container py-4 __inline-67">

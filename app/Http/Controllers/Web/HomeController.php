@@ -150,14 +150,13 @@ class HomeController extends Controller
     {
         $theme_name = theme_root_path();
         $current_date = date('Y-m-d H:i:s');
-
         $home_categories = $this->category
             ->where('home_status', true)
             ->priority()->get();
 
         $home_categories->map(function ($data) {
-            $current_date = date('Y-m-d H:i:s');
-            $data['products'] = Product::active()
+        $current_date = date('Y-m-d H:i:s');
+        $data['products'] = Product::active()
                 ->with([
                     'flash_deal_product',
                     'wish_list'=>function($query){
@@ -206,7 +205,7 @@ class HomeController extends Controller
                     $rating += $review->rating;
                     $count++;
                 }
-            }
+            } 
             $avg_rating = $rating / ($count == 0 ? 1 : $count);
             $rating_count = $count;
             $seller['average_rating'] = $avg_rating;
