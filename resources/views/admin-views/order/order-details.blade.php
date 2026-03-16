@@ -34,11 +34,14 @@
 @section('content')
 <div class="content container-fluid">
     <!-- Page Title -->
-    <div class="mb-4">
+    <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-4">
         <h2 class="h1 mb-0 text-capitalize d-flex align-items-center gap-2">
             <img src="{{asset('assets/back-end/img/all-orders.png')}}" alt="">
             {{translate('order_Details')}}
         </h2>
+        <div class="text-sm-right">
+            <button class="btn btn--primary" type="button" onclick="submitOrderInfoUpdates()">{{translate('submit')}}</button>
+        </div>
     </div>
     <!-- End Page Title -->
 
@@ -465,7 +468,7 @@
 
                     <div class="">
                         <label class="font-weight-bold title-color fz-14">{{translate('change_order_status')}}</label>
-                        <select name="order_status" onchange="order_status(this.value)"
+                        <select name="order_status" id="order_status"
                             class="status form-control" data-id="{{$order['id']}}">
 
                             <option
@@ -495,7 +498,7 @@
                         <div class="d-flex justify-content-end min-w-100 align-items-center gap-2">
                             <span class="text--primary font-weight-bold">{{ $order->payment_status=='paid' ? translate('paid'):translate('unpaid')}}</span>
                             <label class="switcher payment-status-text">
-                                <input class="switcher_input payment_status" type="checkbox" name="status" value="{{$order->payment_status}}"
+                                <input class="switcher_input" id="payment_status_checkbox" type="checkbox" name="status" value="{{$order->payment_status}}"
                                     {{ $order->payment_status=='paid' ? 'checked':''}}>
                                 <span class="switcher_control switcher_control_add"></span>
                             </label>
@@ -1745,6 +1748,77 @@
     }
 </script>
 <!-- end payment status change -->
+
+<script>
+    function submitOrderInfoUpdates() {
+        let order_status_val = $('#order_status').val();
+        let payment_status_val = $('#payment_status_checkbox').is(':checked') ? 'paid' : 'unpaid';
+
+        Swal.fire({
+            title: '{{translate("are_you_sure_to_change_status")}}?',
+            text: "{{translate('you_will_not_be_able_to_revert_this')}}!",
+            showCancelButton: true,
+            confirmButtonColor: '#377dff',
+            cancelButtonColor: 'secondary',
+            confirmButtonText: '{{translate("yes_change_it")}}!',
+            cancelButtonText: '{{ translate("cancel") }}',
+        }).then((result) => {
+            if (result.value) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                
+                $.ajax({
+                    url: "{{route('admin.orders.status')}}",
+                    method: 'POST',
+                    data: {
+                        "id": '{{$order['id']}}',
+                        "order_status": order_status_val
+                    },
+                    success: function(data) {
+                        if (data.success == 0) {
+                            toastr.warning('{{translate("order_is_already_delivered_you_can_not_change_it")}} !!');
+                            location.reload();
+                        } else if (data.payment_status == 0) {
+                            toastr.warning('{{translate("before_delivered_you_need_to_make_payment_status_paid")}}!');
+                            location.reload();
+                        } else if (data.customer_status == 0) {
+                            toastr.warning('{{translate("account_has_been_deleted_you_can_not_change_the_status")}}!');
+                            location.reload();
+                        } else {
+                            // Update payment status if order status update is successful
+                            $.ajax({
+                                url: "{{route('admin.orders.payment-status')}}",
+                                method: 'POST',
+                                data: {
+                                    "id": '{{$order['id']}}',
+                                    "payment_status": payment_status_val
+                                },
+                                success: function(data2) {
+                                    if (data2.customer_status == 0) {
+                                        toastr.warning('{{translate("account_has_been_deleted_you_can_not_change_the_status")}}!');
+                                    } else {
+                                        toastr.success('{{translate("status_change_successfully")}}!');
+                                    }
+                                    location.reload();
+                                },
+                                error: function() {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    },
+                    error: function() {
+                        toastr.error('{{translate("failed_to_update_status")}}!');
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+</script>
 
 <!-- delivery type -->
 <script>
