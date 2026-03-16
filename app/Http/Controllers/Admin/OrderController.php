@@ -412,11 +412,32 @@ class OrderController extends Controller
     }
 
     public function amount_date_update(Request $request){
+        $user_id = 0;
+        $order = Order::find($request->order_id);
+
+        if($request->has('deliveryman_charge') && $request->has('expected_delivery_date')){
+            $order->deliveryman_charge = $request->deliveryman_charge;
+            $order->expected_delivery_date = $request->expected_delivery_date;
+            
+            try {
+                DB::beginTransaction();
+                self::add_expected_delivery_date_history($request->order_id, $user_id, $request->expected_delivery_date, 'admin');
+                $order->save();
+                DB::commit();
+            }catch(\Exception $ex){
+                DB::rollback();
+                return response()->json(['status' => false], 403);
+            }
+            
+            Helpers::send_order_notification('expected_delivery_date','delivery_man',$order);
+            Helpers::send_order_notification('delivery_man_charge','delivery_man',$order);
+            
+            return response()->json(['status' => true], 200);
+        }
+
         $field_name = $request->field_name;
         $field_val = $request->field_val;
-        $user_id = 0;
 
-        $order = Order::find($request->order_id);
         $order->$field_name = $field_val;
 
         try {

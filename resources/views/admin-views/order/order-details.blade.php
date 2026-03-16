@@ -570,35 +570,43 @@
                             @endif
                         </li>
                         @if (isset($order->delivery_man))
-                        <li class="choose_delivery_man">
+                        <li class="choose_delivery_man mt-3">
                             <label class="font-weight-bold title-color fz-14">
                                 {{translate('deliveryman_will_get')}} ({{ session('currency_symbol') }})
                             </label>
-                            <input type="number" id="deliveryman_charge" onkeyup="amountDateUpdate(this, event)" value="{{ $order->deliveryman_charge }}" name="deliveryman_charge" class="form-control" placeholder="Ex: 20" required>
+                            <input type="number" id="deliveryman_charge" value="{{ $order->deliveryman_charge }}" name="deliveryman_charge" class="form-control" placeholder="Ex: 20" required>
                         </li>
-                        <li class="choose_delivery_man">
+                        <li class="choose_delivery_man mt-3">
                             <label class="font-weight-bold title-color fz-14">
                                 {{translate('expected_delivery_date')}}
                             </label>
-                            <input type="date" onchange="amountDateUpdate(this, event)" value="{{ $order->expected_delivery_date }}" name="expected_delivery_date" id="expected_delivery_date" class="form-control" required>
+                            <input type="date" value="{{ $order->expected_delivery_date }}" name="expected_delivery_date" id="expected_delivery_date" class="form-control" required>
+                        </li>
+                        <li class="choose_delivery_man mt-3" id="update_delivery_info_btn">
+                            <button type="button" class="btn btn--primary w-100" onclick="amountDateUpdateSubmit()">{{translate('update')}}</button>
                         </li>
                         @endif
 
                         <li class="mt-1" id="by_third_party_delivery_service_info">
                             <div class="p-2 bg-light rounded">
-                                <div class="media m-1 gap-3">
-                                    <img class="avatar rounded-circle"
-                                        onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
-                                        src="{{asset('assets/back-end/img/third-party-delivery.png')}}"
-                                        alt="Image">
-                                    <div class="media-body">
-                                        <h5 class="">{{isset($order->delivery_service_name) ? $order->delivery_service_name :translate('not_assign_yet')}}</h5>
-                                        <span class="fz-12 title-color">{{translate('consignment_ID')}} : <span class="font-weight-bold">{{$order->consignment_id}}</span></span>
-                                        <br>
-                                        <span class="fz-12 title-color">{{translate('invoice_no')}} : <span class="font-weight-bold">{{$order->invoice_no}}</span></span>
-                                        <br>
-                                        <span class="fz-12 title-color">{{translate('track_ID')}} : <span class="font-weight-bold">{{$order->third_party_delivery_tracking_id}}</span></span>
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="media m-1 gap-3">
+                                        <img class="avatar rounded-circle"
+                                            onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                            src="{{asset('assets/back-end/img/third-party-delivery.png')}}"
+                                            alt="Image">
+                                        <div class="media-body">
+                                            <h5 class="">{{isset($order->delivery_service_name) ? $order->delivery_service_name :translate('not_assign_yet')}}</h5>
+                                            <span class="fz-12 title-color">{{translate('consignment_ID')}} : <span class="font-weight-bold">{{$order->consignment_id}}</span></span>
+                                            <br>
+                                            <span class="fz-12 title-color">{{translate('invoice_no')}} : <span class="font-weight-bold">{{$order->invoice_no}}</span></span>
+                                            <br>
+                                            <span class="fz-12 title-color">{{translate('track_ID')}} : <span class="font-weight-bold">{{$order->third_party_delivery_tracking_id}}</span></span>
+                                        </div>
                                     </div>
+                                    <button class="btn btn-outline-primary btn-sm square-btn" title="Edit" data-toggle="modal" data-target="#third_party_delivery_service_modal">
+                                        <i class="tio-edit"></i>
+                                    </button>
                                 </div>
                             </div>
                         </li>
@@ -717,8 +725,11 @@
                 </div>
                 @else
                 <div class="card-body">
-                    <div class="media align-items-center">
-                        <span>{{translate('no_shipping_address_found')}}lll</span>
+                    <div class="d-flex gap-2 align-items-center justify-content-between mb-2">
+                        <span>{{translate('no_shipping_address_found')}}</span>
+                        <button class="btn btn-outline-primary btn-sm square-btn" title="Edit" data-toggle="modal" data-target="#shippingAddressUpdateModal">
+                            <i class="tio-edit"></i>
+                        </button>
                     </div>
                 </div>
                 @endif
@@ -1026,7 +1037,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="phone_number" class="title-color">{{translate('phone_number')}}</label>
-                                    <input type="tel" name="phone_number" id="phone_number" value="{{$shipping_address ? $shipping_address->phone  : ''}}" class="form-control" placeholder="{{ translate('ex') }}:32416436546" required>
+                                    <input type="tel" name="phone_number" id="phone_number" value="{{$shipping_address ? $shipping_address->phone   : ''}}" class="form-control" placeholder="{{ translate('ex') }}:32416436546" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -1830,9 +1841,17 @@
         });
     }
 
-    function amountDateUpdate(t, e) {
-        let field_name = $(t).attr('name');
-        let field_val = $(t).val();
+    function amountDateUpdateSubmit() {
+        let deliveryman_charge = $('#deliveryman_charge').val();
+        let expected_delivery_date = $('#expected_delivery_date').val();
+
+        if(!deliveryman_charge || !expected_delivery_date){
+            toastr.error('{{ translate("please_fill_all_required_fields") }}', {
+                CloseButton: true,
+                ProgressBar: true
+            });
+            return;
+        }
 
         $.ajaxSetup({
             headers: {
@@ -1843,19 +1862,18 @@
             url: "{{route('admin.orders.amount-date-update')}}",
             method: 'POST',
             data: {
-                'order_id': '{{$order['
-                id ']}}',
-                'field_name': field_name,
-                'field_val': field_val
+                'order_id': '{{$order['id']}}',
+                'deliveryman_charge': deliveryman_charge,
+                'expected_delivery_date': expected_delivery_date
             },
             success: function(data) {
                 if (data.status == true) {
-                    toastr.success('{{ translate("deliveryman_charge_add_successfully") }}', {
+                    toastr.success('{{ translate("deliveryman_info_updated_successfully") }}', {
                         CloseButton: true,
                         ProgressBar: true
                     });
                 } else {
-                    toastr.error('{{ translate("failed_to_add_deliveryman_charge") }}', {
+                    toastr.error('{{ translate("failed_to_update_deliveryman_info") }}', {
                         CloseButton: true,
                         ProgressBar: true
                     });
