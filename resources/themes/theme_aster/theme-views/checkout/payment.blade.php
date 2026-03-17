@@ -92,12 +92,9 @@
                                             <button class="payment-method border-0 d-flex align-iems-center gap-3 digital-payment-card overflow-hidden" type="submit">
                                                 <img width="100" src="{{asset('storage/payment_modules/gateway_image')}}/{{$additional_data != null ? $additional_data->gateway_image : ''}}"
                                                     class="dark-support" alt="" onerror="this.src='{{theme_asset('assets/img/image-place-holder-4_1.png')}}'">
-                                            </button>
-                                        </label>
-                                    </form>
-                                </li>
+                                    @endif
                                 @endforeach
-
+                                
                                 @if(isset($offline_payment) && $offline_payment['status'])
                                 <li>
                                     <form action="{{route('offline-payment-checkout-complete')}}" method="get" class="digital_payment d--none">
@@ -189,7 +186,6 @@
                                                 </div>
 
                                                 <div class="">
-
                                                     <select class="form-select" id="pay_offline_method" name="payment_by" required>
                                                         <option value="">{{ translate('select_Payment_Method') }}</option>
                                                         @foreach ($offline_payment_methods as $method)

@@ -502,6 +502,53 @@
                 ProgressBar: true
             });
         }
+
+        function amountDateUpdateSubmit() {
+            let deliveryman_charge = $('#deliveryman_charge').val();
+            let expected_delivery_date = $('#expected_delivery_date').val();
+
+            if(!deliveryman_charge || !expected_delivery_date){
+                toastr.error('{{ translate("please_fill_all_required_fields") }}', {
+                    CloseButton: true,
+                    ProgressBar: true
+                });
+                return;
+            }
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{route('admin.orders.amount-date-update')}}",
+                method: 'POST',
+                data: {
+                    'order_id': '{{$order['id']}}',
+                    'deliveryman_charge': deliveryman_charge,
+                    'expected_delivery_date': expected_delivery_date
+                },
+                success: function(data) {
+                    if (data.status == true) {
+                        toastr.success('{{ translate("deliveryman_info_updated_successfully") }}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    } else {
+                        toastr.error('{{ translate("failed_to_update_deliveryman_info") }}', {
+                            CloseButton: true,
+                            ProgressBar: true
+                        });
+                    }
+                },
+                error: function() {
+                    toastr.error('Add valid data', {
+                        CloseButton: true,
+                        ProgressBar: true
+                    });
+                }
+            });
+        }
     </script>
 
 @endpush

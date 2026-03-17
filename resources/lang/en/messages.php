@@ -6878,4 +6878,9 @@
   'discount_on_purchase' => 'Discount on purchase',
   'order_Details' => 'Order Details',
   'add_meta_tag' => 'Add meta tag',
+  'please_fill_all_required_fields' => 'Please fill all required fields',
+  'deliveryman_info_updated_successfully' => 'Deliveryman info updated successfully',
+  'failed_to_update_deliveryman_info' => 'Failed to update deliveryman info',
+  'are_you_sure_to_change_status' => 'Are you sure to change status',
+  'failed_to_update_status' => 'Failed to update status',
 );

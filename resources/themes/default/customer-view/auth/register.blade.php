@@ -80,7 +80,6 @@
                                 </label>
                             </div>
                         </div>
-
                     </div>
 
                     @if ($web_config['ref_earning_status'])
