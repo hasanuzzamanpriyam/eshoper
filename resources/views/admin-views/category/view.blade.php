@@ -44,12 +44,17 @@
                                         <div class="form-group {{$lang != $default_lang ? 'd-none':''}} lang_form"
                                             id="{{$lang}}-form">
                                             <label class="title-color">{{translate('category_Name')}}<span class="text-danger">*</span> ({{strtoupper($lang)}})</label>
-                                            <input type="text" name="name[]" class="form-control"
+                                            <input type="text" name="name[]" class="form-control category-name"
                                                 placeholder="{{translate('new_Category')}}" {{$lang == $default_lang? 'required':''}}>
                                         </div>
                                         <input type="hidden" name="lang[]" value="{{$lang}}">
                                         @endforeach
                                         <input name="position" value="0" class="d-none">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="title-color">{{translate('slug')}}<span class="text-danger">*</span></label>
+                                        <input type="text" name="slug" class="form-control" id="category-slug"
+                                            placeholder="{{translate('slug')}}" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="title-color" for="priority">{{translate('priority')}}
@@ -307,6 +312,15 @@
 
         $("#customFileEg1").change(function () {
             readURL(this);
+        });
+
+        $('.category-name').on('keyup keypress change', function() {
+            var name = $(this).val();
+            var slug = name.toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^a-z0-9-]/g, '')
+                .replace(/-+/g, '-');
+            $('#category-slug').val(slug);
         });
     </script>
 @endpush

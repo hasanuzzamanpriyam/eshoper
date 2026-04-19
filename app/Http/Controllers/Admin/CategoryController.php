@@ -57,7 +57,7 @@ class CategoryController extends Controller
 
         $category = new Category;
         $category->name = $request->name[array_search('en', $request->lang)];
-        $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
+        $category->slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->name[array_search('en', $request->lang)]);
         $category->icon = ImageManager::upload('category/', 'webp', $request->file('image'));
         $category->parent_id = 0;
         $category->position = 0;
@@ -94,7 +94,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($request->id);
         $category->name = $request->name[array_search('en', $request->lang)];
-        $category->slug = Str::slug($request->name[array_search('en', $request->lang)]);
+        $category->slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->name[array_search('en', $request->lang)]);
         if ($request->image) {
             $category->icon = ImageManager::update('category/', $category->icon, 'webp', $request->file('image'));
         }

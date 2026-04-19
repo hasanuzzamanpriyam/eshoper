@@ -63,12 +63,19 @@
                                                 ({{strtoupper($lang)}})</label>
                                             <input type="text" name="name[]"
                                                 value="{{$lang==$default_lang?$category['name']:($translate[$lang]['name']??'')}}"
-                                                class="form-control"
+                                                class="form-control category-name"
                                                 placeholder="{{translate('new_Category')}}" {{$lang == $default_lang? 'required':''}}>
                                         </div>
                                         <input type="hidden" name="lang[]" value="{{$lang}}">
                                     </div>
                                     @endforeach
+
+                                    <div class="form-group">
+                                        <label class="title-color">{{translate('slug')}}<span class="text-danger">*</span></label>
+                                        <input type="text" name="slug" class="form-control" id="category-slug"
+                                            value="{{$category->slug}}"
+                                            placeholder="{{translate('slug')}}" required>
+                                    </div>
 
                                     <div class="form-group">
                                         <label class="title-color" for="priority">{{translate('priority')}}</label>
@@ -168,6 +175,15 @@
 
         $("#customFileEg1").change(function () {
             readURL(this);
+        });
+
+        $('.category-name').on('keyup keypress change', function() {
+            var name = $(this).val();
+            var slug = name.toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^a-z0-9-]/g, '')
+                .replace(/-+/g, '-');
+            $('#category-slug').val(slug);
         });
     </script>
 @endpush
