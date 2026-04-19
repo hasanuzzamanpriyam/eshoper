@@ -18,7 +18,7 @@ class CompareController extends Controller
     }
     public function index(){
         $attributes = [];
-        $compare_lists = $this->product_compare->with('product')->whereHas('product')->where('user_id', auth('customer')->id())->get();
+        $compare_lists = $this->product_compare->with(['product.category'])->whereHas('product')->where('user_id', auth('customer')->id())->get();
         if(theme_root_path()=='theme_fashion' || theme_root_path() == 'theme_all_purpose'){
             $attributes = Attribute::all();
         }

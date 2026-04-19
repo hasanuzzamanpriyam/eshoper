@@ -10,7 +10,7 @@
                 </div>
                 <div class="category-product-view-all">
                     <a class="text-capitalize view-all-text text-nowrap" style="color: {{$web_config['primary_color']}}!important"
-                    href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">{{ translate('view_all')}}
+                    href="{{route('products',['slug'=> $category['slug']])}}">{{ translate('view_all')}}
                         <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i>
                     </a>
 

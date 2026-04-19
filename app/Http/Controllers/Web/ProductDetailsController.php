@@ -41,7 +41,7 @@ class ProductDetailsController extends Controller
     }
 
     public function default_theme($slug){
-        $product = Product::active()->with(['reviews','seller.shop'])->where('slug', $slug)->first();
+        $product = Product::active()->with(['reviews','seller.shop', 'category'])->where('slug', $slug)->first();
         if ($product != null) {
             $overallRating = ProductManager::get_overall_rating($product->reviews);
             $wishlist_status = Wishlist::where(['product_id'=>$product->id, 'customer_id'=>auth('customer')->id()])->count();
@@ -95,7 +95,7 @@ class ProductDetailsController extends Controller
             },
             'compare_list'=>function($query){
                 return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
-            }
+            }, 'category'
             ])->where('slug', $slug)->first();
         if ($product != null) {
             $current_date = date('Y-m-d H:i:s');
@@ -184,7 +184,7 @@ class ProductDetailsController extends Controller
 
     public function theme_fashion($slug)
     {
-        $product = Product::active()->with(['reviews','seller.shop','compare_list'=>function($query){
+        $product = Product::active()->with(['reviews','seller.shop', 'category', 'compare_list'=>function($query){
             return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
         }])->where('slug', $slug)->first();
 
@@ -337,7 +337,7 @@ class ProductDetailsController extends Controller
     }
     public function theme_all_purpose($slug)
     {
-        $product = Product::active()->with(['reviews','seller.shop'])->where('slug', $slug)->first();
+        $product = Product::active()->with(['reviews','seller.shop', 'category'])->where('slug', $slug)->first();
         if ($product != null) {
 
             $tags = ProductTag::where('product_id', $product->id)->pluck('tag_id');

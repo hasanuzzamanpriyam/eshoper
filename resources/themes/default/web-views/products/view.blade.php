@@ -251,7 +251,7 @@
                                     <div class="menu--caret-accordion">
                                         <div class="card-header flex-between">
                                             <div>
-                                                <label class="for-hover-lable cursor-pointer" onclick="location.href='{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}'">
+                                                <label class="for-hover-lable cursor-pointer" onclick="location.href='{{route('products',['slug'=> $category['slug']])}}'">
                                                     {{$category['name']}}
                                                 </label>
                                             </div>
@@ -270,7 +270,7 @@
                                                 <div class="menu--caret-accordion">
                                                     <div class="for-hover-lable card-header flex-between">
                                                         <div>
-                                                            <label class="cursor-pointer" onclick="location.href='{{route('products',['id'=> $child['id'],'data_from'=>'category','page'=>1])}}'">
+                                                            <label class="cursor-pointer" onclick="location.href='{{route('products',['slug'=> $child['slug']])}}'">
                                                                 {{$child['name']}}
                                                             </label>
                                                         </div>
@@ -287,7 +287,7 @@
                                                         style="display: none">
                                                         @foreach($child->childes as $ch)
                                                             <div class="card-header">
-                                                                <label class="for-hover-lable d-block cursor-pointer text-left" onclick="location.href='{{route('products',['id'=> $ch['id'],'data_from'=>'category','page'=>1])}}'">
+                                                                <label class="for-hover-lable d-block cursor-pointer text-left" onclick="location.href='{{route('products',['slug'=> $ch['slug']])}}'">
                                                                     {{$ch['name']}}
                                                                 </label>
                                                             </div>

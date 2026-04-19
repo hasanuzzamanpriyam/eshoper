@@ -2,14 +2,14 @@
     @foreach($category->childes as $c)
         <div class="col-md-3 mt-4">
             <label class="text-center"
-                   onclick="location.href='{{route('products',['id'=> $c['id'],'data_from'=>'category','page'=>1])}}'"
+                   onclick="location.href='{{route('products',['slug'=> $c['slug']])}}'"
                    style="padding: 10px;border: 1px solid #0000001f;width: 100%;cursor: pointer;background: white">
                 {{$c['name']}}
             </label>
             <ul class="list-group">
                 @foreach($c->childes as $child)
                     <li class="list-group-item" style="cursor: pointer"
-                        onclick="location.href='{{route('products',['id'=> $child['id'],'data_from'=>'category','page'=>1])}}'">
+                        onclick="location.href='{{route('products',['slug'=> $child['slug']])}}'">
                         {{$child['name']}}
                     </li>
                 @endforeach
@@ -18,6 +18,6 @@
     @endforeach
 @else
     <div class="col-md-12 text-center mt-5">
-        <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}" class="btn btn--primary">{{translate('view_Products')}}</a>
+        <a href="{{route('products',['slug'=> $category['slug']])}}" class="btn btn--primary">{{translate('view_Products')}}</a>
     </div>
 @endif

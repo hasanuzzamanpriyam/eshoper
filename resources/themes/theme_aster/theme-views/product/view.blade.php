@@ -143,7 +143,7 @@
                                         @foreach($categories as $category)
                                         <li>
                                             <div class="d-flex justify-content-between">
-                                                <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">{{$category['name']}}</a>
+                                                <a href="{{route('products',['slug'=> $category['slug']])}}">{{$category['name']}}</a>
                                                 @if ($category->childes->count() > 0)
                                                 <span>
                                                     <i class="bi bi-chevron-right"></i>
@@ -156,7 +156,7 @@
                                                 @foreach($category->childes as $child)
                                                 <li>
                                                     <div class="d-flex justify-content-between">
-                                                        <a href="{{route('products',['id'=> $child['id'],'data_from'=>'category','page'=>1])}}">{{$child['name']}}</a>
+                                                        <a href="{{route('products',['slug'=> $child['slug']])}}">{{$child['name']}}</a>
                                                         @if ($child->childes->count() > 0)
                                                         <span>
                                                             <i class="bi bi-chevron-right"></i>
@@ -169,7 +169,7 @@
                                                         @foreach($child->childes as $ch)
                                                         <li>
                                                             <label class="custom-checkbox">
-                                                                <a href="{{route('products',['id'=> $ch['id'],'data_from'=>'category','page'=>1])}}">{{$ch['name']}}</a>
+                                                                <a href="{{route('products',['slug'=> $ch['slug']])}}">{{$ch['name']}}</a>
                                                             </label>
                                                         </li>
                                                         @endforeach

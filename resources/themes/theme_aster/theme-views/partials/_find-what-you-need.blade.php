@@ -113,13 +113,13 @@
                                                             <div class="text-muted">{{$category['product_count']}} {{translate('products')}}</div>
                                                         </div>
 
-                                                        <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}" class="btn-link">{{translate('view_all')}}<i
+                                                        <a href="{{route('products',['slug'=> $category['slug']])}}" class="btn-link">{{translate('view_all')}}<i
                                                                 class="bi bi-chevron-right text-primary"></i></a>
                                                     </div>
 
                                                     <div class="find-what-you-need-items">
                                                         @foreach($category['childes'] as $key=>$sub_category)
-                                                            <a href="{{route('products',['id'=> $sub_category['id'],'data_from'=>'category','page'=>1])}}"
+                                                            <a href="{{route('products',['slug'=> $sub_category['slug']])}}"
                                                                class="d-flex flex-column gap-2 mb-3 align-items-center">
                                                                 <div class="img-wrap bg-white w-100 rounded justify-content-center d-flex">
                                                                     <div class="floting-text">
@@ -172,13 +172,13 @@
                                                     <div class="text-muted">{{$category['product_count']}} {{translate('products')}}</div>
                                                 </div>
 
-                                                <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}" class="btn-link">{{translate('view_all')}}<i
+                                                <a href="{{route('products',['slug'=> $category['slug']])}}" class="btn-link">{{translate('view_all')}}<i
                                                         class="bi bi-chevron-right text-primary"></i></a>
                                             </div>
 
                                             <div class="auto-col gap-3" style="--minWidth: 3.75rem; --maxWidth: 5rem">
                                                 @foreach($category['childes'] as $key=>$sub_category)
-                                                    <a href="{{route('products',['id'=> $sub_category['id'],'data_from'=>'category','page'=>1])}}"
+                                                    <a href="{{route('products',['slug'=> $sub_category['slug']])}}"
                                                         class="d-flex flex-column gap-2 mb-3 align-items-start">
                                                         <div
                                                             class="avatar avatar-xxl ov-hidden hover-zoom-in rounded">

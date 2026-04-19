@@ -191,20 +191,20 @@
                                     @foreach($categories as $key=>$category)
                                     <li>
                                         <a href="javascript:">
-                                            <span onclick="location.href='{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}'">{{ $category['name'] }}</span>
+                                            <span onclick="location.href='{{route('products',['slug'=> $category['slug']])}}'">{{ $category['name'] }}</span>
                                         </a>
                                         @if ($category->childes->count() > 0)
                                             <ul class="sub_menu">
                                                 @foreach($category['childes'] as $subCategory)
                                                 <li>
                                                     <a href="javascript:">
-                                                        <span onclick="location.href='{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}'">{{$subCategory['name']}}</span>
+                                                        <span onclick="location.href='{{route('products',['slug'=> $subCategory['slug']])}}'">{{$subCategory['name']}}</span>
                                                     </a>
                                                     @if($subCategory->childes->count()>0)
                                                     <ul class="sub_menu">
                                                         @foreach($subCategory['childes'] as $subSubCategory)
                                                             <li>
-                                                                <a href="{{route('products',['id'=> $subSubCategory['id'],'data_from'=>'category','page'=>1])}}">
+                                                                <a href="{{route('products',['slug'=> $subSubCategory['slug']])}}">
                                                                     {{$subSubCategory['name']}}
                                                                 </a>
                                                             </li>
@@ -327,21 +327,21 @@
                             @foreach($categories as $key=>$category)
                                 @if($key<8)
                                     <li class="{{ $category->childes->count() > 0 ? 'menu-item-has-children':'' }}">
-                                        <a href="javascript:" onclick="location.href='{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}'">
+                                        <a href="javascript:" onclick="location.href='{{route('products',['slug'=> $category['slug']])}}'">
                                             {{$category['name']}}
                                         </a>
                                         @if ($category->childes->count() > 0)
                                         <ul class="sub-menu">
                                             @foreach($category['childes'] as $subCategory)
                                             <li class="{{ $subCategory->childes->count()>0 ? 'menu-item-has-children':'' }}">
-                                                <a href="javascript:" onclick="location.href='{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}'">
+                                                <a href="javascript:" onclick="location.href='{{route('products',['slug'=> $subCategory['slug']])}}'">
                                                     {{$subCategory['name']}}
                                                 </a>
                                                 @if($subCategory->childes->count()>0)
                                                 <ul class="sub-menu">
                                                     @foreach($subCategory['childes'] as $subSubCategory)
                                                         <li>
-                                                            <a href="{{route('products',['id'=> $subSubCategory['id'],'data_from'=>'category','page'=>1])}}">
+                                                            <a href="{{route('products',['slug'=> $subSubCategory['slug']])}}">
                                                                 {{$subSubCategory['name']}}
                                                             </a>
                                                         </li>

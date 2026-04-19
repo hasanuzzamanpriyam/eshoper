@@ -6,7 +6,7 @@
                     <div class="border-bottom gap-3 d-flex align-items-start justify-content-between mb-30">
                         <h3 class="styled-title">{{Str::limit($category['name'],18)}}</h3>
                         @if(count($category['products']) > 0)
-                            <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}" class="btn-link">{{translate('view_all')}}
+                            <a href="{{route('products',['slug'=> $category['slug']])}}" class="btn-link">{{translate('view_all')}}
                                 <i class="bi bi-chevron-right text-primary"></i></a>
                         @endif
                     </div>

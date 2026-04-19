@@ -20,7 +20,7 @@
                                 @foreach($categories as $key=>$category)
                                     @if ($key<10)
                                         <div class="text-center __m-5px __cate-item">
-                                            <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
+                                            <a href="{{route('products',['slug'=> $category['slug']])}}">
                                                 <div class="__img">
                                                     <img
                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
@@ -39,7 +39,7 @@
                                 @foreach($categories as $key=>$category)
                                     @if ($key<10)
                                         <div class="text-center m-0 __cate-item w-100">
-                                            <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
+                                            <a href="{{route('products',['slug'=> $category['slug']])}}">
                                                 <div class="__img mw-100 h-auto">
                                                     <img
                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"

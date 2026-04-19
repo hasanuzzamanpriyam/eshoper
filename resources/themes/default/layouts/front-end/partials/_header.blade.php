@@ -316,7 +316,7 @@
                                     <li class="dropdown">
 
                                         <a <?php if ($category->childes->count() > 0) echo ""?>
-                                        href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">
+                                        href="{{route('products',['slug'=> $category['slug']])}}">
                                             <span>{{$category['name']}}</span>
 
                                         </a>
@@ -331,7 +331,7 @@
                                                 style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
                                                 @foreach($category['childes'] as $subCategory)
                                                     <li class="dropdown">
-                                                        <a  href="{{route('products',['id'=> $subCategory['id'],'data_from'=>'category','page'=>1])}}">
+                                                        <a  href="{{route('products',['slug'=> $subCategory['slug']])}}">
                                                             <span>{{$subCategory['name']}}</span>
                                                         </a>
 
@@ -344,7 +344,7 @@
                                                                 @foreach($subCategory['childes'] as $subSubCategory)
                                                                     <li>
                                                                         <a class="dropdown-item"
-                                                                           href="{{route('products',['id'=> $subSubCategory['id'],'data_from'=>'category','page'=>1])}}">{{$subSubCategory['name']}}</a>
+                                                                           href="{{route('products',['slug'=> $subSubCategory['slug']])}}">{{$subSubCategory['name']}}</a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -485,15 +485,15 @@
                     <ul class="category-menu">
                         @foreach ($categories as $key=>$category)
                             <li>
-                                <a href="{{route('products',['id'=> $category['id'],'data_from'=>'category','page'=>1])}}">{{$category->name}}</a>
+                                <a href="{{route('products',['slug'=> $category['slug']])}}">{{$category->name}}</a>
                                 @if ($category->childes->count() > 0)
                                     <div class="mega_menu z-2">
                                         @foreach ($category->childes as $key=>$sub_category)
                                             <div class="mega_menu_inner">
-                                                <h6><a href="{{route('products',['id'=> $sub_category['id'],'data_from'=>'category','page'=>1])}}">{{$sub_category->name}}</a></h6>
+                                                <h6><a href="{{route('products',['slug'=> $sub_category['slug']])}}">{{$sub_category->name}}</a></h6>
                                                 @if ($sub_category->childes->count() >0)
                                                     @foreach ($sub_category->childes as $sub_sub_category)
-                                                        <div><a href="{{route('products',['id'=> $sub_sub_category['id'],'data_from'=>'category','page'=>1])}}">{{$sub_sub_category->name}}</a></div>
+                                                        <div><a href="{{route('products',['slug'=> $sub_sub_category['slug']])}}">{{$sub_sub_category->name}}</a></div>
                                                     @endforeach
                                                 @endif
                                             </div>

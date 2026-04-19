@@ -22,8 +22,14 @@ use function App\CPU\translate;
 
 class ProductListController extends Controller
 {
-    public function products(Request $request)
+    public function products(Request $request, $slug = null)
     {
+        if ($slug) {
+            $category = Category::where('slug', $slug)->first();
+            if ($category) {
+                $request->merge(['data_from' => 'category', 'id' => $category->id]);
+            }
+        }
         $theme_name = theme_root_path();
 
         return match ($theme_name) {
@@ -66,7 +72,7 @@ class ProductListController extends Controller
     public function searchedProducts(Request $request)
     {
         $name = $request->name;
-        $category_id = $request->category_id ?? null;
+        $category_slug = $request->category_slug ?? null;
 
         if (strlen($name) < 2) {
             return response()->json(['result' => '']);

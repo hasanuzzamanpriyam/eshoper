@@ -1033,10 +1033,9 @@
                 </div>
                 <div class="view_all d-flex justify-content-center align-items-center">
                     <div>
-                        @php($category=json_decode($product['category_ids']))
-                        @if($category)
+                        @if($product->category)
                         <a class="text-capitalize view-all-text" style="color:{{$web_config['primary_color']}} !important;{{Session::get('direction') === "rtl" ? 'margin-left:10px;' : 'margin-right: 8px;'}}"
-                            href="{{route('products',['id'=> $category[0]->id,'data_from'=>'category','page'=>1])}}">{{ translate('view_all')}}
+                            href="{{route('products',['slug'=> $product->category->slug])}}">{{ translate('view_all')}}
                             <i class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 ' : 'right ml-1 mr-n1'}}"></i>
                         </a>
                         @endif
