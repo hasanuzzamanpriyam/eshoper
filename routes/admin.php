@@ -385,6 +385,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('bulk-import', 'ProductController@bulk_import_data');
             Route::get('bulk-export', 'ProductController@bulk_export_data')->name('bulk-export');
             Route::get('barcode/{id}', 'ProductController@barcode')->name('barcode');
+            Route::any('slug-check', 'ProductController@slug_check')->name('slug-check');
             Route::get('barcode/generate', 'ProductController@barcode_generate')->name('barcode.generate');
         });
 

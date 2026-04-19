@@ -6883,4 +6883,5 @@
   'failed_to_update_deliveryman_info' => 'Failed to update deliveryman info',
   'are_you_sure_to_change_status' => 'Are you sure to change status',
   'failed_to_update_status' => 'Failed to update status',
+  'slug_already_exists' => 'Slug already exists',
 );

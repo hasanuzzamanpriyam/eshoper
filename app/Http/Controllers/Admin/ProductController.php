@@ -127,6 +127,7 @@ class ProductController extends BaseController
             'discount'             => 'required|gt:-1',
             'shipping_cost'        => 'required_if:product_type,==,physical|gt:-1',
             'code'                 => 'required|numeric|min:1|digits_between:6,20|unique:products',
+            'slug'                 => 'required|unique:products',
             'minimum_order_qty'    => 'required|numeric|min:1',
         ], [
             'image.required'                   => translate('product_thumbnail_is_required!'),
@@ -190,7 +191,7 @@ class ProductController extends BaseController
         $p->added_by = "admin";
         $p->name     = $request->name[array_search('en', $request->lang)];
         $p->code     = $request->code;
-        $p->slug     = Str::slug($request->name[array_search('en', $request->lang)], '-') . '-' . Str::random(6);
+        $p->slug     = $request->slug;
         $p->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
 
 
@@ -450,6 +451,7 @@ public function update(Request $request, $id)
             'discount'              => 'required|gt:-1',
             'shipping_cost'         => 'required_if:product_type,==,physical|gt:-1',
             'code'                  => 'required|numeric|min:1|digits_between:6,20|unique:products,code,' . $product->id,
+            'slug'                  => 'required|unique:products,slug,' . $product->id,
             'minimum_order_qty'     => 'required|numeric|min:1',
         ], [
             'name.required'                     => 'Product name is required!',
@@ -506,7 +508,7 @@ public function update(Request $request, $id)
 
         $product->name = $request->name[array_search('en', $request->lang)];
         $product->code = $request->code;
-        $product->slug = Str::slug($request->name[array_search('en', $request->lang)], '-') . '-' . Str::random(6);
+        $product->slug = $request->slug;
         $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
         $product->product_type = $request->product_type;
         $product->minimum_order_qty = $request->minimum_order_qty;
@@ -1207,5 +1209,19 @@ public function update(Request $request, $id)
         $product = Product::findOrFail($id);
         $limit =  $request->limit ?? 4;
         return view('admin-views.product.barcode', compact('product', 'limit'));
+    }
+
+    public function slug_check(Request $request)
+    {
+        $id = $request->id;
+        $slug = $request->slug;
+        $exists = Product::where('slug', $slug)->when($id, function ($query) use ($id) {
+            return $query->where('id', '!=', $id);
+        })->exists();
+
+        if ($exists) {
+            return response()->json(['status' => false, 'message' => translate('slug_already_exists')]);
+        }
+        return response()->json(['status' => true]);
     }
 }

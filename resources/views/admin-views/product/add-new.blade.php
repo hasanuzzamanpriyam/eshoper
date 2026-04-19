@@ -65,6 +65,13 @@
                             <input type="text" {{ $lang == $default_lang ? 'required' : '' }} name="name[]"
                                 id="{{ $lang }}_name" class="form-control" placeholder="New Product">
                         </div>
+                        @if($lang == $default_lang)
+                            <div class="form-group">
+                                <label class="title-color" for="slug">{{ translate('slug') }}</label>
+                                <input type="text" name="slug" id="slug" class="form-control" placeholder="Ex: apple-iphone-12" required>
+                                <div id="slug-warning" class="text-danger mt-1"></div>
+                            </div>
+                        @endif
                         <input type="hidden" name="lang[]" value="{{ $lang }}">
                         <div class="form-group pt-4">
                             <label class="title-color" for="{{ $lang }}_description">{{ translate('description') }}
@@ -1321,5 +1328,50 @@
         function removeMetaTagField(button) {
             button.parentElement.remove();
         }
+
+        $(document).ready(function () {
+            let isSlugEdited = false;
+
+            $('#en_name').on('keyup', function () {
+                if (!isSlugEdited) {
+                    let name = $(this).val();
+                    let slug = name.toLowerCase()
+                        .replace(/[^\w ]+/g, '')
+                        .replace(/ +/g, '-');
+                    $('#slug').val(slug);
+                    checkSlug(slug);
+                }
+            });
+
+            $('#slug').on('keyup', function () {
+                isSlugEdited = true;
+                checkSlug($(this).val());
+            });
+
+            function checkSlug(slug) {
+                if (slug.length > 0) {
+                    $.ajax({
+                        url: "{{ route('admin.product.slug-check') }}",
+                        method: "GET",
+                        data: { slug: slug },
+                        success: function (data) {
+                            if (data.status === false) {
+                                $('#slug-warning').text(data.message);
+                                $('#slug').addClass('border-danger');
+                                $('button[type="button"][onclick="check()"]').attr('disabled', true);
+                            } else {
+                                $('#slug-warning').text('');
+                                $('#slug').removeClass('border-danger');
+                                $('button[type="button"][onclick="check()"]').attr('disabled', false);
+                            }
+                        }
+                    });
+                } else {
+                    $('#slug-warning').text('');
+                    $('#slug').removeClass('border-danger');
+                    $('button[type="button"][onclick="check()"]').attr('disabled', false);
+                }
+            }
+        });
     </script>
 @endpush

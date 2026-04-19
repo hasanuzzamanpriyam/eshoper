@@ -77,6 +77,13 @@
                                             value="{{$translate[$lang]['name'] ?? $product['name']}}" class="form-control"
                                             placeholder="{{translate('new_Product')}}" required>
                                     </div>
+                                    @if($lang == 'en')
+                                        <div class="form-group pb-4">
+                                            <label class="title-color" for="slug">{{ translate('slug') }}</label>
+                                            <input type="text" name="slug" id="slug" class="form-control" value="{{ $product->slug }}" placeholder="Ex: apple-iphone-12" required>
+                                            <div id="slug-warning" class="text-danger mt-1"></div>
+                                        </div>
+                                    @endif
                                     <input type="hidden" name="lang[]" value="{{$lang}}">
                                     <div class="form-group pt-4">
                                         <label class="title-color">{{translate('description')}}
@@ -1595,5 +1602,53 @@
                 document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
             }
         }
+
+        $(document).ready(function () {
+            let isSlugEdited = true;
+
+            $('#en_name').on('keyup', function () {
+                if (!isSlugEdited) {
+                    let name = $(this).val();
+                    let slug = name.toLowerCase()
+                        .replace(/[^\w ]+/g, '')
+                        .replace(/ +/g, '-');
+                    $('#slug').val(slug);
+                    checkSlug(slug);
+                }
+            });
+
+            $('#slug').on('keyup', function () {
+                isSlugEdited = true;
+                checkSlug($(this).val());
+            });
+
+            function checkSlug(slug) {
+                if (slug.length > 0) {
+                    $.ajax({
+                        url: "{{ route('admin.product.slug-check') }}",
+                        method: "GET",
+                        data: {
+                            slug: slug,
+                            id: "{{ $product->id }}"
+                        },
+                        success: function (data) {
+                            if (data.status === false) {
+                                $('#slug-warning').text(data.message);
+                                $('#slug').addClass('border-danger');
+                                $('button[type="submit"]').attr('disabled', true);
+                            } else {
+                                $('#slug-warning').text('');
+                                $('#slug').removeClass('border-danger');
+                                $('button[type="submit"]').attr('disabled', false);
+                            }
+                        }
+                    });
+                } else {
+                    $('#slug-warning').text('');
+                    $('#slug').removeClass('border-danger');
+                    $('button[type="submit"]').attr('disabled', false);
+                }
+            }
+        });
     </script>
 @endpush
