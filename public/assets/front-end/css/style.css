@@ -8423,3 +8423,40 @@ section.bg-transparent{
 .col-12.col-xl-9.__top-slider-images .pl-xl-2 {
     padding-left: 0 !important;
 }
+
+/* CKEditor Styles */
+mark {
+    background-color: yellow;
+    color: black;
+}
+
+.marker {
+    background-color: Yellow;
+}
+
+
+mark.marker-yellow {
+    background-color: #faf3a3;
+}
+
+mark.marker-green {
+    background-color: #afefbc;
+}
+
+mark.marker-pink {
+    background-color: #feb6c1;
+}
+
+mark.marker-blue {
+    background-color: #d1f0fb;
+}
+
+mark.pen-red {
+    color: #e91e63;
+    background-color: transparent;
+}
+
+mark.pen-green {
+    color: #4caf50;
+    background-color: transparent;
+}
