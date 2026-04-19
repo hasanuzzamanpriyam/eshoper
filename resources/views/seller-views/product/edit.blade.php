@@ -1575,13 +1575,19 @@
 
         $('#en_name').on('keyup', function () {
             let name = $(this).val();
-            let slug = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            let slug = name.toLowerCase()
+                .replace(/[^\w-]+/g, '-')
+                .replace(/--+/g, '-')
+                .replace(/^-+|-+$/g, '');
             $('#slug').val(slug);
             checkSlug(slug);
         });
 
         $('#slug').on('keyup', function () {
-            let slug = $(this).val();
+            let slug = $(this).val().toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '');
+            $(this).val(slug);
             checkSlug(slug);
         });
 

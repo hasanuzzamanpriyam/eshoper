@@ -1610,8 +1610,9 @@
                 if (!isSlugEdited) {
                     let name = $(this).val();
                     let slug = name.toLowerCase()
-                        .replace(/[^\w ]+/g, '')
-                        .replace(/ +/g, '-');
+                        .replace(/[^\w-]+/g, '-')
+                        .replace(/--+/g, '-')
+                        .replace(/^-+|-+$/g, '');
                     $('#slug').val(slug);
                     checkSlug(slug);
                 }
@@ -1619,7 +1620,11 @@
 
             $('#slug').on('keyup', function () {
                 isSlugEdited = true;
-                checkSlug($(this).val());
+                let slug = $(this).val().toLowerCase()
+                    .replace(/ /g, '-')
+                    .replace(/[^\w-]+/g, '');
+                $(this).val(slug);
+                checkSlug(slug);
             });
 
             function checkSlug(slug) {
