@@ -244,6 +244,23 @@
                     </div>
                 </div>
             </div>
+
+        <!-- Additional Info Section -->
+        <div class="card mt-3 rest-part">
+            <div class="card-header">
+                <div class="d-flex gap-2">
+                    <i class="tio-user-big"></i>
+                    <h4 class="mb-0">{{ translate('additional_info') }}</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="title-color">{{ translate('other_info') }}</label>
+                    <textarea name="other_info" class="form-control" rows="3"
+                        placeholder="{{ translate('enter_additional_info') }}">{{ $product->other_info }}</textarea>
+                </div>
+            </div>
+        </div>
         </div>
 
         {{-- Pricing & others --}}
@@ -823,6 +840,36 @@
                             </label>
                             <textarea rows="4" type="text" name="meta_description"
                                 class="form-control">{{$product['meta_description']}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="title-color">{{ translate('meta_tags') }}</label>
+                            <div id="meta_tags_container">
+                                @if(!empty($product->meta_tag))
+                                    @foreach($product->meta_tag as $tag)
+                                        <div class="form-group d-flex gap-2 mt-2">
+                                            <input type="text" name="meta_tag[]" class="form-control"
+                                                placeholder="{{ translate('enter_meta_tag') }}" value="{{ $tag }}">
+                                            <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                                                <i class="tio-delete"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="form-group d-flex gap-2">
+                                        <input type="text" name="meta_tag[]" class="form-control"
+                                            placeholder="{{ translate('enter_meta_tag') }}">
+                                        <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                                            <i class="tio-delete"></i>
+                                        </button>
+                                    </div>
+                                @endif
+                            </div>
+                            <!-- Add Meta Tag Button -->
+                            <div class="form-group d-flex gap-2 mt-2">
+                                <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
+                                    <i class="tio-add"></i> {{ translate('add_meta_tag') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -1500,6 +1547,23 @@
                 document.getElementById(thisData.dataset.imgpreview).setAttribute("src", window.URL.createObjectURL(thisData.files[0]));
                 document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
             }
+        }
+
+        function addMetaTagField() {
+            let container = document.getElementById('meta_tags_container');
+            let newField = document.createElement('div');
+            newField.className = 'form-group d-flex gap-2 mt-2';
+            newField.innerHTML = `
+                <input type="text" name="meta_tag[]" class="form-control" placeholder="{{ translate('enter_meta_tag') }}">
+                <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                    <i class="tio-delete"></i>
+                </button>
+            `;
+            container.appendChild(newField);
+        }
+
+        function removeMetaTagField(button) {
+            button.parentElement.remove();
         }
     </script>
 @endpush
