@@ -99,6 +99,7 @@ class ProductController extends Controller
             'discount'              => 'required|gt:-1',
             'shipping_cost'         => 'required_if:product_type,==,physical|gt:-1',
             'code'                  => 'required|numeric|min:1|digits_between:6,20|unique:products',
+            'slug'                  => 'required|unique:products',
             'minimum_order_qty'     => 'required|numeric|min:1',
 
         ], [
@@ -163,7 +164,7 @@ class ProductController extends Controller
         $product->user_id = auth('seller')->id();
         $product->added_by = "seller";
         $product->name = $request->name[array_search('en', $request->lang)];
-        $product->slug = Str::slug($request->name[array_search('en', $request->lang)], '-') . '-' . Str::random(6);
+        $product->slug = $request->slug;
 
         $product_images = [];
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
@@ -638,6 +639,7 @@ class ProductController extends Controller
             'discount'              => 'required|gt:-1',
             'shipping_cost'         => 'required_if:product_type,==,physical|gt:-1',
             'code'                  => 'required|numeric|min:1|digits_between:6,20|unique:products,code,' . $product->id,
+            'slug'                  => 'required|unique:products,slug,' . $product->id,
             'minimum_order_qty'     => 'required|numeric|min:1',
         ], [
             'name.required'                     => 'Product name is required!',
@@ -751,6 +753,7 @@ class ProductController extends Controller
         }
 
         $product->name = $request->name[array_search('en', $request->lang)];
+        $product->slug = $request->slug;
 
         $category = [];
         if ($request->category_id != null) {
@@ -1174,6 +1177,19 @@ class ProductController extends Controller
         $range_data = range(1, $request->limit ?? 4);
         $array_chunk = array_chunk($range_data, 24);
 
-        return view('seller-views.product.barcode', compact('product', 'array_chunk'));
+    }
+
+    public function slug_check(Request $request)
+    {
+        $id = $request->id;
+        $slug = $request->slug;
+        $exists = Product::where('slug', $slug)->when($id, function ($query) use ($id) {
+            return $query->where('id', '!=', $id);
+        })->exists();
+
+        if ($exists) {
+            return response()->json(['status' => false, 'message' => translate('slug_already_exists')]);
+        }
+        return response()->json(['status' => true]);
     }
 }

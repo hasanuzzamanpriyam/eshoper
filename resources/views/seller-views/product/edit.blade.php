@@ -75,6 +75,13 @@
                                             value="{{$translate[$lang]['name'] ?? $product['name']}}" class="form-control"
                                             placeholder="{{translate('new_Product')}}" required>
                                     </div>
+                                    @if($lang == $default_lang)
+                                        <div class="form-group">
+                                            <label class="title-color" for="slug">{{ translate('slug') }}</label>
+                                            <input type="text" name="slug" id="slug" class="form-control" placeholder="Ex: apple-iphone-12" value="{{ $product->slug }}" required>
+                                            <div id="slug-warning" class="text-danger mt-1"></div>
+                                        </div>
+                                    @endif
                                     <input type="hidden" name="lang[]" value="{{$lang}}">
                                     <div class="form-group pt-4">
                                         <label class="title-color">{{translate('description')}}
@@ -1564,6 +1571,37 @@
 
         function removeMetaTagField(button) {
             button.parentElement.remove();
+        }
+
+        $('#en_name').on('keyup', function () {
+            let name = $(this).val();
+            let slug = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+            $('#slug').val(slug);
+            checkSlug(slug);
+        });
+
+        $('#slug').on('keyup', function () {
+            let slug = $(this).val();
+            checkSlug(slug);
+        });
+
+        function checkSlug(slug) {
+            $.ajax({
+                url: "{{ route('seller.product.slug-check') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    slug: slug,
+                    id: "{{ $product->id }}"
+                },
+                success: function (data) {
+                    if (data.status === false) {
+                        $('#slug-warning').text(data.message);
+                    } else {
+                        $('#slug-warning').text('');
+                    }
+                }
+            });
         }
     </script>
 @endpush
