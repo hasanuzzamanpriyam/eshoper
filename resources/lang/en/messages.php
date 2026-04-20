@@ -6813,7 +6813,7 @@
   'রাজশাহী সিটির ভিতরে' => 'রাজশাহী সিটির ভিতরে',
   'Select_shipping_method' => 'Select shipping method',
   'Profile_updated_successfully' => 'Profile updated successfully',
-  'proceed_to_payment' => 'Proceed to payment',
+  'proceed_to_payment' => 'Confirm order',
   'once_you_have-downloaded_and_filled_the_format_file_upload_it_in_the_form_below_and_submit.' => 'Once you have-downloaded and filled the format file upload it in the form below and submit.',
   'Vat/Tax' => 'Vat/Tax',
   'your_order' => 'Your order',

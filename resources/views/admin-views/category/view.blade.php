@@ -70,8 +70,35 @@
                                             value="{{$i}}" >{{$i}}</option>
                                             @endfor
                                         </select>
+                                                                            <div class="from_part_2">
+                                        <label class="title-color">{{translate('category_Logo')}}</label>
+                                        <span class="text-info"><span class="text-danger">*</span> {{ THEME_RATIO[theme_root_path()]['Category Image'] }}</span>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="image" id="customFileEg1"
+                                                class="custom-file-input"
+                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                required>
+                                            <label class="custom-file-label"
+                                                for="customFileEg1">{{translate('choose_File')}}</label>
+                                        </div>
                                     </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2">
+                                    <div class="form-group">
+                                        <center>
+                                            <img
+                                                class="upload-img-view"
+                                                id="viewer"
+                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
+                                                alt="image"/>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="card mt-3">
                                         <div class="card-header">
                                             <h5 class="mb-0">{{translate('blog_Section')}}</h5>
@@ -92,29 +119,6 @@
                                                 <textarea name="blog_description" class="textarea editor-textarea"></textarea>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="from_part_2">
-                                        <label class="title-color">{{translate('category_Logo')}}</label>
-                                        <span class="text-info"><span class="text-danger">*</span> {{ THEME_RATIO[theme_root_path()]['Category Image'] }}</span>
-                                        <div class="custom-file text-left">
-                                            <input type="file" name="image" id="customFileEg1"
-                                                class="custom-file-input"
-                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
-                                                required>
-                                            <label class="custom-file-label"
-                                                for="customFileEg1">{{translate('choose_File')}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mt-4 mt-lg-0 from_part_2">
-                                    <div class="form-group">
-                                        <center>
-                                            <img
-                                                class="upload-img-view"
-                                                id="viewer"
-                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
-                                                alt="image"/>
-                                        </center>
                                     </div>
                                 </div>
                             </div>
