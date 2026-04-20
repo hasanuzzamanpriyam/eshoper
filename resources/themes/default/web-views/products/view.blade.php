@@ -319,6 +319,17 @@
                         <p class="text-center text-muted">{{translate('sorry_no_data_found_related_to_your_search')}}</p>
                     </div>
                 @endif
+
+                @if(isset($data['category']) && $data['category']->blog_title)
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h1 class="h4 mb-3">{{ $data['category']->blog_title }}</h1>
+                            <div>
+                                {!! $data['category']->blog_description !!}
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </section>
         </div>
     </div>

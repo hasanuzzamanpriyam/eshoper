@@ -86,6 +86,8 @@
                                             @endfor
                                         </select>
                                     </div>
+
+                                    
                                 <!--image upload only for main category-->
                                 @if($category['parent_id']==0 || ($category['position'] == 1 && theme_root_path() == 'theme_aster'))
                                     <div class="from_part_2">
@@ -127,6 +129,29 @@
                                     <button type="submit" class="btn btn--primary px-4">{{ translate('update')}}</button>
                                 </div>
                             @endif
+                            <div class="card mt-3">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">{{translate('blog_Section')}}</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group">
+                                                <label class="title-color">{{translate('blog_Title')}}</label>
+                                                <input type="text" name="blog_title" class="form-control" id="blog-title"
+                                                    value="{{$category->blog_title}}"
+                                                    placeholder="{{translate('blog_Title')}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="title-color">{{translate('blog_Slug')}}</label>
+                                                <input type="text" name="blog_slug" class="form-control" id="blog-slug"
+                                                    value="{{$category->blog_slug}}"
+                                                    placeholder="{{translate('blog_Slug')}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="title-color">{{translate('blog_Description')}}</label>
+                                                <textarea name="blog_description" class="textarea editor-textarea">{{$category->blog_description}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                         </form>
                     </div>
                 </div>
@@ -185,7 +210,29 @@
                 .replace(/-+/g, '-');
             $('#category-slug').val(slug);
         });
+
+        $('#blog-title').on('keyup keypress change', function() {
+            var name = $(this).val();
+            var slug = name.toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^a-z0-9-]/g, '')
+                .replace(/-+/g, '-');
+            $('#blog-slug').val(slug);
+        });
     </script>
+
+    {{--ck editor--}}
+    <script src="{{asset('/')}}vendor/ckeditor/ckeditor/ckeditor.js"></script>
+    <script src="{{asset('/')}}vendor/ckeditor/ckeditor/adapters/jquery.js"></script>
+    <script>
+        if (window.CKEDITOR) {
+            CKEDITOR.env.isCompatible = true;
+            $('.textarea').ckeditor({
+                contentsLangDirection: '{{Session::get('direction')}}',
+            });
+        }
+    </script>
+    {{--ck editor--}}
 @endpush
 
 

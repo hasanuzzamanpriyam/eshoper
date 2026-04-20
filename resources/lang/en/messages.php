@@ -6884,4 +6884,8 @@
   'are_you_sure_to_change_status' => 'Are you sure to change status',
   'failed_to_update_status' => 'Failed to update status',
   'slug_already_exists' => 'Slug already exists',
+  'blog_Section' => 'Blog Section',
+  'blog_Title' => 'Blog Title',
+  'blog_Slug' => 'Blog Slug',
+  'blog_Description' => 'Blog Description',
 );

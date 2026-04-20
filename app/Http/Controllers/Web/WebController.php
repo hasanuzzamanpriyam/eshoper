@@ -993,7 +993,11 @@ class WebController extends Controller
 			], 200);
 		}
 		if ($request['data_from'] == 'category') {
-			$data['brand_name'] = Category::find((int)$request['id'])->name;
+			$category = Category::find((int)$request['id']);
+			if ($category) {
+				$data['brand_name'] = $category->name;
+				$data['category'] = $category;
+			}
 		}
 		if ($request['data_from'] == 'brand') {
 			$data['brand_name'] = Brand::active()->find((int)$request['id'])->name;

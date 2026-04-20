@@ -62,6 +62,9 @@ class CategoryController extends Controller
         $category->parent_id = 0;
         $category->position = 0;
         $category->priority = $request->priority;
+        $category->blog_title = $request->blog_title;
+        $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
+        $category->blog_description = $request->blog_description;
         $category->save();
 
         $data = [];
@@ -99,6 +102,9 @@ class CategoryController extends Controller
             $category->icon = ImageManager::update('category/', $category->icon, 'webp', $request->file('image'));
         }
         $category->priority = $request->priority;
+        $category->blog_title = $request->blog_title;
+        $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
+        $category->blog_description = $request->blog_description;
         $category->save();
 
         foreach ($request->lang as $index => $key) {

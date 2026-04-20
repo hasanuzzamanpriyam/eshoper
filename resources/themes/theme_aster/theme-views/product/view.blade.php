@@ -280,6 +280,17 @@
                             @include('theme-views.product._ajax-products',['products'=>$products,'decimal_point_settings'=>$decimal_point_settings])
                         </div>
 
+                        @if(isset($data['category']) && $data['category']->blog_title)
+                            <div class="card mt-4">
+                                <div class="card-body">
+                                    <h1 class="h4 mb-3">{{ $data['category']->blog_title }}</h1>
+                                    <div>
+                                        {!! $data['category']->blog_description !!}
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
