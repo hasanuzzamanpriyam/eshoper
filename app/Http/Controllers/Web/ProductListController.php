@@ -40,6 +40,41 @@ class ProductListController extends Controller
         };
     }
 
+    public function justForYou(Request $request)
+    {
+        $query = Product::with(['reviews'])->active()->where('is_for_you', 1);
+
+        if ($request['sort_by'] == 'latest') {
+            $fetched = $query->latest();
+        } elseif ($request['sort_by'] == 'low-high') {
+            $fetched = $query->orderBy('unit_price', 'ASC');
+        } elseif ($request['sort_by'] == 'high-low') {
+            $fetched = $query->orderBy('unit_price', 'DESC');
+        } elseif ($request['sort_by'] == 'a-z') {
+            $fetched = $query->orderBy('name', 'ASC');
+        } elseif ($request['sort_by'] == 'z-a') {
+            $fetched = $query->orderBy('name', 'DESC');
+        } else {
+            $fetched = $query->inRandomOrder();
+        }
+
+        $data = [
+            'data_from' => 'just_for_you',
+            'sort_by' => $request['sort_by'] ?? 'random',
+        ];
+
+        $products = $fetched->paginate(20)->appends($data);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'total_product' => $products->total(),
+                'view' => view('web-views.products._ajax-products', compact('products'))->render()
+            ], 200);
+        }
+
+        return view('web-views.products.just-for-you', compact('products', 'data'));
+    }
+
     public function searchSuggestions(Request $request)
     {
         $term = $request->term;

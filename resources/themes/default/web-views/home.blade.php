@@ -392,6 +392,15 @@
                             Just For You
                         </div>
                     </div>
+                    <div>
+                        <a class="text-capitalize view-all-text"
+                            href="{{route('just-for-you')}}"
+                            style="color: {{$web_config['primary_color']}}!important">
+                            {{ translate('view_all')}}
+                            <i
+                                class="czi-arrow-{{Session::get('direction') === "rtl" ? 'left mr-1 ml-n1 mt-1 float-left' : 'right ml-1 mr-n1'}}"></i>
+                        </a>
+                    </div>
                 </div>
             @endif
         </div>

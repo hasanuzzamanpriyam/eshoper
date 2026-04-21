@@ -100,6 +100,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
 
     Route::get('/product/{slug}', 'ProductDetailsController@product')->name('product');
     Route::get('products/{slug?}', 'ProductListController@products')->name('products');
+    Route::get('just-for-you', 'ProductListController@justForYou')->name('just-for-you');
     Route::get('search/suggestions', 'ProductListController@searchSuggestions')->name('search.suggestions');
     Route::get('searched-products', 'ProductListController@searchedProducts')->name('searched-products');
     Route::post('ajax-filter-products', 'ShopViewController@ajax_filter_products')->name('ajax-filter-products'); // Theme fashion, ALl purpose
