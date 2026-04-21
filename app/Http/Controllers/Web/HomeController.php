@@ -96,7 +96,11 @@ class HomeController extends Controller
             ->take(12)
             ->get();
         //end
-
+        $categoryProductsPreview = $this->category
+            ->with(['products' => function ($query) {
+                $query->latest()->take(3); // latest 3 products
+            }])
+            ->get();
         $latest_products = $this->product->with(['reviews'])->active()->orderBy('id', 'desc')->take(8)->get();
         $categories = $this->category->with('childes.childes')->where(['position' => 0])->priority()->take(8)->get();
         $brands = Brand::active()->take(15)->get();
@@ -205,7 +209,7 @@ class HomeController extends Controller
                     $rating += $review->rating;
                     $count++;
                 }
-            } 
+            }
             $avg_rating = $rating / ($count == 0 ? 1 : $count);
             $rating_count = $count;
             $seller['average_rating'] = $avg_rating;

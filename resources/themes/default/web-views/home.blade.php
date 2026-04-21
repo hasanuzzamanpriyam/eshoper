@@ -368,7 +368,7 @@
                 <div class="section-header">
                     <div class="arrival-title d-block">
                         <div class="text-capitalize">
-                            {{ translate('new_arrivals')}}
+                            For You
                         </div>
                     </div>
                 </div>
