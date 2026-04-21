@@ -223,6 +223,28 @@
             font-size: 12px;
         }
 
+        /* For You product grid */
+        .for-you-product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        @media (min-width: 576px) {
+            .for-you-product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 992px) {
+            .for-you-product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        @media (min-width: 1200px) {
+            .for-you-product-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
         /*  */
     </style>
 
@@ -367,22 +389,20 @@
                 <div class="section-header">
                     <div class="arrival-title d-block">
                         <div class="text-capitalize">
-                            For You
+                            Just For You
                         </div>
                     </div>
                 </div>
             @endif
         </div>
-        <div class="container rtl mb-3 overflow-hidden">
+        <div class="container rtl mb-3">
             <div class="py-2">
-                <div class="new_arrival_product">
-                    <div class="carousel-wrap">
-                        <div class="owl-carousel owl-theme new-arrivals-product">
-                            @foreach($for_you_products as $key => $product)
-                                @include('web-views.partials._product-card-2', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
-                            @endforeach
+                <div class="for-you-product-grid">
+                    @foreach($for_you_products->take(10) as $key => $product)
+                        <div>
+                            @include('web-views.partials._single-product', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
                         </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -635,53 +655,6 @@
                 //Extra extra large
                 1400: {
                     items: 2
-                }
-            }
-        })
-
-        $('.new-arrivals-product').owlCarousel({
-            loop: true,
-            autoplay: true,
-            margin: 20,
-            nav: true,
-            navText: ["<i class='czi-arrow-{{Session::get('direction') === "rtl" ? 'right' : 'left'}}'></i>", "<i class='czi-arrow-{{Session::get('direction') === "rtl" ? 'left' : 'right'}}'></i>"],
-            dots: false,
-            autoplayHoverPause: true,
-            '{{session('direction')}}': true,
-            // center: true,
-            responsive: {
-                //X-Small
-                0: {
-                    items: 1.1
-                },
-                360: {
-                    items: 1.2
-                },
-                375: {
-                    items: 1.4
-                },
-                540: {
-                    items: 2
-                },
-                //Small
-                576: {
-                    items: 2
-                },
-                //Medium
-                768: {
-                    items: 2
-                },
-                //Large
-                992: {
-                    items: 2
-                },
-                //Extra large
-                1200: {
-                    items: 4
-                },
-                //Extra extra large
-                1400: {
-                    items: 4
                 }
             }
         })

@@ -658,7 +658,7 @@ class HomeController extends Controller
             ])->active()
             ->where('is_for_you', 1)
             ->inRandomOrder()
-            ->take(12)
+            ->take(10)
             ->get();
         $for_you_products?->map(function ($product) use ($current_date) {
             $flash_deal_status = 0;
