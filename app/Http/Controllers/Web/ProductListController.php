@@ -243,7 +243,7 @@ class ProductListController extends Controller
         } elseif ($request['sort_by'] == 'z-a') {
             $fetched = $query->orderBy('name', 'DESC');
         } else {
-            $fetched = $query->latest();
+            $fetched = $query->inRandomOrder();
         }
 
         if ($request['min_price'] != null || $request['max_price'] != null) {
