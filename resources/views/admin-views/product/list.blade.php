@@ -169,6 +169,7 @@
                                 <th class="text-right">{{translate('purchase_price')}}</th>
                                 <th class="text-right">{{translate('selling_price')}}</th>
                                 <th class="text-center">{{translate('show_as_featured')}}</th>
+                                <th class="text-center">{{translate('is_for_you')}}</th>
                                 <th class="text-center">{{translate('active_status')}}</th>
                                 <th class="text-center">{{translate('action')}}</th>
                             </tr>
@@ -209,6 +210,25 @@
                                                 '{{translate('Want_to_Remove')}} {{$product_name}} {{translate('to_the_featured_section')}}',
                                                 `<p>{{translate('if_enabled_this_product_will_be_shown_in_the_featured_product_on_the_website_and_customer_app')}}</p>`,
                                                 `<p>{{translate('if_disabled_this_product_will_be_removed_from_the_featured_product_section_of_the_website_and_customer_app')}}</p>`)">
+                                            <span class="switcher_control"></span>
+                                        </label>
+                                    </form>
+
+                                </td>
+                                <td class="text-center">
+
+                                    @php($product_name = str_replace("'",'`',$p['name']))
+                                    <form action="{{route('admin.product.is-for-you-status')}}" method="post" id="product_is_for_you{{$p['id']}}_form" class="product_is_for_you_form">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{$p['id']}}">
+                                        <label class="switcher mx-auto">
+                                            <input type="checkbox" class="switcher_input" id="product_is_for_you{{$p['id']}}" name="status" value="1" {{ $p['is_for_you'] == 1 ? 'checked':'' }}
+                                                onclick="toogleStatusModal(event,'product_is_for_you{{$p['id']}}',
+                                                'product-status-on.png','product-status-off.png',
+                                                '{{translate('Want_to_Add')}} {{$product_name}} {{translate('to_the_is_for_you_section')}}',
+                                                '{{translate('Want_to_Remove')}} {{$product_name}} {{translate('from_the_is_for_you_section')}}',
+                                                `<p>{{translate('if_enabled_this_product_will_be_shown_in_the_is_for_you_section')}}</p>`,
+                                                `<p>{{translate('if_disabled_this_product_will_be_removed_from_the_is_for_you_section')}}</p>`)">
                                             <span class="switcher_control"></span>
                                         </label>
                                     </form>
@@ -344,6 +364,24 @@
                 data: $(this).serialize(),
                 success: function (data) {
                     toastr.success('{{translate("featured_status_updated_successfully")}}');
+                }
+            });
+        });
+
+        $('.product_is_for_you_form').on('submit', function(event){
+            event.preventDefault();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{route('admin.product.is-for-you-status')}}",
+                method: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    toastr.success('{{translate("is_for_you_status_updated_successfully")}}');
                 }
             });
         });

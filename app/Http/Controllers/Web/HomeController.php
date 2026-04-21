@@ -97,11 +97,19 @@ class HomeController extends Controller
             ->get();
         //end
         $categoryProductsPreview = $this->category
-            ->with(['products' => function ($query) {
+            ->with(['product' => function ($query) {
                 $query->latest()->take(3); // latest 3 products
             }])
             ->get();
         $latest_products = $this->product->with(['reviews'])->active()->orderBy('id', 'desc')->take(8)->get();
+
+        //For You Products
+        $for_you_products = $this->product->with(['reviews'])->active()
+            ->where('is_for_you', 1)
+            ->inRandomOrder()
+            ->take(12)
+            ->get();
+
         $categories = $this->category->with('childes.childes')->where(['position' => 0])->priority()->take(8)->get();
         $brands = Brand::active()->take(15)->get();
         //best sell product
@@ -145,7 +153,7 @@ class HomeController extends Controller
             compact(
                 'featured_products', 'topRated', 'bestSellProduct', 'latest_products', 'categories', 'brands',
                 'deal_of_the_day', 'top_sellers', 'home_categories', 'brand_setting', 'main_banner', 'main_section_banner',
-                'current_date','product','footer_banner',
+                'current_date','product','footer_banner','for_you_products',
             )
         );
     }
@@ -637,7 +645,40 @@ class HomeController extends Controller
          * End Top Rated store and new seller
          */
 
+        //For You Product
+        $for_you_products = $this->product->with([
+                'seller.shop',
+                'flash_deal_product.flash_deal',
+                'wish_list'=>function($query){
+                    return $query->where('customer_id', Auth::guard('customer')->user()->id ?? 0);
+                },
+                'compare_list'=>function($query){
+                    return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
+                }
+            ])->active()
+            ->where('is_for_you', 1)
+            ->inRandomOrder()
+            ->take(12)
+            ->get();
+        $for_you_products?->map(function ($product) use ($current_date) {
+            $flash_deal_status = 0;
+            $flash_deal_end_date = 0;
+            if (count($product->flash_deal_product) > 0) {
+                $flash_deal = $product->flash_deal_product[0]->flash_deal;
+                if ($flash_deal) {
+                    $start_date = date('Y-m-d H:i:s', strtotime($flash_deal->start_date));
+                    $end_date = date('Y-m-d H:i:s', strtotime($flash_deal->end_date));
+                    $flash_deal_status = $flash_deal->status == 1 && (($current_date >= $start_date) && ($current_date <= $end_date)) ? 1 : 0;
+                    $flash_deal_end_date = $flash_deal->end_date;
+                }
+            }
+            $product['flash_deal_status'] = $flash_deal_status;
+            $product['flash_deal_end_date'] = $flash_deal_end_date;
+            return $product;
+        });
+
         //latest product
+
         $latest_products = $this->product->withSum('order_details', 'qty', function ($query) {
                 $query->where('delivery_status', 'delivered');
             })->with(['category','reviews', 'flash_deal_product.flash_deal','wish_list'=>function($query){
@@ -791,7 +832,7 @@ class HomeController extends Controller
                 'random_product', 'decimal_point_settings', 'new_sellers', 'sidebar_banner', 'top_side_banner', 'recent_order_shops',
                 'categories', 'colors_in_shop', 'all_products_info', 'most_searching_product', 'most_demanded_product', 'featured_products','promo_banner_left',
                 'promo_banner_middle_top','promo_banner_middle_bottom','promo_banner_right', 'promo_banner_bottom', 'current_date', 'all_products',
-                'featured_deals'
+                'featured_deals', 'for_you_products'
             )
         );
     }

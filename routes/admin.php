@@ -372,6 +372,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('edit/{id}', 'ProductController@edit')->name('edit');
             Route::post('update/{id}', 'ProductController@update')->name('update');
             Route::post('featured-status', 'ProductController@featured_status')->name('featured-status');
+            Route::post('is-for-you-status', 'ProductController@is_for_you_status')->name('is-for-you-status');
             Route::get('approve-status', 'ProductController@approve_status')->name('approve-status');
             Route::post('deny', 'ProductController@deny')->name('deny');
             Route::post('sku-combination', 'ProductController@sku_combination')->name('sku-combination');

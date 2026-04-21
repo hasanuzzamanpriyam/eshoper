@@ -362,9 +362,8 @@
     <!-- new-arrival -->
 
     <section class="new-arrival-section">
-
         <div class="container rtl mt-4">
-            @if ($latest_products->count() > 0)
+            @if ($for_you_products->count() > 0)
                 <div class="section-header">
                     <div class="arrival-title d-block">
                         <div class="text-capitalize">
@@ -379,7 +378,7 @@
                 <div class="new_arrival_product">
                     <div class="carousel-wrap">
                         <div class="owl-carousel owl-theme new-arrivals-product">
-                            @foreach($latest_products as $key => $product)
+                            @foreach($for_you_products as $key => $product)
                                 @include('web-views.partials._product-card-2', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
                             @endforeach
                         </div>

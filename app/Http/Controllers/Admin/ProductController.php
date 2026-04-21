@@ -58,6 +58,14 @@ class ProductController extends BaseController
         return response()->json($data);
     }
 
+    public function is_for_you_status(Request $request)
+    {
+        $product = Product::find($request->id);
+        $product->is_for_you = ($product['is_for_you'] == 0 || $product['is_for_you'] == null) ? 1 : 0;
+        $product->save();
+        return response()->json($request->status);
+    }
+
     public function approve_status(Request $request)
     {
         $product = Product::find($request->id);

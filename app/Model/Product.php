@@ -37,6 +37,7 @@ class Product extends Model
         'meta_tag' => 'array',
         'is_cash_on_delivery' => 'boolean',
         'is_delivery_free' => 'boolean',
+        'is_for_you' => 'boolean',
 
     ];
 
