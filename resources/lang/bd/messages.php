@@ -14,6 +14,7 @@
   'product_management' => 'Product management',
   'brands' => 'Brands',
   'add_new' => 'Add new',
+  'just_for_you' => 'আপনার জন্য',
   'List' => 'List',
   'categories' => 'ক্যাটেগরী',
   'category' => 'Category',

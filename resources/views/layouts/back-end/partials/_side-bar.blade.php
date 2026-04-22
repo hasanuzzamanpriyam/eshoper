@@ -429,6 +429,15 @@
                                             class="text-truncate">{{translate('denied_Products')}}</span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{Request::is('admin/product/just-for-you*')?'active':''}}">
+                                    <a class="nav-link"
+                                        title="{{translate('just_for_you')}}"
+                                        href="{{route('admin.product.just-for-you')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span
+                                            class="text-truncate">{{translate('just_for_you')}}</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         @endif

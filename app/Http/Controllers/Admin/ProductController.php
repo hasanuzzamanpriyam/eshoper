@@ -441,6 +441,21 @@ class ProductController extends BaseController
         }
     }
 
+    public function just_for_you(Request $request)
+    {
+        $query = Product::where('is_for_you', 1);
+        
+        if ($request->has('search') && $request->search != '') {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('code', 'like', '%' . $request->search . '%');
+            });
+        }
+        
+        $products = $query->paginate(Helpers::pagination_limit());
+        return view('admin-views.product.just-for-you', compact('products'));
+    }
+
 public function update(Request $request, $id)
     {
         $product = Product::find($id);

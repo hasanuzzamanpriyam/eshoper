@@ -14,6 +14,7 @@
   'product_management' => 'Product management',
   'brands' => 'Brands',
   'add_new' => 'Add new',
+  'just_for_you' => 'Just for you',
   'List' => 'List',
   'categories' => 'Categories',
   'category' => 'Category',
@@ -6894,6 +6895,8 @@
   'if_enabled_this_product_will_be_shown_in_the_is_for_you_section' => 'If enabled this product will be shown in the is for you section',
   'if_disabled_this_product_will_be_removed_from_the_is_for_you_section' => 'If disabled this product will be removed from the is for you section',
   'is_for_you_status_updated_successfully' => 'Is for you status updated successfully',
-  'just_for_you' => 'Just for you',
   'discover_products_handpicked_just_for_you' => 'Discover products handpicked just for you',
+  'Just For You' => 'Just For You',
+  'manage_products_for_personalized_recommendations' => 'Manage products for personalized recommendations',
+  'clear_search' => 'Clear search',
 );
