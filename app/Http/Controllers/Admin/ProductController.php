@@ -490,7 +490,7 @@ class ProductController extends BaseController
 
     public function just_for_you(Request $request)
     {
-        $query = Product::where('is_for_you', 1)
+        $query = Product::active()->where('is_for_you', 1)
             ->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC');
         
         if ($request->has('search') && $request->search != '') {
@@ -501,7 +501,13 @@ class ProductController extends BaseController
         }
         
         $products = $query->paginate(Helpers::pagination_limit());
-        return view('admin-views.product.just-for-you', compact('products'));
+        
+        // Get all just-for-you products for the priority update dropdown (no pagination)
+        $allJustForYouProducts = Product::active()->where('is_for_you', 1)
+            ->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC')
+            ->get(['id', 'name']);
+        
+        return view('admin-views.product.just-for-you', compact('products', 'allJustForYouProducts'));
     }
 
 public function update(Request $request, $id)

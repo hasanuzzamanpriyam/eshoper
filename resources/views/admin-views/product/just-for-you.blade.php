@@ -126,7 +126,7 @@
                         <label class="title-color text-capitalize">{{translate('select_product')}}</label>
                         <select class="js-select2-custom form-control" name="product_id" id="priority_product_id">
                             <option value="" disabled selected>{{translate('select_product')}}</option>
-                            @foreach($products as $product)
+                            @foreach($allJustForYouProducts as $product)
                                 <option value="{{$product->id}}">{{$product->name}}</option>
                             @endforeach
                         </select>
