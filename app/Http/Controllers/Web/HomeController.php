@@ -106,7 +106,7 @@ class HomeController extends Controller
         //For You Products
         $for_you_products = $this->product->with(['reviews'])->active()
             ->where('is_for_you', 1)
-            ->inRandomOrder()
+            ->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC')
             ->take(12)
             ->get();
 
@@ -657,7 +657,7 @@ class HomeController extends Controller
                 }
             ])->active()
             ->where('is_for_you', 1)
-            ->inRandomOrder()
+            ->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC')
             ->take(10)
             ->get();
         $for_you_products?->map(function ($product) use ($current_date) {

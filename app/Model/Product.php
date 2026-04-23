@@ -38,7 +38,7 @@ class Product extends Model
         'is_cash_on_delivery' => 'boolean',
         'is_delivery_free' => 'boolean',
         'is_for_you' => 'boolean',
-
+        'for_you_priority' => 'integer',
     ];
 
     public function translations()

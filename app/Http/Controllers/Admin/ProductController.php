@@ -60,11 +60,58 @@ class ProductController extends BaseController
 
     public function is_for_you_status(Request $request)
     {
-        $product = Product::find($request->id);
-        $product->is_for_you = ($product['is_for_you'] == 0 || $product['is_for_you'] == null) ? 1 : 0;
-        $product->save();
-        return response()->json($request->status);
+        $product = DB::table('products')->where('id', $request->id)->first();
+        if ($product) {
+            $status = ($product->is_for_you == 1) ? 0 : 1;
+            DB::table('products')->where('id', $request->id)->update([
+                'is_for_you' => $status,
+                'updated_at' => now()
+            ]);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
     }
+
+    public function for_you_priority(Request $request)
+    {
+        $product = DB::table('products')->where('id', $request->id)->first();
+        if ($product) {
+            DB::table('products')->where('id', $request->id)->update([
+                'for_you_priority' => $request->priority,
+                'updated_at' => now()
+            ]);
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+    public function get_priority(Request $request)
+    {
+        $product = DB::table('products')->where('id', $request->id)->first();
+        if ($product) {
+            return response()->json([
+                'success' => true,
+                'priority' => $product->for_you_priority,
+                'name' => $product->name
+            ]);
+        }
+        return response()->json(['success' => false], 404);
+    }
+
+    public function get_product_list(Request $request)
+    {
+        $products = Product::where('name', 'like', "%{$request->q}%")
+            ->orWhere('id', 'like', "%{$request->q}%")
+            ->limit(20)
+            ->get([
+                'id',
+                'name'
+            ]);
+
+        return response()->json($products);
+    }
+
+
 
     public function approve_status(Request $request)
     {
@@ -443,7 +490,8 @@ class ProductController extends BaseController
 
     public function just_for_you(Request $request)
     {
-        $query = Product::where('is_for_you', 1);
+        $query = Product::where('is_for_you', 1)
+            ->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC');
         
         if ($request->has('search') && $request->search != '') {
             $query->where(function($q) use ($request) {

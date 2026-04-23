@@ -55,7 +55,7 @@ class ProductListController extends Controller
         } elseif ($request['sort_by'] == 'z-a') {
             $fetched = $query->orderBy('name', 'DESC');
         } else {
-            $fetched = $query->inRandomOrder();
+            $fetched = $query->orderByRaw('ISNULL(for_you_priority), for_you_priority ASC, id DESC');
         }
 
         $data = [
