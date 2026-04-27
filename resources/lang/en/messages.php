@@ -6912,4 +6912,7 @@
   'please_choose_a_priority' => 'Please choose a priority',
   'please_enter_a_priority_between_1_and_11' => 'Please enter a priority between 1 and 11',
   'do_you_want_to_update_priority' => 'Do you want to update priority',
+  'Please_upload_the_correct_format_file' => 'Please upload the correct format file',
+  'products_imported_successfully' => 'Products imported successfully',
+  'Please fill sub_category_id fields' => 'Please fill sub category id fields',
 );

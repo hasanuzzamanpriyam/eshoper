@@ -1179,8 +1179,8 @@ public function update(Request $request, $id)
         }
 
         $data = [];
-        $col_key = ['name', 'category_id', 'sub_category_id', 'sub_sub_category_id', 'brand_id', 'unit', 'minimum_order_qty', 'refundable', 'youtube_video_url', 'unit_price', 'purchase_price', 'tax', 'discount', 'discount_type', 'current_stock', 'details', 'thumbnail'];
-        $skip = ['youtube_video_url', 'details', 'thumbnail'];
+        $col_key = ['name', 'category_id', 'sub_category_id', 'sub_sub_category_id', 'brand_id', 'unit', 'minimum_order_qty', 'refundable', 'youtube_video_url', 'unit_price', 'purchase_price', 'tax', 'discount', 'discount_type', 'current_stock', 'details', 'thumbnail', 'sku', 'shipping_cost'];
+        $skip = ['youtube_video_url', 'details', 'thumbnail', 'sku', 'shipping_cost'];
 
         foreach ($collections as $collection) {
             foreach ($collection as $key => $value) {
@@ -1213,7 +1213,7 @@ public function update(Request $request, $id)
                 'tax' => $collection['tax'],
                 'discount' => $collection['discount'],
                 'discount_type' => $collection['discount_type'],
-                'shipping_cost' => 0,
+                'shipping_cost' => $collection['shipping_cost'],
                 'current_stock' => $collection['current_stock'],
                 'details' => $collection['details'],
                 'video_provider' => 'youtube',
@@ -1229,6 +1229,7 @@ public function update(Request $request, $id)
                 'featured_status' => 1,
                 'added_by' => 'admin',
                 'user_id' => auth('admin')->id(),
+                'code' => $collection['sku'],
             ]);
         }
         DB::table('products')->insert($data);
@@ -1272,6 +1273,8 @@ public function update(Request $request, $id)
                 'current_stock' => $item->current_stock,
                 'details' => $item->details,
                 'thumbnail' => 'thumbnail/' . $item->thumbnail,
+                'sku' => $item->code,
+                'shipping_cost' => $item->shipping_cost,
             ];
         }
         return (new FastExcel($storage))->download('inhouse_products.xlsx');
