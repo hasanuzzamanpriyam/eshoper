@@ -6915,4 +6915,5 @@
   'Please_upload_the_correct_format_file' => 'Please upload the correct format file',
   'products_imported_successfully' => 'Products imported successfully',
   'Please fill sub_category_id fields' => 'Please fill sub category id fields',
+  'code_must_be_minimum_5_digits!' => 'Code must be minimum 5 digits!',
 );
