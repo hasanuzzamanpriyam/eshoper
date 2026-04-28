@@ -801,23 +801,28 @@
     <script src="{{ asset('assets/back-end/js/spartan-multi-image-picker.js') }}"></script>
     <script>
         $(function () {
-            $('#color_switcher').click(function () {
-                var checkBoxes = $("#color_switcher");
-                if ($('#color_switcher').prop('checked')) {
+            $('#color_switcher').on('change', function () {
+                if ($(this).prop('checked')) {
                     $('.color_image_column').removeClass('d-none');
                     $('.additional_image_column').removeClass('col-md-9');
                     $('.additional_image_column').addClass('col-md-12');
                     $('#color_wise_image').show();
                     $('#additional_Image_Section .col-md-4').addClass('col-lg-2');
+                    color_wise_image($('#colors-selector'));
+                    $('#colors-selector').prop('disabled', false);
                 } else {
                     $('.color_image_column').addClass('d-none');
                     $('.additional_image_column').addClass('col-md-9');
                     $('.additional_image_column').removeClass('col-md-12');
                     $('#color_wise_image').hide();
                     $('#additional_Image_Section .col-md-4').removeClass('col-lg-2');
+                    $('#colors-selector').prop('disabled', true);
                 }
+                $('#colors-selector').trigger('change');
+                update_sku();
             });
 
+/*
             $("#coba").spartanMultiImagePicker({
                 fieldName: 'images[]',
                 maxCount: 15,
@@ -852,6 +857,7 @@
                     });
                 }
             });
+*/
 
         });
 
@@ -877,19 +883,14 @@
             });
         }
 
-        $('input[name="colors_active"]').on('change', function () {
-            if (!$('input[name="colors_active"]').is(':checked')) {
-                $('#colors-selector').prop('disabled', true);
-            } else {
-                $('#colors-selector').prop('disabled', false);
-            }
-        });
+
 
         $('#choice_attributes').on('change', function () {
             $('#customer_choice_options').html(null);
             $.each($("#choice_attributes option:selected"), function () {
                 add_more_customer_choice_option($(this).val(), $(this).text());
             });
+            update_sku();
         });
 
         function add_more_customer_choice_option(i, name) {
@@ -917,17 +918,25 @@
         function color_wise_image(t) {
             let colors = t.val();
             $('#color_wise_image').html('')
-            $.each(colors, function (key, value) {
+            if (colors) {
+                $.each(colors, function (key, value) {
                 let value_id = value.replace('#', '');
                 let color = "color_image_" + value_id;
 
                 let html = `<div class='col-6 col-lg-4 col-xl-4'>
                                         <div class="position-relative p-2 border-dashed-2">
+                                            <div class="upload--icon-btns d-flex gap-2 position-absolute top-0 right-0 z-index-2 p-2" >
+                                                <button type="button" class="btn btn-square text-white btn-sm" style="background: ${value}; border-color: ${value}; color: #fff"><i class="tio-edit"></i></button>
+                                            </div>
                                             <label style='border-radius: 3px; cursor: pointer; text-align: center; overflow: hidden; position : relative; display: flex; align-items: center; margin: auto; justify-content: center; flex-direction: column;'>
                                                 <span class="upload--icon" style="background: ${value}">
                                                     <i class="tio-edit"></i>
-                                                    <input type="file" name="` + color + `" id="` + value_id + `" class="d-none" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required="">
+                                                    <input type="file" name="${color}" id="${value_id}" class="d-none" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" required="" data-imgpreview="additional_Image_${value_id}" onchange="uploadColorImage(this)">
                                                 </span>
+
+                                                <div class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                    <img id="additional_Image_${value_id}" class="h-auto aspect-1 bg-white" src="{{ asset('assets/back-end/img/400x400/img2.jpg') }}" onerror="this.classList.add('d-none')">
+                                                </div>
 
                                                 <div class="h-100 top-0 aspect-1 w-100 d-flex align-content-center justify-content-center overflow-hidden">
                                                     <div class="d-flex flex-column justify-content-center align-items-center">
@@ -961,6 +970,7 @@
                         });
                 });
             });
+            }
         }
 
         function update_sku() {
@@ -1095,6 +1105,13 @@
             $('#product_type').change(function () {
                 product_type();
             });
+
+            if (!$('input[name="colors_active"]').is(':checked')) {
+                $('#colors-selector').prop('disabled', true);
+            } else {
+                $('#colors-selector').prop('disabled', false);
+            }
+            $('#colors-selector').trigger('change');
 
             $('#digital_product_type').change(function () {
                 digital_product_type();

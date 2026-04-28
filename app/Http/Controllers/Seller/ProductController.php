@@ -593,7 +593,7 @@ class ProductController extends Controller
         }
 
         $unit_price = $request->unit_price;
-        $product_name = $request->name[array_search('en', $request->lang)];
+        $product_name = $request->name[array_search('en', $request->lang)] ?? $request->name[0] ?? 'Product';
 
         if ($request->has('choice_no')) {
             foreach ($request->choice_no as $key => $no) {

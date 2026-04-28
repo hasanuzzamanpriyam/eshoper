@@ -1002,19 +1002,9 @@
                 $('#additional_Image_Section .col-md-4').removeClass('col-lg-2');
             }
         });
-        var colors = {
-            {
-            count($product - > colors)
-        }
-        };
-        var imageCount = {
-            {
-            15 - count(json_decode($product - > images))
-        }
-        };
-        var thumbnail = '{{\App\CPU\ProductManager::product_image_path('
-        thumbnail ') . ' / ' . $product->thumbnail ?? asset('
-        assets / back - end / img / 400 x400 / img2.jpg ')}}';
+        var colors = {{ count($product->colors) }};
+        var imageCount = {{ 15 - count(json_decode($product->images)) }};
+        var thumbnail = '{{ $product->thumbnail ? \App\CPU\ProductManager::product_image_path('thumbnail') . '/' . $product->thumbnail : asset('assets/back-end/img/400x400/img2.jpg') }}';
         $(function () {
             if (imageCount > 0) {
                 $("#coba").spartanMultiImagePicker({
@@ -1059,9 +1049,7 @@
                 groupClassName: 'col-12',
                 maxFileSize: '',
                 placeholderImage: {
-                    image: '{{\App\CPU\ProductManager::product_image_path('
-                    thumbnail ') . ' / ' . $product->thumbnail ?? asset('
-                    assets / back - end / img / 400 x400 / img2.jpg ')}}',
+                    image: '{{ $product->thumbnail ? \App\CPU\ProductManager::product_image_path('thumbnail') . '/' . $product->thumbnail : asset('assets/back-end/img/400x400/img2.jpg') }}',
                     width: '100%',
                 },
                 dropFileLabel: "Drop Here",
@@ -1164,7 +1152,7 @@
             let n = name.split(' ').join('');
             $('#customer_choice_options').append(
                 '<div class="col-md-6"><div class="form-group"><input type="hidden" name="choice_no[]" value="' + i + '"><label class="title-color">' + n + '</label><input type="text" name="choice[]" value="' + n + '" hidden><div class=""><input type="text" class="form-control" name="choice_options_' + i + '[]" placeholder="{{ translate('
-                enter_choice_values ') }}" data-role="tagsinput" onchange="update_sku()"></div></div></div>'
+                enter_choice_values') }}" data-role="tagsinput" onchange="update_sku()"></div></div></div>'
             );
 
             $("input[data-role=tagsinput], select[multiple][data-role=tagsinput]").tagsinput();
@@ -1243,7 +1231,7 @@
                                 <div class="col-6 col-md-4 col-xl-4">
                                     <div class="position-relative p-2 border-dashed-2">
                                         <div class="upload--icon-btns d-flex gap-2 position-absolute z-index-2 p-2" >
-                                            <button type="button" class="btn btn-square text-white btn-sm" style="background: #${color_value['color']}"><i class="tio-done"></i></button>
+                                            <button type="button" class="btn btn-square text-white btn-sm" style="background: #${color_value['color']}"><i class="tio-edit"></i></button>
                                             <a href="` + remove_url + `?id=` + product_id + `&name=` + image_name + `&color=` + color_value['color'] + `"
                                         class="btn btn-outline-danger btn-sm square-btn"><i class="tio-delete"></i></a>
                                         </div>
@@ -1266,6 +1254,9 @@
                 if (in_array_image === -1) {
                     let html = ` <div class='col-6 col-md-4 col-xl-4'>
                                         <div class="position-relative p-2 border-dashed-2">
+                                            <div class="upload--icon-btns d-flex gap-2 position-absolute top-0 right-0 z-index-2 p-2" >
+                                                <button type="button" class="btn btn-square text-white btn-sm" style="background: ${value}; border-color: ${value}; color: #fff"><i class="tio-edit"></i></button>
+                                            </div>
                                             <label style='border-radius: 3px; cursor: pointer; text-align: center; overflow: hidden; position : relative; display: flex; align-items: center; margin: auto; justify-content: center; flex-direction: column;'>
                                             <span class="upload--icon" style="background: ${value}">
                                             <i class="tio-edit"></i>
