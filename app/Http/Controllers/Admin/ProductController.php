@@ -1079,14 +1079,12 @@ public function update(Request $request, $id)
 
         if ($request['status'] == 1) {
             if ($product->added_by == 'seller' && ($product->request_status == 0 || $product->request_status == 2)) {
-                $success = 0;
-            } else {
-                $product->status = $request['status'];
+                $product->request_status = 1;
             }
-        } else {
-            $product->status = $request['status'] ?? 0;
         }
+        $product->status = $request['status'] ?? 0;
         $product->save();
+
         return response()->json([
             'success' => $success,
         ], 200);

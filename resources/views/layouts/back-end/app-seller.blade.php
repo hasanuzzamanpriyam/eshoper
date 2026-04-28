@@ -501,7 +501,7 @@
                 $('#'+toggle_id).prop('checked', true);
                 $('#'+toggle_id).val(1);
             }
-            $('#'+toggle_id+'_form').submit();
+            $('#'+toggle_id+'_form').trigger('submit');
         }
 
         // Input Field Validation Custom Message

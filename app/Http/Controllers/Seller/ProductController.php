@@ -48,37 +48,42 @@ class ProductController extends Controller
 
     public function status_update(Request $request)
     {
-        if ($request['status'] != 1) {
-            Product::where(['id' => $request['id'], 'added_by' => 'seller', 'user_id' => \auth('seller')->id()])->update([
-                'status' => $request['status'] ?? 0,
-            ]);
-            return response()->json([
-                'success' => 1,
-            ], 200);
-        } elseif ($request['status'] == 1) {
-            if (Product::find($request['id'])->request_status == 1) {
-                Product::where(['id' => $request['id']])->update([
-                    'status' => $request['status'],
-                ]);
-                return response()->json([
-                    'success' => 1,
-                ], 200);
+        $product = Product::where(['id' => $request['id'], 'added_by' => 'seller', 'user_id' => auth('seller')->id()])->first();
+        $success = 1;
+
+        if ($product) {
+            if ($request['status'] == 1) {
+                if ($product->request_status == 1) {
+                    $product->status = $request['status'];
+                } else {
+                    $success = 0;
+                }
             } else {
-                return response()->json([
-                    'success' => 0,
-                ], 200);
+                $product->status = $request['status'] ?? 0;
             }
+
+            if ($success) {
+                $product->save();
+            }
+        } else {
+            $success = 0;
         }
+
+        return response()->json([
+            'success' => $success,
+        ], 200);
     }
 
     public function featured_status(Request $request)
     {
         if ($request->ajax()) {
-            $product = Product::find($request->id);
-            $product->featured_status = $request->status;
-            $product->save();
-            $data = $request->status;
-            return response()->json($data);
+            $product = Product::where(['id' => $request->id, 'added_by' => 'seller', 'user_id' => auth('seller')->id()])->first();
+            if ($product) {
+                $product->featured_status = $request->status;
+                $product->save();
+                return response()->json($request->status);
+            }
+            return response()->json(0);
         }
     }
 
@@ -1120,22 +1125,17 @@ class ProductController extends Controller
             return back();
         }
         $data = [];
-        $col_key = ['name', 'category_id', 'sub_category_id', 'sub_sub_category_id', 'brand_id', 'unit', 'minimum_order_qty', 'refundable', 'youtube_video_url', 'unit_price', 'purchase_price', 'tax', 'discount', 'discount_type', 'current_stock', 'details', 'thumbnail'];
-        $skip = ['youtube_video_url', 'details', 'thumbnail'];
+        $col_key = ['name', 'category_id', 'sub_category_id', 'sub_sub_category_id', 'brand_id', 'unit', 'minimum_order_qty', 'refundable', 'youtube_video_url', 'unit_price', 'purchase_price', 'tax', 'discount', 'discount_type', 'current_stock', 'details', 'thumbnail', 'sku', 'shipping_cost'];
+        $skip = ['youtube_video_url', 'details', 'thumbnail', 'sku', 'shipping_cost'];
         foreach ($collections as $collection) {
             foreach ($collection as $key => $value) {
-                if ($key != "" && !in_array($key, $col_key)) {
-                    Toastr::error(translate('Please_upload_the_correct_format_file'));
-                    return back();
-                }
-
                 if ($key != "" && $value === "" && !in_array($key, $skip)) {
                     Toastr::error(translate('Please_fill_' . $key . '_fields'));
                     return back();
                 }
             }
 
-            $thumbnail = explode('/', $collection['thumbnail']);
+            $thumbnail = explode('/', $collection['thumbnail'] ?? '');
 
             array_push($data, [
                 'name' => $collection['name'],
@@ -1153,13 +1153,13 @@ class ProductController extends Controller
                 'tax' => $collection['tax'],
                 'discount' => $collection['discount'],
                 'discount_type' => $collection['discount_type'],
-                'shipping_cost' => 0,
+                'shipping_cost' => $collection['shipping_cost'] ?? 0,
                 'current_stock' => $collection['current_stock'],
                 'details' => $collection['details'],
                 'video_provider' => 'youtube',
                 'video_url' => $collection['youtube_video_url'],
                 'images' => json_encode(['def.png']),
-                'thumbnail' => $thumbnail[1] ?? $thumbnail[0],
+                'thumbnail' => $thumbnail[1] ?? $thumbnail[0] ?? 'def.png',
                 'status' => 0,
                 'colors' => json_encode([]),
                 'attributes' => json_encode([]),
@@ -1168,6 +1168,7 @@ class ProductController extends Controller
                 'featured_status' => 1,
                 'added_by' => 'seller',
                 'user_id' => auth('seller')->id(),
+                'code' => $collection['sku'] ?? Str::random(10),
             ]);
         }
         DB::table('products')->insert($data);
@@ -1221,8 +1222,9 @@ class ProductController extends Controller
                 'discount_type' => $item->discount_type,
                 'current_stock' => $item->current_stock,
                 'details' => $item->details,
-                'thumbnail' => 'thumbnail/' . $item->thumbnail
-
+                'thumbnail' => 'thumbnail/' . $item->thumbnail,
+                'sku' => $item->code,
+                'shipping_cost' => $item->shipping_cost,
             ];
         }
         return (new FastExcel($storage))->download('products.xlsx');
