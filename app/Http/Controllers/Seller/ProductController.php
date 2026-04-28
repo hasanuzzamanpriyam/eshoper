@@ -892,6 +892,67 @@ class ProductController extends Controller
         if ($request->ajax()) {
             return response()->json([], 200);
         } else {
+            $product_images = json_decode($product->images, true) ?? [];
+            $color_image_array = [];
+
+            if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
+                $db_color_image = $product->color_image ? json_decode($product->color_image, true) : [];
+                if (!$db_color_image) {
+                    foreach ($product_images as $image) {
+                        $db_color_image[] = [
+                            'color' => null,
+                            'image_name' => $image,
+                        ];
+                    }
+                }
+
+                $db_color_image_final = [];
+                if ($db_color_image) {
+                    foreach ($db_color_image as $color_img) {
+                        if (isset($color_img['color'])) {
+                            $db_color_image_final[] = $color_img['color'];
+                        }
+                    }
+                }
+
+                $input_colors = [];
+                foreach ($request->colors as $color) {
+                    $input_colors[] = str_replace('#', '', $color);
+                }
+                $diff_color = array_diff($db_color_image_final, $input_colors);
+
+                $color_image_required = [];
+                if ($db_color_image) {
+                    foreach ($db_color_image as $color_img) {
+                        if ($color_img['color'] != null && !in_array($color_img['color'], $diff_color)) {
+                            $color_image_required[] = [
+                                'color' => $color_img['color'],
+                                'image_name' => $color_img['image_name'],
+                            ];
+                        }
+                    }
+                }
+                $color_image_array = $color_image_required;
+
+                foreach ($input_colors as $color) {
+                    if (!in_array($color, $db_color_image_final)) {
+                        $img = 'color_image_' . $color;
+                        if ($request->file($img)) {
+                            $image_name = ImageManager::upload('product/', 'webp', $request->file($img));
+                            $product_images[] = $image_name;
+                            $col_img_arr = [
+                                'color' => $color,
+                                'image_name' => $image_name,
+                            ];
+                            $color_image_array[] = $col_img_arr;
+                        }
+                    }
+                }
+                $product->color_image = json_encode($color_image_array);
+            } else {
+                $product->color_image = json_encode([]);
+            }
+
             if ($request->file('images')) {
                 foreach ($request->file('images') as $img) {
                     $image_name = ImageManager::upload('product/', 'webp', $img);
@@ -903,9 +964,9 @@ class ProductController extends Controller
                         ];
                     }
                 }
+                $product->color_image = json_encode($color_image_array);
             }
             $product->images = json_encode($product_images);
-            $product->color_image = json_encode($color_image_array);
 
             if ($request->file('image')) {
                 $product->thumbnail = ImageManager::update('product/thumbnail/', $product->thumbnail, 'webp', $request->file('image'));
