@@ -61,6 +61,7 @@
                                             @if(theme_root_path() != 'theme_fashion')
                                                 <option value="Footer Banner">{{ translate('footer_Banner')}}</option>
                                                 <option value="Main Section Banner">{{ translate('main_Section_Banner')}}</option>
+                                                <option value="Just For You Banner">{{ translate('just_For_You_Banner')}}</option>
                                             @endif
 
                                             @if(theme_root_path() == 'theme_aster')
@@ -222,6 +223,7 @@
                                                         @if(theme_root_path() != 'theme_fashion')
                                                             <option value="Footer Banner" {{ $search == "Footer Banner" ? 'selected':'' }}>{{ translate('footer_Banner')}}</option>
                                                             <option value="Main Section Banner" {{ $search == "Main Section Banner" ? 'selected':'' }}>{{ translate('main_Section_Banner')}}</option>
+                                                            <option value="Just For You Banner" {{ $search == "Just For You Banner" ? 'selected':'' }}>{{ translate('just_For_You_Banner')}}</option>
                                                         @endif
 
                                                         @if(theme_root_path() == 'theme_aster')

@@ -15,7 +15,7 @@ class BannerController extends Controller
     {
         $banner_types = [];
         if (theme_root_path() == 'default') {
-            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner"];
+            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner", "Just For You Banner"];
         }else if (theme_root_path() == 'theme_aster') {
             $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner","Header Banner","Sidebar Banner", "Top Side Banner"];
         }if (theme_root_path() == 'theme_fashion') {

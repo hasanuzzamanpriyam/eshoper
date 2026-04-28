@@ -6916,4 +6916,6 @@
   'products_imported_successfully' => 'Products imported successfully',
   'Please fill sub_category_id fields' => 'Please fill sub category id fields',
   'code_must_be_minimum_5_digits!' => 'Code must be minimum 5 digits!',
+  'just_For_You_Banner' => 'Just For You Banner',
+  'Just For You Banner' => 'Just For You Banner',
 );
