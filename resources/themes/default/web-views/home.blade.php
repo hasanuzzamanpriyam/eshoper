@@ -241,7 +241,7 @@
         }
         @media (min-width: 1200px) {
             .for-you-product-grid {
-                grid-template-columns: repeat(5, 1fr);
+                grid-template-columns: repeat(6, 1fr);
             }
         }
 
@@ -407,7 +407,7 @@
         <div class="container rtl mb-3">
             <div class="py-2">
                 <div class="for-you-product-grid">
-                    @foreach($for_you_products->take(10) as $key => $product)
+                    @foreach($for_you_products->take(12) as $key => $product)
                         <div>
                             @include('web-views.partials._single-product', ['product' => $product, 'decimal_point_settings' => $decimal_point_settings])
                         </div>
