@@ -331,6 +331,9 @@ a {
         visibility: hidden;
         opacity: 0;
         transition: all ease 0.1s;
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
     .__dropdown-menu-2 .dropdown-menu {
         min-width: 250px !important;
@@ -439,6 +442,11 @@ a {
     .navbar-tool-icon-box .navbar-tool-icon {
         font-size: 1rem;
         line-height: 2.25rem;
+    }
+    .__dropdown-menu-2 {
+        max-height: calc(100vh - 160px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
     }
 }
 .__mega-nav {
@@ -7861,8 +7869,10 @@ span.badge-accent:hover {
         0px 2px 5px -4px rgba(27, 127, 237, 0.05);
     margin-top: 0;
     margin-bottom: 0;
-    max-height: 386px;
+    max-height: min(386px, calc(100vh - 180px));
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
 }
 
 .category-menu-wrap .category-menu > li {
