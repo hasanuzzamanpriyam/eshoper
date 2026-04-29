@@ -7873,6 +7873,26 @@ span.badge-accent:hover {
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: #f58300 #f1f1f1;
+}
+
+.category-menu-wrap .category-menu::-webkit-scrollbar {
+    width: 4px;
+}
+
+.category-menu-wrap .category-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.category-menu-wrap .category-menu::-webkit-scrollbar-thumb {
+    background: #f58300;
+    border-radius: 10px;
+}
+
+.category-menu-wrap .category-menu::-webkit-scrollbar-thumb:hover {
+    background: #d47100;
 }
 
 .category-menu-wrap .category-menu > li {

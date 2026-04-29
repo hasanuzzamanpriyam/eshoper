@@ -286,7 +286,7 @@
                             <i class="tio-clear __text-26px"></i>
                         </button>
                     </div>
-                    @php($categories=\App\Model\Category::with(['childes.childes'])->where('position', 0)->priority()->paginate(11))
+                    @php($categories=\App\Model\Category::with(['childes.childes'])->where('position', 0)->priority()->get())
                     <ul class="navbar-nav mega-nav pr-lg-2 pl-lg-2 {{Session::get('direction') === "rtl" ? 'mr-2' : 'mr-2'}} d-none d-md-block __mega-nav">
                         <li class="nav-item {{!request()->is('/')?'dropdown':''}}">
 
