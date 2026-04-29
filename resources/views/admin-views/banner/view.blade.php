@@ -285,7 +285,7 @@
                                     </td>
                                     <td>{{translate(str_replace('_',' ',$banner->banner_type))}}</td>
                                     <td>
-                                        <form action="{{route('admin.banner.status')}}" method="post" id="banner_status{{$banner['id']}}_form" class="banner_status_form">
+                                        <form action="{{route('admin.banner.status')}}" method="post" id="banner_status{{$banner['id']}}_form" class="banner_status_form" data-banner-type="{{$banner->banner_type}}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{$banner['id']}}">
                                             <label class="switcher">
@@ -428,6 +428,9 @@
                     'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                 }
             });
+            let banner_type = $(this).data('banner-type');
+            let status = $(this).find('input[name="status"]:checked').val();
+
             $.ajax({
                 url: "{{route('admin.banner.status')}}",
                 method: 'POST',
@@ -437,6 +440,12 @@
                         toastr.success('{{translate("banner_published_successfully")}}');
                     } else {
                         toastr.success('{{translate("banner_unpublished_successfully")}}');
+                    }
+
+                    if (banner_type === 'Just For You Banner' && data == 1) {
+                        setTimeout(function(){
+                            location.reload();
+                        }, 1000);
                     }
                 }
             });

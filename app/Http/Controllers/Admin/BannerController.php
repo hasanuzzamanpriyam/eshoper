@@ -61,6 +61,12 @@ class BannerController extends Controller
         $banner->background_color = $request->background_color;
         $banner->url = $request->url;
         $banner->photo = ImageManager::upload('banner/', 'webp', $request->file('image'));
+
+        if ($request->banner_type == 'Just For You Banner') {
+            Banner::where(['banner_type' => 'Just For You Banner', 'theme' => theme_root_path()])->update(['published' => 0]);
+            $banner->published = 1;
+        }
+
         $banner->save();
         Toastr::success(translate('banner_added_successfully'));
         return back();
@@ -72,6 +78,13 @@ class BannerController extends Controller
             $banner = Banner::find($request->id);
             $banner->published = $request->status ?? 0;
             $banner->save();
+
+            if ($banner->banner_type == 'Just For You Banner' && $request->status == 1) {
+                Banner::where(['banner_type' => 'Just For You Banner', 'theme' => theme_root_path()])
+                    ->where('id', '!=', $banner->id)
+                    ->update(['published' => 0]);
+            }
+
             $data = $request->status ?? 0;
             return response()->json($data);
         }
@@ -103,6 +116,12 @@ class BannerController extends Controller
         if ($request->file('image')) {
             $banner->photo = ImageManager::update('banner/', $banner['photo'], 'webp', $request->file('image'));
         }
+
+        if ($request->banner_type == 'Just For You Banner') {
+            Banner::where(['banner_type' => 'Just For You Banner', 'theme' => theme_root_path()])->update(['published' => 0]);
+            $banner->published = 1;
+        }
+
         $banner->save();
 
         Toastr::success(translate('banner_updated_successfully'));

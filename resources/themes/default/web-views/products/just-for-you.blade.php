@@ -25,6 +25,19 @@
 @php($decimal_point_settings = \App\CPU\Helpers::get_business_settings('decimal_point_settings'))
     <!-- Page Title-->
     <div class="container py-3">
+
+        @if($banner)
+<div class="mb-3 border border-2" style="width: 100%;">
+    <a href="{{ $banner->url }}">
+        <img class="radius-5"
+             style="width: 100%; height: 200px; object-fit: fill;"
+             onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'"
+             src="{{asset('storage/banner')}}/{{$banner['photo']}}"
+             alt="">
+    </a>
+</div>
+    @endif
+
         <div class="search-page-header">
             <div>
                 <h5 class="font-semibold mb-1">Products For You</h5>
@@ -52,6 +65,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Page Content-->
     <div class="container pb-5 mb-2 mb-md-4 rtl">

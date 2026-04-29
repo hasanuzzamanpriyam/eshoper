@@ -72,7 +72,9 @@ class ProductListController extends Controller
             ], 200);
         }
 
-        return view('web-views.products.just-for-you', compact('products', 'data'));
+        $banner = \App\Model\Banner::where(['banner_type' => 'Just For You Banner', 'published' => 1])->where('theme', theme_root_path())->first();
+
+        return view('web-views.products.just-for-you', compact('products', 'data', 'banner'));
     }
 
     public function searchSuggestions(Request $request)
