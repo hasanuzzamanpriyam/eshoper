@@ -89,7 +89,7 @@
             <div class="card-body">
                 <div class="form-group">
                     <label class="title-color">{{ translate('other_info') }}</label>
-                    <textarea name="other_info" class="form-control" rows="3"
+                    <textarea name="other_info" maxlength="140" class="form-control" rows="3"
                         placeholder="{{ translate('enter_additional_info') }}"></textarea>
                 </div>
             </div>

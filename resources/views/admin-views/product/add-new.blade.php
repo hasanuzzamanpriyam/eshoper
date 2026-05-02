@@ -88,20 +88,19 @@
             <div class="card-header">
                 <div class="d-flex gap-2">
                     <i class="tio-user-big"></i>
-                    <h4 class="mb-0">{{ translate('additional_info') }}</h4>
+                    <h4 class="mb-0">{{ translate("additional_info") }}</h4>
                 </div>
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label class="title-color">{{ translate('other_info') }}</label>
-                    <textarea name="other_info" class="form-control" rows="3"
-                        placeholder="{{ translate('enter_additional_info') }}"></textarea>
+                    <label class="title-color">{{ translate("other_info") }}</label>
+                    <textarea name="other_info" maxlength="140" class="form-control" rows="3"
+                        placeholder="{{ translate("enter_additional_info") }}"></textarea>
                 </div>
             </div>
         </div>
 
-        <!-- Meta Tags Section -->
-        <div class="card mt-3 rest-part">
+
             <div class="card-header">
                 <div class="d-flex gap-2">
                     <i class="tio-user-big"></i>

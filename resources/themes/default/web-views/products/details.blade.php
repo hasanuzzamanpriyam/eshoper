@@ -347,7 +347,7 @@
                     <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3" style="direction: {{ Session::get('direction') }}">
                         <div class="details __h-100">
                             <span class="mb-2 __inline-24">{{$product->name}}</span>
-                            <div class="d-flex flex-wrap align-items-center mb-2 pro">
+                            {{-- <div class="d-flex flex-wrap align-items-center mb-2 pro">
                                 <div class="star-rating" style="{{Session::get('direction') === "rtl" ? 'margin-left: 10px;' : 'margin-right: 10px;'}}">
                                     @for($inc=1;$inc<=5;$inc++)
                                         @if ($inc <=(int)$overallRating[0])
@@ -367,7 +367,16 @@
                                 <span class="__inline-25"> </span>
                                 <span class="font-regular font-for-tab d-inline-block font-size-sm text-body align-middle mt-1 {{Session::get('direction') === "rtl" ? 'mr-1 ml-md-2 ml-0 pr-md-2 pr-sm-1 pl-md-2 pl-sm-1' : 'ml-1 mr-md-2 mr-0 pl-md-2 pl-sm-1 pr-md-2 pr-sm-1'}} text-capitalize"> <span style="color: {{$web_config['primary_color']}}"> {{$countWishlist}}</span> {{translate('wish_listed')}} </span>
 
-                            </div>
+                            </div> --}}
+                            <!-- Other Info Section -->
+                        @if($product->other_info)
+                        <div class="">
+                                    <div class="card-text my-2">
+                                        {{ $product->other_info }}
+                                    </div>
+                    
+                        </div>
+                        @endif
                             <div class="mb-3">
                                 <span class="f-20 font-weight-normal text-accent ">
                                     {!! \App\CPU\Helpers::get_price_range_with_discount($product) !!}
@@ -523,18 +532,7 @@
                                 </button>
 
                         </div>
-                        <!-- Other Info Section -->
-                        @if($product->other_info)
-                        <div class="mt-4">
-                            <div class="card border-0">
-                                <div class="card-body">
-                                    <div class="card-text">
-                                        {{ $product->other_info }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endif
+                        
                         </form>
 
                     </div>
@@ -794,6 +792,7 @@
                                         src="{{ asset('/storage/company-reliability').'/'.$value['image'] }}"
                                         onerror="this.onerror=null;this.src='{{ asset('/assets/front-end/img/image-place-holder.png') }}'"
                                         alt=""> -->
+                                    <span class="text-xl">🔰</span>
                                     <span>{{ translate($value['title']) }}</span>
                                 </div>
                             </div>
@@ -801,17 +800,19 @@
 
                         </div>
                         @endif
-                        @if(count($metaTags) > 0)
-                        <div class="product-details-shipping-details">
-                            @foreach($metaTags as $tag)
-                            <div class="shipping-details-bottom-border">
-                                <div class="px-3 py-3">
-                                    <span>{{ $tag }}</span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        @endif
+@if(!empty($metaTags) && count($metaTags) > 0)
+    <div class="product-details-shipping-details">
+        @foreach($metaTags as $tag)
+            @if(!empty(trim($tag)))
+                <div class="shipping-details-bottom-border">
+                    <div class="px-3 py-3">
+                        <span>🔰 {{ $tag }}</span>
+                    </div>
+                </div>
+            @endif
+        @endforeach
+    </div>
+@endif
 
                     </div>
                 </div>

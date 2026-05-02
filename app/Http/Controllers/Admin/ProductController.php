@@ -184,6 +184,7 @@ class ProductController extends BaseController
             'code'                 => 'required|numeric|min:1|digits_between:5,20|unique:products',
             'slug'                 => 'required|unique:products',
             'minimum_order_qty'    => 'required|numeric|min:1',
+            'other_info'           => 'nullable|max:140',
         ], [
             'image.required'                   => translate('product_thumbnail_is_required!'),
             'category_id.required'             => translate('category_is_required!'),
@@ -530,6 +531,7 @@ public function update(Request $request, $id)
             'code'                  => 'required|numeric|min:1|digits_between:5,20|unique:products,code,' . $product->id,
             'slug'                  => 'required|unique:products,slug,' . $product->id,
             'minimum_order_qty'     => 'required|numeric|min:1',
+            'other_info'            => 'nullable|max:140',
         ], [
             'name.required'                     => 'Product name is required!',
             'category_id.required'              => 'Category is required!',

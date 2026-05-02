@@ -6919,4 +6919,5 @@
   'just_For_You_Banner' => 'Just For You Banner',
   'Just For You Banner' => 'Just For You Banner',
   ' enter_choice_values' => ' enter choice values',
+  'Failed to Deliver' => 'Failed to Deliver',
 );

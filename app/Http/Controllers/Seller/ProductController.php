@@ -106,6 +106,7 @@ class ProductController extends Controller
             'code'                  => 'required|numeric|min:1|digits_between:5,20|unique:products',
             'slug'                  => 'required|unique:products',
             'minimum_order_qty'     => 'required|numeric|min:1',
+            'other_info'            => 'nullable|max:140',
 
         ], [
             'name.required'                     => 'Product name is required!',
@@ -646,6 +647,7 @@ class ProductController extends Controller
             'code'                  => 'required|numeric|min:1|digits_between:5,20|unique:products,code,' . $product->id,
             'slug'                  => 'required|unique:products,slug,' . $product->id,
             'minimum_order_qty'     => 'required|numeric|min:1',
+            'other_info'            => 'nullable|max:140',
         ], [
             'name.required'                     => 'Product name is required!',
             'category_id.required'              => 'Category is required!',
