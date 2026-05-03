@@ -145,7 +145,6 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('get-sub-category', 'SubSubCategoryController@getSubCategory')->name('getSubCategory');
             Route::post('get-category-id', 'SubSubCategoryController@getCategoryId')->name('getCategoryId');
         });
-
         Route::group(['prefix' => 'brand', 'as' => 'brand.', 'middleware' => ['module:product_management']], function () {
             Route::get('add-new', 'BrandController@add_new')->name('add-new');
             Route::post('add-new', 'BrandController@store');
@@ -155,6 +154,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('delete', 'BrandController@delete')->name('delete');
             Route::get('export', 'BrandController@export')->name('export');
             Route::post('status-update', 'BrandController@status_update')->name('status-update');
+        });
+
+        Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
+            Route::get('add-new', 'BlogController@add_new')->name('add-new');
+            Route::post('add-new', 'BlogController@store');
+            Route::get('view/{slug?}', 'BlogController@view')->name('view');
+            Route::get('edit/{id}', 'BlogController@edit')->name('edit');
+            Route::post('update/{id}', 'BlogController@update')->name('update');
+            Route::post('delete', 'BlogController@delete')->name('delete');
         });
 
         Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:promotion_management']], function () {

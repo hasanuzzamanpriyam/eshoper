@@ -330,6 +330,24 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('admin/blog*')?'active':''}}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                href="javascript:" title="Blogs">
+                                <i class="tio-book-opened nav-icon"></i>
+                                <span
+                                    class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">Blogs</span>
+                            </a>
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                style="display: {{Request::is('admin/blog*')?'block':'none'}}">
+                                <li class="nav-item {{Request::is('admin/blog/add-new')?'active':''}}"
+                                    title="Add New">
+                                    <a class="nav-link " href="{{route('admin.blog.add-new')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">Add New</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin/attribute*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.attribute.view')}}"
