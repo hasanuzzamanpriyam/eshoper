@@ -6921,4 +6921,8 @@
   ' enter_choice_values' => ' enter choice values',
   'Failed to Deliver' => 'Failed to Deliver',
   'Please fill all required fields of billing address' => 'Please fill all required fields of billing address',
+  'blogs' => 'Blogs',
+  'back_to_blogs' => 'Back to blogs',
+  'recent_posts' => 'Recent posts',
+  'read_our_latest_articles_and_stay_updated' => 'Read our latest articles and stay updated',
 );

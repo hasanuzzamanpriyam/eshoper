@@ -34,7 +34,7 @@ class BlogController extends Controller
         $blog = new Blog;
         $blog->heading = $request->heading;
         $blog->description = $request->description;
-        $blog->slug = Str::slug($request->heading); // Generate slug from heading
+        $blog->slug = Str::slug($request->slug); // Use manual slug input
         $blog->image = ImageManager::upload('blog/', 'webp', $request->file('image'));
         $blog->status = 1;
         $blog->save();
@@ -79,7 +79,7 @@ class BlogController extends Controller
         $blog = Blog::find($id);
         $blog->heading = $request->heading;
         $blog->description = $request->description;
-        $blog->slug = Str::slug($request->heading); // Generate slug from heading
+        $blog->slug = Str::slug($request->slug); // Use manual slug input
         if ($request->has('image')) {
             $blog->image = ImageManager::update('blog/', $blog->image, 'webp', $request->file('image'));
         }
@@ -97,5 +97,17 @@ class BlogController extends Controller
         }
         $blog->delete();
         return response()->json();
+    }
+
+    public function check_slug(Request $request)
+    {
+        $slug = Str::slug($request->slug);
+        $exists = Blog::where('slug', $slug);
+        if ($request->has('id')) {
+            $exists = $exists->where('id', '!=', $request->id);
+        }
+        $exists = $exists->exists();
+
+        return response()->json(['exists' => $exists]);
     }
 }

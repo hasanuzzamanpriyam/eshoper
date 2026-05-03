@@ -97,6 +97,8 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('helpTopic', 'PageController@helpTopic')->name('helpTopic');
     Route::get('contacts', 'PageController@contacts')->name('contacts');
     Route::get('about-us', 'PageController@about_us')->name('about-us');
+    Route::get('blogs', 'PageController@blogs')->name('blogs');
+    Route::get('blogs/{slug}', 'PageController@blog_show')->name('blog.show');
 
     Route::get('/product/{slug}', 'ProductDetailsController@product')->name('product');
     Route::get('products/{slug?}', 'ProductListController@products')->name('products');

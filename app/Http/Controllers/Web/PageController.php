@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Model\Blog;
 use App\Model\BusinessSetting;
 use App\Model\HelpTopic;
 use Illuminate\Http\Request;
@@ -82,5 +83,19 @@ class PageController extends Controller
         $cancellation_policy = $cancellation_policy->content;
         $page_title_banner = $this->business_settings->where('type', 'banner_cancellation_policy')->whereJsonContains('value', ['status' => '1'])->first('value');
         return view(VIEW_FILE_NAMES['cancellation_policy_page'], compact('cancellation_policy','page_title_banner'));
+    }
+
+    public function blogs()
+    {
+        $blogs = Blog::where('status', 1)->latest()->paginate(6);
+        $recentPosts = Blog::where('status', 1)->latest()->take(5)->get();
+        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts'));
+    }
+
+    public function blog_show($slug)
+    {
+        $blog = Blog::where('slug', $slug)->where('status', 1)->firstOrFail();
+        $recentPosts = Blog::where('status', 1)->latest()->take(5)->get();
+        return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts'));
     }
 }

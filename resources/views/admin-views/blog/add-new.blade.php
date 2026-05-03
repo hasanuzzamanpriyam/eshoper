@@ -35,6 +35,7 @@
                                     <div class="form-group">
                                         <label for="slug" class="title-color">Slug<span class="text-danger">*</span></label>
                                         <input type="text" name="slug" id="slug" class="form-control" placeholder="Enter Slug" required>
+                                        <div id="slug-message" class="mt-1" style="font-size: 0.85rem;"></div>
                                     </div>
                                     {{-- End Slug Field --}}
                                     <div class="form-group">
@@ -184,6 +185,35 @@
         function convertToSlug(Text) {
             // Remove unwanted characters, convert to lower case, replace spaces with hyphens
             return Text.toLowerCase().replace(/[^a-z0-9 -]/g, '').replace(/\s+/g, '-');
+        }
+
+        $('#slug').on('keyup', function () {
+            checkSlug($(this).val());
+        });
+
+        function checkSlug(slug) {
+            if (slug.length > 0) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.post({
+                    url: '{{ route('admin.blog.check-slug') }}',
+                    data: {
+                        slug: slug
+                    },
+                    success: function (data) {
+                        if (data.exists) {
+                            $('#slug-message').html('<span class="text-danger">This slug is already in use.</span>');
+                        } else {
+                            $('#slug-message').html('<span class="text-success">Slug is available.</span>');
+                        }
+                    }
+                });
+            } else {
+                $('#slug-message').html('');
+            }
         }
 
         $(document).on('click', '.delete', function() {

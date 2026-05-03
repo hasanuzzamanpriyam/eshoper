@@ -163,6 +163,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('edit/{id}', 'BlogController@edit')->name('edit');
             Route::post('update/{id}', 'BlogController@update')->name('update');
             Route::post('delete', 'BlogController@delete')->name('delete');
+            Route::post('check-slug', 'BlogController@check_slug')->name('check-slug');
         });
 
         Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:promotion_management']], function () {

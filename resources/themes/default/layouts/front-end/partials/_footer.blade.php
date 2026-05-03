@@ -137,6 +137,9 @@
                                     <li class="widget-list-item"><a class="widget-list-link"
                                                                     href="{{route('products',['data_from'=>'top-rated','page'=>1])}}">{{translate('top_rated_product')}}</a>
                                     </li>
+                                    <li class="widget-list-item"><a class="widget-list-link"
+                                                                    href="{{route('blogs')}}">{{translate('blogs')}}</a>
+                                    </li>
 
                                 </ul>
                             </div>
