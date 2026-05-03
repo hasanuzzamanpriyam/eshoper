@@ -346,6 +346,13 @@
                                         <span class="text-truncate">Add New</span>
                                     </a>
                                 </li>
+                                <li class="nav-item {{Request::is('admin/blog-category*')?'active':''}}"
+                                    title="Blog Categories">
+                                    <a class="nav-link" href="{{route('admin.blog-category.add-new')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">Categories</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin/attribute*')?'active':''}}">

@@ -166,6 +166,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('check-slug', 'BlogController@check_slug')->name('check-slug');
         });
 
+        Route::group(['prefix' => 'blog-category', 'as' => 'blog-category.'], function () {
+            Route::get('add-new', 'BlogCategoryController@add_new')->name('add-new');
+            Route::post('store', 'BlogCategoryController@store')->name('store');
+            Route::get('edit/{id}', 'BlogCategoryController@edit')->name('edit');
+            Route::post('update/{id}', 'BlogCategoryController@update')->name('update');
+            Route::post('status', 'BlogCategoryController@status')->name('status');
+            Route::post('delete', 'BlogCategoryController@delete')->name('delete');
+            Route::post('check-slug', 'BlogCategoryController@check_slug')->name('check-slug');
+        });
+
         Route::group(['prefix' => 'banner', 'as' => 'banner.', 'middleware' => ['module:promotion_management']], function () {
             Route::post('add-new', 'BannerController@store')->name('store');
             Route::get('list', 'BannerController@list')->name('list');
