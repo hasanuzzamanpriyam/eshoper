@@ -966,6 +966,40 @@
             var billing_addresss_same_shipping = false;
         }
 
+        if (physical_product === 'yes') {
+            let name = $('#name').val();
+            let phone = $('#phone').val();
+            let email = $('#email').length ? $('#email').val() : 'not_empty';
+            let city = $('#city').val();
+            let thana = $('#thana').val();
+            let address = $('#address').val();
+
+            if (!name || !phone || (!email && $('#email').length) || !city || !thana || !address) {
+                toastr.error('{{translate("Please fill all required fields of shipping address")}}', {
+                    CloseButton: true,
+                    ProgressBar: true
+                });
+                return;
+            }
+
+            if (billing_addresss_same_shipping != true) {
+                let billing_contact_person_name = $('#billing_contact_person_name').val();
+                let billing_phone = $('#billing_phone').val();
+                let billing_contact_email = $('#billing_contact_email').length ? $('#billing_contact_email').val() : 'not_empty';
+                let billing_city = $('#billing_city').val();
+                let billing_zip = $('#billing_zip').length ? $('#billing_zip').val() : 'not_empty';
+                let billing_address = $('#billing_address').val();
+
+                if (!billing_contact_person_name || !billing_phone || (!billing_contact_email && $('#billing_contact_email').length) || !billing_city || !billing_zip || !billing_address) {
+                    toastr.error('{{translate("Please fill all required fields of billing address")}}', {
+                        CloseButton: true,
+                        ProgressBar: true
+                    });
+                    return;
+                }
+            }
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')

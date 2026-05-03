@@ -6920,4 +6920,5 @@
   'Just For You Banner' => 'Just For You Banner',
   ' enter_choice_values' => ' enter choice values',
   'Failed to Deliver' => 'Failed to Deliver',
+  'Please fill all required fields of billing address' => 'Please fill all required fields of billing address',
 );
