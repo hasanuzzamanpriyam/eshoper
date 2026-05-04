@@ -6925,4 +6925,9 @@
   'back_to_blogs' => 'Back to blogs',
   'recent_posts' => 'Recent posts',
   'read_our_latest_articles_and_stay_updated' => 'Read our latest articles and stay updated',
+  'uncategorized' => 'Uncategorized',
+  'play_store' => 'Play store',
+  'app_store' => 'App store',
+  'get_the_best_shopping_experience_on_the_go' => 'Get the best shopping experience on the go',
+  'search_blogs' => 'Search blogs',
 );

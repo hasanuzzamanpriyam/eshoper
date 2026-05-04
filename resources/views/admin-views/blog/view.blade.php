@@ -24,7 +24,11 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h3>{{ $blog['heading'] }}</h3>
-                        <p class="text-muted"><strong>Slug:</strong> {{ $blog['slug'] }}</p>
+                        <div class="d-flex flex-wrap gap-3 mb-2">
+                            <p class="text-muted mb-0"><strong>Category:</strong> {{ $blog->category->name ?? 'N/A' }}</p>
+                            <p class="text-muted mb-0"><strong>Author:</strong> {{ $blog['author_name'] ?? 'N/A' }}</p>
+                            <p class="text-muted mb-0"><strong>Slug:</strong> {{ $blog['slug'] }}</p>
+                        </div>
                         @if($blog['image'])
                             <div class="mb-4 text-center">
                                 <img class="upload-img-view" style="max-width: 400px; height: auto;" src="{{ asset('storage/blog') }}/{{ $blog['image'] }}" alt="blog image" onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'" />

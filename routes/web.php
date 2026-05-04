@@ -98,6 +98,7 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     Route::get('contacts', 'PageController@contacts')->name('contacts');
     Route::get('about-us', 'PageController@about_us')->name('about-us');
     Route::get('blogs', 'PageController@blogs')->name('blogs');
+    Route::get('blogs-search', 'BlogSearchController@search')->name('blogs.search');
     Route::get('blogs/{slug}', 'PageController@blog_show')->name('blog.show');
 
     Route::get('/product/{slug}', 'ProductDetailsController@product')->name('product');

@@ -85,17 +85,29 @@ class PageController extends Controller
         return view(VIEW_FILE_NAMES['cancellation_policy_page'], compact('cancellation_policy','page_title_banner'));
     }
 
-    public function blogs()
+    public function blogs(Request $request)
     {
-        $blogs = Blog::where('status', 1)->latest()->paginate(6);
-        $recentPosts = Blog::where('status', 1)->latest()->take(5)->get();
-        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts'));
+        $query = Blog::with('category')->where('status', 1);
+
+        if ($request->has('search') && $request->search != null) {
+            $query->where('heading', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('category') && $request->category != null) {
+            $query->where('blog_category_id', $request->category);
+        }
+
+        $blogs = $query->latest()->paginate(6);
+        $recentPosts = Blog::with('category')->where('status', 1)->latest()->take(5)->get();
+        $categories = \App\Model\BlogCategory::where('status', 1)->get();
+
+        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts', 'categories'));
     }
 
     public function blog_show($slug)
     {
-        $blog = Blog::where('slug', $slug)->where('status', 1)->firstOrFail();
-        $recentPosts = Blog::where('status', 1)->latest()->take(5)->get();
+        $blog = Blog::with('category')->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $recentPosts = Blog::with('category')->where('status', 1)->latest()->take(5)->get();
         return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts'));
     }
 }

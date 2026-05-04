@@ -28,8 +28,21 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label for="blog_category_id" class="title-color">Blog Category<span class="text-danger">*</span></label>
+                                        <select name="blog_category_id" id="blog_category_id" class="form-control" required>
+                                            <option value="" disabled>Select Category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}" {{ $blog['blog_category_id'] == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="heading" class="title-color">Heading<span class="text-danger">*</span></label>
                                         <input type="text" name="heading" class="form-control" id="heading" value="{{ $blog['heading'] }}" placeholder="Enter Heading" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="author_name" class="title-color">Author Name</label>
+                                        <input type="text" name="author_name" class="form-control" id="author_name" value="{{ $blog['author_name'] }}" placeholder="Enter Author Name">
                                     </div>
                                     {{-- Add Slug Field --}}
                                     <div class="form-group">

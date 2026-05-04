@@ -14,27 +14,32 @@ class BlogController extends Controller
 {
     public function add_new()
     {
+        $categories = \App\Model\BlogCategory::where('status', 1)->get();
         $blogs = Blog::latest()->paginate(Helpers::pagination_limit());
-        return view('admin-views.blog.add-new', compact('blogs'));
+        return view('admin-views.blog.add-new', compact('blogs', 'categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
+            'blog_category_id' => 'required',
             'heading' => 'required',
             'description' => 'required',
-            'slug' => 'required|unique:blogs', // Added slug validation
+            'slug' => 'required|unique:blogs',
         ], [
+            'blog_category_id.required' => 'Blog Category is required!',
             'heading.required' => 'Heading is required!',
             'description.required' => 'Description is required!',
-            'slug.required' => 'Slug is required!', // Added slug error message
-            'slug.unique' => 'Slug must be unique!', // Added slug uniqueness error message
+            'slug.required' => 'Slug is required!',
+            'slug.unique' => 'Slug must be unique!',
         ]);
 
         $blog = new Blog;
+        $blog->blog_category_id = $request->blog_category_id;
         $blog->heading = $request->heading;
+        $blog->author_name = $request->author_name;
         $blog->description = $request->description;
-        $blog->slug = Str::slug($request->slug); // Use manual slug input
+        $blog->slug = Str::slug($request->slug);
         $blog->image = ImageManager::upload('blog/', 'webp', $request->file('image'));
         $blog->status = 1;
         $blog->save();
@@ -49,7 +54,7 @@ class BlogController extends Controller
             Toastr::error('Invalid blog slug!');
             return back();
         }
-        $blog = Blog::where('slug', $slug)->first();
+        $blog = Blog::with('category')->where('slug', $slug)->first();
         if (!$blog) {
             Toastr::error('Blog not found!');
             return back();
@@ -59,27 +64,32 @@ class BlogController extends Controller
 
     public function edit($id)
     {
+        $categories = \App\Model\BlogCategory::where('status', 1)->get();
         $blog = Blog::find($id);
-        return view('admin-views.blog.edit', compact('blog'));
+        return view('admin-views.blog.edit', compact('blog', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
+            'blog_category_id' => 'required',
             'heading' => 'required',
             'description' => 'required',
-            'slug' => 'required|unique:blogs,slug,'.$id, // Added slug validation, allowing current ID
+            'slug' => 'required|unique:blogs,slug,'.$id,
         ], [
+            'blog_category_id.required' => 'Blog Category is required!',
             'heading.required' => 'Heading is required!',
             'description.required' => 'Description is required!',
-            'slug.required' => 'Slug is required!', // Added slug error message
-            'slug.unique' => 'Slug must be unique!', // Added slug uniqueness error message
+            'slug.required' => 'Slug is required!',
+            'slug.unique' => 'Slug must be unique!',
         ]);
 
         $blog = Blog::find($id);
+        $blog->blog_category_id = $request->blog_category_id;
         $blog->heading = $request->heading;
+        $blog->author_name = $request->author_name;
         $blog->description = $request->description;
-        $blog->slug = Str::slug($request->slug); // Use manual slug input
+        $blog->slug = Str::slug($request->slug);
         if ($request->has('image')) {
             $blog->image = ImageManager::update('blog/', $blog->image, 'webp', $request->file('image'));
         }

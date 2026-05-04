@@ -181,6 +181,11 @@
         }
 
         /* ===== Sidebar ===== */
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
         .blog-sidebar-card {
             background: #fff;
             border-radius: 12px;
@@ -282,6 +287,30 @@
             </div>
             <h1>{{ translate('blogs') }}</h1>
             <p>{{ translate('read_our_latest_articles_and_stay_updated') }}</p>
+
+            {{-- Category and Search Bar --}}
+            <div class="mt-4">
+                <form action="{{ route('blogs') }}" method="GET" class="row g-3 align-items-center">
+                    <div class="col-md-8">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="{{ route('blogs') }}" class="btn {{ !request('category') ? 'text-white' : '' }} {{ !request('category') ? '' : 'btn-white' }} shadow-sm rounded-pill px-3 py-1 text-sm border" style="{{ !request('category') ? 'background-color: '.$web_config['primary_color'].';' : '' }}">
+                                {{ translate('all') }}
+                            </a>
+                            @foreach($categories as $category)
+                                <a href="{{ route('blogs', ['category' => $category->id]) }}" class="btn {{ request('category') == $category->id ? 'text-white' : '' }} {{ request('category') == $category->id ? '' : 'btn-white' }} shadow-sm rounded-pill px-3 py-1 text-sm border" style="{{ request('category') == $category->id ? 'background-color: '.$web_config['primary_color'].';' : '' }}">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group shadow-sm rounded-pill overflow-hidden border">
+                            <input type="text" name="search" class="form-control border-0 px-3" placeholder="{{ translate('search_blogs') }}..." value="{{ request('search') }}">
+                            <button class="btn border-0 px-3 text-white" type="submit" style="background-color: {{ $web_config['primary_color'] }};"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -289,82 +318,14 @@
     <div class="container mb-5 rtl">
         <div class="row">
 
+
             {{-- Blog Cards (left/main column) --}}
-            <div class="col-lg-8" style="padding-right: 15px;">
-                @if($blogs->count())
-                    {{-- Featured Blog Post --}}
-                    @php
-                        $featured_blog = $blogs->first();
-                        $other_blogs = $blogs->skip(1);
-                    @endphp
-
-                    @if($featured_blog)
-                        <div class="row mb-2"> {{-- Reduced margin below featured post --}}
-                            <div class="col-12"> {{-- Full width for featured post --}}
-                                <div class="featured-blog-card">
-                                    <div class="blog-card-img-wrap">
-                                        <img src="{{ $featured_blog->image ? asset('storage/blog/' . $featured_blog->image) : asset('assets/front-end/img/image-place-holder.png') }}"
-                                             onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
-                                             alt="{{ $featured_blog->heading }}">
-                                    </div>
-                                    <div class="blog-card-body">
-                                        <div class="blog-card-meta">
-                                            <span><i class="fa fa-calendar"></i> {{ $featured_blog->created_at->format('d M Y') }}</span>
-                                        </div>
-                                        <a href="{{ route('blog.show', $featured_blog->slug) }}" class="blog-card-title">{{ $featured_blog->heading }}</a>
-         
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    {{-- Other Blog Posts Grid --}}
-                    @if ($other_blogs->count())
-                        <div class="row g-4">
-                            @foreach($other_blogs as $blog)
-                                <div class="col-sm-6">
-                                    <div class="blog-card">
-
-                                        <div class="blog-card-img-wrap">
-                                            <img src="{{ $blog->image ? asset('storage/blog/' . $blog->image) : asset('assets/front-end/img/image-place-holder.png') }}"
-                                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
-                                                 alt="{{ $blog->heading }}">
-                                        </div>
-                                        <div class="blog-card-body">
-                                            <div class="blog-card-meta">
-                                                <span><i class="fa fa-calendar"></i> {{ $blog->created_at->format('d M Y') }}</span>
-                                            </div>
-                                            <div class="blog-card-title">{{ $blog->heading }}</div>
-                                            <p class="blog-card-excerpt">{{ Str::limit(strip_tags($blog->description), 120) }}</p>
-                                            <div class="blog-card-footer">
-                                                <a class="blog-read-more" href="{{ route('blog.show', $blog->slug) }}">
-                                                    {{ translate('read_more') }} <i class="fa fa-arrow-right"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-
-                    {{-- Pagination --}}
-                    {{-- Adjust pagination to consider the featured post if it takes up a full row --}}
-                    <div class="d-flex justify-content-start mt-4 blog-pagination">
-                        {{ $blogs->links() }}
-                    </div>
-
-                @else
-                    <div class="blog-empty">
-                        <i class="fa fa-file-text-o"></i>
-                        <p>{{ translate('no_blogs_found') }}</p>
-                    </div>
-                @endif
+            <div class="col-lg-8" id="blog-list-container" style="padding-right: 15px;">
+                @include('web-views.partials._blog-list-ajax', ['blogs' => $blogs])
             </div>
 
             {{-- Sidebar --}}
-            <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="col-lg-4 mt-4 mt-lg-0 blog-sidebar">
 
                 {{-- Recent Posts --}}
                 <div class="blog-sidebar-card">
@@ -385,8 +346,40 @@
                     @endforelse
                 </div>
 
+                {{-- Download App --}}
+                <div class="blog-sidebar-card text-center">
+                    <div class="sidebar-title">{{ translate('download_our_app') }}</div>
+                    <p class="mb-3" style="font-size: 0.85rem; color: #666;">{{ translate('get_the_best_shopping_experience_on_the_go') }}</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <a href="#" class="btn btn-sm px-3 text-white" style="background-color: {{ $web_config['primary_color'] }};">
+                            <i class="fa fa-apple mr-1"></i> {{ translate('app_store') }}
+                        </a>
+                        <a href="#" class="btn btn-dark btn-sm px-3">
+                            <i class="fa fa-android mr-1"></i> {{ translate('play_store') }}
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-
 @endsection
+
+@push('script')
+<script>
+    let searchInput = document.querySelector('input[name="search"]');
+    searchInput.addEventListener('input', function() {
+        let searchTerm = this.value;
+        let category = new URLSearchParams(window.location.search).get('category') || '';
+        
+        $.ajax({
+            url: "{{ route('blogs.search') }}",
+            type: 'GET',
+            data: { search: searchTerm, category: category },
+            success: function(response) {
+                $('#blog-list-container').html(response);
+            }
+        });
+    });
+</script>
+@endpush

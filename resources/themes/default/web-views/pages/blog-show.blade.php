@@ -74,6 +74,11 @@
         }
 
         /* ===== Sidebar ===== */
+        .blog-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
         .blog-sidebar-card {
             background: #fff;
             border-radius: 12px;
@@ -171,7 +176,14 @@
             </div>
             <h1 class="blog-detail-title">{{ $blog->heading }}</h1>
             <div class="blog-detail-meta">
+                <span class="text-primary font-weight-bold"><i class="fa fa-folder-open"></i> {{ $blog->category->name ?? translate('uncategorized') }}</span>
+                <span class="mx-2">|</span>
+                @if($blog->author_name)
+                    <span><i class="fa fa-user"></i> {{ $blog->author_name }}</span>
+                    <span class="mx-2">|</span>
+                @endif
                 <span><i class="fa fa-calendar"></i> {{ $blog->created_at->format('d M Y') }}</span>
+                <span class="mx-2">|</span>
                 <span><i class="fa fa-clock-o"></i> {{ $blog->created_at->diffForHumans() }}</span>
             </div>
         </div>
@@ -202,7 +214,7 @@
             </div>
 
             {{-- Sidebar --}}
-            <div class="col-lg-4 mt-4 mt-lg-0">
+            <div class="col-lg-4 mt-4 mt-lg-0 blog-sidebar">
                 <div class="blog-sidebar-card">
                     <div class="sidebar-title">{{ translate('recent_posts') }}</div>
                     @forelse($recentPosts as $recent)
