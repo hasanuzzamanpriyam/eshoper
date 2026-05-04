@@ -1650,8 +1650,19 @@
         })
     });
 
+    $(document).ready(function() {
+        $('#order_status').on('change', function() {
+            let status = $(this).val();
+            order_status(status);
+        })
+    });
 
     function order_status(status) {
+        if (status === 'delivered' && !$('#payment_status_checkbox').is(':checked')) {
+            toastr.warning('{{translate("before_delivered_you_need_to_make_payment_status_paid")}}!');
+            location.reload();
+            return false;
+        }
         @if($order['order_status'] == 'delivered')
         Swal.fire({
             title: '{{translate("Order_is_already_delivered_and_transaction_amount_has_been_disbursed_changing_status_can_be_the_reason_of_miscalculation")}}!',
@@ -1674,7 +1685,8 @@
                     data: {
                         "id": '{{$order['
                         id ']}}',
-                        "order_status": status
+                        "order_status": status,
+                        "payment_status": $('#payment_status_checkbox').is(':checked') ? 'paid' : 'unpaid'
                     },
                     success: function(data) {
 
@@ -1721,7 +1733,8 @@
                     data: {
                         "id": '{{$order['
                         id ']}}',
-                        "order_status": status
+                        "order_status": status,
+                        "payment_status": $('#payment_status_checkbox').is(':checked') ? 'paid' : 'unpaid'
                     },
                     success: function(data) {
                         if (data.success == 0) {
@@ -1754,6 +1767,11 @@
         let order_status_val = $('#order_status').val();
         let payment_status_val = $('#payment_status_checkbox').is(':checked') ? 'paid' : 'unpaid';
 
+        if (order_status_val === 'delivered' && payment_status_val !== 'paid') {
+            toastr.warning('{{translate("before_delivered_you_need_to_make_payment_status_paid")}}!');
+            return false;
+        }
+
         Swal.fire({
             title: '{{translate("are_you_sure_to_change_status")}}?',
             text: "{{translate('you_will_not_be_able_to_revert_this')}}!",
@@ -1775,7 +1793,8 @@
                     method: 'POST',
                     data: {
                         "id": '{{$order['id']}}',
-                        "order_status": order_status_val
+                        "order_status": order_status_val,
+                        "payment_status": payment_status_val
                     },
                     success: function(data) {
                         if (data.success == 0) {

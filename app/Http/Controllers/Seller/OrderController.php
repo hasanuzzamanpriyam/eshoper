@@ -354,6 +354,11 @@ class OrderController extends Controller
         $wallet_status = Helpers::get_business_settings('wallet_status');
         $loyalty_point_status = Helpers::get_business_settings('loyalty_point_status');
 
+        if ($request->has('payment_status')) {
+            $order->payment_status = $request->payment_status;
+            $order->save();
+        }
+
         if($request->order_status=='delivered' && $order->payment_status !='paid'){
 
             return response()->json(['payment_status'=>0],200);

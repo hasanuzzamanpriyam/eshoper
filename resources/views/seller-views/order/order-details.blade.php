@@ -1030,6 +1030,11 @@
         });
 
         function order_status(status) {
+            if (status === 'delivered' && !$('.payment_status').is(':checked')) {
+                toastr.warning('{{translate("before_delivered_you_need_to_make_payment_status_paid")}}!');
+                location.reload();
+                return false;
+            }
             var value = status;
             Swal.fire({
                 title: '{{translate("are_you_sure_change_this")}}?',
@@ -1051,7 +1056,8 @@
                         method: 'POST',
                         data: {
                             "id": '{{$order['id']}}',
-                            "order_status": value
+                            "order_status": value,
+                            "payment_status": $('.payment_status').is(':checked') ? 'paid' : 'unpaid'
                         },
                         success: function (data) {
                             if (data.success == 0) {
