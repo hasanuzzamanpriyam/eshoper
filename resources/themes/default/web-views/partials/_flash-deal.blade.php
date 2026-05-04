@@ -21,10 +21,10 @@
                             <small>{{translate('hurry_Up')}} ! {{translate('the_offer_is_limited')}}. {{translate('grab_while_it_lasts')}}</small>
                         </div>
                         
-                            <div class="flush-sale">
+                            <div class="flush-sale" style="width: 100%; overflow: hidden;">
                                 @if(file_exists('storage/deal/'.$web_config['flash_deals']->banner))
                                     @php($deal_banner = asset('storage/deal/'. $web_config['flash_deals']->banner ))
-                                    <img src="{{$deal_banner}}" />
+                                    <img src="{{$deal_banner}}" style="width: 100%; height: 60px; object-fit: cover; object-position: center; display: block;" />
                                 @endif
                                 
                             <div class="text-center text-white">
@@ -112,5 +112,3 @@
         </div>
     </div>
 </section>
-
-
