@@ -2,18 +2,6 @@
 
 @section('title', 'View Blog')
 
-@push('css_or_js')
-    <style>
-        .admin-blog-image {
-            width: 800px !important;
-            max-width: 100% !important;
-            height: auto !important;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-    </style>
-@endpush
-
 @section('content')
     <div class="content container-fluid">
         <!-- Page Title -->
@@ -43,7 +31,7 @@
                         </div>
                         @if($blog['image'])
                             <div class="mb-4 text-center">
-                                <img class="admin-blog-image" src="{{ asset('storage/blog') }}/{{ $blog['image'] }}" alt="blog image" onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'" />
+                                <img class="upload-img-view" style="max-width: 400px; height: auto;" src="{{ asset('storage/blog') }}/{{ $blog['image'] }}" alt="blog image" onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'" />
                             </div>
                         @endif
                         <hr>
