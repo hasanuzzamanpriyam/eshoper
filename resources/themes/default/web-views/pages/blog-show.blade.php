@@ -54,8 +54,11 @@
             overflow: hidden;
         }
         .blog-detail-hero {
-            width: 100%;
-            max-height: 440px;
+            display: block;
+            margin: 0 auto;
+            width: 800px !important;
+            max-width: 100% !important;
+            height: auto !important;
             object-fit: cover;
         }
         .blog-detail-body {

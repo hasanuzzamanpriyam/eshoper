@@ -317,8 +317,6 @@
     {{-- Main Content --}}
     <div class="container mb-5 rtl">
         <div class="row">
-
-
             {{-- Blog Cards (left/main column) --}}
             <div class="col-lg-8" id="blog-list-container" style="padding-right: 15px;">
                 @include('web-views.partials._blog-list-ajax', ['blogs' => $blogs])
