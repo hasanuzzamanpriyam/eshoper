@@ -29,13 +29,14 @@
         .cz-countdown-text {
             color: {{$web_config['primary_color']}} !important;
             font-weight: bold !important;
+            font-size: 13px !important;
         }
         .flash_deal_product_details .flash-product-price {
             color: {{$web_config['primary_color']}};
         }
         .__flash-deals-bg {
             background: {{$web_config['primary_color']}}1A;
-            padding: 0px 20px;
+            padding: 10px !important;
         }
         @media (max-width: 768px) {
             .__flash-deals-bg {
