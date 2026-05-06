@@ -1,5 +1,8 @@
 @foreach ($products as $key => $product)
-    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
+    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer" data-id="{{$product['id']}}">
+        <div class="d-flex align-items-center">
+            <input type="checkbox" class="product-checkbox" value="{{$product['id']}}">
+        </div>
         <img class="avatar avatar-xl border" width="75"
         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
@@ -13,7 +16,7 @@
                 <div class="fz-10">{{translate('shop')}} : {{isset($product->seller) ? $product->seller->shop->name : translate('shop_not_found') }}</div>
             @else
                 <div class="fz-10">{{translate('shop')}} : {{$web_config['name']->value}}</div>
-            @endif
+@endif
         </div>
     </div>
 @endforeach

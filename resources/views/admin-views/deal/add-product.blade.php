@@ -32,7 +32,9 @@
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
-                                        <input type="text" class="product_id" name="product_id" hidden>
+                                        <div class="selected-product-ids">
+                                            <input type="hidden" class="product_id" name="product_id[]">
+                                        </div>
                                         <button class="form-control text-start dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             {{translate('select_Product')}}
 
@@ -42,9 +44,20 @@
                                                 <button type="button" class="btn"><i class="tio-search"></i></button>
                                                 <input type="text" class="js-form-search form-control search-bar-input" onkeyup="search_product()" placeholder="{{translate('search menu')}}...">
                                             </div>
+
+                                            <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input" id="select-all-product">
+                                                    <label class="form-check-label" for="select-all-product">{{translate('select_all')}}</label>
+                                                </div>
+                                            </div>
+
                                             <div class="d-flex flex-column gap-3 max-h-200 overflow-y-auto overflow-x-hidden search-result-box">
                                                 @foreach ($products as $key => $product)
-                                                    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer">
+                                                    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer" data-id="{{$product['id']}}">
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="checkbox" class="product-checkbox" value="{{$product['id']}}">
+                                                        </div>
                                                         <img class="avatar avatar-xl border" width="75"
                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                         src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
@@ -204,25 +217,85 @@
             })
         });
 
-
-        /*Serach product */
-        function search_product(){
-            let name = $(".search-bar-input").val();
-            if (name.length >0) {
-                $.get("{{route('admin.deal.search-product')}}",{name:name},(response)=>{
-                    $('.search-result-box').empty().html(response.result);
-                })
-            }
-        }
-        </script>
-         <script>
             let selectProductSearch = $('.select-product-search');
-            selectProductSearch.on('click', '.select-product-item', function () {
-                let productName = $(this).find('.product-name').text();
-                let productId = $(this).find('.product-id').text();
-                selectProductSearch.find('button.dropdown-toggle').text(productName);
-                $('.product_id').val(productId);
-            })
+            let selectedIds = [];
+
+            selectProductSearch.on('click', '.select-product-item', function (e) {
+                let productId = $(this).data('id').toString();
+                if ($(e.target).is('.product-checkbox')) {
+                    toggleId(productId, $(e.target).prop('checked'));
+                    return;
+                }
+                let checkbox = $(this).find('.product-checkbox');
+                let newState = !checkbox.prop('checked');
+                checkbox.prop('checked', newState);
+                toggleId(productId, newState);
+            });
+
+            $('#select-all-product').on('change', function () {
+                let isChecked = $(this).prop('checked');
+                $('.product-checkbox').each(function () {
+                    $(this).prop('checked', isChecked);
+                    toggleId($(this).val(), isChecked);
+                });
+            });
+
+            function toggleId(id, isSelected) {
+                id = id.toString();
+                if (isSelected) {
+                    if (!selectedIds.includes(id)) {
+                        selectedIds.push(id);
+                    }
+                } else {
+                    selectedIds = selectedIds.filter(item => item !== id);
+                }
+                updateHiddenInputs();
+            }
+
+            function updateHiddenInputs() {
+                let container = $('.selected-product-ids');
+                container.empty();
+
+                if (selectedIds.length > 0) {
+                    selectedIds.forEach(id => {
+                        container.append(`<input type="hidden" name="product_id[]" value="${id}">`);
+                    });
+                    selectProductSearch.find('button.dropdown-toggle').text(selectedIds.length + " {{translate('products_selected')}}");
+                } else {
+                    selectProductSearch.find('button.dropdown-toggle').text("{{translate('select_Product')}}");
+                }
+                
+                // Update Select All checkbox state
+                let allVisibleChecked = $('.product-checkbox').length > 0 && $('.product-checkbox:not(:checked)').length === 0;
+                $('#select-all-product').prop('checked', allVisibleChecked);
+            }
+
+            // Prevent dropdown from closing when clicking inside
+            selectProductSearch.on('click', '.dropdown-menu', function (e) {
+                e.stopPropagation();
+            });
+
+            /*Search product */
+            function search_product(){
+                let name = $(".search-bar-input").val();
+                if (name.length > 0) {
+                    $.get("{{route('admin.deal.search-product')}}",{name:name},(response)=>{
+                        $('.search-result-box').empty().html(response.result);
+                        syncCheckboxes();
+                    })
+                }
+            }
+
+            function syncCheckboxes() {
+                $('.product-checkbox').each(function () {
+                    if (selectedIds.includes($(this).val().toString())) {
+                        $(this).prop('checked', true);
+                    }
+                });
+                
+                let allVisibleChecked = $('.product-checkbox').length > 0 && $('.product-checkbox:not(:checked)').length === 0;
+                $('#select-all-product').prop('checked', allVisibleChecked);
+            }
         </script>
 @endpush
 

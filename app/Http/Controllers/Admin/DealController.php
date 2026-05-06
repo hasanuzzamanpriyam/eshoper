@@ -200,29 +200,30 @@ class DealController extends Controller
 
     public function add_product_submit(Request $request, $deal_id)
     {
-        $this->validate($request, [
-            'product_id' => 'required'
+        $request->validate([
+            'product_id' => 'required|array',
+            'product_id.*' => 'required'
         ]);
-        $flash_deal_products = FlashDealProduct::where('flash_deal_id', $deal_id)->where('product_id',$request['product_id'])->first();
 
-        if(!isset($flash_deal_products))
-        {
-            DB::table('flash_deal_products')->insertOrIgnore([
-                'product_id' => $request['product_id'],
-                'flash_deal_id' => $deal_id,
-                'discount' => $request['discount'],
-                'discount_type' => $request['discount_type'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        $product_ids = is_array($request->product_id) ? $request->product_id : [$request->product_id];
 
-            Toastr::success(translate('product_added_successfully'));
-            return back();
-        }else{
-            Toastr::info(translate('product_already_added'));
-            return back();
+        foreach ($product_ids as $product_id) {
+            $flash_deal_products = FlashDealProduct::where('flash_deal_id', $deal_id)->where('product_id', $product_id)->first();
+
+            if (!isset($flash_deal_products)) {
+                DB::table('flash_deal_products')->insertOrIgnore([
+                    'product_id' => $product_id,
+                    'flash_deal_id' => $deal_id,
+                    'discount' => $request['discount'] ?? 0,
+                    'discount_type' => $request['discount_type'] ?? 'amount',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
+        Toastr::success(translate('product_added_successfully'));
+        return back();
     }
 
     public function delete_product(Request $request)

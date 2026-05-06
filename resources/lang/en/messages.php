@@ -6930,4 +6930,6 @@
   'app_store' => 'App store',
   'get_the_best_shopping_experience_on_the_go' => 'Get the best shopping experience on the go',
   'search_blogs' => 'Search blogs',
+  'products_selected' => 'Products selected',
+  'select_all' => 'Select all',
 );
