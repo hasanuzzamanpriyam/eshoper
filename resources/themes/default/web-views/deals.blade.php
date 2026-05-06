@@ -16,22 +16,34 @@
         .countdown-background{
             background: {{$web_config['primary_color']}};
         }
-        .cz-countdown-days {
-            border: .5px solid{{$web_config['primary_color']}};
-        }
-
-        .cz-countdown-hours {
-            border: .5px solid{{$web_config['primary_color']}};
-        }
-
         .cz-countdown-minutes {
-            border: .5px solid{{$web_config['primary_color']}};
+            border: .5px solid {{$web_config['primary_color']}} !important;
         }
         .cz-countdown-seconds {
-            border: .5px solid{{$web_config['primary_color']}};
+            border: .5px solid {{$web_config['primary_color']}} !important;
+        }
+        .cz-countdown-value {
+            color: white !important;
+            font-weight: bold !important;
+        }
+        .cz-countdown-text {
+            color: {{$web_config['primary_color']}} !important;
+            font-weight: bold !important;
         }
         .flash_deal_product_details .flash-product-price {
             color: {{$web_config['primary_color']}};
+        }
+        .__flash-deals-bg {
+            background: {{$web_config['primary_color']}}1A;
+            padding: 0px 20px;
+        }
+        @media (max-width: 768px) {
+            .__flash-deals-bg {
+                padding: 15px;
+            }
+            .flash_deal_title {
+                font-size: 20px !important;
+            }
         }
     </style>
 @endpush
@@ -46,43 +58,48 @@
     @endif
     <div class="container md-4 mt-3 rtl"
          style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
-         <div class="__flash-deals-bg" style="background: url({{$deal_banner}}) no-repeat center center / cover">
-             <div class="row g-3 flex-center align-items-center">
-                 @php($flash_deals=\App\Model\FlashDeal::with(['products.product.reviews'])->where(['status'=>1])->where(['deal_type'=>'flash_deal'])->whereDate('start_date','<=',date('Y-m-d'))->whereDate('end_date','>=',date('Y-m-d'))->first())
-                 <div class="col-lg-4 col-md-6 text-center {{Session::get('direction') === "rtl" ? 'text-sm-right' : 'text-sm-left'}}">
-                     <div class="flash_deal_title text-base">
+         <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+             <div class="w-100">
+                 <img src="{{$deal_banner}}" class="w-100 h-auto" style="max-height: 400px; object-fit: cover;" onerror="this.src='{{asset('assets/front-end/img/flash-deals.png')}}'">
+             </div>
+             <div class="__flash-deals-bg">
+                 <div class="row g-3 justify-content-between align-items-center">
+                     <div class="col-lg-5 col-md-6 text-center {{Session::get('direction') === "rtl" ? 'text-sm-right' : 'text-sm-left'}}">
+                         <div class="flash_deal_title text-uppercase font-weight-bold"
+                         style="font-size: 28px; line-height: 1.2; color: {{$web_config['primary_color']}};">
                         {{$web_config['flash_deals']->title}}
+                    </div>
+                         <div class="mt-1 opacity-75" style="color: {{$web_config['primary_color']}};">
+                            {{translate('hurry_Up')}} ! {{translate('the_offer_is_limited')}}. {{translate('grab_while_it_lasts')}}
+                         </div>
                      </div>
-                     <span class="text-base">{{translate('hurry_Up')}} ! {{translate('the_offer_is_limited')}}. {{translate('grab_while_it_lasts')}}</span>
-                 </div>
-                 <div class="col-lg-4 col-md-6">
-                     <div class="countdown-card bg-transparent">
-                         <div class="text-center text-white">
-                             <div class="countdown-background">
-                                 <span class="cz-countdown d-flex justify-content-center align-items-center"
-                                     data-countdown="{{$web_config['flash_deals']?date('m/d/Y',strtotime($web_config['flash_deals']['end_date'])):''}} 23:59:00">
-                                     <span class="cz-countdown-days">
-                                         <span class="cz-countdown-value"></span>
-                                         <span class="cz-countdown-text">{{ translate('days')}}</span>
+                     <div class="col-lg-5 col-md-6">
+                         <div>
+                             <div class="text-center">
+                                 <div class="d-inline-block">
+                                     <span class="cz-countdown d-flex justify-content-center align-items-center"
+                                         data-countdown="{{$web_config['flash_deals']?date('m/d/Y',strtotime($web_config['flash_deals']['end_date'])):''}} 23:59:00"
+                                         >
+                                         <span class="cz-countdown-days d-flex flex-column p-2 mx-1 rounded" style="background-color: {{$web_config['primary_color']}}; padding: 0px 11px !important;">
+                                             <span class="cz-countdown-value font-weight-bold text-white"></span>
+                                             <span class="cz-countdown-text" style="font-size: 10px;">{{ translate('days')}}</span>
+                                         </span>
+                                         <span class="cz-countdown-value font-weight-bold mx-1" style="color: {{$web_config['primary_color']}} !important;">:</span>
+                                         <span class="cz-countdown-hours d-flex flex-column p-2 mx-1 rounded" style="background-color: {{$web_config['primary_color']}}; padding: 0px 11px !important;">
+                                             <span class="cz-countdown-value font-weight-bold text-white"></span>
+                                             <span class="cz-countdown-text" style="font-size: 10px;">{{ translate('hrs')}}</span>
+                                         </span>
+                                         <span class="cz-countdown-value font-weight-bold mx-1" style="color: {{$web_config['primary_color']}} !important;">:</span>
+                                         <span class="cz-countdown-minutes d-flex flex-column p-2 mx-1 rounded" style="background-color: {{$web_config['primary_color']}}; padding: 0px 11px !important;">
+                                             <span class="cz-countdown-value font-weight-bold text-white"></span>
+                                             <span class="cz-countdown-text" style="font-size: 10px;">{{ translate('min')}}</span>
+                                         </span>
+                                         <span class="cz-countdown-value font-weight-bold mx-1" style="color: {{$web_config['primary_color']}} !important;">:</span>
+                                         <span class="cz-countdown-seconds d-flex flex-column p-2 mx-1 rounded" style="background-color: {{$web_config['primary_color']}}; padding: 0px 11px !important;">
+                                             <span class="cz-countdown-value font-weight-bold text-white"></span>
+                                             <span class="cz-countdown-text" style="font-size: 10px;">{{ translate('sec')}}</span>
+                                         </span>
                                      </span>
-                                     <span class="cz-countdown-value p-1">:</span>
-                                     <span class="cz-countdown-hours">
-                                         <span class="cz-countdown-value"></span>
-                                         <span class="cz-countdown-text">{{ translate('hrs')}}</span>
-                                     </span>
-                                     <span class="cz-countdown-value p-1">:</span>
-                                     <span class="cz-countdown-minutes">
-                                         <span class="cz-countdown-value"></span>
-                                         <span class="cz-countdown-text">{{ translate('min')}}</span>
-                                     </span>
-                                     <span class="cz-countdown-value p-1">:</span>
-                                     <span class="cz-countdown-seconds">
-                                         <span class="cz-countdown-value"></span>
-                                         <span class="cz-countdown-text">{{ translate('sec')}}</span>
-                                     </span>
-                                 </span>
-                                 <div class="progress __progress">
-                                 <div class="progress-bar flash-deal-progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                                  </div>
                              </div>
                          </div>

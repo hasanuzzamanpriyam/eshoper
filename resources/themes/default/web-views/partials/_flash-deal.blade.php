@@ -1,6 +1,6 @@
 <section class="overflow-hidden">
     <div class="container px-0 px-md-3">
-        <div class="flash-deals-wrapper {{Session::get('direction') === 'rtl' ? 'rtl' : ''}}" style="background: {{$web_config['primary_color']}}26 !important; border-radius: 10px;">
+        <div class="flash-deals-wrapper {{Session::get('direction') === 'rtl' ? 'rtl' : ''}}" style="background: {{$web_config['primary_color']}}1A !important; border-radius: 10px;">
             <!-- Top Section: Title, Timer, View All Button -->
             <div class="d-flex flex-column flex-md-row align-items-start justify-content-between mb-3 gap-3">
                 <!-- Title and Subtitle -->
