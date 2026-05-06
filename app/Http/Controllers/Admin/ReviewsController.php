@@ -189,4 +189,134 @@ class ReviewsController extends Controller
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
         ]);
     }
+
+    public function create()
+    {
+        return view('admin-views.reviews.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'product_sku' => 'required',
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        $product = Product::where('code', $request->product_sku)->first();
+
+        if (!$product) {
+            Toastr::error(translate('product_not_found_with_this_sku'));
+            return back()->withInput();
+        }
+
+        $review = new Review();
+        $review->product_id = $product->id;
+        $review->customer_id = $request->customer_id ?: null;
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->status = $request->status ?? 1;
+        
+        if ($request->hasFile('attachment')) {
+            $images = [];
+            foreach ($request->file('attachment') as $img) {
+                $images[] = \App\CPU\ImageManager::upload('review/', 'webp', $img);
+            }
+            $review->attachment = json_encode($images);
+        }
+
+        $review->save();
+
+        Toastr::success(translate('review_added_successfully'));
+        return redirect()->route('admin.reviews.list');
+    }
+
+    public function bulk_import_index()
+    {
+        return view('admin-views.reviews.bulk-import');
+    }
+
+    public function bulk_import_data(Request $request)
+    {
+        $request->validate([
+            'reviews_file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        try {
+            $collections = (new FastExcel)->import($request->file('reviews_file'));
+        } catch (\Exception $exception) {
+            Toastr::error(translate('You have uploaded a wrong format file, please upload the right file.'));
+            return back();
+        }
+
+        $data = [];
+        $error_skus = [];
+        $success_count = 0;
+
+        foreach ($collections as $collection) {
+            // Normalize keys: trim, lowercase, and replace spaces with underscores
+            $row = [];
+            foreach ($collection as $key => $value) {
+                $normalized_key = str_replace(' ', '_', strtolower(trim($key)));
+                $row[$normalized_key] = $value;
+            }
+
+            if (empty($row['product_sku'])) {
+                continue;
+            }
+
+            $sku = trim((string)$row['product_sku']);
+
+            // Find product by code (SKU)
+            $product = Product::where('code', $sku)->first();
+            
+            if (!$product) {
+                $error_skus[] = $sku;
+                continue;
+            }
+
+            $data[] = [
+                'product_id' => $product->id,
+                'customer_id' => isset($row['customer_id']) && $row['customer_id'] !== "" ? $row['customer_id'] : null,
+                'rating' => isset($row['rating']) && $row['rating'] !== "" ? (int)$row['rating'] : 5,
+                'comment' => $row['comment'] ?? null,
+                'status' => isset($row['status']) && $row['status'] !== "" ? (int)$row['status'] : 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            $success_count++;
+
+            // Batch insert every 100 rows to avoid memory issues if file is large
+            if (count($data) >= 100) {
+                DB::table('reviews')->insert($data);
+                $data = [];
+            }
+        }
+        
+        if (count($data) > 0) {
+            DB::table('reviews')->insert($data);
+        }
+
+        if (count($error_skus) > 0) {
+            $unique_errors = array_unique($error_skus);
+            Toastr::warning($success_count . ' ' . translate('reviews_imported_successfully') . '. ' . count($unique_errors) . ' ' . translate('invalid_SKUs_skipped') . ': ' . implode(', ', array_slice($unique_errors, 0, 10)) . (count($unique_errors) > 10 ? '...' : ''));
+        } else {
+            Toastr::success($success_count . ' ' . translate('reviews_imported_successfully'));
+        }
+        
+        return back();
+    }
+
+    public function download_template()
+    {
+        $storage = [
+            [
+                'product_sku' => 'SKU-001',
+                'customer_id' => 1,
+                'rating' => 5,
+                'comment' => 'Great product!',
+                'status' => 1,
+            ]
+        ];
+        return (new FastExcel($storage))->download('review_bulk_format.xlsx');
+    }
 }

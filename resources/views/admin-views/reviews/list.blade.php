@@ -5,11 +5,19 @@
 @section('content')
     <div class="content container-fluid">
         <!-- Page Title -->
-        <div class="mb-3">
+        <div class="mb-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
             <h2 class="h1 mb-0 text-capitalize d-flex gap-2 align-items-center">
                 <img width="20" src="{{asset('assets/back-end/img/customer_review.png')}}" alt="">
                 {{translate('customer_reviews')}}
             </h2>
+            <div class="d-flex gap-2">
+                <a href="{{route('admin.reviews.bulk-import')}}" class="btn btn-outline-primary">
+                    <i class="tio-download-to"></i> {{translate('bulk_Import')}}
+                </a>
+                <a href="{{route('admin.reviews.create')}}" class="btn btn--primary">
+                    <i class="tio-add"></i> {{translate('add_Review')}}
+                </a>
+            </div>
         </div>
         <!-- End Page Title -->
 

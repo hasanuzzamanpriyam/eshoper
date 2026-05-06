@@ -749,7 +749,36 @@
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
 
-                        <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/customer/wallet*') || Request::is('admin/customer/list') || Request::is('admin/customer/view*') || Request::is('admin/reviews*') || Request::is('admin/customer/loyalty/report'))?'active':''}}">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('admin/reviews*')?'active':''}}">
+                            <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
+                                href="javascript:" title="{{translate('customer_Reviews')}}">
+                                <i class="tio-star nav-icon"></i>
+                                <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{translate('customer_Reviews')}}</span>
+                            </a>
+                            <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
+                                style="display: {{Request::is('admin/reviews*')?'block':'none'}}">
+                                <li class="nav-item {{Request::is('admin/reviews/list')?'active':''}}">
+                                    <a class="nav-link" href="{{route('admin.reviews.list')}}" title="{{translate('list')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{translate('list')}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{Request::is('admin/reviews/create')?'active':''}}">
+                                    <a class="nav-link" href="{{route('admin.reviews.create')}}" title="{{translate('add_Review')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{translate('add_Review')}}</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{Request::is('admin/reviews/bulk-import')?'active':''}}">
+                                    <a class="nav-link" href="{{route('admin.reviews.bulk-import')}}" title="{{translate('bulk_Import')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">{{translate('bulk_Import')}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/customer/wallet*') || Request::is('admin/customer/list') || Request::is('admin/customer/view*') || Request::is('admin/customer/loyalty/report'))?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                 href="javascript:" title="{{translate('customers')}}">
                                 <i class="tio-wallet nav-icon"></i>
@@ -757,7 +786,7 @@
                                     class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">{{translate('customers')}}</span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                style="display: {{(Request::is('admin/customer/wallet*') || Request::is('admin/customer/list') || Request::is('admin/customer/view*') || Request::is('admin/reviews*') || Request::is('admin/customer/loyalty/report'))?'block':'none'}}">
+                                style="display: {{(Request::is('admin/customer/wallet*') || Request::is('admin/customer/list') || Request::is('admin/customer/view*') || Request::is('admin/customer/loyalty/report'))?'block':'none'}}">
                                 <li class="nav-item {{Request::is('admin/customer/list') || Request::is('admin/customer/view*')?'active':''}}">
                                     <a class="nav-link " href="{{route('admin.customer.list')}}"
                                         title="{{translate('Customer_List')}}">
@@ -765,16 +794,7 @@
                                         <span class="text-truncate">{{translate('customer_List')}} </span>
                                     </a>
                                 </li>
-                                <li class="nav-item {{Request::is('admin/reviews*')?'active':''}}">
-                                    <a class="nav-link"
-                                        href="{{route('admin.reviews.list')}}"
-                                        title="{{translate('customer_Reviews')}}">
-                                        <span class="tio-circle nav-indicator-icon"></span>
-                                        <span class="navbar-vertical-aside-mini-mode-hidden-elements text-truncate">
-                                            {{translate('customer_Reviews')}}
-                                        </span>
-                                    </a>
-                                </li>
+
                                 <li class="nav-item {{Request::is('admin/customer/wallet/report')?'active':''}}">
                                     <a class="nav-link" title="{{translate('wallet')}}"
                                         href="{{route('admin.customer.wallet.report')}}">
