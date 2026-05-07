@@ -57,6 +57,41 @@
                                     <label for="comment" class="title-color">{{translate('comment')}}</label>
                                     <textarea name="comment" class="form-control" id="comment" rows="4" placeholder="{{translate('ex')}} : {{translate('great_product')}}">{{old('comment')}}</textarea>
                                 </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="name" class="title-color text-capitalize font-weight-bold mb-0">{{ translate('upload_image') }}</label>
+                                        <div class="row g-2" id="additional_Image_Section">
+                                            <div class="col-sm-12 col-md-4">
+                                                <div class="custom_upload_input position-relative border-dashed-2">
+                                                    <input type="file" name="attachment[]" class="custom-upload-input-file"
+                                                        data-index="1" data-imgpreview="additional_Image_1"
+                                                        accept=".jpg, .png, .webp, .jpeg, .gif, .bmp, .tif, .tiff|image/*"
+                                                        onchange="addMoreImage(this, '#additional_Image_Section')">
+                            
+                                                    <span
+                                                        class="delete_file_input delete_file_input_section btn btn-outline-danger btn-sm square-btn"
+                                                        style="display: none">
+                                                        <i class="tio-delete"></i>
+                                                    </span>
+                            
+                                                    <div class="img_area_with_preview position-absolute z-index-2 border-0">
+                                                        <img id="additional_Image_1" class="h-auto aspect-1 bg-white"
+                                                            src="{{asset('assets/back-end/img/400x400/img2.jpg')}}"
+                                                            onerror="this.classList.add('d-none')">
+                                                    </div>
+                                                    <div
+                                                        class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
+                                                        <div class="d-flex flex-column justify-content-center align-items-center">
+                                                            <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}"
+                                                                class="w-50">
+                                                            <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             
                             <div class="d-flex justify-content-end gap-3 mt-4">
@@ -99,5 +134,71 @@
                 }
             }
         });
+
+        function addMoreImage(thisData, targetSection) {
+            let $fileInputs = $(targetSection + " input[type='file']");
+            let nonEmptyCount = 0;
+
+            $fileInputs.each(function () {
+                if (parseFloat($(this).prop('files').length) == 0) {
+                    nonEmptyCount++;
+                }
+            });
+
+            document.getElementById(thisData.dataset.imgpreview).setAttribute("src", window.URL.createObjectURL(thisData.files[0]));
+            document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
+
+            if (nonEmptyCount == 0) {
+                let dataset_index = thisData.dataset.index + 1;
+
+                let newHtmlData = `<div class="col-sm-12 col-md-4">
+                                <div class="custom_upload_input position-relative border-dashed-2">
+                                    <input type="file" name="${thisData.name}" class="custom-upload-input-file" data-index="${dataset_index}" data-imgpreview="additional_Image_${dataset_index}"
+                                        accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" onchange="addMoreImage(this, '${targetSection}')">
+
+                                    <span class="delete_file_input delete_file_input_section btn btn-outline-danger btn-sm square-btn" style="display: none">
+                                        <i class="tio-delete"></i>
+                                    </span>
+
+                                    <div class="img_area_with_preview position-absolute z-index-2 border-0">
+                                        <img id="additional_Image_${dataset_index}" class="h-auto aspect-1 bg-white" src="{{ asset('assets/back-end/img/400x400/img2.jpg') }}" onerror="this.classList.add('d-none')">
+                                    </div>
+                                    <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
+                                        <div class="d-flex flex-column justify-content-center align-items-center">
+                                            <img src="{{asset('assets/back-end/img/icons/product-upload-icon.svg')}}" class="w-50">
+                                            <h3 class="text-muted">{{ translate('Upload_Image') }}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+
+                $(targetSection).append(newHtmlData);
+            }
+
+            $('.custom-upload-input-file').on('change', function () {
+                if (parseFloat($(this).prop('files').length) != 0) {
+                    let $parentDiv = $(this).closest('div');
+                    $parentDiv.find('.delete_file_input').fadeIn();
+                }
+            })
+
+            $('.delete_file_input_section').click(function () {
+                let $parentDiv = $(this).closest('div').parent().remove();
+            });
+        }
+
+        $('.delete_file_input').click(function () {
+            let $parentDiv = $(this).closest('div');
+            $parentDiv.find('input[type="file"]').val('');
+            $parentDiv.find('.img_area_with_preview img').attr("src", " ");
+            $(this).hide();
+        });
+
+        $('.custom-upload-input-file').on('change', function () {
+            if (parseFloat($(this).prop('files').length) != 0) {
+                let $parentDiv = $(this).closest('div');
+                $parentDiv.find('.delete_file_input').fadeIn();
+            }
+        })
     </script>
 @endpush
