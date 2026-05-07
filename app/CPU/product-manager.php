@@ -199,6 +199,18 @@ class ProductManager
 
         $fetched = $query->paginate($limit, ['*'], 'page', $offset);
 
+        if ($fetched->total() == 0) {
+            $fuzzyIds = self::get_fuzzy_product_ids(base64_decode($query));
+            if (count($fuzzyIds) > 0) {
+                $query = Product::active()->with(['rating','reviews','category','brand','orderDetails'])
+                    ->whereIn('id', $fuzzyIds)
+                    ->withCount(['wish_list' => function($query) use($user){
+                        $query->where('customer_id', $user != 'offline' ? $user->id : '0');
+                    }]);
+                $fetched = $query->paginate($limit, ['*'], 'page', $offset);
+            }
+        }
+
         return [
             'total_size' => $fetched->total(),
             'limit' => (int)$limit,
@@ -225,6 +237,17 @@ class ProductManager
                     });
                 }
             })->paginate($limit, ['*'], 'page', $offset);
+
+        if ($product->total() == 0) {
+            $fuzzyIds = self::get_fuzzy_product_ids(base64_decode($name));
+            if (count($fuzzyIds) > 0) {
+                $product = Product::select('name')
+                    ->active()
+                    ->with(['rating','tags'])
+                    ->whereIn('id', $fuzzyIds)
+                    ->paginate($limit, ['*'], 'page', $offset);
+            }
+        }
 
 
         return [
@@ -257,6 +280,14 @@ class ProductManager
         }
 
         $fetched = $query->paginate($limit, ['*'], 'page', $offset);
+
+        if ($fetched->total() == 0) {
+            $fuzzyIds = self::get_fuzzy_product_ids($name);
+            if (count($fuzzyIds) > 0) {
+                $query = Product::active()->with(['rating','tags'])->whereIn('id', $fuzzyIds);
+                $fetched = $query->paginate($limit, ['*'], 'page', $offset);
+            }
+        }
 
         return [
             'total_size' => $fetched->total(),
@@ -639,6 +670,48 @@ class ProductManager
             'offset' => (int)$offset,
             'reviews' => $paginator->items()
         ];
+    }
+
+    public static function get_fuzzy_product_ids($searchTerm)
+    {
+        $searchTerm = strtolower($searchTerm);
+        $products = Product::active()->pluck('name', 'id');
+        $matchedIds = [];
+        $searchMetaphone = metaphone($searchTerm);
+
+        foreach ($products as $id => $name) {
+            $lowerName = strtolower($name);
+            $nameWords = explode(' ', $lowerName);
+
+            $matchFound = false;
+            foreach ($nameWords as $word) {
+                // 1. Check Levenshtein distance (typo tolerance)
+                $dist = levenshtein($searchTerm, $word);
+                if ($dist <= 2) {
+                    $matchedIds[] = $id;
+                    $matchFound = true;
+                    break;
+                }
+
+                // 2. Check Metaphone (phonetic tolerance)
+                if ($searchMetaphone && metaphone($word) == $searchMetaphone) {
+                    $matchedIds[] = $id;
+                    $matchFound = true;
+                    break;
+                }
+            }
+
+            if ($matchFound) {
+                continue;
+            }
+
+            // 3. Similar Text (percentage match on whole name)
+            similar_text($searchTerm, $lowerName, $percent);
+            if ($percent > 60) { // Lowered to 60 for better partial matches
+                $matchedIds[] = $id;
+            }
+        }
+        return $matchedIds;
     }
 }
 

@@ -93,6 +93,16 @@ class ProductListController extends Controller
             ->limit(10)
             ->get(['id', 'name', 'slug', 'thumbnail']);
 
+        if ($products->count() == 0) {
+            $fuzzyIds = \App\CPU\ProductManager::get_fuzzy_product_ids($term);
+            if (count($fuzzyIds) > 0) {
+                $products = Product::active()
+                    ->whereIn('id', $fuzzyIds)
+                    ->limit(10)
+                    ->get(['id', 'name', 'slug', 'thumbnail']);
+            }
+        }
+
         $suggestions = $products->map(function ($product) {
             return [
                 'id' => $product->id,
@@ -119,15 +129,22 @@ class ProductListController extends Controller
             ->where('name', 'like', "%{$name}%")
             ->orWhereHas('tags', function ($query) use ($name) {
                 $query->where('tag', 'like', "%{$name}%");
-            });
+            })->get();
 
-        if ($category_id) {
-            $products = $products->whereHas('category', function ($query) use ($category_id) {
-                $query->where('id', $category_id);
-            });
+        if ($products->count() == 0) {
+            $fuzzyIds = \App\CPU\ProductManager::get_fuzzy_product_ids($name);
+            if (count($fuzzyIds) > 0) {
+                $products = Product::active()
+                    ->whereIn('id', $fuzzyIds)
+                    ->get();
+            }
         }
 
-        $products = $products->limit(10)->get();
+        if ($category_id) {
+            $products = $products->where('category_id', $category_id);
+        }
+
+        $products = $products->take(10);
 
         return response()->json([
             'result' => view('layouts.front-end.partials._search-suggestions', compact('products'))->render()
@@ -233,6 +250,10 @@ class ProductListController extends Controller
                         }
                     })
                     ->pluck('translationable_id');
+            }
+
+            if ($product_ids->count() == 0) {
+                $product_ids = \App\CPU\ProductManager::get_fuzzy_product_ids($search_term);
             }
 
             // Add relevance scoring for better search results
@@ -479,6 +500,10 @@ class ProductListController extends Controller
                         }
                     })
                     ->pluck('translationable_id');
+            }
+
+            if ($product_ids->count() == 0) {
+                $product_ids = \App\CPU\ProductManager::get_fuzzy_product_ids($search_term);
             }
 
             // Add relevance scoring for better search results
@@ -813,6 +838,10 @@ class ProductListController extends Controller
                     ->pluck('translationable_id');
             }
 
+            if ($product_ids->count() == 0) {
+                $product_ids = \App\CPU\ProductManager::get_fuzzy_product_ids($search_term);
+            }
+
             // Add relevance scoring for better search results
             $query = $porduct_data->whereIn('id', $product_ids)
                 ->selectRaw(
@@ -1041,6 +1070,10 @@ class ProductListController extends Controller
                         }
                     })
                     ->pluck('translationable_id');
+            }
+
+            if ($product_ids->count() == 0) {
+                $product_ids = \App\CPU\ProductManager::get_fuzzy_product_ids($search_term);
             }
 
             // Add relevance scoring for better search results
