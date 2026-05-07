@@ -178,13 +178,14 @@ class ShopViewController extends Controller
         $inhouse_vacation_end_date = $id == 0 ? $inhouse_vacation['vacation_end_date'] : null;
         $inhouse_vacation_status = $id == 0 ? $inhouse_vacation['status'] : false;
         $inhouse_temporary_close = $id == 0 ? $temporary_close['status'] : false;
+        $reviews_of_product = \App\CPU\ProductManager::get_seller_reviews($id, 4, 1);
         if ($request->ajax()) {
             return response()->json([
                 'view' => view(VIEW_FILE_NAMES['products__ajax_partials'], compact('products','categories'))->render(),
             ], 200);
         }
         return view(VIEW_FILE_NAMES['shop_view_page'], compact('products', 'shop', 'categories','current_date','seller_vacation_start_date','seller_vacation_status',
-            'seller_vacation_end_date','seller_temporary_close','inhouse_vacation_start_date','inhouse_vacation_end_date','inhouse_vacation_status','inhouse_temporary_close'))
+            'seller_vacation_end_date','seller_temporary_close','inhouse_vacation_start_date','inhouse_vacation_end_date','inhouse_vacation_status','inhouse_temporary_close', 'reviews_of_product'))
             ->with('seller_id', $id)
             ->with('total_review', $total_review)
             ->with('avg_rating', $avg_rating)
@@ -505,6 +506,7 @@ class ShopViewController extends Controller
         $inhouse_vacation_status = $id == 0 ? $inhouse_vacation['status'] : false;
         $inhouse_temporary_close = $id == 0 ? $temporary_close['status'] : false;
 
+        $reviews_of_product = \App\CPU\ProductManager::get_seller_reviews($id, 4, 1);
         if ($request->ajax()) {
             return response()->json([
                 'total_product'=>$products->total(),
@@ -514,7 +516,7 @@ class ShopViewController extends Controller
 
         return view(VIEW_FILE_NAMES['shop_view_page'], compact('products', 'shop', 'categories','current_date','seller_vacation_start_date','seller_vacation_status',
             'seller_vacation_end_date','seller_temporary_close','inhouse_vacation_start_date','inhouse_vacation_end_date','inhouse_vacation_status','inhouse_temporary_close',
-            'products_for_review','featured_products','followers','follow_status','brands','data','ratings'))
+            'products_for_review','featured_products','followers','follow_status','brands','data','ratings', 'reviews_of_product'))
             ->with('seller_id', $id)
             ->with('total_review', $total_review)
             ->with('avg_rating', $avg_rating)

@@ -6944,4 +6944,5 @@
   'review_Bulk_Import' => 'Review Bulk Import',
   'reviews_imported_successfully' => 'Reviews imported successfully',
   'reviews_skipped_due_to_invalid_sku' => 'Reviews skipped due to invalid sku',
+  'no_reviews_found' => 'No reviews found',
 );

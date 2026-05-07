@@ -200,12 +200,12 @@ class SellerController extends Controller
                     }
                 })->pluck('id')->toArray();
 
-                $reviews = Review::with(['product'])
+                $reviews = Review::with(['product', 'customer'])
                     ->whereIn('product_id',$product_id);
 
                 $query_param = ['search' => $request['search']];
             } else {
-                $reviews = Review::with(['product'])->whereHas('product', function ($query) use ($sellerId) {
+                $reviews = Review::with(['product', 'customer'])->whereHas('product', function ($query) use ($sellerId) {
                     $query->where('user_id', $sellerId)->where('added_by', 'seller');
                 });
             }

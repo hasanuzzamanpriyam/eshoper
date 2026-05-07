@@ -535,6 +535,71 @@
                 </div>
             </div>
         </section>
+
+        <!-- Product Reviews -->
+        <section class="bg-primary-light py-4">
+            <div class="container">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h3 class="mb-4">{{translate('product_reviews')}}</h3>
+                        @if(count($reviews_of_product['reviews']) > 0)
+                            <div class="d-flex flex-column gap-3">
+                                @foreach($reviews_of_product['reviews'] as $productReview)
+                                    <div class="card border-0 bg-primary-light">
+                                        <div class="card-body">
+                                            <div class="d-flex gap-3 flex-wrap flex-md-nowrap">
+                                                <div class="media gap-3" style="min-width: 200px;">
+                                                    <img class="avatar rounded-circle object-cover" width="60" height="60"
+                                                        onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'"
+                                                        src="{{asset("storage/profile")}}/{{(isset($productReview->customer)?$productReview->customer->image:'')}}"
+                                                        alt="">
+                                                    <div class="media-body">
+                                                        <h6 class="mb-1">{{isset($productReview->customer)?$productReview->customer->f_name.' '.$productReview->customer->l_name:translate('customer_not_found')}}</h6>
+                                                        <div class="star-rating text-gold fs-12">
+                                                            @for($i=1; $i<=5; $i++)
+                                                                @if($i <= $productReview->rating)
+                                                                    <i class="bi bi-star-fill"></i>
+                                                                @else
+                                                                    <i class="bi bi-star"></i>
+                                                                @endif
+                                                            @endfor
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1">
+                                                    <p class="mb-2">{{$productReview->comment}}</p>
+                                                    @if ($productReview->attachment)
+                                                        <div class="d-flex flex-wrap gap-2 mb-2">
+                                                            @foreach (json_decode($productReview->attachment) as $photo)
+                                                                <img class="rounded border" width="70" 
+                                                                    onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'" 
+                                                                    src="{{asset("storage/review/$photo")}}" alt="Review photo">
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
+                                                    @if(isset($productReview->product))
+                                                        <div class="fs-12 text-muted">
+                                                            {{translate('product')}}: <a href="{{route('product',$productReview->product->slug)}}" class="text-primary">{{$productReview->product->name}}</a>
+                                                        </div>
+                                                    @endif
+                                                    <div class="fs-12 text-muted mt-1">
+                                                        {{$productReview->created_at->format('d M, Y')}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-center py-4">
+                                <p>{{translate('no_reviews_found')}}</p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
     <!-- End Main Content -->
 

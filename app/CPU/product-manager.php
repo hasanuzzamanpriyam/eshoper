@@ -618,4 +618,27 @@ class ProductManager
 
         return $colors;
     }
+    public static function get_seller_reviews($seller_id, $limit = 10, $offset = 1)
+    {
+        $product_ids = Product::when($seller_id == '0', function ($query) {
+            return $query->where(['added_by' => 'admin']);
+        })
+        ->when($seller_id != '0', function ($query) use ($seller_id) {
+            return $query->where(['added_by' => 'seller', 'user_id' => $seller_id]);
+        })
+        ->pluck('id')->toArray();
+
+        $paginator = Review::with(['product', 'customer'])
+            ->whereIn('product_id', $product_ids)
+            ->latest()
+            ->paginate($limit, ['*'], 'page', $offset);
+
+        return [
+            'total_size' => $paginator->total(),
+            'limit' => (int)$limit,
+            'offset' => (int)$offset,
+            'reviews' => $paginator->items()
+        ];
+    }
 }
+

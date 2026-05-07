@@ -130,6 +130,7 @@
                                 <tr>
                                     <th>{{translate('SL')}}</th>
                                     <th>{{translate('product')}}</th>
+                                    <th>{{translate('customer')}}</th>
                                     <th>{{translate('review')}}</th>
                                     <th>{{translate('rating')}}</th>
                                 </tr>
@@ -140,14 +141,25 @@
                                     <tr>
                                         <td>{{$reviews->firstItem()+ $key}}</td>
                                         <td>
-                                        <span class="d-block font-size-sm text-body">
-                                            <a href="{{route('admin.product.view',[$review->product['id']])}}"
-                                                class="title-color hover-c1">
-                                                {{$review->product?$review->product['name']: translate('product_not_found')}}
+                                            <a href="{{route('admin.product.view',[$review->product['id']])}}" class="title-color hover-c1 media gap-3">
+                                                <img width="50"
+                                                     onerror="this.src='{{asset('assets/back-end/img/image-place-holder.png')}}'"
+                                                     src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$review->product['thumbnail']}}"
+                                                     alt="">
+                                                <span class="media-body">
+                                                    {{$review->product?$review->product['name']: translate('product_not_found')}}
+                                                </span>
                                             </a>
-                                        </span>
                                         </td>
-
+                                        <td>
+                                            @if($review->customer)
+                                                <a href="{{route('admin.customer.view',[$review->customer_id])}}" class="title-color hover-c1">
+                                                    {{$review->customer->f_name}} {{$review->customer->l_name}}
+                                                </a>
+                                            @else
+                                                <label class="badge badge-soft-danger">{{translate('customer_removed')}}</label>
+                                            @endif
+                                        </td>
                                         <td>
                                             <p class="text-wrap mb-1">
                                                 {{$review->comment?$review->comment: translate("no_Comment_Found")}}
