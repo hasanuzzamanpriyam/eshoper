@@ -105,6 +105,9 @@
             function colorCodeSelect(state) {
                 var colorCode = $(state.element).val();
                 if (!colorCode) return state.text;
+                if (!colorCode.startsWith('#')) {
+                    colorCode = '#' + colorCode;
+                }
                 return "<span class='color-preview' style='background-color:" + colorCode + ";'></span>" + state.text;
             }
         });

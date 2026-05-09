@@ -518,6 +518,32 @@
                                     </option>
                                 @endforeach
                             </select>
+
+                            <div class="mt-3 p-3 border rounded bg-light" id="add_new_color_section">
+                                <h6 class="mb-2">{{translate('add_new_color')}}</h6>
+                                <div class="row g-2">
+                                    <div class="col-md-5">
+                                        <input type="text" id="new_color_hex"
+                                            class="form-control"
+                                            placeholder="{{translate('hex_code')}} (e.g., #FF0000)"
+                                            pattern="^#?[0-9A-Fa-f]{6}$"
+                                            title="{{translate('enter_valid_hex_code')}}">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" id="new_color_name"
+                                            class="form-control"
+                                            placeholder="{{translate('color_name')}} (optional)">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-primary w-100" onclick="addNewColor()">
+                                            {{translate('add')}}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="color_preview" class="mt-2 d-none">
+                                    <span class="badge" id="color_preview_badge"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -1283,9 +1309,102 @@
                 $('#color_wise_image').hide();
             }
 
+            $('#new_color_hex').on('input', function() {
+                const hexCode = $(this).val().trim();
+                const hexPattern = /^#?[0-9A-Fa-f]{6}$/;
+
+                if (hexPattern.test(hexCode)) {
+                    const color = hexCode.startsWith('#') ? hexCode : '#' + hexCode;
+                    $('#color_preview_badge').css('background-color', color);
+                    $('#color_preview').removeClass('d-none');
+                } else {
+                    $('#color_preview').addClass('d-none');
+                }
+            });
+
+            window.addNewColor = function() {
+                const hexCode = $('#new_color_hex').val().trim();
+                const colorName = $('#new_color_name').val().trim();
+
+                if (!hexCode) {
+                    toastr.error('{{ translate('please_enter_hex_code') }}');
+                    return;
+                }
+
+                const hexPattern = /^#?[0-9A-Fa-f]{6}$/;
+                if (!hexPattern.test(hexCode)) {
+                    toastr.error('{{ translate('invalid_hex_code_format') }}');
+                    return;
+                }
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{route('seller.product.create-color')}}',
+                    data: {
+                        hex_code: hexCode,
+                        name: colorName
+                    },
+                    success: function(response) {
+                        if (response.status) {
+                            toastr.success(response.message);
+
+                            const newOption = new Option(
+                                response.color.name,
+                                response.color.code,
+                                true,
+                                true
+                            );
+
+                            $('#colors-selector').append(newOption).trigger('change');
+
+                            $('#new_color_hex').val('');
+                            $('#new_color_name').val('');
+                            $('#color_preview').addClass('d-none');
+
+                            if ($('#color_switcher').prop('checked')) {
+                                color_wise_image($('#colors-selector'));
+                            }
+                            update_sku();
+                        } else {
+                            if (response.color) {
+                                const existingOption = $('#colors-selector').find('option[value="' + response.color.code + '"]');
+                                if (existingOption.length > 0) {
+                                    existingOption.prop('selected', true);
+                                    $('#colors-selector').trigger('change');
+                                    if ($('#color_switcher').prop('checked')) {
+                                        color_wise_image($('#colors-selector'));
+                                    }
+                                    update_sku();
+                                }
+                            }
+                            toastr.warning(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        if (xhr.responseJSON && xhr.responseJSON.errors) {
+                            const errors = xhr.responseJSON.errors;
+                            for (const key in errors) {
+                                toastr.error(errors[key][0]);
+                            }
+                        } else {
+                            toastr.error('{{ translate('something_went_wrong') }}');
+                        }
+                    }
+                });
+            };
+
             function colorCodeSelect(state) {
                 var colorCode = $(state.element).val();
                 if (!colorCode) return state.text;
+                if (!colorCode.startsWith('#')) {
+                    colorCode = '#' + colorCode;
+                }
                 return "<span class='color-preview' style='background-color:" + colorCode + ";'></span>" + state.text;
             }
         });

@@ -230,7 +230,15 @@ class ProductController extends Controller
         $product->details               = $request->description[array_search('en', $request->lang)];
 
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $product->colors = $request->product_type == 'physical' ? json_encode($request->colors) : json_encode([]);
+            $colors = [];
+            foreach ($request->colors as $color) {
+                if (!str_starts_with($color, '#')) {
+                    $colors[] = '#' . $color;
+                } else {
+                    $colors[] = $color;
+                }
+            }
+            $product->colors = $request->product_type == 'physical' ? json_encode($colors) : json_encode([]);
         } else {
             $colors = [];
             $product->colors = $request->product_type == 'physical' ? json_encode($colors) : json_encode([]);
@@ -793,7 +801,15 @@ class ProductController extends Controller
         $product->details               = $request->description[array_search('en', $request->lang)];
 
         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-            $product->colors = $request->product_type == 'physical' ? json_encode($request->colors) : json_encode([]);
+            $colors = [];
+            foreach ($request->colors as $color) {
+                if (!str_starts_with($color, '#')) {
+                    $colors[] = '#' . $color;
+                } else {
+                    $colors[] = $color;
+                }
+            }
+            $product->colors = $request->product_type == 'physical' ? json_encode($colors) : json_encode([]);
         } else {
             $colors = [];
             $product->colors = $request->product_type == 'physical' ? json_encode($colors) : json_encode([]);
@@ -1256,5 +1272,45 @@ class ProductController extends Controller
             return response()->json(['status' => false, 'message' => translate('slug_already_exists')]);
         }
         return response()->json(['status' => true]);
+    }
+
+    public function create_color(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'hex_code' => 'required|string|regex:/^#?[0-9A-Fa-f]{6}$/',
+            'name' => 'nullable|string|max:255'
+        ], [
+            'hex_code.required' => translate('hex_code_is_required'),
+            'hex_code.regex' => translate('invalid_hex_code_format'),
+            'name.max' => translate('color_name_too_long')
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['status' => false, 'errors' => $validator->errors()], 422);
+        }
+
+        $hexCode = ltrim($request->hex_code, '#');
+
+        $existingColor = Color::where('code', $hexCode)->first();
+        if ($existingColor) {
+            return response()->json([
+                'status' => false,
+                'message' => translate('color_already_exists'),
+                'color' => $existingColor
+            ]);
+        }
+
+        $colorName = $request->name ?? $hexCode;
+
+        $color = Color::create([
+            'name' => $colorName,
+            'code' => $hexCode
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => translate('color_created_successfully'),
+            'color' => $color
+        ]);
     }
 }

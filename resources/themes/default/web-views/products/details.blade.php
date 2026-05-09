@@ -374,7 +374,7 @@
                                     <div class="card-text my-2">
                                         {{ $product->other_info }}
                                     </div>
-                    
+
                         </div>
                         @endif
                             <div class="mb-3">
@@ -400,7 +400,7 @@
                                                         id="{{ $product->id }}-color-{{ str_replace('#','',$color) }}"
                                                         name="color" value="{{ $color }}"
                                                         @if($key==0) checked @endif>
-                                                    <label style="background: {{ $color }};"
+                                                    <label style="background: {{ !str_starts_with($color, '#') ? '#' . $color : $color }};"
                                                         for="{{ $product->id }}-color-{{ str_replace('#','',$color) }}"
                                                         data-toggle="tooltip" onclick="focus_preview_image_by_color('{{ str_replace('#','',$color) }}')">
                                                         <span class="outline"></span></label>
@@ -532,7 +532,7 @@
                                 </button>
 
                         </div>
-                        
+
                         </form>
 
                     </div>

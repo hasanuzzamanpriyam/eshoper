@@ -408,6 +408,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::delete('delete/{id}', 'ProductController@delete')->name('delete');
             Route::get('updated-product-list', 'ProductController@updated_product_list')->name('updated-product-list');
             Route::post('updated-shipping', 'ProductController@updated_shipping')->name('updated-shipping');
+            Route::post('create-color', 'ProductController@create_color')->name('create-color');
 
             Route::get('view/{id}', 'ProductController@view')->name('view');
             Route::get('bulk-import', 'ProductController@bulk_import_index')->name('bulk-import');

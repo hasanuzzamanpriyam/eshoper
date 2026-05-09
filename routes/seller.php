@@ -62,6 +62,7 @@ Route::group(['namespace' => 'Seller', 'prefix' => 'seller', 'as' => 'seller.'],
             Route::get('barcode/{id}', 'ProductController@barcode')->name('barcode');
 
             Route::any('slug-check', 'ProductController@slug_check')->name('slug-check');
+            Route::post('create-color', 'ProductController@create_color')->name('create-color');
             Route::delete('delete/{id}', 'ProductController@delete')->name('delete');
 
             Route::get('view/{id}', 'ProductController@view')->name('view');
