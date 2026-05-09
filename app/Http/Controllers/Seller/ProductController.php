@@ -279,8 +279,8 @@ class ProductController extends Controller
                         $str .= '-' . str_replace(' ', '', $item);
                     } else {
                         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-                            $color_name = Color::where('code', $item)->first()->name;
-                            $str .= $color_name;
+                            $color_record = Color::where('code', $item)->first();
+                            $str .= $color_record ? $color_record->name : '';
                         } else {
                             $str .= str_replace(' ', '', $item);
                         }
@@ -851,8 +851,8 @@ class ProductController extends Controller
                         $str .= '-' . str_replace(' ', '', $item);
                     } else {
                         if ($request->has('colors_active') && $request->has('colors') && count($request->colors) > 0) {
-                            $color_name = Color::where('code', $item)->first()->name;
-                            $str .= $color_name;
+                            $color_record = Color::where('code', $item)->first();
+                            $str .= $color_record ? $color_record->name : '';
                         } else {
                             $str .= str_replace(' ', '', $item);
                         }
@@ -1291,21 +1291,12 @@ class ProductController extends Controller
 
         $hexCode = ltrim($request->hex_code, '#');
 
-        $existingColor = Color::where('code', $hexCode)->first();
-        if ($existingColor) {
-            return response()->json([
-                'status' => false,
-                'message' => translate('color_already_exists'),
-                'color' => $existingColor
-            ]);
-        }
-
+        // Allow reuse of existing color codes by retrieving existing or creating new
         $colorName = $request->name ?? $hexCode;
-
-        $color = Color::create([
-            'name' => $colorName,
-            'code' => $hexCode
-        ]);
+        $color = Color::firstOrCreate(
+            ['code' => $hexCode],
+            ['name' => $colorName]
+        );
 
         return response()->json([
             'status' => true,
