@@ -513,7 +513,7 @@
                                 {{count($product['colors']) > 0 ? '' : 'disabled'}}>
                                 @foreach (\App\Model\Color::orderBy('name', 'asc')->get() as $key => $color)
                                     <option value={{ $color->code }}
-                                        {{in_array($color->code, $product['colors']) ? 'selected' : ''}}>
+                                        {{in_array($color->code, $product['colors']) || in_array('#' . $color->code, $product['colors']) ? 'selected' : ''}}>
                                         {{$color['name']}}
                                     </option>
                                 @endforeach
