@@ -354,7 +354,7 @@
                                                                 @php($guest_checkout=\App\CPU\Helpers::get_business_settings('guest_checkout'))
                                                                 <button type="button"
                                                                     class="buy_now_button btn btn-secondary fs-16"
-                                                                    onclick="buy_now('add-to-cart-form', {{($guest_checkout==1 || Auth::guard('customer')->check()?'true':'false')}}, '{{route('shop-cart')}}')">{{translate('buy_now')}}</span>
+                                                                    onclick="buy_now('add-to-cart-form', {{($guest_checkout==1 || Auth::guard('customer')->check()?'true':'false')}}, '{{route('checkout-details')}}')">{{translate('buy_now')}}</span>
                                                                 </button>
 
                                                                 <button type="button"

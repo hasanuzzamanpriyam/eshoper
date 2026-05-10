@@ -73,6 +73,22 @@ class CartManager
     {
         $user = Helpers::get_customer($request);
 
+        if (session()->has('buy_now_cart_group_id')) {
+            $group_id = session('buy_now_cart_group_id');
+            if (Cart::where('cart_group_id', $group_id)->exists()) {
+                if (
+                    request()->is('checkout-*') ||
+                    request()->is('offline-payment-checkout-complete') ||
+                    request()->is('order_note') ||
+                    request()->is('payment/*')
+                ) {
+                    return [$group_id];
+                }
+            } else {
+                session()->forget('buy_now_cart_group_id');
+            }
+        }
+
         if ($user == 'offline') {
             $cart_ids = Cart::where(['customer_id' => session('guest_id') ?? ($request->guest_id ?? 0), 'is_guest' => 1])->groupBy('cart_group_id')->pluck('cart_group_id')->toArray();
         } else {
@@ -363,6 +379,7 @@ class CartManager
         session()->forget('order_id');
         session()->forget('cart_group_id');
         session()->forget('order_note');
+        session()->forget('buy_now_cart_group_id');
     }
 
     public static function cart_clean_for_api_digital_payment($data)
@@ -407,7 +424,7 @@ class CartManager
 
         if ($user == 'offline') {
             $cart = Cart::where(['product_id' => $request->id, 'customer_id' => $guest_id, 'is_guest' => 1, 'variant' => $str])->first();
-            if (isset($cart) == false) {
+            if (isset($cart) == false || $request->has('buy_now')) {
                 $cart = new Cart();
             } else {
                 return [
@@ -417,7 +434,7 @@ class CartManager
             }
         } else {
             $cart = Cart::where(['product_id' => $request->id, 'customer_id' => $user->id, 'is_guest' => '0', 'variant' => $str])->first();
-            if (isset($cart) == false) {
+            if (isset($cart) == false || $request->has('buy_now')) {
                 $cart = new Cart();
             } else {
                 return [
@@ -480,7 +497,7 @@ class CartManager
             ])->first();
         }
 
-        if (isset($cart_check)) {
+        if (isset($cart_check) && !$request->has('buy_now')) {
             $cart['cart_group_id'] = $cart_check['cart_group_id'];
         } else {
             $cart['cart_group_id'] = ($user == 'offline' ? 'guest' : $user->id) . '-' . Str::random(5) . '-' . time();
@@ -531,6 +548,7 @@ class CartManager
 
         return [
             'status' => 1,
+            'cart_group_id' => $cart['cart_group_id'],
             'product_id' => $cart['product_id'],
             'item_name' => $product->name,
             'brand_id' => $product->brand_id,

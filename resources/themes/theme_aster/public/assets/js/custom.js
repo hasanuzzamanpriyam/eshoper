@@ -416,7 +416,7 @@ function checkAddToCartValidity(form_id) {
 
 // Product Buy Now Button Action || Start
 function buy_now(form_id, redirect_status, url = null) {
-    addToCart(form_id, redirect_status, url);
+    addToCart(form_id, redirect_status, url, true);
     if (redirect_status == true) {
         // setTimeout(function() {
         //     url != null ? (location.href = url) : "";
@@ -490,7 +490,7 @@ $("#add-to-cart-form").on("submit", function (e) {
     e.preventDefault();
 });
 
-function addToCart(form_id, redirect_to_checkout = false, url = null) {
+function addToCart(form_id, redirect_to_checkout = false, url = null, buy_now = false) {
     if (
         checkAddToCartValidity(form_id) &&
         $("#" + form_id + " input[name=quantity]").val() != 0
@@ -500,9 +500,13 @@ function addToCart(form_id, redirect_to_checkout = false, url = null) {
                 "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
             },
         });
+        let data = $("#" + form_id).serializeArray();
+        if (buy_now) {
+            data.push({ name: "buy_now", value: 1 });
+        }
         $.post({
             url: $(`#` + form_id).attr("action"),
-            data: $("#" + form_id).serializeArray(),
+            data: data,
             beforeSend: function () {},
             success: function (response) {
                 if (response.status == 1) {
@@ -513,6 +517,9 @@ function addToCart(form_id, redirect_to_checkout = false, url = null) {
                         timeOut: 3000, // duration
                     });
                     if (redirect_to_checkout == true) {
+                        if (buy_now && response.cart_group_id) {
+                            url = url + (url.includes('?') ? '&' : '?') + 'cart_group_id=' + response.cart_group_id;
+                        }
                         setTimeout(function () {
                             location.href = url;
                         }, 100);

@@ -1152,6 +1152,11 @@ class OrderManager
     public static function minimum_order_amount_verify($request, $cart_group_id = null)
     {
         $user = Helpers::get_customer($request);
+
+        if ($cart_group_id == null && session()->has('buy_now_cart_group_id') && (request()->is('checkout-*') || request()->is('payment-*'))) {
+            $cart_group_id = session('buy_now_cart_group_id');
+        }
+
         $status = 1;
         $amount = 0;
         $minimum_order_amount = 0;

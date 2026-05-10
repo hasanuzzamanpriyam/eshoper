@@ -266,7 +266,7 @@
                                         <button type="button" class="update_cart_button btn btn-primary fs-16" disabled>{{translate('add_to_Cart')}}</button>
                                     @else
                                     @php($guest_checkout=\App\CPU\Helpers::get_business_settings('guest_checkout'))
-                                    <button type="button" class="buy_now_button btn btn-secondary fs-16" onclick="buy_now('add-to-cart-form', {{($guest_checkout==1 ||Auth::guard('customer')->check()?'true':'false')}}, '{{route('shop-cart')}}')">{{translate('buy_now')}}</span></button>
+                                    <button type="button" class="buy_now_button btn btn-secondary fs-16" onclick="buy_now('add-to-cart-form', {{($guest_checkout==1 ||Auth::guard('customer')->check()?'true':'false')}}, '{{route('checkout-details')}}')">{{translate('buy_now')}}</span></button>
 
                                         <button type="button" class="update_cart_button btn btn-primary fs-16" onclick="addToCart('add-to-cart-form')">{{translate('add_to_Cart')}}</button>
                                     @endif

@@ -314,6 +314,10 @@ class WebController extends Controller
 
 	public function checkout_details(Request $request)
 	{
+		if ($request->has('cart_group_id')) {
+			session(['buy_now_cart_group_id' => $request->cart_group_id]);
+		}
+
 		if (
 			(!auth('customer')->check() || Cart::where(['customer_id' => auth('customer')->id()])->count() < 1)
 			&& (!Helpers::get_business_settings('guest_checkout') || !session()->has('guest_id') || !session('guest_id'))
@@ -342,9 +346,12 @@ class WebController extends Controller
 			return redirect()->route('shop-cart');
 		}
 
-		$cartItems = Cart::where(['customer_id' => auth('customer')->id()])->withCount(['all_product' => function ($query) {
-			return $query->where('status', 0);
-		}])->get();
+		$user = Helpers::get_customer($request);
+		$cartItems = Cart::where(['customer_id' => ($user == 'offline' ? session('guest_id') : auth('customer')->id())])
+			->whereIn('cart_group_id', $cart_group_ids)
+			->withCount(['all_product' => function ($query) {
+				return $query->where('status', 0);
+			}])->get();
 		foreach ($cartItems as $cart) {
 			if (isset($cart->all_product_count) && $cart->all_product_count != 0) {
 				Toastr::info(translate('check_Cart_List_First'));
@@ -467,9 +474,12 @@ class WebController extends Controller
 			return redirect()->route('shop-cart');
 		}
 
-		$cartItems = Cart::where(['customer_id' => auth('customer')->id()])->withCount(['all_product' => function ($query) {
-			return $query->where('status', 0);
-		}])->get();
+		$user = Helpers::get_customer($request);
+		$cartItems = Cart::where(['customer_id' => ($user == 'offline' ? session('guest_id') : auth('customer')->id())])
+			->whereIn('cart_group_id', $cart_group_ids)
+			->withCount(['all_product' => function ($query) {
+				return $query->where('status', 0);
+			}])->get();
 		foreach ($cartItems as $cart) {
 			if (isset($cart->all_product_count) && $cart->all_product_count != 0) {
 				Toastr::info(translate('check_Cart_List_First'));
@@ -761,6 +771,7 @@ class WebController extends Controller
 
 	public function shop_cart(Request $request)
 	{
+		session()->forget('buy_now_cart_group_id');
 		$top_rated_shops = [];
 		$new_sellers = [];
 		$current_date = date('Y-m-d H:i:s');

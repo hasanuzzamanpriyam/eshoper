@@ -633,16 +633,20 @@
             });
         }
 
-        function addToCart(form_id = 'add-to-cart-form', redirect_to_checkout = false) {
+        function addToCart(form_id = 'add-to-cart-form', redirect_to_checkout = false, buy_now = false) {
             if (checkAddToCartValidity()) {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
                 });
+                let data = $('#' + form_id).serializeArray();
+                if (buy_now) {
+                    data.push({ name: "buy_now", value: 1 });
+                }
                 $.post({
                     url: '{{ route('cart.add') }}',
-                    data: $('#' + form_id).serializeArray(),
+                    data: data,
                     beforeSend: function () {
                         $('#loading').show();
                     },
@@ -681,7 +685,11 @@
                                 }
                             });
                             if (redirect_to_checkout) {
-                                location.href = "{{route('checkout-details')}}";
+                                let url = "{{route('checkout-details')}}";
+                                if (buy_now && response.cart_group_id) {
+                                    url = url + (url.includes('?') ? '&' : '?') + 'cart_group_id=' + response.cart_group_id;
+                                }
+                                location.href = url;
                             }
                             return false;
                         } else if (response.status == 0) {
@@ -705,7 +713,7 @@
         }
 
         function buy_now() {
-            addToCart('add-to-cart-form', true);
+            addToCart('add-to-cart-form', true, true);
         /* location.href = "{{route('checkout-details')}}"; */
         }
 

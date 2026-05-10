@@ -346,7 +346,7 @@
                     <!-- Product details-->
                     <div class="col-lg-7 col-md-8 col-12 mt-md-0 mt-sm-3" style="direction: {{ Session::get('direction') }}">
                         <div class="details __h-100">
-                            <span class="mb-2 __inline-24">{{$product->name}}</span>
+                            <h1 class="mb-2 __inline-24">{{$product->name}}</h1>
                             {{-- <div class="d-flex flex-wrap align-items-center mb-2 pro">
                                 <div class="star-rating" style="{{Session::get('direction') === "rtl" ? 'margin-left: 10px;' : 'margin-right: 10px;'}}">
                                     @for($inc=1;$inc<=5;$inc++)
