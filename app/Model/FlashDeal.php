@@ -22,7 +22,7 @@ class FlashDeal extends Model
     ];
     public function products()
     {
-        return $this->hasMany(FlashDealProduct::class, 'flash_deal_id');
+        return $this->hasMany(FlashDealProduct::class, 'flash_deal_id')->orderBy('priority', 'asc');
     }
 
     public function translations()

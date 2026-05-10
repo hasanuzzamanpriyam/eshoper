@@ -11,6 +11,7 @@ class FlashDealProduct extends Model
         'product_id'    => 'integer',
         'discount'      => 'float',
         'flash_deal_id' => 'integer',
+        'priority'      => 'integer',
         'created_at'    => 'datetime',
         'updated_at'    => 'datetime',
     ];

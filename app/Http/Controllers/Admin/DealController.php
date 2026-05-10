@@ -191,7 +191,12 @@ class DealController extends Controller
 
         $products = $this->product->active()->with(['brand','category','seller.shop'])->get();
 
-        $deal_products = Product::whereIn('id', $flash_deal_products)->paginate(Helpers::pagination_limit());
+        $deal_products = Product::whereIn('id', $flash_deal_products)
+            ->with(['flash_deal_product' => function($q) use ($deal_id) {
+                $q->where('flash_deal_id', $deal_id)->orderBy('priority', 'asc');
+            }])
+            ->orderBy('id', 'desc')
+            ->paginate(Helpers::pagination_limit());
 
         $deal = FlashDeal::with(['products.product'])->where('id', $deal_id)->first();
 
@@ -216,6 +221,7 @@ class DealController extends Controller
                     'flash_deal_id' => $deal_id,
                     'discount' => $request['discount'] ?? 0,
                     'discount_type' => $request['discount_type'] ?? 'amount',
+                    'priority' => $request['priority'] ?? 10,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -231,6 +237,28 @@ class DealController extends Controller
         FlashDealProduct::where('product_id', $request->id)->delete();
 
         return response()->json();
+    }
+
+    public function update_priority(Request $request)
+    {
+        $flashDealProduct = FlashDealProduct::where('flash_deal_id', $request->deal_id)
+            ->where('product_id', $request->product_id)
+            ->first();
+
+        if (!$flashDealProduct) {
+            return response()->json([
+                'success' => 0,
+                'message' => translate('product_not_found_in_deal')
+            ], 404);
+        }
+
+        $flashDealProduct->priority = $request->priority;
+        $flashDealProduct->save();
+
+        return response()->json([
+            'success' => 1,
+            'message' => translate('priority_updated_successfully')
+        ], 200);
     }
 
     public function deal_of_day(Request $request)

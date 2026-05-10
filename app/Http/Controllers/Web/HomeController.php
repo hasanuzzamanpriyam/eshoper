@@ -247,7 +247,7 @@ class HomeController extends Controller
                     return $query->where('user_id', Auth::guard('customer')->user()->id ?? 0);
                 }])->whereHas('product',function($q){
                     $q->active();
-                });
+                })->orderBy('priority', 'asc');
             }])
             ->where(['deal_type'=>'flash_deal', 'status'=>1])
             ->whereDate('start_date','<=',date('Y-m-d'))

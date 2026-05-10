@@ -33,6 +33,7 @@ class FlashDealController extends Controller
                     $q->active();
                 })
                 ->where(['flash_deal_id' => $deal_id])
+                ->orderBy('priority', 'asc')
                 ->pluck('product_id')->toArray();
 
         if (count($p_ids) > 0) {
