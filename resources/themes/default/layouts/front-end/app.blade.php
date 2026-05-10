@@ -24,6 +24,8 @@
     <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/theme.min.css">
     <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/slick.css">
     <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/font-awesome.min.css">
+    <meta name="google-site-verification" content="hrKd_jD-SyLVRQnLgteuA3Yp0m41AIJIZQZ_x8GY3eE" />
+<link rel="canonical" href="@yield('canonical', url()->current())">
     <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/toastr.css" />
     <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/master.css" />
@@ -1166,7 +1168,7 @@
                                     const imageUrl = '{{asset("storage/product/thumbnail")}}/' + product.thumbnail;
                                     html += `
                                         <a href="${product.url}" class="search-result-item d-flex align-items-center gap-3 p-2 border-bottom">
-                                            <img src="${imageUrl}" alt="${product.name}" 
+                                            <img src="${imageUrl}" alt="${product.name}"
                                                  class="rounded" style="width: 50px; height: 50px; object-fit: cover;"
                                                  onerror="this.src='{{asset("assets/front-end/img/image-place-holder.png")}}'">
                                             <div class="flex-grow-1">
