@@ -97,7 +97,7 @@ class PageController extends Controller
             $query->where('blog_category_id', $request->category);
         }
 
-        $blogs = $query->latest()->paginate(6);
+        $blogs = $query->latest()->paginate(7);
         $recentPosts = Blog::with('category')->where('status', 1)->latest()->take(5)->get();
         $categories = \App\Model\BlogCategory::where('status', 1)->get();
 

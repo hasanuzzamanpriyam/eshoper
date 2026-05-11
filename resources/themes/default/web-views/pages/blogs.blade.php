@@ -10,7 +10,7 @@
     <style>
         /* ===== Blog Page Styles ===== */
         .blog-page-header {
-            background: linear-gradient(135deg, {{ $web_config['primary_color'] }}22 0%, {{ $web_config['secondary_color'] ?? $web_config['primary_color'] }}11 100%);
+            background: {{ $web_config['primary_color'] }}11;
             border-bottom: 1px solid {{ $web_config['primary_color'] }}22;
             padding: 36px 0 24px;
             margin-bottom: 32px;
@@ -272,6 +272,12 @@
             border-color: {{ $web_config['primary_color'] }};
             color: #fff;
         }
+
+        /* Category List Collapsible */
+        .category-list-container {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
     </style>
 @endpush
 
@@ -285,30 +291,39 @@
                 <span class="mx-1">/</span>
                 <span>{{ translate('blogs') }}</span>
             </div>
-            <h1>{{ translate('blogs') }}</h1>
-            <p>{{ translate('read_our_latest_articles_and_stay_updated') }}</p>
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1>{{ translate('blogs') }}</h1>
+                    <p>{{ translate('read_our_latest_articles_and_stay_updated') }}</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group shadow-sm rounded-sm overflow-hidden border">
+                        <input type="text" name="search" class="form-control border-0 px-3" placeholder="{{ translate('search_blogs') }}..." value="{{ request('search') }}">
+                        <button class="btn border-0 px-6 text-white" type="submit" style="background-color: {{ $web_config['primary_color'] }};"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
 
-            {{-- Category and Search Bar --}}
             <div class="mt-4">
                 <form action="{{ route('blogs') }}" method="GET" class="row g-3 align-items-center">
-                    <div class="col-md-8">
-                        <div class="d-flex gap-2 flex-wrap">
-                            <a href="{{ route('blogs') }}" class="btn {{ !request('category') ? 'text-white' : '' }} {{ !request('category') ? '' : 'btn-white' }} shadow-sm rounded-pill px-3 py-1 text-sm border" style="{{ !request('category') ? 'background-color: '.$web_config['primary_color'].';' : '' }}">
-                                {{ translate('all') }}
-                            </a>
-                            @foreach($categories as $category)
-                                <a href="{{ route('blogs', ['category' => $category->id]) }}" class="btn {{ request('category') == $category->id ? 'text-white' : '' }} {{ request('category') == $category->id ? '' : 'btn-white' }} shadow-sm rounded-pill px-3 py-1 text-sm border" style="{{ request('category') == $category->id ? 'background-color: '.$web_config['primary_color'].';' : '' }}">
-                                    {{ $category->name }}
+                    <div class="col-12">
+                        <div id="category-list-container" class="category-list-container w-100">
+                            <div class="d-flex gap-2 flex-wrap justify-content-between" id="category-inner-list">
+                                <a href="{{ route('blogs') }}" class="btn {{ !request('category') ? 'text-white' : 'text-muted' }} rounded-pill px-3 py-1 text-sm border" style="{{ !request('category') ? 'background-color: '.$web_config['primary_color'].'; border-color: '.$web_config['primary_color'].';' : 'background-color: #ffffff;' }}">
+                                    {{ translate('all') }}
                                 </a>
-                            @endforeach
+                                @foreach($categories as $category)
+                                    <a href="{{ route('blogs', ['category' => $category->id]) }}" class="btn {{ request('category') == $category->id ? 'text-white' : 'text-muted' }} rounded-pill px-3 py-1 text-sm border" style="{{ request('category') == $category->id ? 'background-color: '.$web_config['primary_color'].'; border-color: '.$web_config['primary_color'].';' : 'background-color: #ffffff;' }}">
+                                        {{ $category->name }}
+                                    </a>
+                                @endforeach
+                                <button type="button" id="btn-view-all" class="btn rounded-pill px-3 py-1 text-sm border" style="color: {{ $web_config['primary_color'] }}; border-color: {{ $web_config['primary_color'] }}; background-color: #ffffff; display: none;">
+                                    {{ translate('view_all') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="input-group shadow-sm rounded-pill overflow-hidden border">
-                            <input type="text" name="search" class="form-control border-0 px-3" placeholder="{{ translate('search_blogs') }}..." value="{{ request('search') }}">
-                            <button class="btn border-0 px-3 text-white" type="submit" style="background-color: {{ $web_config['primary_color'] }};"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
+                    
                 </form>
             </div>
         </div>
@@ -344,7 +359,7 @@
                     @endforelse
                 </div>
 
-                {{-- Download App --}}
+                <!-- {{-- Download App --}}
                 <div class="blog-sidebar-card text-center">
                     <div class="sidebar-title">{{ translate('download_our_app') }}</div>
                     <p class="mb-3" style="font-size: 0.85rem; color: #666;">{{ translate('get_the_best_shopping_experience_on_the_go') }}</p>
@@ -356,7 +371,7 @@
                             <i class="fa fa-android mr-1"></i> {{ translate('play_store') }}
                         </a>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -377,6 +392,69 @@
             success: function(response) {
                 $('#blog-list-container').html(response);
             }
+        });
+    });
+
+    $(document).ready(function() {
+        let isExpanded = false;
+        
+        function checkCategoryOverflow() {
+            if (isExpanded) return;
+
+            const container = $('#category-inner-list');
+            const tags = container.find('a');
+            const btn = $('#btn-view-all');
+            
+            tags.show();
+            btn.hide();
+
+            let lineTops = [];
+            let lastTop = -5;
+
+            tags.each(function() {
+                const top = Math.floor($(this).position().top);
+                if (top > lastTop + 5) {
+                    lineTops.push(top);
+                    lastTop = top;
+                }
+            });
+
+            if (lineTops.length > 1) {
+                const secondLineTop = lineTops[1];
+                let firstTagOnSecondLine = -1;
+                
+                tags.each(function(index) {
+                    if (Math.floor($(this).position().top) >= secondLineTop) {
+                        if (firstTagOnSecondLine === -1) firstTagOnSecondLine = index;
+                    }
+                });
+
+                if (firstTagOnSecondLine !== -1) {
+                    let currentLimit = firstTagOnSecondLine;
+                    tags.slice(currentLimit).hide();
+                    btn.show().insertBefore(tags.eq(currentLimit));
+                    
+                    const firstLineTop = lineTops[0];
+                    
+                    // While the button is on a line below the first line, hide more tags
+                    let safetyCounter = 0;
+                    while (Math.floor(btn.position().top) > firstLineTop && currentLimit > 0 && safetyCounter < 20) {
+                        currentLimit--;
+                        tags.eq(currentLimit).hide();
+                        safetyCounter++;
+                    }
+                }
+            }
+        }
+
+        // Delay slightly to ensure layout is settled
+        setTimeout(checkCategoryOverflow, 200);
+        $(window).on('resize', checkCategoryOverflow);
+
+        $('#btn-view-all').on('click', function() {
+            isExpanded = true;
+            $('#category-inner-list').find('a').show();
+            $(this).hide();
         });
     });
 </script>

@@ -56,9 +56,8 @@
         .blog-detail-hero {
             display: block;
             margin: 0 auto;
-            width: 800px !important;
-            max-width: 100% !important;
-            height: auto !important;
+            width: 100% !important;
+            max-height: 300px !important;
             object-fit: cover;
         }
         .blog-detail-body {

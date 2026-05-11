@@ -6960,4 +6960,6 @@
   'add_new_color' => 'Add new color',
   'hex_code_is_required' => 'Hex code is required',
   'related_products' => 'Related products',
+  'no_blogs_found' => 'No blogs found',
+  'show_less' => 'Show less',
 );
