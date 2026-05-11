@@ -233,7 +233,7 @@
                                                 @if(!auth('customer')->check())
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
-                                                        <label for="email">{{ translate('email')}}</label>
+                                                        <label for="email">{{ translate('email')}} <span class="text-danger">*</span></label>
                                                         <input type="email" class="form-control" name="email" id="email" placeholder="{{translate('your_email')}}" />
                                                     </div>
                                                 </div>
