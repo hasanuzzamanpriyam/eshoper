@@ -27,10 +27,10 @@
     <div class="container py-3">
 
         @if($banner)
-<div class="mb-3 border border-2" style="width: 100%;">
+<div class="mb-3" style="width: 100%;">
     <a href="{{ $banner->url }}">
         <img class="radius-5"
-             style="width: 100%; height: 200px; object-fit: fill;"
+             style="width: 100%; height: auto; display: block;"
              onerror="this.src='{{asset('assets/front-end/img/placeholder.png')}}'"
              src="{{asset('storage/banner')}}/{{$banner['photo']}}"
              alt="">

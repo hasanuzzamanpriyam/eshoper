@@ -234,7 +234,31 @@
                     @empty
                         <p class="text-muted" style="font-size:0.85rem;">{{ translate('no_recent_posts') }}</p>
                     @endforelse
+                    </div>
+
+                {{-- Related Products Section --}}
+                @if(isset($relatedProducts) && $relatedProducts->count() > 0)
+                <div class="blog-sidebar-card mt-4">
+                    <div class="sidebar-title">{{ translate('related_products') }}</div>
+                    @foreach($relatedProducts as $product)
+                        <a class="recent-post-item" href="{{ route('product', $product->slug) }}">
+                            <img class="recent-post-img"
+                                 src="{{ \App\CPU\ProductManager::product_image_path('thumbnail') }}/{{ $product->thumbnail }}"
+                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                 alt="{{ $product->name }}">
+                            <div class="recent-post-info">
+                                <h6>{{ $product->name }}</h6>
+                                <span class="recent-post-time text-primary font-weight-bold">
+                                    {{ \App\CPU\Helpers::currency_converter(
+                                        $product->unit_price - \App\CPU\Helpers::get_product_discount($product, $product->unit_price)
+                                    ) }}
+                                </span>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
+                @endif
+            </div>
             </div>
 
         </div>

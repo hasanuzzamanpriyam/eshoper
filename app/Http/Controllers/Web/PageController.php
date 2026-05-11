@@ -108,6 +108,39 @@ class PageController extends Controller
     {
         $blog = Blog::with('category')->where('slug', $slug)->where('status', 1)->firstOrFail();
         $recentPosts = Blog::with('category')->where('status', 1)->latest()->take(5)->get();
-        return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts'));
+
+        $blogTitleWords = explode(' ', strtolower($blog->heading));
+        $blogSlugWords = explode('-', strtolower($blog->slug));
+        $searchWords = array_unique(array_filter(array_merge($blogTitleWords, $blogSlugWords)));
+
+        $products = \App\Model\Product::active()->pluck('name', 'id');
+        $matchedIds = [];
+
+        foreach ($products as $id => $name) {
+            $lowerName = strtolower($name);
+            $nameWords = explode(' ', $lowerName);
+            
+            $matchFound = false;
+            foreach ($searchWords as $searchWord) {
+                if (strlen($searchWord) <= 2) continue;
+                foreach ($nameWords as $nameWord) {
+                    similar_text($searchWord, $nameWord, $percent);
+                    if ($percent >= 60) {
+                        $matchedIds[] = $id;
+                        $matchFound = true;
+                        break 2;
+                    }
+                }
+            }
+        }
+
+        $relatedProducts = \App\Model\Product::active()
+            ->with(['rating', 'tags'])
+            ->whereIn('id', $matchedIds)
+            ->inRandomOrder()
+            ->take(8)
+            ->get();
+
+        return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts', 'relatedProducts'));
     }
 }

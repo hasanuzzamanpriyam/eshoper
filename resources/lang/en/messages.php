@@ -1778,7 +1778,6 @@
   'lowest_priority' => 'Lowest priority',
   'priority_description' => '1 is highest priority, 10 is lowest priority',
   'edit_priority' => 'Edit priority',
-  'update' => 'Update',
   'Thanks for your order' => 'Thanks for your order',
   'The billing period for your paid subscription to Google Workspace begins tomorrow.' => 'nice',
   'Items Ordered' => 'Items Ordered',
@@ -6960,4 +6959,5 @@
   'hex_code' => 'Hex code',
   'add_new_color' => 'Add new color',
   'hex_code_is_required' => 'Hex code is required',
+  'related_products' => 'Related products',
 );
