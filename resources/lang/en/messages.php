@@ -6962,4 +6962,5 @@
   'related_products' => 'Related products',
   'no_blogs_found' => 'No blogs found',
   'show_less' => 'Show less',
+  'suggested_products' => 'Suggested products',
 );

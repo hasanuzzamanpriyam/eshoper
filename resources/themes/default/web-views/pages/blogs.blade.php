@@ -359,6 +359,32 @@
                     @endforelse
                 </div>
 
+                {{-- Suggested Products --}}
+                <div class="blog-sidebar-card">
+                    <div class="sidebar-title">{{ translate('suggested_products') }}</div>
+                    @foreach($suggestedProducts as $product)
+                        <a class="recent-post-item" href="{{ route('product', $product->slug) }}">
+                            <img class="recent-post-img"
+                                 src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
+                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                 alt="{{ $product->name }}">
+                            <div class="recent-post-info">
+                                <h6>{{ $product->name }}</h6>
+                                <div class="product-price">
+                                    <span class="text-accent" style="font-weight: 700; color: {{ $web_config['primary_color'] }};">
+                                        {{\App\CPU\Helpers::currency_converter($product->unit_price - \App\CPU\Helpers::get_product_discount($product, $product->unit_price))}}
+                                    </span>
+                                    @if($product->discount > 0)
+                                        <strike style="font-size: 0.75rem; color: #999; margin-left: 5px;">
+                                            {{\App\CPU\Helpers::currency_converter($product->unit_price)}}
+                                        </strike>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+
                 <!-- {{-- Download App --}}
                 <div class="blog-sidebar-card text-center">
                     <div class="sidebar-title">{{ translate('download_our_app') }}</div>
@@ -400,7 +426,6 @@
         
         function checkCategoryOverflow() {
             if (isExpanded) return;
-
             const container = $('#category-inner-list');
             const tags = container.find('a');
             const btn = $('#btn-view-all');

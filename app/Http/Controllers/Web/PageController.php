@@ -101,7 +101,53 @@ class PageController extends Controller
         $recentPosts = Blog::with('category')->where('status', 1)->latest()->take(5)->get();
         $categories = \App\Model\BlogCategory::where('status', 1)->get();
 
-        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts', 'categories'));
+        $blogWords = [];
+        foreach ($blogs as $blog) {
+            $words = explode(' ', strtolower($blog->heading));
+            foreach ($words as $word) {
+                if (strlen($word) > 2) {
+                    $blogWords[] = $word;
+                }
+            }
+        }
+        $searchWords = array_unique($blogWords);
+
+        $matchedIds = [];
+        $productList = \App\Model\Product::active()->pluck('name', 'id');
+        foreach ($productList as $id => $name) {
+            $lowerName = strtolower($name);
+            $nameWords = explode(' ', $lowerName);
+            foreach ($searchWords as $searchWord) {
+                foreach ($nameWords as $nameWord) {
+                    similar_text($searchWord, $nameWord, $percent);
+                    if ($percent >= 60) {
+                        $matchedIds[] = $id;
+                        break 2;
+                    }
+                }
+            }
+            if (count($matchedIds) >= 20) break;
+        }
+
+        $suggestedProducts = \App\Model\Product::active()
+            ->with(['rating', 'reviews'])
+            ->whereIn('id', $matchedIds)
+            ->inRandomOrder()
+            ->take(5)
+            ->get();
+
+        if ($suggestedProducts->count() < 5) {
+            $remainingCount = 5 - $suggestedProducts->count();
+            $additionalProducts = \App\Model\Product::active()
+                ->with(['rating', 'reviews'])
+                ->whereNotIn('id', $matchedIds)
+                ->inRandomOrder()
+                ->take($remainingCount)
+                ->get();
+            $suggestedProducts = $suggestedProducts->merge($additionalProducts);
+        }
+
+        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts', 'categories', 'suggestedProducts'));
     }
 
     public function blog_show($slug)

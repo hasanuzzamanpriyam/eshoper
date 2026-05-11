@@ -7,7 +7,7 @@
     @if($featured_blog)
         <div class="row mb-2">
             <div class="col-12">
-                <div class="featured-blog-card">
+                <div class="featured-blog-card" style="cursor: pointer;" onclick="location.href='{{ route('blog.show', $featured_blog->slug) }}'">
                     <a href="{{ route('blog.show', $featured_blog->slug) }}" class="blog-card-img-wrap">
                         <img src="{{ $featured_blog->image ? asset('storage/blog/' . $featured_blog->image) : asset('assets/front-end/img/image-place-holder.png') }}"
                              onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
@@ -34,7 +34,7 @@
         <div class="row g-4">
             @foreach($other_blogs as $blog)
                 <div class="col-sm-6">
-                    <div class="blog-card">
+                    <div class="blog-card" style="cursor: pointer;" onclick="location.href='{{ route('blog.show', $blog->slug) }}'">
                         <a href="{{ route('blog.show', $blog->slug) }}" class="blog-card-img-wrap">
                             <img src="{{ $blog->image ? asset('storage/blog/' . $blog->image) : asset('assets/front-end/img/image-place-holder.png') }}"
                                  onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
