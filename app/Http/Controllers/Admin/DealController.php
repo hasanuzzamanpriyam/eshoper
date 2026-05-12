@@ -242,6 +242,13 @@ class DealController extends Controller
         return response()->json();
     }
 
+    public function delete_all_products($deal_id)
+    {
+        FlashDealProduct::where('flash_deal_id', $deal_id)->delete();
+
+        return response()->json(['success' => true]);
+    }
+
     public function update_priority(Request $request)
     {
         $flashDealProduct = FlashDealProduct::where('flash_deal_id', $request->deal_id)

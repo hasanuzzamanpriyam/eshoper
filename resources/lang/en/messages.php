@@ -6973,4 +6973,7 @@
   'select_Store' => 'Select Store',
   'N/A' => 'N/A',
   'selecting_all' => 'Selecting all',
+  'all_products_deleted_successfully' => 'All products deleted successfully',
+  'you_want_to_delete_all_products_from_this_flash_deal' => 'You want to delete all products from this flash deal',
+  'delete_all_products' => 'Delete all products',
 );

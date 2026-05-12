@@ -195,11 +195,15 @@
     <div class="row mt-3">
         <div class="col-md-12">
             <div class="card">
-                <div class="px-3 py-4">
+                <div class="px-3 py-4 d-flex flex-wrap justify-content-between align-items-center gap-3">
                     <h5 class="mb-0 text-capitalize">
                         {{ translate('product_Table')}}
                         <span class="badge badge-soft-dark radius-50 fz-12 ml-1">{{ $deal_products->total() }}</span>
                     </h5>
+                    <button type="button" class="btn btn-outline-danger btn-sm js-delete-all-products" 
+                            data-url="{{ route('admin.deal.delete-all-products', [$deal['id']]) }}">
+                        <i class="tio-delete-outlined"></i> {{ translate('delete_all_products') }}
+                    </button>
                 </div>
 
                 <div class="table-responsive">
@@ -745,6 +749,30 @@
                     $('#table-load-more').addClass('d-none');
                 });
             }
+
+            $('.js-delete-all-products').on('click', function () {
+                let url = $(this).data('url');
+                Swal.fire({
+                    title: '{{translate("are_you_sure")}}?',
+                    text: '{{translate("you_want_to_delete_all_products_from_this_flash_deal")}}?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: '{{ translate("no") }}',
+                    confirmButtonText: '{{ translate("yes") }}',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.get(url, function (response) {
+                            if (response.success) {
+                                toastr.success('{{translate("all_products_deleted_successfully")}}');
+                                location.reload();
+                            }
+                        });
+                    }
+                })
+            });
         });
     </script>
 @endpush
