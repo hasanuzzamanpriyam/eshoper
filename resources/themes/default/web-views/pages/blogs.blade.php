@@ -276,7 +276,8 @@
         /* Category List Collapsible */
         .category-list-container {
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            display: none;
         }
     </style>
 @endpush
@@ -338,10 +339,10 @@
             </div>
 
             {{-- Sidebar --}}
-            <div class="col-lg-4 mt-4 mt-lg-0 blog-sidebar">
+            <div class="col-lg-4 mt-2 mt-lg-0 blog-sidebar">
 
                 {{-- Recent Posts --}}
-                <div class="blog-sidebar-card">
+                <div class="blog-sidebar-card mb-3">
                     <div class="sidebar-title">{{ translate('recent_posts') }}</div>
                     @forelse($recentPosts as $recent)
                         <a class="recent-post-item" href="{{ route('blog.show', $recent->slug) }}">
@@ -359,8 +360,21 @@
                     @endforelse
                 </div>
 
+                {{-- Blog Page Banner --}}
+                @if($blog_page_banner)
+                    <div class="mb-3 overflow-hidden" style="border-radius: 12px;">
+                        <a href="{{ $blog_page_banner->url }}">
+                            <img src="{{ asset('storage/banner/' . $blog_page_banner->photo) }}"
+                                 class="w-100 d-block"
+                                 style="border-radius: 12px; min-height: 300px; max-height: 500px; object-fit: cover;"
+                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                 alt="{{ $blog_page_banner->title }}">
+                        </a>
+                    </div>
+                @endif
+
                 {{-- Suggested Products --}}
-                <div class="blog-sidebar-card">
+                <div class="blog-sidebar-card mb-2">
                     <div class="sidebar-title">{{ translate('suggested_products') }}</div>
                     @foreach($suggestedProducts as $product)
                         <a class="recent-post-item" href="{{ route('product', $product->slug) }}">
@@ -421,12 +435,18 @@
         });
     });
 
-    $(document).ready(function() {
-        let isExpanded = false;
-        
-        function checkCategoryOverflow() {
-            if (isExpanded) return;
-            const container = $('#category-inner-list');
+        $(document).ready(function() {
+            let isExpanded = false;
+            
+            function checkCategoryOverflow() {
+                const containerParent = $('#category-list-container');
+                containerParent.show().css('opacity', '0');
+                
+                if (isExpanded) {
+                    containerParent.css('opacity', '1');
+                    return;
+                }
+                const container = $('#category-inner-list');
             const tags = container.find('a');
             const btn = $('#btn-view-all');
             
@@ -470,6 +490,7 @@
                     }
                 }
             }
+            $('#category-list-container').css('opacity', '1');
         }
 
         // Delay slightly to ensure layout is settled

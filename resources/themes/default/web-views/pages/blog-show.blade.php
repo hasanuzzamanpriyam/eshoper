@@ -77,8 +77,8 @@
 
         /* ===== Sidebar ===== */
         .blog-sidebar {
-            position: sticky;
-            top: 100px;
+            /* position: sticky;
+            top: 100px; */
             height: fit-content;
         }
         .blog-sidebar-card {
@@ -217,7 +217,7 @@
 
             {{-- Sidebar --}}
             <div class="col-lg-4 mt-4 mt-lg-0 blog-sidebar">
-                <div class="blog-sidebar-card">
+                <div class="blog-sidebar-card mb-2">
                     <div class="sidebar-title">{{ translate('recent_posts') }}</div>
                     @forelse($recentPosts as $recent)
                         <a class="recent-post-item" href="{{ route('blog.show', $recent->slug) }}">
@@ -233,11 +233,24 @@
                     @empty
                         <p class="text-muted" style="font-size:0.85rem;">{{ translate('no_recent_posts') }}</p>
                     @endforelse
+                </div>
+
+                {{-- Blog Page Banner --}}
+                @if($blog_page_banner)
+                    <div class="mb-2 overflow-hidden" style="border-radius: 12px;">
+                        <a href="{{ $blog_page_banner->url }}">
+                            <img src="{{ asset('storage/banner/' . $blog_page_banner->photo) }}"
+                                 class="w-100 d-block"
+                                 style="border-radius: 12px; min-height: 300px; max-height: 500px; object-fit: cover;"
+                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                 alt="{{ $blog_page_banner->title }}">
+                        </a>
                     </div>
+                @endif
 
                 {{-- Related Products Section --}}
                 @if(isset($relatedProducts) && $relatedProducts->count() > 0)
-                <div class="blog-sidebar-card mt-4">
+                <div class="blog-sidebar-card mt-0 mb-2">
                     <div class="sidebar-title">{{ translate('related_products') }}</div>
                     @foreach($relatedProducts as $product)
                         <a class="recent-post-item" href="{{ route('product', $product->slug) }}">

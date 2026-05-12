@@ -43,6 +43,7 @@
                                         <select class="js-example-responsive form-control w-100" name="banner_type" required id="banner_type_select">
                                             <option value="Main Banner" {{$banner['banner_type']=='Main Banner'?'selected':''}}>{{ translate('main_Banner')}}</option>
                                             <option value="Popup Banner" {{$banner['banner_type']=='Popup Banner'?'selected':''}}>{{ translate('popup_Banner')}}</option>
+                                            <option value="Blog Page Banner" {{$banner['banner_type']=='Blog Page Banner'?'selected':''}}>{{ translate('blog_page_banner')}}</option>
 
                                             @if(theme_root_path() != 'theme_fashion')
                                                 <option value="Footer Banner" {{$banner['banner_type']=='Footer Banner'?'selected':''}}>{{ translate('footer_Banner')}}</option>

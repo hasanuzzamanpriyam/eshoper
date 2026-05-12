@@ -15,11 +15,11 @@ class BannerController extends Controller
     {
         $banner_types = [];
         if (theme_root_path() == 'default') {
-            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner", "Just For You Banner"];
+            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner", "Just For You Banner", "Blog Page Banner"];
         }else if (theme_root_path() == 'theme_aster') {
-            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner","Header Banner","Sidebar Banner", "Top Side Banner"];
+            $banner_types = ["Main Banner", "Popup Banner", "Footer Banner","Main Section Banner","Header Banner","Sidebar Banner", "Top Side Banner", "Blog Page Banner"];
         }if (theme_root_path() == 'theme_fashion') {
-            $banner_types = ["Main Banner", "Popup Banner", "Promo Banner Left", "Promo Banner Middle Top", "Promo Banner Middle Bottom", "Promo Banner Right", "Promo Banner Bottom"];
+            $banner_types = ["Main Banner", "Popup Banner", "Promo Banner Left", "Promo Banner Middle Top", "Promo Banner Middle Bottom", "Promo Banner Right", "Promo Banner Bottom", "Blog Page Banner"];
         }
 
         $query_param = [];
@@ -62,8 +62,8 @@ class BannerController extends Controller
         $banner->url = $request->url;
         $banner->photo = ImageManager::upload('banner/', 'webp', $request->file('image'));
 
-        if ($request->banner_type == 'Just For You Banner') {
-            Banner::where(['banner_type' => 'Just For You Banner', 'theme' => theme_root_path()])->update(['published' => 0]);
+        if ($request->banner_type == 'Just For You Banner' || $request->banner_type == 'Blog Page Banner') {
+            Banner::where(['banner_type' => $request->banner_type, 'theme' => theme_root_path()])->update(['published' => 0]);
             $banner->published = 1;
         }
 
@@ -79,8 +79,8 @@ class BannerController extends Controller
             $banner->published = $request->status ?? 0;
             $banner->save();
 
-            if ($banner->banner_type == 'Just For You Banner' && $request->status == 1) {
-                Banner::where(['banner_type' => 'Just For You Banner', 'theme' => theme_root_path()])
+            if (($banner->banner_type == 'Just For You Banner' || $banner->banner_type == 'Blog Page Banner') && $request->status == 1) {
+                Banner::where(['banner_type' => $banner->banner_type, 'theme' => theme_root_path()])
                     ->where('id', '!=', $banner->id)
                     ->update(['published' => 0]);
             }

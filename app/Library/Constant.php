@@ -473,6 +473,7 @@ const THEME_RATIO = [
         'Popup Banner' => 'Ratio 1:1 (1200 x 1200 px)',
         'Main Section Banner' => 'Ratio 4:1 (2000 x 500 px)',
         'Just For You Banner' => 'Ratio 4:1 (2000 x 500 px)',
+        'Blog Page Banner' => 'Ratio 4:1 (2000 x 500 px)',
         'Store cover Image' => 'Ratio 4:1 (2000 x 500 px)',
         'Main website Logo' => '(1000 x 308 px)',
         'Product Image' => 'Ratio 1:1 (500 x 500 px)',
@@ -492,6 +493,7 @@ const THEME_RATIO = [
         'Header Banner' => '(585 x 160 px)',
         'Sidebar Banner' => '(280 x 500 px)',
         'Top Side Banner' => '(205 x 500 px)',
+        'Blog Page Banner' => 'Ratio 4:1 (2000 x 500 px)',
 
         'Main website Logo' => '(1000 x 308 px)',
         'Product Image' => 'Ratio 1:1 (500 x 500 px)',
@@ -512,6 +514,7 @@ const THEME_RATIO = [
         'Promo Banner Middle Bottom' => 'Ratio 3:1 (1000 x 330 px)',
         'Promo Banner Right' => 'Ratio 1:1.5 (1000 x 1500 px)',
         'Promo Banner Bottom' => 'Ratio 8:1',
+        'Blog Page Banner' => 'Ratio 4:1 (2000 x 500 px)',
 
         'Main website Logo' => '(1000 x 308 px)',
         'Product Image' => 'Ratio 1:1.3 (400 x 500 px)',

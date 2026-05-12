@@ -57,6 +57,7 @@
                                         <select class="js-example-responsive form-control w-100" name="banner_type" required id="banner_type_select">
                                             <option value="Main Banner">{{ translate('main_Banner')}}</option>
                                             <option value="Popup Banner">{{ translate('popup_Banner')}}</option>
+                                            <option value="Blog Page Banner">{{ translate('blog_page_banner')}}</option>
 
                                             @if(theme_root_path() != 'theme_fashion')
                                                 <option value="Footer Banner">{{ translate('footer_Banner')}}</option>
@@ -219,6 +220,7 @@
                                                         <option value="">{{ translate('all')}}</option>
                                                         <option value="Main Banner" {{ $search == "Main Banner" ? 'selected':'' }}>{{ translate('main_Banner')}}</option>
                                                         <option value="Popup Banner" {{ $search == "Popup Banner" ? 'selected':'' }}>{{ translate('popup_Banner')}}</option>
+                                                        <option value="Blog Page Banner" {{ $search == "Blog Page Banner" ? 'selected':'' }}>{{ translate('blog_page_banner')}}</option>
 
                                                         @if(theme_root_path() != 'theme_fashion')
                                                             <option value="Footer Banner" {{ $search == "Footer Banner" ? 'selected':'' }}>{{ translate('footer_Banner')}}</option>
@@ -442,7 +444,7 @@
                         toastr.success('{{translate("banner_unpublished_successfully")}}');
                     }
 
-                    if (banner_type === 'Just For You Banner' && data == 1) {
+                    if ((banner_type === 'Just For You Banner' || banner_type === 'Blog Page Banner') && data == 1) {
                         setTimeout(function(){
                             location.reload();
                         }, 1000);

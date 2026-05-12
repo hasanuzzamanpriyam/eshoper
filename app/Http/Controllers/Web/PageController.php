@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Model\Banner;
 use App\Model\Blog;
 use App\Model\BusinessSetting;
 use App\Model\HelpTopic;
@@ -147,7 +148,9 @@ class PageController extends Controller
             $suggestedProducts = $suggestedProducts->merge($additionalProducts);
         }
 
-        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts', 'categories', 'suggestedProducts'));
+        $blog_page_banner = Banner::where(['banner_type' => 'Blog Page Banner', 'published' => 1])->where('theme', theme_root_path())->first();
+
+        return view(VIEW_FILE_NAMES['blog_list'], compact('blogs', 'recentPosts', 'categories', 'suggestedProducts', 'blog_page_banner'));
     }
 
     public function blog_show($slug)
@@ -187,6 +190,8 @@ class PageController extends Controller
             ->take(8)
             ->get();
 
-        return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts', 'relatedProducts'));
+        $blog_page_banner = Banner::where(['banner_type' => 'Blog Page Banner', 'published' => 1])->where('theme', theme_root_path())->first();
+
+        return view(VIEW_FILE_NAMES['blog_show'], compact('blog', 'recentPosts', 'relatedProducts', 'blog_page_banner'));
     }
 }

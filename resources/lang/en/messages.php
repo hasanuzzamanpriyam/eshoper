@@ -6963,4 +6963,6 @@
   'no_blogs_found' => 'No blogs found',
   'show_less' => 'Show less',
   'suggested_products' => 'Suggested products',
+  'blog_page_banner' => 'Blog page banner',
+  'Blog Page Banner' => 'Blog Page Banner',
 );
