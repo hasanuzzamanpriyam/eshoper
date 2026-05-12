@@ -11,13 +11,15 @@
             top: 0;
             right: -500px;
             width: 500px;
-            height: 100%;
+            max-width: 100%;
+            height: 100vh;
             background: #fff;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            z-index: 9999;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+            z-index: 999999 !important; /* Extremely high to stay on top */
             transition: right 0.3s ease;
             display: flex;
             flex-direction: column;
+            border-left: 1px solid #ddd;
         }
         .side-drawer.open {
             right: 0;
@@ -47,7 +49,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.4);
-            z-index: 9998;
+            z-index: 999998 !important; 
             display: none;
         }
         .drawer-overlay.show {
@@ -153,7 +155,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="d-flex flex-column gap-3 max-h-70vh overflow-y-auto overflow-x-hidden search-result-box" data-has-more="{{ $products->hasMorePages() ? 'true' : 'false' }}">
+                                            <div class="d-flex flex-column gap-3 max-h-40vh overflow-y-auto overflow-x-hidden search-result-box" data-has-more="{{ $products->hasMorePages() ? 'true' : 'false' }}">
                                                 @include('admin-views.partials._search-product', ['products' => $products])
                                             </div>
                                         </div>
@@ -229,19 +231,24 @@
                 </div>
             </div>
         </div>
-    </div>
-<!-- Side Drawer -->
+</div>
+@endsection
+
+<!-- Side Drawer - Moved outside content for better positioning -->
 <div class="drawer-overlay" id="drawerOverlay"></div>
 <div class="side-drawer" id="storeProductDrawer">
     <div class="side-drawer-header">
-        <h5 class="mb-0">{{translate('select_Products')}}</h5>
+        <div>
+            <h5 class="mb-1">{{translate('select_Products')}}</h5>
+            <p class="text-muted small mb-0">{{translate('search_and_select_to_add')}}</p>
+        </div>
         <button type="button" class="close js-close-drawer">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="side-drawer-body">
-        <div class="search-form mb-4">
-            <div class="input-group input-group-merge">
+        <div class="search-form mb-4 sticky-top bg-white pt-2">
+            <div class="input-group input-group-merge border">
                 <div class="input-group-prepend">
                     <div class="input-group-text">
                         <i class="tio-search"></i>
@@ -273,7 +280,6 @@
         </div>
     </div>
 </div>
-@endsection
 
 @push('script')
     <script src="{{asset('assets/back-end')}}/js/select2.min.js"></script>
