@@ -11,6 +11,7 @@ use App\Model\FlashDeal;
 use App\Model\FlashDealProduct;
 use App\Model\Product;
 use App\Model\Translation;
+use App\Model\Shop;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -191,16 +192,18 @@ class DealController extends Controller
 
         $products = $this->product->active()->with(['brand','category','seller.shop'])->paginate(20);
 
-        $deal_products = Product::whereIn('id', $flash_deal_products)
+        $deal_products = $this->product->active()->whereIn('id', $flash_deal_products)
             ->with(['flash_deal_product' => function($q) use ($deal_id) {
                 $q->where('flash_deal_id', $deal_id)->orderBy('priority', 'asc');
             }])
             ->orderBy('id', 'desc')
-            ->paginate(Helpers::pagination_limit());
+            ->paginate(20);
 
         $deal = FlashDeal::with(['products.product'])->where('id', $deal_id)->first();
+        $shops = Shop::active()->has('product')->get();
+        $inhouse_product_count = $this->product->active()->where('added_by', 'admin')->count();
 
-        return view('admin-views.deal.add-product', compact('deal', 'products','flash_deal_products','deal_products'));
+        return view('admin-views.deal.add-product', compact('deal', 'products','flash_deal_products','deal_products', 'shops', 'inhouse_product_count'));
     }
 
     public function add_product_submit(Request $request, $deal_id)
@@ -376,6 +379,14 @@ class DealController extends Controller
      */
     public function search_product(Request $request){
         $key = $request->has('name') ? explode(' ', $request['name']) : [];
+        $shop_id = $request->has('shop_id') ? $request->shop_id : null;
+        $deal_id = $request->has('deal_id') ? $request->deal_id : null;
+
+        $exclude_ids = [];
+        if ($deal_id) {
+            $exclude_ids = FlashDealProduct::where('flash_deal_id', $deal_id)->pluck('product_id')->toArray();
+        }
+
         $products = $this->product->active()->with(['brand','category','seller.shop'])
             ->when(count($key) > 0, function ($query) use ($key) {
                 $query->where(function ($q) use ($key) {
@@ -384,11 +395,83 @@ class DealController extends Controller
                     }
                 });
             })
+            ->when($shop_id, function ($query) use ($shop_id) {
+                if ($shop_id == 'inhouse') {
+                    $query->where('added_by', 'admin');
+                } else {
+                    $shop = Shop::find($shop_id);
+                    if ($shop) {
+                        $query->where('added_by', 'seller')->where('user_id', $shop->seller_id);
+                    }
+                }
+            })
+            ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
+                $query->whereNotIn('id', $exclude_ids);
+            })
             ->paginate(20);
 
         return response()->json([
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
             'hasMore' => $products->hasMorePages(),
+        ]);
+    }
+
+    public function get_deal_products(Request $request, $deal_id)
+    {
+        $flash_deal_products = FlashDealProduct::where('flash_deal_id', $deal_id)->pluck('product_id');
+
+        $deal_products = $this->product->active()->whereIn('id', $flash_deal_products)
+            ->with(['flash_deal_product' => function($q) use ($deal_id) {
+                $q->where('flash_deal_id', $deal_id)->orderBy('priority', 'asc');
+            }])
+            ->orderBy('id', 'desc')
+            ->paginate(20);
+
+        $deal = FlashDeal::find($deal_id);
+
+        return response()->json([
+            'result' => view('admin-views.deal.partials._deal-product-table', compact('deal_products', 'deal'))->render(),
+            'hasMore' => $deal_products->hasMorePages(),
+        ]);
+    }
+
+    public function get_all_product_ids(Request $request)
+    {
+        $key = $request->has('name') ? explode(' ', $request['name']) : [];
+        $shop_id = $request->has('shop_id') ? $request->shop_id : null;
+        $deal_id = $request->has('deal_id') ? $request->deal_id : null;
+
+        $exclude_ids = [];
+        if ($deal_id) {
+            $exclude_ids = FlashDealProduct::where('flash_deal_id', $deal_id)->pluck('product_id')->toArray();
+        }
+
+        $product_ids = $this->product->active()
+            ->when(count($key) > 0, function ($query) use ($key) {
+                $query->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                });
+            })
+            ->when($shop_id, function ($query) use ($shop_id) {
+                if ($shop_id == 'inhouse') {
+                    $query->where('added_by', 'admin');
+                } else {
+                    $shop = Shop::find($shop_id);
+                    if ($shop) {
+                        $query->where('added_by', 'seller')->where('user_id', $shop->seller_id);
+                    }
+                }
+            })
+            ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
+                $query->whereNotIn('id', $exclude_ids);
+            })
+            ->pluck('id')
+            ->toArray();
+
+        return response()->json([
+            'ids' => $product_ids
         ]);
     }
 }

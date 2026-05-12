@@ -4,6 +4,95 @@
     <link href="{{ asset('assets/select2/css/select2.min.css')}}" rel="stylesheet">
     <link href="{{ asset('assets/back-end/css/custom.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <style>
+        /* Side Drawer Styles */
+        .side-drawer {
+            position: fixed;
+            top: 0;
+            right: -500px;
+            width: 500px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 9999;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .side-drawer.open {
+            right: 0;
+        }
+        .side-drawer-header {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .side-drawer-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .side-drawer-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: #f8f9fa;
+        }
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 9998;
+            display: none;
+        }
+        .drawer-overlay.show {
+            display: block;
+        }
+
+        /* Premium Product Item */
+        .premium-product-item {
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+            cursor: pointer;
+            background: #fff;
+        }
+        .premium-product-item:hover {
+            border-color: #377dff;
+            background: #f0f5ff;
+        }
+        .premium-product-item.selected {
+            border-color: #377dff;
+            background: #eef4ff;
+        }
+        .premium-product-item img {
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .premium-product-item .info h6 {
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: #333;
+        }
+        .premium-product-item .info span {
+            font-size: 11px;
+            color: #777;
+        }
+        .custom-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #f1f1f1;
+            color: #555;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -30,6 +119,18 @@
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-12 mt-3">
+                                    <label for="shop_id" class="title-color">{{ translate('select_Store')}}</label>
+                                    <select class="form-control js-select-shop" name="shop_id" id="shop_id">
+                                        <option value="" disabled selected>{{translate('select_Store')}}</option>
+                                        @if($inhouse_product_count > 0)
+                                            <option value="inhouse">{{translate('inhouse')}}</option>
+                                        @endif
+                                        @foreach($shops as $shop)
+                                            <option value="{{$shop->id}}">{{$shop->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
                                         <div class="selected-product-ids">
@@ -53,28 +154,7 @@
                                             </div>
 
                                             <div class="d-flex flex-column gap-3 max-h-70vh overflow-y-auto overflow-x-hidden search-result-box" data-has-more="{{ $products->hasMorePages() ? 'true' : 'false' }}">
-                                                @foreach ($products as $key => $product)
-                                                    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer" data-id="{{$product['id']}}">
-                                                        <div class="d-flex align-items-center">
-                                                            <input type="checkbox" class="product-checkbox" value="{{$product['id']}}">
-                                                        </div>
-                                                        <img class="avatar avatar-xl border" width="75"
-                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                        src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-                                                         alt="">
-                                                        <div class="media-body d-flex flex-column gap-1">
-                                                            <h6 class="product-id" hidden>{{$product['id']}}</h6>
-                                                            <h6 class="fz-13 mb-1 text-truncate custom-width product-name">{{$product['name']}}</h6>
-                                                            <div class="fz-10">{{translate('category')}} : {{isset($product->category) ? $product->category->name : translate('category_not_found') }}</div>
-                                                            <div class="fz-10">{{translate('brand')}} : {{isset($product->brand) ? $product->brand->name : translate('brands_not_found') }}</div>
-                                                            @if ($product->added_by == "seller")
-                                                                <div class="fz-10">{{translate('shop')}} : {{isset($product->seller) ? $product->seller->shop->name : translate('shop_not_found') }}</div>
-                                                            @else
-                                                                <div class="fz-10">{{translate('shop')}} : {{$web_config['name']->value}}</div>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                @endforeach
+                                                @include('admin-views.partials._search-product', ['products' => $products])
                                             </div>
                                         </div>
                                     </div>
@@ -133,52 +213,59 @@
                                 <th class="text-center">{{ translate('action')}}</th>
                             </tr>
                         </thead>
-                        <tbody>
-
-                        @foreach($deal_products as $k=>$product)
-                            <tr>
-                                <td>{{$deal_products->firstitem()+$k}}</td>
-                                <td><a href="#" target="_blank" class="font-weight-semibold title-color hover-c1">{{$product['name']}}</a></td>
-                                <td>{{\App\CPU\BackEndHelper::usd_to_currency($product['unit_price'])}}</td>
-                                <td>
-                                    @if(isset($product->flash_deal_product) && $product->flash_deal_product->isNotEmpty())
-                                        <div class="d-flex align-items-center gap-2">
-                                            <span class="badge badge-{{ $product->flash_deal_product->first()->priority <= 3 ? 'danger' : ($product->flash_deal_product->first()->priority <= 6 ? 'warning' : 'secondary') }}">
-                                                {{ $product->flash_deal_product->first()->priority }}
-                                            </span>
-                                            <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm edit-priority"
-                                               data-product-id="{{$product['id']}}"
-                                               data-deal-id="{{$deal['id']}}"
-                                               data-current-priority="{{$product->flash_deal_product->first()->priority}}"
-                                               title="{{ translate('edit_priority') }}">
-                                                <i class="tio-edit"></i>
-                                            </a>
-                                        </div>
-                                    @else
-                                        <span class="badge badge-secondary">10</span>
-                                    @endif
-                                </td>
-
-                                <td>
-                                    <div class="d-flex justify-content-center">
-                                        <a  title="{{ translate ('delete')}}"
-                                            class="btn btn-outline-danger btn-sm delete"
-                                            id="{{$product['id']}}">
-                                            <i class="tio-delete"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                        <tbody id="deal-product-table-body">
+                            @include('admin-views.deal.partials._deal-product-table', ['deal_products' => $deal_products, 'deal' => $deal])
                         </tbody>
                     </table>
-                    <table>
-                        <tfoot>
-                            {!! $deal_products->links() !!}
-                        </tfoot>
-                    </table>
+                    <div id="table-load-more" class="text-center p-3 d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+<!-- Side Drawer -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<div class="side-drawer" id="storeProductDrawer">
+    <div class="side-drawer-header">
+        <h5 class="mb-0">{{translate('select_Products')}}</h5>
+        <button type="button" class="close js-close-drawer">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="side-drawer-body">
+        <div class="search-form mb-4">
+            <div class="input-group input-group-merge">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="tio-search"></i>
+                    </div>
+                </div>
+                <input type="text" class="form-control modal-search-bar-input" placeholder="{{translate('search_products')}}...">
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="modal-select-all-product">
+                <label class="form-check-label font-weight-bold" for="modal-select-all-product">{{translate('select_all')}}</label>
+            </div>
+            <div class="selected-count text-primary font-weight-bold">0 {{translate('selected')}}</div>
+        </div>
+
+        <div class="modal-search-result-box">
+            <div class="text-center p-5">
+                <img src="{{asset('assets/back-end/img/info.png')}}" width="40" class="mb-2" alt="">
+                <p class="text-muted">{{translate('please_select_a_store_first')}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="side-drawer-footer">
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-light flex-grow-1 js-close-drawer">{{translate('cancel')}}</button>
+            <button type="button" class="btn btn--primary flex-grow-1 js-add-selected-products">{{translate('add_to_deal')}}</button>
         </div>
     </div>
 </div>
@@ -372,10 +459,25 @@
 
             $('#select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
-                $('.product-checkbox').each(function () {
-                    $(this).prop('checked', isChecked);
-                    toggleId($(this).val(), isChecked);
-                });
+                if (isChecked) {
+                    // Fetch all IDs for search
+                    $(this).parent().find('label').text("{{translate('selecting_all')}}...");
+                    $.get("{{route('admin.deal.get-all-product-ids')}}", {
+                        name: searchKey,
+                        deal_id: "{{$deal['id']}}"
+                    }, (response) => {
+                        selectedIds = response.ids.map(String);
+                        updateHiddenInputs();
+                        syncCheckboxes();
+                        $(this).parent().find('label').text("{{translate('select_all')}}");
+                    });
+                } else {
+                    $('.product-checkbox').each(function () {
+                        $(this).prop('checked', false);
+                        toggleId($(this).val(), false);
+                    });
+                    $(this).parent().find('label').text("{{translate('select_all')}}");
+                }
             });
 
             function toggleId(id, isSelected) {
@@ -446,6 +548,7 @@
                 
                 $.get("{{route('admin.deal.search-product')}}", {
                     name: searchKey,
+                    deal_id: "{{$deal['id']}}",
                     page: page
                 }, (response) => {
                     if (append) {
@@ -468,6 +571,179 @@
 
                 let allVisibleChecked = $('.product-checkbox').length > 0 && $('.product-checkbox:not(:checked)').length === 0;
                 $('#select-all-product').prop('checked', allVisibleChecked);
+            }
+
+            // Store selection and Modal logic
+            let modalSelectedIds = [];
+            let modalPage = 1;
+            let modalHasMore = false;
+            let modalIsLoading = false;
+            let modalSearchKey = '';
+            let currentShopId = '';
+
+            $('.js-select-shop').on('change', function () {
+                currentShopId = $(this).val();
+                if (currentShopId) {
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                }
+            });
+
+            $('.js-close-drawer, #drawerOverlay').on('click', function () {
+                $('#storeProductDrawer').removeClass('open');
+                $('#drawerOverlay').removeClass('show');
+            });
+
+            $('.modal-search-bar-input').on('keyup', function () {
+                let key = $(this).val();
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(function () {
+                    modalSearchKey = key;
+                    modalPage = 1;
+                    fetchModalProducts(false);
+                }, 300);
+            });
+
+            $('.side-drawer-body').on('scroll', function () {
+                if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 50) {
+                    if (modalHasMore && !modalIsLoading) {
+                        modalPage++;
+                        fetchModalProducts(true);
+                    }
+                }
+            });
+
+            function fetchModalProducts(append = false) {
+                modalIsLoading = true;
+                if (!append) {
+                    $('.modal-search-result-box').html('<div class="text-center p-3"><i class="tio-dev-loader-1-spinner tio-spin"></i> Loading...</div>');
+                }
+
+                $.get("{{route('admin.deal.search-product')}}", {
+                    name: modalSearchKey,
+                    shop_id: currentShopId,
+                    deal_id: "{{$deal['id']}}",
+                    page: modalPage
+                }, (response) => {
+                    if (append) {
+                        $('.modal-search-result-box').append(response.result);
+                    } else {
+                        $('.modal-search-result-box').html(response.result);
+                    }
+                    modalHasMore = response.hasMore;
+                    syncModalCheckboxes();
+                    modalIsLoading = false;
+                });
+            }
+
+            $('.modal-search-result-box').on('click', '.select-product-item', function (e) {
+                let productId = $(this).data('id').toString();
+                if ($(e.target).is('.product-checkbox')) {
+                    toggleModalId(productId, $(e.target).prop('checked'));
+                    return;
+                }
+                let checkbox = $(this).find('.product-checkbox');
+                let newState = !checkbox.prop('checked');
+                checkbox.prop('checked', newState);
+                toggleModalId(productId, newState);
+            });
+
+            $('#modal-select-all-product').on('change', function () {
+                let isChecked = $(this).prop('checked');
+                if (isChecked) {
+                    // Fetch all IDs for current shop and search
+                    $(this).parent().find('label').text("{{translate('selecting_all')}}...");
+                    $.get("{{route('admin.deal.get-all-product-ids')}}", {
+                        name: modalSearchKey,
+                        shop_id: currentShopId,
+                        deal_id: "{{$deal['id']}}"
+                    }, (response) => {
+                        modalSelectedIds = response.ids.map(String);
+                        syncModalCheckboxes();
+                        $(this).parent().find('label').text("{{translate('select_all')}}");
+                    });
+                } else {
+                    modalSelectedIds = [];
+                    $('.modal-search-result-box .product-checkbox').prop('checked', false);
+                    updateModalSelectedCount();
+                    $(this).parent().find('label').text("{{translate('select_all')}}");
+                }
+            });
+
+            function toggleModalId(id, isSelected) {
+                id = id.toString();
+                if (isSelected) {
+                    if (!modalSelectedIds.includes(id)) {
+                        modalSelectedIds.push(id);
+                    }
+                } else {
+                    modalSelectedIds = modalSelectedIds.filter(item => item !== id);
+                }
+                updateModalSelectedCount();
+            }
+
+            function updateModalSelectedCount() {
+                $('.selected-count').text(modalSelectedIds.length + " {{translate('products_selected')}}");
+                let allVisibleChecked = $('.modal-search-result-box .product-checkbox').length > 0 && $('.modal-search-result-box .product-checkbox:not(:checked)').length === 0;
+                $('#modal-select-all-product').prop('checked', allVisibleChecked);
+            }
+
+            function syncModalCheckboxes() {
+                $('.modal-search-result-box .product-checkbox').each(function () {
+                    if (modalSelectedIds.includes($(this).val().toString())) {
+                        $(this).prop('checked', true);
+                    }
+                });
+                updateModalSelectedCount();
+            }
+
+            $('.js-add-selected-products').on('click', function () {
+                if (modalSelectedIds.length > 0) {
+                    modalSelectedIds.forEach(id => {
+                        if (!selectedIds.includes(id)) {
+                            selectedIds.push(id);
+                        }
+                    });
+                    updateHiddenInputs();
+                    syncCheckboxes();
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
+                    toastr.success(modalSelectedIds.length + " {{translate('products_added_to_selection')}}");
+                } else {
+                    toastr.warning("{{translate('please_select_at_least_one_product')}}");
+                }
+            });
+
+            // Main table infinite scroll
+            let tablePage = 1;
+            let tableHasMore = {{ $deal_products->hasMorePages() ? 'true' : 'false' }};
+            let tableIsLoading = false;
+
+            $(window).on('scroll', function () {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                    if (tableHasMore && !tableIsLoading) {
+                        tablePage++;
+                        fetchTableProducts();
+                    }
+                }
+            });
+
+            function fetchTableProducts() {
+                tableIsLoading = true;
+                $('#table-load-more').removeClass('d-none');
+
+                $.get("{{route('admin.deal.get-deal-products', [$deal['id']])}}", {
+                    page: tablePage
+                }, (response) => {
+                    $('#deal-product-table-body').append(response.result);
+                    tableHasMore = response.hasMore;
+                    tableIsLoading = false;
+                    $('#table-load-more').addClass('d-none');
+                });
             }
         });
     </script>

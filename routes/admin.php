@@ -96,6 +96,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('featured-update', 'DealController@featured_update')->name('featured-update');
             Route::get('add-product/{deal_id}', 'DealController@add_product')->name('add-product');
             Route::post('add-product/{deal_id}', 'DealController@add_product_submit');
+            Route::get('get-deal-products/{deal_id}', 'DealController@get_deal_products')->name('get-deal-products');
+            Route::get('get-all-product-ids', 'DealController@get_all_product_ids')->name('get-all-product-ids');
             Route::post('delete-product', 'DealController@delete_product')->name('delete-product');
             Route::post('update-priority', 'DealController@update_priority')->name('update-priority');
         });

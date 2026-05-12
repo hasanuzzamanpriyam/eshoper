@@ -6965,4 +6965,12 @@
   'suggested_products' => 'Suggested products',
   'blog_page_banner' => 'Blog page banner',
   'Blog Page Banner' => 'Blog Page Banner',
+  'please_select_at_least_one_product' => 'Please select at least one product',
+  'products_added_to_selection' => 'Products added to selection',
+  'add_to_deal' => 'Add to deal',
+  'please_select_a_store_first' => 'Please select a store first',
+  'select_Products' => 'Select Products',
+  'select_Store' => 'Select Store',
+  'N/A' => 'N/A',
+  'selecting_all' => 'Selecting all',
 );

@@ -1,23 +1,18 @@
 @foreach ($products as $key => $product)
-    <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer" data-id="{{$product['id']}}">
+    <div class="premium-product-item select-product-item d-flex gap-3 align-items-center" data-id="{{$product['id']}}">
         <div class="d-flex align-items-center">
             <input type="checkbox" class="product-checkbox" value="{{$product['id']}}">
         </div>
-        <img class="avatar avatar-xl border" width="75"
-        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-        src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
-            alt="">
-        <div class="media-body d-flex flex-column gap-1">
-            <h6 class="product-id" hidden>{{$product['id']}}</h6>
-            <h6 class="fz-13 mb-1 text-truncate custom-width product-name">{{$product['name']}}</h6>
-            <div class="fz-10">{{translate('category')}} : {{isset($product->category) ? $product->category->name : translate('category_not_found') }}</div>
-            <div class="fz-10">{{translate('brand')}} : {{isset($product->brand) ? $product->brand->name : translate('brands_not_found') }}</div>
-            @if ($product->added_by == "seller")
-                <div class="fz-10">{{translate('shop')}} : {{isset($product->seller) ? $product->seller->shop->name : translate('shop_not_found') }}</div>
-            @else
-                <div class="fz-10">{{translate('shop')}} : {{$web_config['name']->value}}</div>
-@endif
+        <img width="60" height="60"
+             onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+             src="{{\App\CPU\ProductManager::product_image_path('thumbnail')}}/{{$product['thumbnail']}}"
+             alt="">
+        <div class="info flex-grow-1">
+            <h6 class="product-name mb-1 font-size-sm" style="font-size: 13px;">{{$product['name']}}</h6>
+            <div class="d-flex flex-wrap gap-2">
+                <span class="custom-badge">{{translate('category')}}: {{isset($product->category) ? $product->category->name : translate('N/A') }}</span>
+                <span class="custom-badge">{{translate('brand')}}: {{isset($product->brand) ? $product->brand->name : translate('N/A') }}</span>
+            </div>
         </div>
     </div>
 @endforeach
-
