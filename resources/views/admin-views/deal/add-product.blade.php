@@ -42,7 +42,7 @@
                                         <div class="dropdown-menu w-100 px-2">
                                             <div class="search-form mb-3">
                                                 <button type="button" class="btn"><i class="tio-search"></i></button>
-                                                <input type="text" class="js-form-search form-control search-bar-input" onkeyup="search_product()" placeholder="{{translate('search menu')}}...">
+                                                <input type="text" class="js-form-search form-control search-bar-input" placeholder="{{translate('search menu')}}...">
                                             </div>
 
                                             <div class="d-flex justify-content-between align-items-center mb-2 px-2">
@@ -52,7 +52,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="d-flex flex-column gap-3 max-h-200 overflow-y-auto overflow-x-hidden search-result-box">
+                                            <div class="d-flex flex-column gap-3 max-h-70vh overflow-y-auto overflow-x-hidden search-result-box" data-has-more="{{ $products->hasMorePages() ? 'true' : 'false' }}">
                                                 @foreach ($products as $key => $product)
                                                     <div class="select-product-item media gap-3 border-bottom pb-2 cursor-pointer" data-id="{{$product['id']}}">
                                                         <div class="d-flex align-items-center">
@@ -413,15 +413,50 @@
                 e.stopPropagation();
             });
 
-            /*Search product */
-            function search_product(){
-                let name = $(".search-bar-input").val();
-                if (name.length > 0) {
-                    $.get("{{route('admin.deal.search-product')}}",{name:name},(response)=>{
-                        $('.search-result-box').empty().html(response.result);
-                        syncCheckboxes();
-                    })
+            let page = 1;
+            let hasMore = $('.search-result-box').data('has-more') == true;
+            let isLoading = false;
+            let searchKey = '';
+
+            $('.search-result-box').on('scroll', function () {
+                if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 50) {
+                    if (hasMore && !isLoading) {
+                        page++;
+                        fetchProducts(true);
+                    }
                 }
+            });
+
+            let searchTimer;
+            $('.search-bar-input').on('keyup', function () {
+                let key = $(this).val();
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(function () {
+                    searchKey = key;
+                    page = 1;
+                    fetchProducts(false);
+                }, 300);
+            });
+
+            function fetchProducts(append = false) {
+                isLoading = true;
+                if (!append) {
+                    $('.search-result-box').html('<div class="text-center p-3"><i class="tio-dev-loader-1-spinner tio-spin"></i> Loading...</div>');
+                }
+                
+                $.get("{{route('admin.deal.search-product')}}", {
+                    name: searchKey,
+                    page: page
+                }, (response) => {
+                    if (append) {
+                        $('.search-result-box').append(response.result);
+                    } else {
+                        $('.search-result-box').html(response.result);
+                    }
+                    hasMore = response.hasMore;
+                    syncCheckboxes();
+                    isLoading = false;
+                });
             }
 
             function syncCheckboxes() {

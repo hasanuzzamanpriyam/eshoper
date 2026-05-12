@@ -189,7 +189,7 @@ class DealController extends Controller
     {
         $flash_deal_products = FlashDealProduct::where('flash_deal_id', $deal_id)->pluck('product_id');
 
-        $products = $this->product->active()->with(['brand','category','seller.shop'])->get();
+        $products = $this->product->active()->with(['brand','category','seller.shop'])->paginate(20);
 
         $deal_products = Product::whereIn('id', $flash_deal_products)
             ->with(['flash_deal_product' => function($q) use ($deal_id) {
@@ -263,7 +263,7 @@ class DealController extends Controller
 
     public function deal_of_day(Request $request)
     {
-        $products = $this->product->active()->with(['brand','category','seller.shop'])->get();
+        $products = $this->product->active()->with(['brand','category','seller.shop'])->paginate(20);
         $query_param = [];
         $search = $request['search'];
         if ($request->has('search')) {
@@ -332,7 +332,7 @@ class DealController extends Controller
     public function day_edit($deal_id)
     {
         $deal = DealOfTheDay::withoutGlobalScope('translate')->with('product')->where('id',$deal_id)->first();
-        $products = $this->product->active()->with(['brand','category','seller.shop'])->orderBy('id','desc')->get();
+        $products = $this->product->active()->with(['brand','category','seller.shop'])->orderBy('id','desc')->paginate(20);
         return view('admin-views.deal.day-update', compact('deal','products'));
     }
 
@@ -375,14 +375,20 @@ class DealController extends Controller
      * search product
      */
     public function search_product(Request $request){
-        $key = explode(' ', $request['name']);
-        $products = $this->product->active()->with(['brand','category','seller.shop'])->where(function ($query) use ($key) {
-            foreach ($key as $value) {
-                $query->where('name', 'like', "%{$value}%");
-            }
-        })->get();
+        $key = $request->has('name') ? explode(' ', $request['name']) : [];
+        $products = $this->product->active()->with(['brand','category','seller.shop'])
+            ->when(count($key) > 0, function ($query) use ($key) {
+                $query->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                });
+            })
+            ->paginate(20);
+
         return response()->json([
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
+            'hasMore' => $products->hasMorePages(),
         ]);
     }
 }

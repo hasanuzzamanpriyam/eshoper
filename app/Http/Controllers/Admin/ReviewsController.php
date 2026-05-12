@@ -63,7 +63,7 @@ class ReviewsController extends Controller
                                 'from'=>$request->from,
                                 'to'=>$request->to
                                 ]);;
-        $products = Product::active()->with(['category','brand','seller'])->get();
+        $products = Product::active()->with(['category','brand','seller'])->paginate(20);
         $product = Product::find($request->product_id);
         $customer = "all";
         if($request->customer_id != 'all' && !is_null($request->customer_id) && $request->has('customer_id')){
@@ -179,14 +179,20 @@ class ReviewsController extends Controller
      * Search product
      */
     public function search_product(Request $request){
-        $key = explode(' ', $request['name']);
-        $products = Product::active()->with(['brand','category','seller.shop'])->where(function ($query) use ($key) {
-            foreach ($key as $value) {
-                $query->where('name', 'like', "%{$value}%");
-            }
-        })->get();
+        $key = $request->has('name') ? explode(' ', $request['name']) : [];
+        $products = Product::active()->with(['brand','category','seller.shop'])
+            ->when(count($key) > 0, function ($query) use ($key) {
+                $query->where(function ($q) use ($key) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                });
+            })
+            ->paginate(20);
+
         return response()->json([
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
+            'hasMore' => $products->hasMorePages(),
         ]);
     }
 
