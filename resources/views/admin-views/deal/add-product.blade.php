@@ -223,9 +223,9 @@
                             @include('admin-views.deal.partials._deal-product-table', ['deal_products' => $deal_products, 'deal' => $deal])
                         </tbody>
                     </table>
-                    <div id="table-load-more" class="text-center p-3 d-none">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="sr-only">Loading...</span>
+                    <div class="table-responsive mt-4">
+                        <div class="px-4 d-flex justify-content-lg-end">
+                            {{ $deal_products->links() }}
                         </div>
                     </div>
                 </div>
@@ -728,33 +728,6 @@
                 }
             });
 
-            // Main table infinite scroll
-            let tablePage = 1;
-            let tableHasMore = {{ $deal_products->hasMorePages() ? 'true' : 'false' }};
-            let tableIsLoading = false;
-
-            $(window).on('scroll', function () {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-                    if (tableHasMore && !tableIsLoading) {
-                        tablePage++;
-                        fetchTableProducts();
-                    }
-                }
-            });
-
-            function fetchTableProducts() {
-                tableIsLoading = true;
-                $('#table-load-more').removeClass('d-none');
-
-                $.get("{{route('admin.deal.get-deal-products', [$deal['id']])}}", {
-                    page: tablePage
-                }, (response) => {
-                    $('#deal-product-table-body').append(response.result);
-                    tableHasMore = response.hasMore;
-                    tableIsLoading = false;
-                    $('#table-load-more').addClass('d-none');
-                });
-            }
 
             $('.js-delete-all-products').on('click', function () {
                 let url = $(this).data('url');
