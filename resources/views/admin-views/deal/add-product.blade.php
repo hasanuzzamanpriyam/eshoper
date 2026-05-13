@@ -150,6 +150,12 @@
                                         {{translate('show_discounted_products')}}
                                     </button>
                                 </div>
+                                <div class="col-md-3 mt-3">
+                                    <label for="featured_deal" class="title-color">{{ translate('featured_Deal_Products')}}</label>
+                                    <button type="button" class="form-control btn btn-outline-primary js-select-featured-deal" id="featured_deal_btn">
+                                        {{translate('show_featured_deal_products')}}
+                                    </button>
+                                </div>
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
@@ -611,6 +617,7 @@
             let currentBrandId = '';
             let currentCategoryId = '';
             let currentDiscounted = false;
+            let currentFeaturedDeal = false;
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -641,9 +648,11 @@
                 currentBrandId = ''; // Reset brand when shop is selected
                 currentCategoryId = ''; // Reset category when shop is selected
                 currentDiscounted = false; // Reset discounted when shop is selected
+                currentFeaturedDeal = false; // Reset featured deal when shop is selected
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -659,9 +668,11 @@
                 currentShopId = ''; // Reset shop when brand is selected
                 currentCategoryId = ''; // Reset category when brand is selected
                 currentDiscounted = false; // Reset discounted when brand is selected
+                currentFeaturedDeal = false; // Reset featured deal when brand is selected
                 $('#shop_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -677,9 +688,11 @@
                 currentShopId = ''; // Reset shop when category is selected
                 currentBrandId = ''; // Reset brand when category is selected
                 currentDiscounted = false; // Reset discounted when category is selected
+                currentFeaturedDeal = false; // Reset featured deal when category is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -695,11 +708,39 @@
                 currentShopId = ''; // Reset shop when discounted is selected
                 currentBrandId = ''; // Reset brand when discounted is selected
                 currentCategoryId = ''; // Reset category when discounted is selected
+                currentFeaturedDeal = false; // Reset featured deal when discounted is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDiscounted) {
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
+                }
+            });
+
+            $('.js-select-featured-deal').on('click', function () {
+                currentFeaturedDeal = !currentFeaturedDeal;
+                currentShopId = ''; // Reset shop when featured deal is selected
+                currentBrandId = ''; // Reset brand when featured deal is selected
+                currentCategoryId = ''; // Reset category when featured deal is selected
+                currentDiscounted = false; // Reset discounted when featured deal is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+
+                if (currentFeaturedDeal) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -766,6 +807,10 @@
                     requestData.discounted = 1;
                 }
 
+                if (currentFeaturedDeal) {
+                    requestData.featured_deal = 1;
+                }
+
                 $.get("{{route('admin.deal.search-product')}}", requestData, (response) => {
                     if (append) {
                         $('.modal-search-result-box').append(response.result);
@@ -793,7 +838,7 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop/brand/category/discounted and search
+                    // Fetch all IDs for current shop/brand/category/discounted/featured_deal and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
                     let requestData = {
                         name: modalSearchKey,
@@ -814,6 +859,10 @@
 
                     if (currentDiscounted) {
                         requestData.discounted = 1;
+                    }
+
+                    if (currentFeaturedDeal) {
+                        requestData.featured_deal = 1;
                     }
 
                     $.get("{{route('admin.deal.get-all-product-ids')}}", requestData, (response) => {

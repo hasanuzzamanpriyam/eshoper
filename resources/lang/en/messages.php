@@ -6980,4 +6980,6 @@
   'select_Category' => 'Select Category',
   'show_discounted_products' => 'Show discounted products',
   'discounted_Products' => 'Discounted Products',
+  'show_featured_deal_products' => 'Show featured deal products',
+  'featured_Deal_Products' => 'Featured Deal Products',
 );
