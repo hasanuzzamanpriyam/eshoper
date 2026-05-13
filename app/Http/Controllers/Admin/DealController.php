@@ -391,6 +391,7 @@ class DealController extends Controller
         $shop_id = $request->has('shop_id') ? $request->shop_id : null;
         $brand_id = $request->has('brand_id') ? $request->brand_id : null;
         $category_id = $request->has('category_id') ? $request->category_id : null;
+        $discounted = $request->has('discounted') ? $request->discounted : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -421,6 +422,9 @@ class DealController extends Controller
             })
             ->when($category_id, function ($query) use ($category_id) {
                 $query->where('category_id', $category_id);
+            })
+            ->when($discounted, function ($query) {
+                $query->where('discount', '>', 0);
             })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
@@ -458,6 +462,7 @@ class DealController extends Controller
         $shop_id = $request->has('shop_id') ? $request->shop_id : null;
         $brand_id = $request->has('brand_id') ? $request->brand_id : null;
         $category_id = $request->has('category_id') ? $request->category_id : null;
+        $discounted = $request->has('discounted') ? $request->discounted : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -488,6 +493,9 @@ class DealController extends Controller
             })
             ->when($category_id, function ($query) use ($category_id) {
                 $query->where('category_id', $category_id);
+            })
+            ->when($discounted, function ($query) {
+                $query->where('discount', '>', 0);
             })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);

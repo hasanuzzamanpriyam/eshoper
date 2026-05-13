@@ -6978,4 +6978,6 @@
   'delete_all_products' => 'Delete all products',
   'search_and_select_to_add' => 'Search and select to add',
   'select_Category' => 'Select Category',
+  'show_discounted_products' => 'Show discounted products',
+  'discounted_Products' => 'Discounted Products',
 );

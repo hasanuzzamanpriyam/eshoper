@@ -120,7 +120,7 @@
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-4 mt-3">
+                                <div class="col-md-3 mt-3">
                                     <label for="shop_id" class="title-color">{{ translate('select_Store')}}</label>
                                     <select class="form-control js-select-shop" name="shop_id" id="shop_id">
                                         <option value="" disabled selected>{{translate('select_Store')}}</option>
@@ -132,17 +132,23 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4 mt-3">
+                                <div class="col-md-3 mt-3">
                                     <label for="brand_id" class="title-color">{{ translate('select_Brand')}}</label>
                                     <select class="form-control js-select-brand" name="brand_id" id="brand_id">
                                         <option value="" disabled selected>{{translate('select_Brand')}}</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mt-3">
+                                <div class="col-md-3 mt-3">
                                     <label for="category_id" class="title-color">{{ translate('select_Category')}}</label>
                                     <select class="form-control js-select-category" name="category_id" id="category_id">
                                         <option value="" disabled selected>{{translate('select_Category')}}</option>
                                     </select>
+                                </div>
+                                <div class="col-md-3 mt-3">
+                                    <label for="discounted" class="title-color">{{ translate('discounted_Products')}}</label>
+                                    <button type="button" class="form-control btn btn-outline-primary js-select-discounted" id="discounted_btn">
+                                        {{translate('show_discounted_products')}}
+                                    </button>
                                 </div>
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
@@ -604,6 +610,7 @@
             let currentShopId = '';
             let currentBrandId = '';
             let currentCategoryId = '';
+            let currentDiscounted = false;
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -633,8 +640,10 @@
                 currentShopId = $(this).val();
                 currentBrandId = ''; // Reset brand when shop is selected
                 currentCategoryId = ''; // Reset category when shop is selected
+                currentDiscounted = false; // Reset discounted when shop is selected
                 $('#brand_id').val('');
                 $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -649,8 +658,10 @@
                 currentBrandId = $(this).val();
                 currentShopId = ''; // Reset shop when brand is selected
                 currentCategoryId = ''; // Reset category when brand is selected
+                currentDiscounted = false; // Reset discounted when brand is selected
                 $('#shop_id').val('');
                 $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -665,8 +676,10 @@
                 currentCategoryId = $(this).val();
                 currentShopId = ''; // Reset shop when category is selected
                 currentBrandId = ''; // Reset brand when category is selected
+                currentDiscounted = false; // Reset discounted when category is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -674,6 +687,30 @@
                     modalSelectedIds = [];
                     updateModalSelectedCount();
                     fetchModalProducts(false);
+                }
+            });
+
+            $('.js-select-discounted').on('click', function () {
+                currentDiscounted = !currentDiscounted;
+                currentShopId = ''; // Reset shop when discounted is selected
+                currentBrandId = ''; // Reset brand when discounted is selected
+                currentCategoryId = ''; // Reset category when discounted is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                $('#category_id').val('');
+
+                if (currentDiscounted) {
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
                 }
             });
 
@@ -725,6 +762,10 @@
                     requestData.category_id = currentCategoryId;
                 }
 
+                if (currentDiscounted) {
+                    requestData.discounted = 1;
+                }
+
                 $.get("{{route('admin.deal.search-product')}}", requestData, (response) => {
                     if (append) {
                         $('.modal-search-result-box').append(response.result);
@@ -752,7 +793,7 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop/brand/category and search
+                    // Fetch all IDs for current shop/brand/category/discounted and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
                     let requestData = {
                         name: modalSearchKey,
@@ -769,6 +810,10 @@
 
                     if (currentCategoryId) {
                         requestData.category_id = currentCategoryId;
+                    }
+
+                    if (currentDiscounted) {
+                        requestData.discounted = 1;
                     }
 
                     $.get("{{route('admin.deal.get-all-product-ids')}}", requestData, (response) => {
