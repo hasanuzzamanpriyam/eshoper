@@ -6982,4 +6982,6 @@
   'discounted_Products' => 'Discounted Products',
   'show_featured_deal_products' => 'Show featured deal products',
   'featured_Deal_Products' => 'Featured Deal Products',
+  'show_delivery_free_products' => 'Show delivery free products',
+  'delivery_Free_Products' => 'Delivery Free Products',
 );

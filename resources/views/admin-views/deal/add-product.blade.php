@@ -156,6 +156,12 @@
                                         {{translate('show_featured_deal_products')}}
                                     </button>
                                 </div>
+                                <div class="col-md-3 mt-3">
+                                    <label for="delivery_free" class="title-color">{{ translate('delivery_Free_Products')}}</label>
+                                    <button type="button" class="form-control btn btn-outline-primary js-select-delivery-free" id="delivery_free_btn">
+                                        {{translate('show_delivery_free_products')}}
+                                    </button>
+                                </div>
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
@@ -496,14 +502,21 @@
                 if (isChecked) {
                     // Fetch all IDs for search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
-                    $.get("{{route('admin.deal.get-all-product-ids')}}", {
-                        name: searchKey,
-                        deal_id: "{{$deal['id']}}"
-                    }, (response) => {
-                        selectedIds = response.ids.map(String);
-                        updateHiddenInputs();
-                        syncCheckboxes();
-                        $(this).parent().find('label').text("{{translate('select_all')}}");
+                    $.ajax({
+                        url: "{{route('admin.deal.get-all-product-ids')}}",
+                        data: {
+                            name: searchKey,
+                            deal_id: "{{$deal['id']}}"
+                        },
+                        method: 'GET',
+                        success: (response) => {
+                            selectedIds = response.ids.map(String);
+                            updateHiddenInputs();
+                            syncCheckboxes();
+                        },
+                        complete: () => {
+                            $(this).parent().find('label').text("{{translate('select_all')}}");
+                        }
                     });
                 } else {
                     $('.product-checkbox').each(function () {
@@ -580,19 +593,31 @@
                     $('.search-result-box').html('<div class="text-center p-3"><i class="tio-dev-loader-1-spinner tio-spin"></i> Loading...</div>');
                 }
 
-                $.get("{{route('admin.deal.search-product')}}", {
-                    name: searchKey,
-                    deal_id: "{{$deal['id']}}",
-                    page: page
-                }, (response) => {
-                    if (append) {
-                        $('.search-result-box').append(response.result);
-                    } else {
-                        $('.search-result-box').html(response.result);
+                $.ajax({
+                    url: "{{route('admin.deal.search-product')}}",
+                    data: {
+                        name: searchKey,
+                        deal_id: "{{$deal['id']}}",
+                        page: page
+                    },
+                    method: 'GET',
+                    success: (response) => {
+                        if (append) {
+                            $('.search-result-box').append(response.result);
+                        } else {
+                            $('.search-result-box').html(response.result);
+                        }
+                        hasMore = response.hasMore;
+                        syncCheckboxes();
+                    },
+                    error: () => {
+                        if (!append) {
+                            $('.search-result-box').html('<div class="text-center p-3 text-danger">Failed to load products</div>');
+                        }
+                    },
+                    complete: () => {
+                        isLoading = false;
                     }
-                    hasMore = response.hasMore;
-                    syncCheckboxes();
-                    isLoading = false;
                 });
             }
 
@@ -618,6 +643,7 @@
             let currentCategoryId = '';
             let currentDiscounted = false;
             let currentFeaturedDeal = false;
+            let currentDeliveryFree = false;
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -649,10 +675,12 @@
                 currentCategoryId = ''; // Reset category when shop is selected
                 currentDiscounted = false; // Reset discounted when shop is selected
                 currentFeaturedDeal = false; // Reset featured deal when shop is selected
+                currentDeliveryFree = false; // Reset delivery free when shop is selected
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -669,10 +697,12 @@
                 currentCategoryId = ''; // Reset category when brand is selected
                 currentDiscounted = false; // Reset discounted when brand is selected
                 currentFeaturedDeal = false; // Reset featured deal when brand is selected
+                currentDeliveryFree = false; // Reset delivery free when brand is selected
                 $('#shop_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -689,10 +719,12 @@
                 currentBrandId = ''; // Reset brand when category is selected
                 currentDiscounted = false; // Reset discounted when category is selected
                 currentFeaturedDeal = false; // Reset featured deal when category is selected
+                currentDeliveryFree = false; // Reset delivery free when category is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -709,10 +741,12 @@
                 currentBrandId = ''; // Reset brand when discounted is selected
                 currentCategoryId = ''; // Reset category when discounted is selected
                 currentFeaturedDeal = false; // Reset featured deal when discounted is selected
+                currentDeliveryFree = false; // Reset delivery free when discounted is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDiscounted) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -735,12 +769,42 @@
                 currentBrandId = ''; // Reset brand when featured deal is selected
                 currentCategoryId = ''; // Reset category when featured deal is selected
                 currentDiscounted = false; // Reset discounted when featured deal is selected
+                currentDeliveryFree = false; // Reset delivery free when featured deal is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentFeaturedDeal) {
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
+                }
+            });
+
+            $('.js-select-delivery-free').on('click', function () {
+                currentDeliveryFree = !currentDeliveryFree;
+                currentShopId = ''; // Reset shop when delivery free is selected
+                currentBrandId = ''; // Reset brand when delivery free is selected
+                currentCategoryId = ''; // Reset category when delivery free is selected
+                currentDiscounted = false; // Reset discounted when delivery free is selected
+                currentFeaturedDeal = false; // Reset featured deal when delivery free is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+
+                if (currentDeliveryFree) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -811,15 +875,31 @@
                     requestData.featured_deal = 1;
                 }
 
-                $.get("{{route('admin.deal.search-product')}}", requestData, (response) => {
-                    if (append) {
-                        $('.modal-search-result-box').append(response.result);
-                    } else {
-                        $('.modal-search-result-box').html(response.result);
+                if (currentDeliveryFree) {
+                    requestData.delivery_free = 1;
+                }
+
+                $.ajax({
+                    url: "{{route('admin.deal.search-product')}}",
+                    data: requestData,
+                    method: 'GET',
+                    success: (response) => {
+                        if (append) {
+                            $('.modal-search-result-box').append(response.result);
+                        } else {
+                            $('.modal-search-result-box').html(response.result);
+                        }
+                        modalHasMore = response.hasMore;
+                        syncModalCheckboxes();
+                    },
+                    error: () => {
+                        if (!append) {
+                            $('.modal-search-result-box').html('<div class="text-center p-3 text-danger">Failed to load products</div>');
+                        }
+                    },
+                    complete: () => {
+                        modalIsLoading = false;
                     }
-                    modalHasMore = response.hasMore;
-                    syncModalCheckboxes();
-                    modalIsLoading = false;
                 });
             }
 
@@ -838,7 +918,7 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop/brand/category/discounted/featured_deal and search
+                    // Fetch all IDs for current shop/brand/category/discounted/featured_deal/delivery_free and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
                     let requestData = {
                         name: modalSearchKey,
@@ -865,10 +945,21 @@
                         requestData.featured_deal = 1;
                     }
 
-                    $.get("{{route('admin.deal.get-all-product-ids')}}", requestData, (response) => {
-                        modalSelectedIds = response.ids.map(String);
-                        syncModalCheckboxes();
-                        $(this).parent().find('label').text("{{translate('select_all')}}");
+                    if (currentDeliveryFree) {
+                        requestData.delivery_free = 1;
+                    }
+
+                    $.ajax({
+                        url: "{{route('admin.deal.get-all-product-ids')}}",
+                        data: requestData,
+                        method: 'GET',
+                        success: (response) => {
+                            modalSelectedIds = response.ids.map(String);
+                            syncModalCheckboxes();
+                        },
+                        complete: () => {
+                            $(this).parent().find('label').text("{{translate('select_all')}}");
+                        }
                     });
                 } else {
                     modalSelectedIds = [];
