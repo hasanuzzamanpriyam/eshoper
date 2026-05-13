@@ -6,6 +6,7 @@ use App\CPU\BackEndHelper;
 use App\CPU\Helpers;
 use App\CPU\ImageManager;
 use App\Http\Controllers\Controller;
+use App\Model\Brand;
 use App\Model\DealOfTheDay;
 use App\Model\FlashDeal;
 use App\Model\FlashDealProduct;
@@ -387,6 +388,7 @@ class DealController extends Controller
     public function search_product(Request $request){
         $key = $request->has('name') ? explode(' ', $request['name']) : [];
         $shop_id = $request->has('shop_id') ? $request->shop_id : null;
+        $brand_id = $request->has('brand_id') ? $request->brand_id : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -411,6 +413,9 @@ class DealController extends Controller
                         $query->where('added_by', 'seller')->where('user_id', $shop->seller_id);
                     }
                 }
+            })
+            ->when($brand_id, function ($query) use ($brand_id) {
+                $query->where('brand_id', $brand_id);
             })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
@@ -446,6 +451,7 @@ class DealController extends Controller
     {
         $key = $request->has('name') ? explode(' ', $request['name']) : [];
         $shop_id = $request->has('shop_id') ? $request->shop_id : null;
+        $brand_id = $request->has('brand_id') ? $request->brand_id : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -471,6 +477,9 @@ class DealController extends Controller
                     }
                 }
             })
+            ->when($brand_id, function ($query) use ($brand_id) {
+                $query->where('brand_id', $brand_id);
+            })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
             })
@@ -479,6 +488,29 @@ class DealController extends Controller
 
         return response()->json([
             'ids' => $product_ids
+        ]);
+    }
+
+    public function get_brands(Request $request)
+    {
+        $deal_id = $request->has('deal_id') ? $request->deal_id : null;
+
+        $exclude_ids = [];
+        if ($deal_id) {
+            $exclude_ids = FlashDealProduct::where('flash_deal_id', $deal_id)->pluck('product_id')->toArray();
+        }
+
+        $brands = Brand::active()
+            ->whereHas('brandProducts', function ($query) use ($exclude_ids) {
+                $query->active()
+                    ->when(count($exclude_ids) > 0, function ($q) use ($exclude_ids) {
+                        $q->whereNotIn('id', $exclude_ids);
+                    });
+            })
+            ->get();
+
+        return response()->json([
+            'brands' => $brands
         ]);
     }
 }

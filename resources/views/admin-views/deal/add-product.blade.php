@@ -49,7 +49,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.4);
-            z-index: 999998 !important; 
+            z-index: 999998 !important;
             display: none;
         }
         .drawer-overlay.show {
@@ -120,7 +120,7 @@
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-12 mt-3">
+                                <div class="col-md-6 mt-3">
                                     <label for="shop_id" class="title-color">{{ translate('select_Store')}}</label>
                                     <select class="form-control js-select-shop" name="shop_id" id="shop_id">
                                         <option value="" disabled selected>{{translate('select_Store')}}</option>
@@ -130,6 +130,12 @@
                                         @foreach($shops as $shop)
                                             <option value="{{$shop->id}}">{{$shop->name}}</option>
                                         @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="brand_id" class="title-color">{{ translate('select_Brand')}}</label>
+                                    <select class="form-control js-select-brand" name="brand_id" id="brand_id">
+                                        <option value="" disabled selected>{{translate('select_Brand')}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-12 mt-3">
@@ -202,7 +208,7 @@
                         {{ translate('product_Table')}}
                         <span class="badge badge-soft-dark radius-50 fz-12 ml-1">{{ $deal_products->total() }}</span>
                     </h5>
-                    <button type="button" class="btn btn-outline-danger btn-sm js-delete-all-products" 
+                    <button type="button" class="btn btn-outline-danger btn-sm js-delete-all-products"
                             data-url="{{ route('admin.deal.delete-all-products', [$deal['id']]) }}">
                         <i class="tio-delete-outlined"></i> {{ translate('delete_all_products') }}
                     </button>
@@ -555,7 +561,7 @@
                 if (!append) {
                     $('.search-result-box').html('<div class="text-center p-3"><i class="tio-dev-loader-1-spinner tio-spin"></i> Loading...</div>');
                 }
-                
+
                 $.get("{{route('admin.deal.search-product')}}", {
                     name: searchKey,
                     deal_id: "{{$deal['id']}}",
@@ -590,10 +596,39 @@
             let modalIsLoading = false;
             let modalSearchKey = '';
             let currentShopId = '';
+            let currentBrandId = '';
+
+            // Fetch brands on page load
+            $.get("{{route('admin.deal.get-brands')}}", {
+                deal_id: "{{$deal['id']}}"
+            }, (response) => {
+                let brandSelect = $('#brand_id');
+                brandSelect.empty();
+                brandSelect.append('<option value="" disabled selected>{{translate('select_Brand')}}</option>');
+                response.brands.forEach(brand => {
+                    brandSelect.append(`<option value="${brand.id}">${brand.name}</option>`);
+                });
+            });
 
             $('.js-select-shop').on('change', function () {
                 currentShopId = $(this).val();
+                currentBrandId = ''; // Reset brand when shop is selected
+                $('#brand_id').val('');
                 if (currentShopId) {
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                }
+            });
+
+            $('.js-select-brand').on('change', function () {
+                currentBrandId = $(this).val();
+                currentShopId = ''; // Reset shop when brand is selected
+                $('#shop_id').val('');
+                if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
                     modalPage = 1;
@@ -633,12 +668,21 @@
                     $('.modal-search-result-box').html('<div class="text-center p-3"><i class="tio-dev-loader-1-spinner tio-spin"></i> Loading...</div>');
                 }
 
-                $.get("{{route('admin.deal.search-product')}}", {
+                let requestData = {
                     name: modalSearchKey,
-                    shop_id: currentShopId,
                     deal_id: "{{$deal['id']}}",
                     page: modalPage
-                }, (response) => {
+                };
+
+                if (currentShopId) {
+                    requestData.shop_id = currentShopId;
+                }
+
+                if (currentBrandId) {
+                    requestData.brand_id = currentBrandId;
+                }
+
+                $.get("{{route('admin.deal.search-product')}}", requestData, (response) => {
                     if (append) {
                         $('.modal-search-result-box').append(response.result);
                     } else {
@@ -665,13 +709,22 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop and search
+                    // Fetch all IDs for current shop/brand and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
-                    $.get("{{route('admin.deal.get-all-product-ids')}}", {
+                    let requestData = {
                         name: modalSearchKey,
-                        shop_id: currentShopId,
                         deal_id: "{{$deal['id']}}"
-                    }, (response) => {
+                    };
+
+                    if (currentShopId) {
+                        requestData.shop_id = currentShopId;
+                    }
+
+                    if (currentBrandId) {
+                        requestData.brand_id = currentBrandId;
+                    }
+
+                    $.get("{{route('admin.deal.get-all-product-ids')}}", requestData, (response) => {
                         modalSelectedIds = response.ids.map(String);
                         syncModalCheckboxes();
                         $(this).parent().find('label').text("{{translate('select_all')}}");
