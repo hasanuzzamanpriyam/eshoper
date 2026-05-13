@@ -99,6 +99,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('get-deal-products/{deal_id}', 'DealController@get_deal_products')->name('get-deal-products');
             Route::get('get-all-product-ids', 'DealController@get_all_product_ids')->name('get-all-product-ids');
             Route::get('get-brands', 'DealController@get_brands')->name('get-brands');
+            Route::get('get-categories', 'DealController@get_categories')->name('get-categories');
             Route::get('delete-all-products/{deal_id}', 'DealController@delete_all_products')->name('delete-all-products');
             Route::post('delete-product', 'DealController@delete_product')->name('delete-product');
             Route::post('update-priority', 'DealController@update_priority')->name('update-priority');

@@ -120,7 +120,7 @@
                         @csrf
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-4 mt-3">
                                     <label for="shop_id" class="title-color">{{ translate('select_Store')}}</label>
                                     <select class="form-control js-select-shop" name="shop_id" id="shop_id">
                                         <option value="" disabled selected>{{translate('select_Store')}}</option>
@@ -132,10 +132,16 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-6 mt-3">
+                                <div class="col-md-4 mt-3">
                                     <label for="brand_id" class="title-color">{{ translate('select_Brand')}}</label>
                                     <select class="form-control js-select-brand" name="brand_id" id="brand_id">
                                         <option value="" disabled selected>{{translate('select_Brand')}}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <label for="category_id" class="title-color">{{ translate('select_Category')}}</label>
+                                    <select class="form-control js-select-category" name="category_id" id="category_id">
+                                        <option value="" disabled selected>{{translate('select_Category')}}</option>
                                     </select>
                                 </div>
                                 <div class="col-md-12 mt-3">
@@ -597,6 +603,7 @@
             let modalSearchKey = '';
             let currentShopId = '';
             let currentBrandId = '';
+            let currentCategoryId = '';
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -610,10 +617,24 @@
                 });
             });
 
+            // Fetch categories on page load
+            $.get("{{route('admin.deal.get-categories')}}", {
+                deal_id: "{{$deal['id']}}"
+            }, (response) => {
+                let categorySelect = $('#category_id');
+                categorySelect.empty();
+                categorySelect.append('<option value="" disabled selected>{{translate('select_Category')}}</option>');
+                response.categories.forEach(category => {
+                    categorySelect.append(`<option value="${category.id}">${category.name}</option>`);
+                });
+            });
+
             $('.js-select-shop').on('change', function () {
                 currentShopId = $(this).val();
                 currentBrandId = ''; // Reset brand when shop is selected
+                currentCategoryId = ''; // Reset category when shop is selected
                 $('#brand_id').val('');
+                $('#category_id').val('');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -627,8 +648,26 @@
             $('.js-select-brand').on('change', function () {
                 currentBrandId = $(this).val();
                 currentShopId = ''; // Reset shop when brand is selected
+                currentCategoryId = ''; // Reset category when brand is selected
                 $('#shop_id').val('');
+                $('#category_id').val('');
                 if (currentBrandId) {
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                }
+            });
+
+            $('.js-select-category').on('change', function () {
+                currentCategoryId = $(this).val();
+                currentShopId = ''; // Reset shop when category is selected
+                currentBrandId = ''; // Reset brand when category is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
                     modalPage = 1;
@@ -682,6 +721,10 @@
                     requestData.brand_id = currentBrandId;
                 }
 
+                if (currentCategoryId) {
+                    requestData.category_id = currentCategoryId;
+                }
+
                 $.get("{{route('admin.deal.search-product')}}", requestData, (response) => {
                     if (append) {
                         $('.modal-search-result-box').append(response.result);
@@ -709,7 +752,7 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop/brand and search
+                    // Fetch all IDs for current shop/brand/category and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
                     let requestData = {
                         name: modalSearchKey,
@@ -722,6 +765,10 @@
 
                     if (currentBrandId) {
                         requestData.brand_id = currentBrandId;
+                    }
+
+                    if (currentCategoryId) {
+                        requestData.category_id = currentCategoryId;
                     }
 
                     $.get("{{route('admin.deal.get-all-product-ids')}}", requestData, (response) => {
