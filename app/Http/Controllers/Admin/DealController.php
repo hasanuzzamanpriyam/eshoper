@@ -394,6 +394,7 @@ class DealController extends Controller
         $discounted = $request->has('discounted') ? $request->discounted : null;
         $featured_deal = $request->has('featured_deal') ? $request->featured_deal : null;
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
+        $cash_on_delivery = $request->has('is_cash_on_delivery') ? $request->is_cash_on_delivery : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -434,6 +435,9 @@ class DealController extends Controller
             ->when($delivery_free, function ($query) {
                 $query->where('is_delivery_free', 1);
             })
+            ->when($cash_on_delivery, function ($query) {
+                $query->where('is_cash_on_delivery', 1);
+            })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
             })
@@ -473,6 +477,7 @@ class DealController extends Controller
         $discounted = $request->has('discounted') ? $request->discounted : null;
         $featured_deal = $request->has('featured_deal') ? $request->featured_deal : null;
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
+        $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -512,6 +517,9 @@ class DealController extends Controller
             })
             ->when($delivery_free, function ($query) {
                 $query->where('is_delivery_free', 1);
+            })
+            ->when($cash_on_delivery, function ($query) {
+                $query->where('is_cash_on_delivery', 1);
             })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);

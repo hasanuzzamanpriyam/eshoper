@@ -162,6 +162,12 @@
                                         {{translate('show_delivery_free_products')}}
                                     </button>
                                 </div>
+                                <div class="col-md-3 mt-3">
+                                    <label for="cash_on_delivery" class="title-color">{{ translate('cash_On_Delivery_Products')}}</label>
+                                    <button type="button" class="form-control btn btn-outline-primary js-select-cash-on-delivery" id="cash_on_delivery_btn">
+                                        {{translate('show_cash_on_delivery_products')}}
+                                    </button>
+                                </div>
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
@@ -644,6 +650,7 @@
             let currentDiscounted = false;
             let currentFeaturedDeal = false;
             let currentDeliveryFree = false;
+            let currentCashOnDelivery = false;
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -676,11 +683,13 @@
                 currentDiscounted = false; // Reset discounted when shop is selected
                 currentFeaturedDeal = false; // Reset featured deal when shop is selected
                 currentDeliveryFree = false; // Reset delivery free when shop is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when shop is selected
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -698,11 +707,13 @@
                 currentDiscounted = false; // Reset discounted when brand is selected
                 currentFeaturedDeal = false; // Reset featured deal when brand is selected
                 currentDeliveryFree = false; // Reset delivery free when brand is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when brand is selected
                 $('#shop_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -720,11 +731,13 @@
                 currentDiscounted = false; // Reset discounted when category is selected
                 currentFeaturedDeal = false; // Reset featured deal when category is selected
                 currentDeliveryFree = false; // Reset delivery free when category is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when category is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -742,11 +755,13 @@
                 currentCategoryId = ''; // Reset category when discounted is selected
                 currentFeaturedDeal = false; // Reset featured deal when discounted is selected
                 currentDeliveryFree = false; // Reset delivery free when discounted is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when discounted is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDiscounted) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -770,11 +785,13 @@
                 currentCategoryId = ''; // Reset category when featured deal is selected
                 currentDiscounted = false; // Reset discounted when featured deal is selected
                 currentDeliveryFree = false; // Reset delivery free when featured deal is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when featured deal is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentFeaturedDeal) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -798,13 +815,45 @@
                 currentCategoryId = ''; // Reset category when delivery free is selected
                 currentDiscounted = false; // Reset discounted when delivery free is selected
                 currentFeaturedDeal = false; // Reset featured deal when delivery free is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when delivery free is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDeliveryFree) {
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
+                }
+            });
+
+            $('.js-select-cash-on-delivery').on('click', function () {
+                currentCashOnDelivery = !currentCashOnDelivery;
+                currentShopId = ''; // Reset shop when cash on delivery is selected
+                currentBrandId = ''; // Reset brand when cash on delivery is selected
+                currentCategoryId = ''; // Reset category when cash on delivery is selected
+                currentDiscounted = false; // Reset discounted when cash on delivery is selected
+                currentFeaturedDeal = false; // Reset featured deal when cash on delivery is selected
+                currentDeliveryFree = false; // Reset delivery free when cash on delivery is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+
+                if (currentCashOnDelivery) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -879,6 +928,10 @@
                     requestData.delivery_free = 1;
                 }
 
+                if (currentCashOnDelivery) {
+                    requestData.cash_on_delivery = 1;
+                }
+
                 $.ajax({
                     url: "{{route('admin.deal.search-product')}}",
                     data: requestData,
@@ -918,7 +971,7 @@
             $('#modal-select-all-product').on('change', function () {
                 let isChecked = $(this).prop('checked');
                 if (isChecked) {
-                    // Fetch all IDs for current shop/brand/category/discounted/featured_deal/delivery_free and search
+                    // Fetch all IDs for current shop/brand/category/discounted/featured_deal/delivery_free/cash_on_delivery and search
                     $(this).parent().find('label').text("{{translate('selecting_all')}}...");
                     let requestData = {
                         name: modalSearchKey,
@@ -947,6 +1000,10 @@
 
                     if (currentDeliveryFree) {
                         requestData.delivery_free = 1;
+                    }
+
+                    if (currentCashOnDelivery) {
+                        requestData.cash_on_delivery = 1;
                     }
 
                     $.ajax({

@@ -6984,4 +6984,6 @@
   'featured_Deal_Products' => 'Featured Deal Products',
   'show_delivery_free_products' => 'Show delivery free products',
   'delivery_Free_Products' => 'Delivery Free Products',
+  'show_cash_on_delivery_products' => 'Show cash on delivery products',
+  'cash_On_Delivery_Products' => 'Cash On Delivery Products',
 );
