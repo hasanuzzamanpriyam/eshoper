@@ -94,6 +94,13 @@
             background: #f1f1f1;
             color: #555;
         }
+        /* Fix for dropdown flipping up */
+        .select-product-search.dropdown .dropdown-menu {
+            top: 100% !important;
+            bottom: auto !important;
+            transform: none !important;
+            margin-top: 4px !important;
+        }
     </style>
 @endpush
 
@@ -186,9 +193,8 @@
                                         <div class="selected-product-ids">
                                             <input type="hidden" class="product_id" name="product_id[]">
                                         </div>
-                                        <button class="form-control text-start dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="form-control text-start dropdown-toggle" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
                                             {{translate('select_Product')}}
-
                                         </button>
                                         <div class="dropdown-menu w-100 px-2">
                                             <div class="search-form mb-3">
