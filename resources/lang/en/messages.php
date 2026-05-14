@@ -6988,4 +6988,6 @@
   'cash_On_Delivery_Products' => 'Cash On Delivery Products',
   'show_latest_products' => 'Show latest products',
   'latest_Products' => 'Latest Products',
+  'show_top_selling_products' => 'Show top selling products',
+  'top_Selling_Products' => 'Top Selling Products',
 );

@@ -396,6 +396,7 @@ class DealController extends Controller
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
         $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
+        $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -445,11 +446,19 @@ class DealController extends Controller
             ->when($latest_products, function ($query) {
                 $query->latest()->take(30);
             })
+            ->when($top_selling_products, function ($query) {
+                $query->withCount('order_details')->orderBy('order_details_count', 'desc');
+            })
             ->paginate($latest_products ? 30 : 20);
+
+        $hasMore = $products->hasMorePages();
+        if ($top_selling_products && $products->currentPage() >= 5) {
+            $hasMore = false;
+        }
 
         return response()->json([
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
-            'hasMore' => $products->hasMorePages(),
+            'hasMore' => $hasMore,
         ]);
     }
 
@@ -483,6 +492,7 @@ class DealController extends Controller
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
         $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
+        $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -531,6 +541,9 @@ class DealController extends Controller
             })
             ->when($latest_products, function ($query) {
                 $query->latest()->take(30);
+            })
+            ->when($top_selling_products, function ($query) {
+                $query->withCount('order_details')->orderBy('order_details_count', 'desc')->take(100);
             })
             ->pluck('id')
             ->toArray();

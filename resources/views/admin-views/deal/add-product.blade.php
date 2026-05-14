@@ -174,6 +174,12 @@
                                         {{translate('show_latest_products')}}
                                     </button>
                                 </div>
+                                <div class="col-md-3 mt-3">
+                                    <label for="top_selling_products" class="title-color">{{ translate('top_Selling_Products')}}</label>
+                                    <button type="button" class="form-control btn btn-outline-primary js-select-top-selling-products" id="top_selling_products_btn">
+                                        {{translate('show_top_selling_products')}}
+                                    </button>
+                                </div>
                                 <div class="col-md-12 mt-3">
                                     <label for="name" class="title-color">{{ translate('products')}}</label>
                                     <div class="dropdown select-product-search w-100">
@@ -658,6 +664,7 @@
             let currentDeliveryFree = false;
             let currentCashOnDelivery = false;
             let currentLatestProducts = false;
+            let currentTopSellingProducts = false;
 
             // Fetch brands on page load
             $.get("{{route('admin.deal.get-brands')}}", {
@@ -692,6 +699,7 @@
                 currentDeliveryFree = false; // Reset delivery free when shop is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when shop is selected
                 currentLatestProducts = false; // Reset latest products when shop is selected
+                currentTopSellingProducts = false; // Reset top selling products when shop is selected
                 $('#brand_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
@@ -699,6 +707,7 @@
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentShopId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -718,6 +727,7 @@
                 currentDeliveryFree = false; // Reset delivery free when brand is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when brand is selected
                 currentLatestProducts = false; // Reset latest products when brand is selected
+                currentTopSellingProducts = false; // Reset top selling products when brand is selected
                 $('#shop_id').val('');
                 $('#category_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
@@ -725,6 +735,7 @@
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentBrandId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -744,6 +755,7 @@
                 currentDeliveryFree = false; // Reset delivery free when category is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when category is selected
                 currentLatestProducts = false; // Reset latest products when category is selected
+                currentTopSellingProducts = false; // Reset top selling products when category is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
@@ -751,6 +763,7 @@
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 if (currentCategoryId) {
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -771,6 +784,7 @@
                 currentDeliveryFree = false; // Reset delivery free when discounted is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when discounted is selected
                 currentLatestProducts = false; // Reset latest products when discounted is selected
+                currentTopSellingProducts = false; // Reset top selling products when discounted is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
@@ -778,6 +792,7 @@
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDiscounted) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -804,6 +819,7 @@
                 currentDeliveryFree = false; // Reset delivery free when featured deal is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when featured deal is selected
                 currentLatestProducts = false; // Reset latest products when featured deal is selected
+                currentTopSellingProducts = false; // Reset top selling products when featured deal is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
@@ -811,6 +827,7 @@
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentFeaturedDeal) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -837,6 +854,7 @@
                 currentFeaturedDeal = false; // Reset featured deal when delivery free is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when delivery free is selected
                 currentLatestProducts = false; // Reset latest products when delivery free is selected
+                currentTopSellingProducts = false; // Reset top selling products when delivery free is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
@@ -844,6 +862,7 @@
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentDeliveryFree) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -870,6 +889,7 @@
                 currentFeaturedDeal = false; // Reset featured deal when cash on delivery is selected
                 currentDeliveryFree = false; // Reset delivery free when cash on delivery is selected
                 currentLatestProducts = false; // Reset latest products when cash on delivery is selected
+                currentTopSellingProducts = false; // Reset top selling products when cash on delivery is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
@@ -877,6 +897,7 @@
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentCashOnDelivery) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
@@ -902,6 +923,7 @@
                 currentFeaturedDeal = false; // Reset featured deal when latest products is selected
                 currentDeliveryFree = false; // Reset delivery free when latest products is selected
                 currentCashOnDelivery = false; // Reset cash on delivery when latest products is selected
+                currentTopSellingProducts = false; // Reset top selling products when latest products is selected
                 $('#shop_id').val('');
                 $('#brand_id').val('');
                 $('#category_id').val('');
@@ -909,8 +931,43 @@
                 $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
                 $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#top_selling_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
 
                 if (currentLatestProducts) {
+                    $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+                    $('#storeProductDrawer').addClass('open');
+                    $('#drawerOverlay').addClass('show');
+                    modalPage = 1;
+                    modalSelectedIds = [];
+                    updateModalSelectedCount();
+                    fetchModalProducts(false);
+                } else {
+                    $(this).removeClass('btn-primary').addClass('btn-outline-primary');
+                    $('#storeProductDrawer').removeClass('open');
+                    $('#drawerOverlay').removeClass('show');
+                }
+            });
+
+            $('.js-select-top-selling-products').on('click', function () {
+                currentTopSellingProducts = !currentTopSellingProducts;
+                currentShopId = ''; // Reset shop when top selling products is selected
+                currentBrandId = ''; // Reset brand when top selling products is selected
+                currentCategoryId = ''; // Reset category when top selling products is selected
+                currentDiscounted = false; // Reset discounted when top selling products is selected
+                currentFeaturedDeal = false; // Reset featured deal when top selling products is selected
+                currentDeliveryFree = false; // Reset delivery free when top selling products is selected
+                currentCashOnDelivery = false; // Reset cash on delivery when top selling products is selected
+                currentLatestProducts = false; // Reset latest products when top selling products is selected
+                $('#shop_id').val('');
+                $('#brand_id').val('');
+                $('#category_id').val('');
+                $('#discounted_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#featured_deal_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#delivery_free_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#cash_on_delivery_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+                $('#latest_products_btn').removeClass('btn-primary').addClass('btn-outline-primary');
+
+                if (currentTopSellingProducts) {
                     $(this).removeClass('btn-outline-primary').addClass('btn-primary');
                     $('#storeProductDrawer').addClass('open');
                     $('#drawerOverlay').addClass('show');
@@ -993,6 +1050,10 @@
                     requestData.latest_products = 1;
                 }
 
+                if (currentTopSellingProducts) {
+                    requestData.top_selling_products = 1;
+                }
+
                 $.ajax({
                     url: "{{route('admin.deal.search-product')}}",
                     data: requestData,
@@ -1069,6 +1130,10 @@
 
                     if (currentLatestProducts) {
                         requestData.latest_products = 1;
+                    }
+
+                    if (currentTopSellingProducts) {
+                        requestData.top_selling_products = 1;
                     }
 
                     $.ajax({
