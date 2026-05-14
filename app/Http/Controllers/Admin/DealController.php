@@ -394,7 +394,8 @@ class DealController extends Controller
         $discounted = $request->has('discounted') ? $request->discounted : null;
         $featured_deal = $request->has('featured_deal') ? $request->featured_deal : null;
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
-        $cash_on_delivery = $request->has('is_cash_on_delivery') ? $request->is_cash_on_delivery : null;
+        $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
+        $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -441,7 +442,10 @@ class DealController extends Controller
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
             })
-            ->paginate(20);
+            ->when($latest_products, function ($query) {
+                $query->latest()->take(30);
+            })
+            ->paginate($latest_products ? 30 : 20);
 
         return response()->json([
             'result' => view('admin-views.partials._search-product', compact('products'))->render(),
@@ -478,6 +482,7 @@ class DealController extends Controller
         $featured_deal = $request->has('featured_deal') ? $request->featured_deal : null;
         $delivery_free = $request->has('delivery_free') ? $request->delivery_free : null;
         $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
+        $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -523,6 +528,9 @@ class DealController extends Controller
             })
             ->when(count($exclude_ids) > 0, function ($query) use ($exclude_ids) {
                 $query->whereNotIn('id', $exclude_ids);
+            })
+            ->when($latest_products, function ($query) {
+                $query->latest()->take(30);
             })
             ->pluck('id')
             ->toArray();

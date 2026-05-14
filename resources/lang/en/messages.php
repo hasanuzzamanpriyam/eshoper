@@ -6986,4 +6986,6 @@
   'delivery_Free_Products' => 'Delivery Free Products',
   'show_cash_on_delivery_products' => 'Show cash on delivery products',
   'cash_On_Delivery_Products' => 'Cash On Delivery Products',
+  'show_latest_products' => 'Show latest products',
+  'latest_Products' => 'Latest Products',
 );
