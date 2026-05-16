@@ -6995,4 +6995,5 @@
   'max_price' => 'Max price',
   'min_price' => 'Min price',
   'price_Range' => 'Price Range',
+  'select_rating' => 'Select rating',
 );

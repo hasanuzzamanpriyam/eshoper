@@ -400,6 +400,7 @@ class DealController extends Controller
         $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
         $min_price = $request->has('min_price') ? $request->min_price : null;
         $max_price = $request->has('max_price') ? $request->max_price : null;
+        $rating = $request->has('rating') ? $request->rating : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -461,6 +462,9 @@ class DealController extends Controller
             ->when($max_price, function ($query) use ($max_price) {
                 $query->where('unit_price', '<=', $max_price);
             })
+            ->when($rating, function ($query) use ($rating) {
+                $query->withAvg('reviews', 'rating')->having('reviews_avg_rating', '>=', $rating);
+            })
             ->paginate($latest_products ? 30 : 20);
 
         $hasMore = $products->hasMorePages();
@@ -508,6 +512,7 @@ class DealController extends Controller
         $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
         $min_price = $request->has('min_price') ? $request->min_price : null;
         $max_price = $request->has('max_price') ? $request->max_price : null;
+        $rating = $request->has('rating') ? $request->rating : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -568,6 +573,9 @@ class DealController extends Controller
             })
             ->when($max_price, function ($query) use ($max_price) {
                 $query->where('unit_price', '<=', $max_price);
+            })
+            ->when($rating, function ($query) use ($rating) {
+                $query->withAvg('reviews', 'rating')->having('reviews_avg_rating', '>=', $rating);
             })
             ->pluck('id')
             ->toArray();
