@@ -998,6 +998,7 @@
 
                 $('#color_wise_image').append(html);
 
+                /*
                 $('.delete_file_input').click(function () {
                     let $parentDiv = $(this).parent().parent();
                     $parentDiv.find('input[type="file"]').val('');
@@ -1011,6 +1012,7 @@
                         $parentDiv.find('.delete_file_input').fadeIn();
                     }
                 });
+                */
 
                 uploadColorImage();
             });
@@ -1018,9 +1020,13 @@
         }
 
         function uploadColorImage(thisData = null) {
-            if (thisData) {
-                document.getElementById(thisData.dataset.imgpreview).setAttribute("src", window.URL.createObjectURL(thisData.files[0]));
-                document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
+            if (thisData && thisData.files && thisData.files[0]) {
+                let previewId = thisData.dataset.imgpreview;
+                let previewImg = document.getElementById(previewId);
+                if (previewImg) {
+                    previewImg.src = window.URL.createObjectURL(thisData.files[0]);
+                    previewImg.classList.remove('d-none');
+                }
             }
         }
 
@@ -1352,42 +1358,44 @@
     </script>
 
     <script>
-        $('.delete_file_input').click(function () {
-            let $parentDiv = $(this).closest('div');
+        $(document).on('click', '.delete_file_input', function () {
+            let $parentDiv = $(this).closest('.custom_upload_input');
             $parentDiv.find('input[type="file"]').val('');
-            $parentDiv.find('.img_area_with_preview img').attr("src", " ");
+            let previewImg = $parentDiv.find('.img_area_with_preview img');
+            previewImg.attr("src", "").addClass('d-none');
             $(this).hide();
         });
 
-        $('.custom-upload-input-file').on('change', function () {
-            if (parseFloat($(this).prop('files').length) != 0) {
-                let $parentDiv = $(this).closest('div');
-                $parentDiv.find('.delete_file_input').fadeIn();
+        $(document).on('change', '.custom-upload-input-file', function () {
+            if (this.files && this.files.length > 0) {
+                $(this).closest('.custom_upload_input').find('.delete_file_input').fadeIn();
             }
-        })
+        });
     </script>
 
     <script>
         function addMoreImage(thisData, targetSection) {
-
-            let $fileInputs = $(targetSection + " input[type='file']");
-            let nonEmptyCount = 0;
-
-            $fileInputs.each(function () {
-                if (parseFloat($(this).prop('files').length) == 0) {
-                    nonEmptyCount++;
+            if (thisData.files && thisData.files[0]) {
+                let previewId = thisData.dataset.imgpreview;
+                let previewImg = document.getElementById(previewId);
+                if (previewImg) {
+                    previewImg.src = window.URL.createObjectURL(thisData.files[0]);
+                    previewImg.classList.remove('d-none');
                 }
-            });
 
-            // let input_id = thisData.id;
-            document.getElementById(thisData.dataset.imgpreview).setAttribute("src", window.URL.createObjectURL(thisData.files[0]));
-            document.getElementById(thisData.dataset.imgpreview).classList.remove('d-none');
+                let $fileInputs = $(targetSection + " input[type='file']");
+                let emptyInputCount = 0;
 
-            if (nonEmptyCount == 0) {
+                $fileInputs.each(function () {
+                    if ($(this).prop('files').length == 0) {
+                        emptyInputCount++;
+                    }
+                });
 
-                let dataset_index = thisData.dataset.index + 1;
+                if (emptyInputCount == 0) {
+                    let dataset_index = parseInt(thisData.dataset.index) + 1;
 
-                let newHtmlData = `<div class="col-sm-12 col-md-4">
+                    let newHtmlData = `<div class="col-sm-12 col-md-4">
                                 <div class="custom_upload_input position-relative border-dashed-2">
                                     <input type="file" name="${thisData.name}" class="custom-upload-input-file" data-index="${dataset_index}" data-imgpreview="additional_Image_${dataset_index}"
                                         accept=".jpg, .webp, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*" onchange="addMoreImage(this, '${targetSection}')">
@@ -1397,7 +1405,7 @@
                                     </span>
 
                                     <div class="img_area_with_preview position-absolute z-index-2 border-0">
-                                        <img id="additional_Image_${dataset_index}" class="h-auto aspect-1 bg-white" src="{{ asset('assets/back-end/img/400x400/img2.jpg') }}" onerror="this.classList.add('d-none')">
+                                        <img id="additional_Image_${dataset_index}" class="h-auto aspect-1 bg-white d-none" src="" onerror="this.classList.add('d-none')">
                                     </div>
                                     <div class="position-absolute h-100 top-0 w-100 d-flex align-content-center justify-content-center">
                                         <div class="d-flex flex-column justify-content-center align-items-center">
@@ -1408,26 +1416,19 @@
                                 </div>
                             </div>`;
 
-                $(targetSection).append(newHtmlData);
-            }
-
-            $('.custom-upload-input-file').on('change', function () {
-                if (parseFloat($(this).prop('files').length) != 0) {
-                    let $parentDiv = $(this).closest('div');
-                    $parentDiv.find('.delete_file_input').fadeIn();
+                    $(targetSection).append(newHtmlData);
                 }
-            })
-
-            $('.delete_file_input_section').click(function () {
-                let $parentDiv = $(this).closest('div').parent().remove();
-                // var filledInputs = $(targetSection +' input[type="file"]').length;
-            });
+            }
 
             if ($('#color_switcher').prop('checked')) {
                 $('#additional_Image_Section .col-md-4').addClass('col-lg-2');
             } else {
                 $('#additional_Image_Section .col-md-4').removeClass('col-lg-2');
             }
+        }
+
+        $(document).on('click', '.delete_file_input_section', function () {
+            $(this).closest('.col-md-4').remove();
         });
 
         function addMetaTagField() {
