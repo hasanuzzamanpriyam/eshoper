@@ -397,6 +397,7 @@ class DealController extends Controller
         $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
+        $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -449,6 +450,9 @@ class DealController extends Controller
             ->when($top_selling_products, function ($query) {
                 $query->withCount('order_details')->orderBy('order_details_count', 'desc');
             })
+            ->when($low_stock_products, function ($query) {
+                $query->whereBetween('current_stock', [1, 5]);
+            })
             ->paginate($latest_products ? 30 : 20);
 
         $hasMore = $products->hasMorePages();
@@ -493,6 +497,7 @@ class DealController extends Controller
         $cash_on_delivery = $request->has('cash_on_delivery') ? $request->cash_on_delivery : null;
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
+        $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -544,6 +549,9 @@ class DealController extends Controller
             })
             ->when($top_selling_products, function ($query) {
                 $query->withCount('order_details')->orderBy('order_details_count', 'desc')->take(100);
+            })
+            ->when($low_stock_products, function ($query) {
+                $query->whereBetween('current_stock', [1, 5]);
             })
             ->pluck('id')
             ->toArray();

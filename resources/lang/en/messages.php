@@ -6990,4 +6990,6 @@
   'latest_Products' => 'Latest Products',
   'show_top_selling_products' => 'Show top selling products',
   'top_Selling_Products' => 'Top Selling Products',
+  'show_low_stock_products' => 'Show low stock products',
+  'low_Stock_Products' => 'Low Stock Products',
 );
