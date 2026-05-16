@@ -80,7 +80,13 @@ class CartManager
                     request()->is('checkout-*') ||
                     request()->is('offline-payment-checkout-complete') ||
                     request()->is('order_note') ||
-                    request()->is('payment/*')
+                    request()->is('payment/*') ||
+                    request()->is('calculate-delivery-charge') ||
+                    request()->is('coupon/apply') ||
+                    request()->is('customer/set-shipping-method') ||
+                    request()->is('customer/choose-shipping-address-other') ||
+                    request()->is('district-names') ||
+                    request()->is('thana-names/*')
                 ) {
                     return [$group_id];
                 }
