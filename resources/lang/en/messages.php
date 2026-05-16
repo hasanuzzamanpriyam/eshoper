@@ -6992,4 +6992,7 @@
   'top_Selling_Products' => 'Top Selling Products',
   'show_low_stock_products' => 'Show low stock products',
   'low_Stock_Products' => 'Low Stock Products',
+  'max_price' => 'Max price',
+  'min_price' => 'Min price',
+  'price_Range' => 'Price Range',
 );

@@ -398,6 +398,8 @@ class DealController extends Controller
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
         $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
+        $min_price = $request->has('min_price') ? $request->min_price : null;
+        $max_price = $request->has('max_price') ? $request->max_price : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -453,6 +455,12 @@ class DealController extends Controller
             ->when($low_stock_products, function ($query) {
                 $query->whereBetween('current_stock', [1, 5]);
             })
+            ->when($min_price, function ($query) use ($min_price) {
+                $query->where('unit_price', '>=', $min_price);
+            })
+            ->when($max_price, function ($query) use ($max_price) {
+                $query->where('unit_price', '<=', $max_price);
+            })
             ->paginate($latest_products ? 30 : 20);
 
         $hasMore = $products->hasMorePages();
@@ -498,6 +506,8 @@ class DealController extends Controller
         $latest_products = $request->has('latest_products') ? $request->latest_products : null;
         $top_selling_products = $request->has('top_selling_products') ? $request->top_selling_products : null;
         $low_stock_products = $request->has('low_stock_products') ? $request->low_stock_products : null;
+        $min_price = $request->has('min_price') ? $request->min_price : null;
+        $max_price = $request->has('max_price') ? $request->max_price : null;
         $deal_id = $request->has('deal_id') ? $request->deal_id : null;
 
         $exclude_ids = [];
@@ -552,6 +562,12 @@ class DealController extends Controller
             })
             ->when($low_stock_products, function ($query) {
                 $query->whereBetween('current_stock', [1, 5]);
+            })
+            ->when($min_price, function ($query) use ($min_price) {
+                $query->where('unit_price', '>=', $min_price);
+            })
+            ->when($max_price, function ($query) use ($max_price) {
+                $query->where('unit_price', '<=', $max_price);
             })
             ->pluck('id')
             ->toArray();
