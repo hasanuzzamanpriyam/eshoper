@@ -162,7 +162,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('status-update', 'BrandController@status_update')->name('status-update');
         });
 
-        Route::group(['prefix' => 'blog', 'as' => 'blog.'], function () {
+        Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => ['module:blog_section']], function () {
             Route::get('add-new', 'BlogController@add_new')->name('add-new');
             Route::post('add-new', 'BlogController@store');
             Route::get('view/{slug?}', 'BlogController@view')->name('view');
@@ -172,7 +172,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('check-slug', 'BlogController@check_slug')->name('check-slug');
         });
 
-        Route::group(['prefix' => 'blog-category', 'as' => 'blog-category.'], function () {
+        Route::group(['prefix' => 'blog-category', 'as' => 'blog-category.', 'middleware' => ['module:blog_section']], function () {
             Route::get('add-new', 'BlogCategoryController@add_new')->name('add-new');
             Route::post('store', 'BlogCategoryController@store')->name('store');
             Route::get('edit/{id}', 'BlogCategoryController@edit')->name('edit');

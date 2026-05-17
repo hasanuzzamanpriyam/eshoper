@@ -134,6 +134,16 @@
                                        for="system_settings">{{translate('system_Settings')}}</label>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="form-group form-check">
+                                <input type="checkbox" name="modules[]" value="blog_section"
+                                       class="form-check-input module-permission"
+                                       id="blog_section" {{in_array('blog_section',(array)json_decode($role['module_access']))?'checked':''}}>
+                                <label class="form-check-label"
+                                       style="{{Session::get('direction') === "rtl" ? 'margin-right: 1.25rem;' : ''}};"
+                                       for="blog_section">{{translate('blog_section')}}</label>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-3">

@@ -7007,4 +7007,10 @@
   'review_updated_successfully' => 'Review updated successfully',
   'existing_images' => 'Existing images',
   'reviewer_image' => 'Reviewer image',
+  'blog_section' => 'Blog section',
+  'role_Update' => 'Role Update',
+  'edit_Role' => 'Edit Role',
+  'role_updated_successfully' => 'Role updated successfully',
+  'access_Denied' => 'Access Denied',
+  'blog section' => 'Blog section',
 );

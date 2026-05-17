@@ -264,13 +264,14 @@
                         <!--Order Management Ends-->
 
                         <!--Product Management -->
-                        @if(\App\CPU\Helpers::module_permission_check('product_management'))
-                        <li class="nav-item {{(Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/product*') || Request::is('admin/delivery-charge*'))?'scroll-here':''}}">
+                        @if(\App\CPU\Helpers::module_permission_check('product_management') || \App\CPU\Helpers::module_permission_check('blog_section'))
+                        <li class="nav-item {{(Request::is('admin/brand*') || Request::is('admin/category*') || Request::is('admin/sub*') || Request::is('admin/attribute*') || Request::is('admin/product*') || Request::is('admin/delivery-charge*') || Request::is('admin/blog*'))?'scroll-here':''}}">
                             <small class="nav-subtitle"
                                 title="">{{translate('product_management')}}</small>
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
                         <!-- Pages -->
+                        @if(\App\CPU\Helpers::module_permission_check('product_management'))
                         <li class="navbar-vertical-aside-has-menu {{(Request::is('admin/category*') ||Request::is('admin/sub*')) ?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                 href="javascript:" title="{{translate('category_Setup')}}">
@@ -330,6 +331,8 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
+                        @if(\App\CPU\Helpers::module_permission_check('blog_section'))
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin/blog*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                 href="javascript:" title="Blogs">
@@ -355,6 +358,8 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
+                        @if(\App\CPU\Helpers::module_permission_check('product_management'))
                         <li class="navbar-vertical-aside-has-menu {{Request::is('admin/attribute*')?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link"
                                 href="{{route('admin.attribute.view')}}"
@@ -466,7 +471,7 @@
                             </ul>
                         </li>
                         @endif
-                        <!--Product Management Ends-->
+                        @endif<!--Product Management Ends-->
 
                         @if(\App\CPU\Helpers::module_permission_check('promotion_management'))
                         <!--promotion management start-->
