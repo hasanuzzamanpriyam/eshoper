@@ -15,6 +15,7 @@ use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Rap2hpoutre\FastExcel\FastExcel;
+use Carbon\Carbon;
 
 class ReviewsController extends Controller
 {
@@ -217,10 +218,23 @@ class ReviewsController extends Controller
 
         $review = new Review();
         $review->product_id = $product->id;
-        $review->customer_id = $request->customer_id ?: null;
+        if (!$request->customer_id) {
+            $review->customer_id = DB::table('users')->where('id', '!=', 0)->inRandomOrder()->value('id');
+        } else {
+            $review->customer_id = $request->customer_id;
+        }
+        $review->reviewer_name = $request->reviewer_name;
         $review->rating = $request->rating;
         $review->comment = $request->comment;
         $review->status = $request->status ?? 1;
+        if ($request->created_at) {
+            $review->created_at = \Carbon\Carbon::parse($request->created_at);
+            $review->updated_at = \Carbon\Carbon::parse($request->created_at);
+        }
+
+        if ($request->hasFile('reviewer_image')) {
+            $review->reviewer_image = \App\CPU\ImageManager::upload('profile/', 'webp', $request->file('reviewer_image'));
+        }
         
         if ($request->hasFile('attachment')) {
             $images = [];
@@ -233,6 +247,81 @@ class ReviewsController extends Controller
         $review->save();
 
         Toastr::success(translate('review_added_successfully'));
+        return redirect()->route('admin.reviews.list');
+    }
+
+    public function edit($id)
+    {
+        $review = Review::findOrFail($id);
+        return view('admin-views.reviews.edit', compact('review'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'product_sku' => 'required',
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        $product = Product::where('code', $request->product_sku)->first();
+
+        if (!$product) {
+            Toastr::error(translate('product_not_found_with_this_sku'));
+            return back()->withInput();
+        }
+
+        $review = Review::findOrFail($id);
+        $review->product_id = $product->id;
+        
+        if (!$request->customer_id) {
+            // Keep current customer if already assigned, or assign a random one if not
+            if (!$review->customer_id) {
+                $review->customer_id = DB::table('users')->where('id', '!=', 0)->inRandomOrder()->value('id');
+            }
+        } else {
+            $review->customer_id = $request->customer_id;
+        }
+
+        $review->reviewer_name = $request->reviewer_name;
+        $review->rating = $request->rating;
+        $review->comment = $request->comment;
+        $review->status = $request->status ?? 1;
+
+        if ($request->created_at) {
+            $review->created_at = \Carbon\Carbon::parse($request->created_at);
+            $review->updated_at = \Carbon\Carbon::parse($request->created_at);
+        }
+
+        if ($request->hasFile('reviewer_image')) {
+            if ($review->reviewer_image) {
+                \App\CPU\ImageManager::delete('profile/' . $review->reviewer_image);
+            }
+            $review->reviewer_image = \App\CPU\ImageManager::upload('profile/', 'webp', $request->file('reviewer_image'));
+        } elseif (!$request->has('existing_reviewer_image') && $request->is_existing_reviewer_image_removed == 1) {
+            if ($review->reviewer_image) {
+                \App\CPU\ImageManager::delete('profile/' . $review->reviewer_image);
+            }
+            $review->reviewer_image = null;
+        }
+
+        // Manage attachments (merge existing ones and any newly uploaded ones)
+        $existing_images = $request->input('existing_attachment', []);
+        
+        $new_images = [];
+        if ($request->hasFile('attachment')) {
+            foreach ($request->file('attachment') as $img) {
+                if ($img->isValid()) {
+                    $new_images[] = \App\CPU\ImageManager::upload('review/', 'webp', $img);
+                }
+            }
+        }
+
+        $all_images = array_merge($existing_images, $new_images);
+        $review->attachment = !empty($all_images) ? json_encode($all_images) : null;
+
+        $review->save();
+
+        Toastr::success(translate('review_updated_successfully'));
         return redirect()->route('admin.reviews.list');
     }
 
@@ -258,6 +347,10 @@ class ReviewsController extends Controller
         $error_skus = [];
         $success_count = 0;
 
+        // Fetch one random customer ID as a fallback for bulk-imported reviews
+        // (customer_id column is NOT NULL at DB level)
+        $fallback_customer_id = DB::table('users')->where('id', '!=', 0)->inRandomOrder()->value('id');
+
         foreach ($collections as $collection) {
             // Normalize keys: trim, lowercase, and replace spaces with underscores
             $row = [];
@@ -280,13 +373,29 @@ class ReviewsController extends Controller
                 continue;
             }
 
+            $review_date = $row['review_date'] ?? null;
+            $created_at = now();
+
+            if ($review_date) {
+                try {
+                    if ($review_date instanceof \DateTime) {
+                        $created_at = Carbon::instance($review_date);
+                    } else {
+                        $created_at = Carbon::createFromFormat('d-m-Y', trim($review_date));
+                    }
+                } catch (\Exception $e) {
+                    $created_at = now();
+                }
+            }
+
             $data[] = [
                 'product_id' => $product->id,
-                'customer_id' => isset($row['customer_id']) && $row['customer_id'] !== "" ? $row['customer_id'] : null,
+                'customer_id' => $fallback_customer_id,
+                'reviewer_name' => isset($row['reviewer_name']) && $row['reviewer_name'] !== '' ? $row['reviewer_name'] : null,
                 'rating' => isset($row['rating']) && $row['rating'] !== "" ? (int)$row['rating'] : 5,
                 'comment' => $row['comment'] ?? null,
                 'status' => isset($row['status']) && $row['status'] !== "" ? (int)$row['status'] : 1,
-                'created_at' => now(),
+                'created_at' => $created_at,
                 'updated_at' => now(),
             ];
             $success_count++;
@@ -317,9 +426,10 @@ class ReviewsController extends Controller
         $storage = [
             [
                 'product_sku' => 'SKU-001',
-                'customer_id' => 1,
+                'reviewer_name' => 'John Doe',
                 'rating' => 5,
                 'comment' => 'Great product!',
+                'review_date' => '16-05-2026',
                 'status' => 1,
             ]
         ];

@@ -7,11 +7,11 @@
                 class="media media-ie-fix  {{Session::get('direction') === "rtl" ? 'ml-4 pl-2' : 'mr-4 pr-2'}}">
                 <img class="rounded-circle __img-64 object-cover"
                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                    src="{{asset("storage/profile")}}/{{(isset($productReview->user)?$productReview->user->image:'')}}"
-                    alt="{{isset($productReview->user)?$productReview->user->f_name:'not exist'}}"/>
+                    src="{{ $productReview->reviewer_image ? asset('storage/profile/'.$productReview->reviewer_image) : (empty($productReview->reviewer_name) && isset($productReview->user) && $productReview->user->image ? asset('storage/profile/'.$productReview->user->image) : asset('assets/front-end/img/image-place-holder.png')) }}"
+                    alt="{{$productReview->reviewer_name ?? (isset($productReview->user)?$productReview->user->f_name:'not exist')}}"/>
                 <div
                     class="media-body {{Session::get('direction') === "rtl" ? 'pr-3' : 'pl-3'}} text-body">
-                    <span class="font-size-sm mb-0 text-body" style="font-weight: 700;font-size: 12px;">{{isset($productReview->user)?$productReview->user->f_name:'not exist'}}</span>
+                    <span class="font-size-sm mb-0 text-body" style="font-weight: 700;font-size: 12px;">{{ $productReview->reviewer_name ?? (isset($productReview->user) ? $productReview->user->f_name : 'not exist') }}</span>
                     <div class="d-flex ">
 
                         <div class=" {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">
@@ -33,7 +33,7 @@
             @endif
         </div>
         <div class="col-md-2 text-body">
-            <span style="float: right;font-weight: 400;font-size: 13px;">{{isset($productReview->updated_at) ? $productReview->updated_at->format('M-d-Y') : ''}}</span>
+            <span style="float: right;font-weight: 400;font-size: 13px;">{{isset($productReview->created_at) ? date('d M Y', strtotime($productReview->created_at)) : ''}}</span>
         </div>
     </div>
 </div>

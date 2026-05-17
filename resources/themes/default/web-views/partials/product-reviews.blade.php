@@ -1,29 +1,26 @@
 @foreach($reviews_of_product as $productReview)
 <div class="p-2" style="margin-bottom: 20px">
     <div class="row product-review d-flex ">
-        <div class="col-md-4 d-flex mb-3 {{Session::get('direction') === "rtl" ? 'pl-5' : 'pr-5'}}">
+        <div class="col-md-3 d-flex mb-3 {{Session::get('direction') === "rtl" ? 'pl-5' : 'pr-5'}}">
             <div
                 class="media media-ie-fix  {{Session::get('direction') === "rtl" ? 'ml-4 pl-2' : 'mr-4 pr-2'}}">
                 <img class="rounded-circle __img-64 object-cover"
                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                    src="{{asset("storage/profile")}}/{{(isset($productReview->user)?$productReview->user->image:'')}}"
-                    alt="{{isset($productReview->user)?$productReview->user->f_name:'not exist'}}"/>
+                    src="{{ $productReview->reviewer_image ? asset('storage/profile/'.$productReview->reviewer_image) : (empty($productReview->reviewer_name) && isset($productReview->user) && $productReview->user->image ? asset('storage/profile/'.$productReview->user->image) : asset('assets/front-end/img/image-place-holder.png')) }}"
+                    alt="{{$productReview->reviewer_name ?? (isset($productReview->user)?$productReview->user->f_name:'not exist')}}"/>
                 <div
                     class="media-body {{Session::get('direction') === "rtl" ? 'pr-3' : 'pl-3'}} text-body">
-                    <span class="font-size-sm mb-0 text-body" style="font-weight: 700;font-size: 12px;">{{isset($productReview->user)?$productReview->user->f_name:'not exist'}}</span>
+                    <span class="font-size-sm mb-0 text-body" style="font-weight: 700;font-size: 12px;">{{ $productReview->reviewer_name ?? (isset($productReview->user) ? $productReview->user->f_name : 'not exist') }}</span>
                     <div class="d-flex ">
-
                         <div class=" {{Session::get('direction') === "rtl" ? 'ml-2' : 'mr-2'}}">
-
-                                    <i class="sr-star czi-star-filled active"></i>
-
+                            <i class="sr-star czi-star-filled active"></i>
                         </div>
                         <div class="text-body text-nowrap" style="font-weight: 400;font-size: 15px;">{{ isset($productReview->rating) ? $productReview->rating : 0 }} / 5 </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7">
             <p class="mb-3 text-body __text-sm" style="word-wrap:break-word;">{{isset($productReview->comment) ? $productReview->comment : ''}}</p>
             @if (isset($productReview->attachment) && !empty(json_decode($productReview->attachment)))
                 @foreach (json_decode($productReview->attachment) as $key => $photo)
@@ -31,9 +28,9 @@
                 @endforeach
             @endif
         </div>
-        {{-- <div class="col-md-2 text-body">
-            <span style="float: right;font-weight: 400;font-size: 13px;">{{isset($productReview->updated_at) ? $productReview->updated_at->format('M-d-Y') : ''}}</span>
-        </div> --}}
+        <div class="col-md-2 text-body">
+            <span style="float: right;font-weight: 400;font-size: 13px;">{{isset($productReview->created_at) ? date('d M Y', strtotime($productReview->created_at)) : ''}}</span>
+        </div>
     </div>
 </div>
 @endforeach

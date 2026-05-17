@@ -177,6 +177,7 @@
                             <th>{{ translate('review') }}</th>
                             <th>{{ translate('date') }}</th>
                             <th class="text-center">{{ translate('status') }}</th>
+                            <th class="text-center">{{ translate('action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -191,7 +192,9 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($review->customer)
+                                    @if($review->reviewer_name)
+                                        {{ $review->reviewer_name }}
+                                    @elseif ($review->customer)
                                         <a href="{{ route('admin.customer.view', [$review->customer_id]) }}" class="title-color hover-c1">
                                             {{ $review->customer->f_name . ' ' . $review->customer->l_name }}
                                         </a>
@@ -232,6 +235,15 @@
                                             <span class="switcher_control"></span>
                                         </label>
                                     </form>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a class="btn btn-outline-info btn-sm square-btn"
+                                            title="{{translate('edit')}}"
+                                            href="{{route('admin.reviews.edit', [$review['id']])}}">
+                                            <i class="tio-edit"></i>
+                                        </a>
+                                    </div>
                                 </td>
 
                             </tr>

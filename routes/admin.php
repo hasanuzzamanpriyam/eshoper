@@ -273,6 +273,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::any('search-product', 'ReviewsController@search_product')->name('search-product');
             Route::get('create', 'ReviewsController@create')->name('create');
             Route::post('store', 'ReviewsController@store')->name('store');
+            Route::get('edit/{id}', 'ReviewsController@edit')->name('edit');
+            Route::post('update/{id}', 'ReviewsController@update')->name('update');
             Route::get('bulk-import', 'ReviewsController@bulk_import_index')->name('bulk-import');
             Route::post('bulk-import-data', 'ReviewsController@bulk_import_data')->name('bulk-import-data');
             Route::get('download-template', 'ReviewsController@download_template')->name('download-template');

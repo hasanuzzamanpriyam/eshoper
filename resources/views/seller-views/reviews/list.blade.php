@@ -158,7 +158,9 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if ($review->customer)
+                                        @if ($review->reviewer_name)
+                                            {{ $review->reviewer_name }}
+                                        @elseif ($review->customer)
                                             {{ $review->customer->f_name . ' ' . $review->customer->l_name }}
                                         @else
                                             <label class="badge badge-soft-danger">{{ translate('customer_removed') }}</label>

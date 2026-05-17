@@ -152,7 +152,9 @@
                                             </a>
                                         </td>
                                         <td>
-                                            @if($review->customer)
+                                            @if($review->reviewer_name)
+                                                <span class="title-color">{{ $review->reviewer_name }}</span>
+                                            @elseif($review->customer)
                                                 <a href="{{route('admin.customer.view',[$review->customer_id])}}" class="title-color hover-c1">
                                                     {{$review->customer->f_name}} {{$review->customer->l_name}}
                                                 </a>

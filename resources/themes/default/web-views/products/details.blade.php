@@ -1149,11 +1149,7 @@
             type: "post",
             url: "{{route('review-list-product')}}",
             data: {
-                product_id: {
-                    {
-                        $product - > id
-                    }
-                },
+                product_id: '{{ $product->id }}',
                 offset: load_review_count
             },
             success: function(data) {

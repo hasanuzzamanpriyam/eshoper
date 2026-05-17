@@ -29,7 +29,8 @@
                     <p>{{ translate('3') }}. {{translate('once_you_have_downloaded_and_filled_the_format_file')}}, {{translate('upload_it_in_the_form_below_and_submit.')}}</p>
                     
                     <p>4. {{translate('product_sku_is_mandatory')}} {{translate('and_must_match_existing_product_sku')}}.</p>
-                    <p>5. {{translate('customer_id_is_optional')}}.</p>
+                    <p>5. {{translate('reviewer_name_is_mandatory')}}.</p>
+                    <p>6. {{translate('review_date_is_optional')}} ({{translate('format')}}: DD-MM-YYYY).</p>
                 </div>
             </div>
 

@@ -2,13 +2,13 @@
 <div class="card border-primary-light flex-grow-1">
     <div class="media flex-wrap align-items-centr gap-3 p-3">
         <div class="avatar border rounded-circle" style="--size: 3.437rem">
-            <img src="{{asset("storage/profile")}}/{{(isset($item->user)?$item->user->image:'')}}" alt=""
+            <img src="{{ $item->reviewer_image ? asset('storage/profile/'.$item->reviewer_image) : (empty($item->reviewer_name) && isset($item->user) && $item->user->image ? asset('storage/profile/'.$item->user->image) : theme_asset('assets/img/image-place-holder.png')) }}" alt=""
             class="img-fit dark-support rounded-circle" onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'">
         </div>
         <div class="media-body d-flex flex-column gap-2">
             <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
                 <div>
-                    <h6 class="mb-1">{{isset($item->user)?$item->user->f_name:translate('User_Not_Exist')}}</h6>
+                    <h6 class="mb-1">{{ $item->reviewer_name ?? (isset($item->user) ? $item->user->f_name : translate('User_Not_Exist')) }}</h6>
                     <div class="d-flex gap-2 align-items-center">
                         <div class="star-rating text-gold fs-12">
                             @for ($inc=0; $inc < 5; $inc++)

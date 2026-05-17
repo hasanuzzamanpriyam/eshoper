@@ -370,26 +370,40 @@
 
                     <tbody>
                     @foreach($reviews as $key=>$review)
-                        @if(isset($review->customer))
-                        <tr>
-                            <td>{{ $reviews->firstItem()+$key }}</td>
-                            <td>
-                                <a class="d-flex align-items-center" href="javascript:">
-                                    <div class="avatar rounded">
-                                        <img
-                                            class="avatar-img"
-                                            onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                            src="{{asset('storage/profile/'.$review->customer->image)}}"
-                                            alt="Image Description">
-                                    </div>
-                                    <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
-                                    <span class="d-block h5 text-hover-primary mb-0">{{$review->customer['f_name']." ".$review->customer['l_name']}} <i
-                                            class="tio-verified text-primary" data-toggle="tooltip" data-placement="top"
-                                            title="Verified Customer"></i></span>
-                                        <span class="d-block font-size-sm text-body">{{$review->customer->email??""}}</span>
-                                    </div>
-                                </a>
-                            </td>
+        @if(isset($review->customer) || $review->reviewer_name)
+        <tr>
+            <td>{{ $reviews->firstItem()+$key }}</td>
+            <td>
+                @if($review->reviewer_name)
+                    <div class="d-flex align-items-center">
+                        <div class="avatar rounded">
+                            <img class="avatar-img"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                src="{{asset('assets/front-end/img/image-place-holder.png')}}"
+                                alt="Image Description">
+                        </div>
+                        <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
+                            <span class="d-block h5 mb-0">{{ $review->reviewer_name }}</span>
+                        </div>
+                    </div>
+                @elseif(isset($review->customer))
+                    <a class="d-flex align-items-center" href="javascript:">
+                        <div class="avatar rounded">
+                            <img
+                                class="avatar-img"
+                                onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                src="{{asset('storage/profile/'.$review->customer->image)}}"
+                                alt="Image Description">
+                        </div>
+                        <div class="{{Session::get('direction') === "rtl" ? 'mr-3' : 'ml-3'}}">
+                        <span class="d-block h5 text-hover-primary mb-0">{{$review->customer['f_name']." ".$review->customer['l_name']}} <i
+                                class="tio-verified text-primary" data-toggle="tooltip" data-placement="top"
+                                title="Verified Customer"></i></span>
+                            <span class="d-block font-size-sm text-body">{{$review->customer->email??""}}</span>
+                        </div>
+                    </a>
+                @endif
+            </td>
                             <td>
                                 <div class="d-flex align-items-center gap-2 text-primary">
                                     <i class="tio-star"></i>
