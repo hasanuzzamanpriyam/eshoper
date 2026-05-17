@@ -7,6 +7,16 @@
         @yield('title')
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    @if(isset($blog) && $blog instanceof \App\Model\Blog)
+        <meta name="title" content="{{ $blog->meta_title ?? $blog->heading }}">
+        <meta name="description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
+        <meta property="og:image" content="{{ $blog->image ? asset('storage/blog/' . $blog->image) : '' }}"/>
+        <meta property="og:title" content="{{ $blog->meta_title ?? $blog->heading }}"/>
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
+    @endif
+
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}">
     <link rel="icon" type="image/png" sizes="32x32"
         href="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}">

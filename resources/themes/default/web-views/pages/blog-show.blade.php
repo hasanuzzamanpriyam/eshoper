@@ -3,13 +3,6 @@
 @section('title', $blog->meta_title ?? $blog->heading)
 
 @push('css_or_js')
-    <meta name="title" content="{{ $blog->meta_title ?? $blog->heading }}">
-    <meta name="description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
-    <meta property="og:image" content="{{ $blog->image ? asset('storage/blog/' . $blog->image) : '' }}"/>
-    <meta property="og:title" content="{{ $blog->meta_title ?? $blog->heading }}"/>
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
-
     <style>
         /* ===== Blog Detail Styles ===== */
         .blog-detail-header {
