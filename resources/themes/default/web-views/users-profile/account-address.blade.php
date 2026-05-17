@@ -354,7 +354,6 @@
 
                 document.getElementById('latitude').value = coordinates['lat'];
                 document.getElementById('longitude').value = coordinates['lng'];
-
                 geocoder.geocode({ 'latLng': latlng }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[1]) {

@@ -26,12 +26,16 @@ class BlogController extends Controller
             'heading' => 'required',
             'description' => 'required',
             'slug' => 'required|unique:blogs',
+            'meta_title' => 'nullable|max:60',
+            'meta_description' => 'nullable|max:160',
         ], [
             'blog_category_id.required' => 'Blog Category is required!',
             'heading.required' => 'Heading is required!',
             'description.required' => 'Description is required!',
             'slug.required' => 'Slug is required!',
             'slug.unique' => 'Slug must be unique!',
+            'meta_title.max' => 'Meta Title must be maximum 60 characters!',
+            'meta_description.max' => 'Meta Description must be maximum 160 characters!',
         ]);
 
         $blog = new Blog;
@@ -41,6 +45,14 @@ class BlogController extends Controller
         $blog->description = $request->description;
         $blog->slug = Str::slug($request->slug);
         $blog->image = ImageManager::upload('blog/', 'webp', $request->file('image'));
+        
+        if ($request->hasFile('ad_image')) {
+            $blog->ad_image = ImageManager::upload('blog/', 'webp', $request->file('ad_image'));
+        }
+        $blog->ad_link = $request->ad_link;
+        $blog->meta_title = $request->meta_title;
+        $blog->meta_description = $request->meta_description;
+        
         $blog->status = 1;
         $blog->save();
 
@@ -76,12 +88,16 @@ class BlogController extends Controller
             'heading' => 'required',
             'description' => 'required',
             'slug' => 'required|unique:blogs,slug,'.$id,
+            'meta_title' => 'nullable|max:60',
+            'meta_description' => 'nullable|max:160',
         ], [
             'blog_category_id.required' => 'Blog Category is required!',
             'heading.required' => 'Heading is required!',
             'description.required' => 'Description is required!',
             'slug.required' => 'Slug is required!',
             'slug.unique' => 'Slug must be unique!',
+            'meta_title.max' => 'Meta Title must be maximum 60 characters!',
+            'meta_description.max' => 'Meta Description must be maximum 160 characters!',
         ]);
 
         $blog = Blog::find($id);
@@ -90,9 +106,24 @@ class BlogController extends Controller
         $blog->author_name = $request->author_name;
         $blog->description = $request->description;
         $blog->slug = Str::slug($request->slug);
+        
         if ($request->has('image')) {
             $blog->image = ImageManager::update('blog/', $blog->image, 'webp', $request->file('image'));
         }
+        
+        if ($request->hasFile('ad_image')) {
+            $blog->ad_image = ImageManager::update('blog/', $blog->ad_image, 'webp', $request->file('ad_image'));
+        } elseif ($request->is_existing_ad_image_removed == 1) {
+            if ($blog->ad_image) {
+                ImageManager::delete('blog/' . $blog->ad_image);
+            }
+            $blog->ad_image = null;
+        }
+        
+        $blog->ad_link = $request->ad_link;
+        $blog->meta_title = $request->meta_title;
+        $blog->meta_description = $request->meta_description;
+        
         $blog->save();
 
         Toastr::success('Blog updated successfully!');
@@ -104,6 +135,9 @@ class BlogController extends Controller
         $blog = Blog::find($request->id);
         if ($blog->image) {
             ImageManager::delete('blog/' . $blog->image);
+        }
+        if ($blog->ad_image) {
+            ImageManager::delete('blog/' . $blog->ad_image);
         }
         $blog->delete();
         return response()->json();

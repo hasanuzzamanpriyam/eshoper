@@ -1,12 +1,14 @@
 @extends('layouts.front-end.app')
 
-@section('title', $blog->heading)
+@section('title', $blog->meta_title ?? $blog->heading)
 
 @push('css_or_js')
+    <meta name="title" content="{{ $blog->meta_title ?? $blog->heading }}">
+    <meta name="description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
     <meta property="og:image" content="{{ $blog->image ? asset('storage/blog/' . $blog->image) : '' }}"/>
-    <meta property="og:title" content="{{ $blog->heading }}"/>
+    <meta property="og:title" content="{{ $blog->meta_title ?? $blog->heading }}"/>
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:description" content="{{ Str::limit(strip_tags($blog->description), 160) }}">
+    <meta property="og:description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
 
     <style>
         /* ===== Blog Detail Styles ===== */
@@ -235,8 +237,26 @@
                     @endforelse
                 </div>
 
-                {{-- Blog Page Banner --}}
-                @if($blog_page_banner)
+                {{-- Conditional Blog Advertisement or Banner --}}
+                @if($blog->ad_image)
+                    <div class="mb-3 overflow-hidden" style="border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.07);">
+                        @if($blog->ad_link)
+                            <a href="{{ $blog->ad_link }}" target="_blank" class="d-block w-100">
+                                <img src="{{ asset('storage/blog/' . $blog->ad_image) }}"
+                                     class="w-100 d-block"
+                                     style="border-radius: 12px; object-fit: cover; max-height: 250px; width: 100%;"
+                                     onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                     alt="Advertisement">
+                            </a>
+                        @else
+                            <img src="{{ asset('storage/blog/' . $blog->ad_image) }}"
+                                 class="w-100 d-block"
+                                 style="border-radius: 12px; object-fit: cover; max-height: 250px; width: 100%;"
+                                 onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'"
+                                 alt="Advertisement">
+                        @endif
+                    </div>
+                @elseif($blog_page_banner)
                     <div class="mb-2 overflow-hidden" style="border-radius: 12px;">
                         <a href="{{ $blog_page_banner->url }}">
                             <img src="{{ asset('storage/banner/' . $blog_page_banner->photo) }}"

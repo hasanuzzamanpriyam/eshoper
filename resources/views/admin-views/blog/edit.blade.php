@@ -59,13 +59,59 @@
                                             <label class="custom-file-label" for="customFileUpload">Choose File</label>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="ad_image" class="title-color">Advertisement Image</label>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="ad_image" id="customFileUploadAd" class="custom-file-input"
+                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            <label class="custom-file-label" for="customFileUploadAd">Choose File</label>
+                                        </div>
+                                        
+                                        @if($blog->ad_image)
+                                            <input type="hidden" name="is_existing_ad_image_removed" id="is_existing_ad_image_removed" value="0">
+                                            <div class="mt-2 existing-ad-image-container d-flex align-items-center gap-2">
+                                                <img width="80" height="80" class="rounded object-cover" src="{{ asset('storage/blog') }}/{{ $blog->ad_image }}" alt="Ad Image">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="$(this).closest('.existing-ad-image-container').html(''); $('#is_existing_ad_image_removed').val(1); $('#viewer_ad').attr('src', '{{ asset('assets/back-end/img/400x400/img2.jpg') }}')">
+                                                    <i class="tio-delete"></i> {{ translate('remove') }}
+                                                </button>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ad_link" class="title-color">Advertisement/Blog Link</label>
+                                        <input type="text" name="ad_link" class="form-control" id="ad_link" value="{{ old('ad_link', $blog->ad_link) }}" placeholder="Enter link for advertisement/blog image (e.g. https://...)">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta_title" class="title-color">Meta Title <span class="text-muted">(Max 60 chars)</span></label>
+                                        <input type="text" name="meta_title" class="form-control" id="meta_title" maxlength="60" value="{{ old('meta_title', $blog->meta_title) }}" placeholder="Enter Meta Title">
+                                        <div class="text-right mt-1" style="font-size: 0.8rem;">
+                                            <span id="meta_title_counter" class="text-primary">{{ strlen($blog->meta_title ?? '') }}</span>/60 characters
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="meta_description" class="title-color">Meta Description <span class="text-muted">(Max 160 chars)</span></label>
+                                        <textarea name="meta_description" class="form-control" id="meta_description" rows="3" maxlength="160" placeholder="Enter Meta Description">{{ old('meta_description', $blog->meta_description) }}</textarea>
+                                        <div class="text-right mt-1" style="font-size: 0.8rem;">
+                                            <span id="meta_description_counter" class="text-primary">{{ strlen($blog->meta_description ?? '') }}</span>/160 characters
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
-                                    <div class="text-center">
-                                        <img class="upload-img-view" id="viewer"
-                                            src="{{ asset('storage/blog') }}/{{ $blog['image'] }}"
-                                            onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'"
-                                            alt="blog image" />
+                                    <div class="d-flex flex-wrap justify-content-around align-items-center gap-3">
+                                        <div class="text-center">
+                                            <label class="title-color d-block mb-2 font-weight-bold">Blog Image Preview</label>
+                                            <img class="upload-img-view" id="viewer" style="max-height: 180px; width: auto;"
+                                                src="{{ asset('storage/blog') }}/{{ $blog['image'] }}"
+                                                onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'"
+                                                alt="blog image" />
+                                        </div>
+                                        <div class="text-center">
+                                            <label class="title-color d-block mb-2 font-weight-bold">Ad Image Preview</label>
+                                            <img class="upload-img-view" id="viewer_ad" style="max-height: 180px; width: auto;"
+                                                src="{{ $blog->ad_image ? asset('storage/blog/'.$blog->ad_image) : asset('assets/back-end/img/400x400/img2.jpg') }}"
+                                                onerror="this.src='{{ asset('assets/back-end/img/400x400/img2.jpg') }}'"
+                                                alt="ad image" />
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -112,8 +158,48 @@
             }
         }
 
+        function readURLAd(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#viewer_ad').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
         $("#customFileUpload").change(function() {
             readURL(this);
+        });
+
+        $("#customFileUploadAd").change(function() {
+            readURLAd(this);
+            // If they upload a new image, mark existing removed as 0 and clean up existing preview container
+            $('#is_existing_ad_image_removed').val(0);
+            $('.existing-ad-image-container').html('');
+        });
+
+        // Meta title and description counters
+        $('#meta_title').on('input', function () {
+            let length = $(this).val().length;
+            $('#meta_title_counter').text(length);
+            if (length >= 60) {
+                $('#meta_title_counter').removeClass('text-primary').addClass('text-danger');
+            } else {
+                $('#meta_title_counter').removeClass('text-danger').addClass('text-primary');
+            }
+        });
+
+        $('#meta_description').on('input', function () {
+            let length = $(this).val().length;
+            $('#meta_description_counter').text(length);
+            if (length >= 160) {
+                $('#meta_description_counter').removeClass('text-primary').addClass('text-danger');
+            } else {
+                $('#meta_description_counter').removeClass('text-danger').addClass('text-primary');
+            }
         });
 
         // Slug generation logic
