@@ -20,7 +20,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}">
     <link rel="icon" type="image/png" sizes="32x32"
         href="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}">
-    <link rel="canonical" href="@yield('canonical')" />
     <link rel="stylesheet" media="screen"
         href="{{asset('assets/front-end')}}/vendor/simplebar/dist/simplebar.min.css" />
     <link rel="stylesheet" media="screen"
@@ -35,7 +34,7 @@
     <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/slick.css">
     <link rel="stylesheet" media="screen" href="{{asset('assets/front-end')}}/css/font-awesome.min.css">
     <meta name="google-site-verification" content="hrKd_jD-SyLVRQnLgteuA3Yp0m41AIJIZQZ_x8GY3eE" />
-<link rel="canonical" href="@yield('canonical', url()->current())">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
     <!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
     <link rel="stylesheet" href="{{asset('assets/back-end')}}/css/toastr.css" />
     <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/master.css" />

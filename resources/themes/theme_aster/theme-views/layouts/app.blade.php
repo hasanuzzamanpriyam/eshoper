@@ -15,6 +15,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta name="_token" content="{{csrf_token()}}">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"/>

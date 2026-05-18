@@ -6,6 +6,14 @@
 <meta name="google-site-verification" content="hrKd_jD-SyLVRQnLgteuA3Yp0m41AIJIZQZ_x8GY3eE" />
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+        @if(isset($blog) && $blog instanceof \App\Model\Blog)
+        <meta name="title" content="{{ $blog->meta_title ?? $blog->heading }}">
+        <meta name="description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
+        <meta property="og:image" content="{{ $blog->image ? asset('storage/blog/' . $blog->image) : '' }}"/>
+        <meta property="og:title" content="{{ $blog->meta_title ?? $blog->heading }}"/>
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:description" content="{{ $blog->meta_description ?? Str::limit(strip_tags($blog->description), 160) }}">
+    @endif
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 

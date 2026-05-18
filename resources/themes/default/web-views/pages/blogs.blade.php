@@ -3,6 +3,7 @@
 @section('title', translate('blogs'))
 
 @push('css_or_js')
+    <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:title" content="Blog - {{ $web_config['name']->value }}"/>
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:description" content="Read our latest blog posts and stay updated.">
@@ -324,7 +325,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
         </div>
@@ -424,7 +425,7 @@
     searchInput.addEventListener('input', function() {
         let searchTerm = this.value;
         let category = new URLSearchParams(window.location.search).get('category') || '';
-        
+
         $.ajax({
             url: "{{ route('blogs.search') }}",
             type: 'GET',
@@ -437,11 +438,11 @@
 
         $(document).ready(function() {
             let isExpanded = false;
-            
+
             function checkCategoryOverflow() {
                 const containerParent = $('#category-list-container');
                 containerParent.show().css('opacity', '0');
-                
+
                 if (isExpanded) {
                     containerParent.css('opacity', '1');
                     return;
@@ -449,7 +450,7 @@
                 const container = $('#category-inner-list');
             const tags = container.find('a');
             const btn = $('#btn-view-all');
-            
+
             tags.show();
             btn.hide();
 
@@ -467,7 +468,7 @@
             if (lineTops.length > 1) {
                 const secondLineTop = lineTops[1];
                 let firstTagOnSecondLine = -1;
-                
+
                 tags.each(function(index) {
                     if (Math.floor($(this).position().top) >= secondLineTop) {
                         if (firstTagOnSecondLine === -1) firstTagOnSecondLine = index;
@@ -478,9 +479,9 @@
                     let currentLimit = firstTagOnSecondLine;
                     tags.slice(currentLimit).hide();
                     btn.show().insertBefore(tags.eq(currentLimit));
-                    
+
                     const firstLineTop = lineTops[0];
-                    
+
                     // While the button is on a line below the first line, hide more tags
                     let safetyCounter = 0;
                     while (Math.floor(btn.position().top) > firstLineTop && currentLimit > 0 && safetyCounter < 20) {

@@ -3,6 +3,7 @@
 @section('title', $blog->meta_title ?? $blog->heading)
 
 @push('css_or_js')
+    <link rel="canonical" href="{{ url()->current() }}">
     <style>
         /* ===== Blog Detail Styles ===== */
         .blog-detail-header {
