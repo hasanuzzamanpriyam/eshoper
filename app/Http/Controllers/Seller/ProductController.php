@@ -326,6 +326,7 @@ class ProductController extends Controller
             $product->shipping_cost = 0;
             $product->multiply_qty = 0;
         }
+        $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
 
         if ($request->ajax()) {
             return response()->json([], 200);
@@ -900,6 +901,7 @@ class ProductController extends Controller
             $product->shipping_cost = 0;
             $product->multiply_qty = 0;
         }
+        $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
 
         if (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 && $product->shipping_cost != Convert::usd($request->shipping_cost)) {
             $product->temp_shipping_cost = Convert::usd($request->shipping_cost);

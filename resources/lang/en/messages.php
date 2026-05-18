@@ -7014,4 +7014,5 @@
   'access_Denied' => 'Access Denied',
   'blog section' => 'Blog section',
   'select_priority' => 'Select priority',
+  'if_enabled _cash_on_delivery_will_be_available_for_this_product' => 'If enabled  cash on delivery will be available for this product',
 );

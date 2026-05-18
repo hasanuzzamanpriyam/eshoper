@@ -438,6 +438,25 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3 physical_product_show">
+                        <div class="form-group">
+                            <div class="d-flex gap-2">
+                                <label class="title-color">{{ translate('cash_on_delivery') }}</label>
+
+                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                    title="{{translate('if_enabled,_cash_on_delivery_will_be_available_for_this_product')}}">
+                                    <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
+                                </span>
+                            </div>
+                            <div class="mt-2">
+                                <label class="switcher">
+                                    <input type="checkbox" class="switcher_input" name="is_cash_on_delivery"
+                                        id="is_cash_on_delivery" {{ $product->is_cash_on_delivery == 1 ? 'checked' : '' }}>
+                                    <span class="switcher_control"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6 col-lg-4 col-xl-3 physical_product_show" id="shipping_cost">
                         <div class="form-group">
                             <div class="d-flex gap-2">
