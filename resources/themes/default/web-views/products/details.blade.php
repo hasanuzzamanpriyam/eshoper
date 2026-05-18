@@ -1062,9 +1062,8 @@
     aria-hidden="true" style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body flex justify-content-center">
-                <button class="btn btn-default __inline-33" style="{{Session::get('direction') === "rtl" ? 'left' : 'right'}}: -7px;"
-                    data-dismiss="modal">
+            <div class="modal-body">
+                <button class="btn __inline-33" data-dismiss="modal">
                     <i class="fa fa-close"></i>
                 </button>
                 <img class="element-center" id="attachment-view" src="">
@@ -1127,8 +1126,23 @@
     });
 
     function showInstaImage(link) {
-        $("#attachment-view").attr("src", link);
-        $('#show-modal-view').modal('toggle')
+        let img = $("#attachment-view");
+        img.attr("src", link);
+        // Reset previously set dimensions
+        img.css({width: '', height: ''});
+        
+        // Scale to exactly 2x intrinsic size on load
+        img.off('load').on('load', function() {
+            let nW = this.naturalWidth;
+            let nH = this.naturalHeight;
+            if (nW > 0 && nH > 0) {
+                $(this).css({
+                    width: (nW * 2) + 'px',
+                    height: (nH * 2) + 'px'
+                });
+            }
+        });
+        $('#show-modal-view').modal('toggle');
     }
 
     function focus_preview_image_by_color(key) {

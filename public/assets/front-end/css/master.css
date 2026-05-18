@@ -31,3 +31,73 @@ body {
 .aspect-1 {
     aspect-ratio: 1;
 }
+
+/* Premium Responsive Styles for Review Lightbox Modal */
+#show-modal-view {
+    padding-right: 0 !important;
+}
+
+#show-modal-view .modal-dialog {
+    max-width: fit-content !important;
+    margin: 1.75rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#show-modal-view .modal-content {
+    border: none;
+    background: transparent !important;
+    box-shadow: none;
+    width: fit-content;
+}
+
+#show-modal-view .modal-body {
+    padding: 0 !important;
+    position: relative;
+    display: inline-block;
+}
+
+#show-modal-view #attachment-view {
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 8px;
+    display: block;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+#show-modal-view .__inline-33 {
+    position: absolute !important;
+    top: 15px !important;
+    right: 15px !important;
+    margin-top: 0 !important;
+    z-index: 1051;
+    background: rgba(0, 0, 0, 0.5) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 36px !important;
+    height: 36px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    transition: background 0.2s, transform 0.2s;
+    font-size: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+#show-modal-view .__inline-33:hover {
+    background: rgba(0, 0, 0, 0.8) !important;
+    transform: scale(1.05);
+}
+
+#show-modal-view .__inline-33:focus {
+    outline: none !important;
+}
+
+/* Support RTL direction */
+[dir="rtl"] #show-modal-view .__inline-33 {
+    left: 15px !important;
+    right: auto !important;
+}
