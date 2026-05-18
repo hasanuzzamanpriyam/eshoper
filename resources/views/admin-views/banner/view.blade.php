@@ -141,6 +141,16 @@
                                         </select>
                                     </div>
 
+                                    <div class="form-group mt-4 input_field_for_main_banner">
+                                        <label for="priority" class="title-color text-capitalize">{{translate('priority')}}</label>
+                                        <select class="form-control" name="priority" id="priority">
+                                            <option value="">{{ translate('select_priority') }}</option>
+                                            @for($i = 1; $i <= 10; $i++)
+                                                <option value="{{$i}}">{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+
                                     <!-- For Theme Fashion - New input Field - Start -->
                                     @if(theme_root_path() == 'theme_fashion')
                                     <div class="form-group mt-4 input_field_for_main_banner">
@@ -272,6 +282,7 @@
                                 <th class="pl-xl-5">{{translate('SL')}}</th>
                                 <th>{{translate('image')}}</th>
                                 <th>{{translate('banner_type')}}</th>
+                                <th>{{translate('priority')}}</th>
                                 <th>{{translate('published')}}</th>
                                 <th class="text-center">{{translate('action')}}</th>
                             </tr>
@@ -286,6 +297,13 @@
                                              src="{{asset('storage/banner')}}/{{$banner['photo']}}">
                                     </td>
                                     <td>{{translate(str_replace('_',' ',$banner->banner_type))}}</td>
+                                    <td>
+                                        @if($banner->banner_type == 'Main Banner')
+                                            <span class="badge badge-soft-info">{{$banner->priority ?? translate('N/A')}}</span>
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </td>
                                     <td>
                                         <form action="{{route('admin.banner.status')}}" method="post" id="banner_status{{$banner['id']}}_form" class="banner_status_form" data-banner-type="{{$banner->banner_type}}">
                                             @csrf

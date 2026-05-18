@@ -123,6 +123,16 @@
                                         </select>
                                     </div>
 
+                                    <div class="form-group mt-4 input_field_for_main_banner {{$banner['banner_type'] !='Main Banner'?'d-none':''}}">
+                                        <label for="priority" class="title-color text-capitalize">{{translate('priority')}}</label>
+                                        <select class="form-control" name="priority" id="priority">
+                                            <option value="">{{ translate('select_priority') }}</option>
+                                            @for($i = 1; $i <= 10; $i++)
+                                                <option value="{{$i}}" {{$banner['priority'] == $i ? 'selected' : ''}}>{{$i}}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+
                                     {{-- For Theme Fashion - New input Field - Start --}}
                                     @if(theme_root_path() == 'theme_fashion')
                                     <div class="form-group mt-4 input_field_for_main_banner {{$banner['banner_type'] !='Main Banner'?'d-none':''}}">

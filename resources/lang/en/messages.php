@@ -7013,4 +7013,5 @@
   'role_updated_successfully' => 'Role updated successfully',
   'access_Denied' => 'Access Denied',
   'blog section' => 'Blog section',
+  'select_priority' => 'Select priority',
 );

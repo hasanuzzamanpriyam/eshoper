@@ -62,6 +62,15 @@ class BannerController extends Controller
         $banner->url = $request->url;
         $banner->photo = ImageManager::upload('banner/', 'webp', $request->file('image'));
 
+        if ($request->banner_type == 'Main Banner') {
+            $request->validate([
+                'priority' => 'nullable|integer|min:1|max:10',
+            ]);
+            $banner->priority = $request->priority;
+        } else {
+            $banner->priority = null;
+        }
+
         if ($request->banner_type == 'Just For You Banner' || $request->banner_type == 'Blog Page Banner') {
             Banner::where(['banner_type' => $request->banner_type, 'theme' => theme_root_path()])->update(['published' => 0]);
             $banner->published = 1;
@@ -115,6 +124,15 @@ class BannerController extends Controller
         $banner->url = $request->url;
         if ($request->file('image')) {
             $banner->photo = ImageManager::update('banner/', $banner['photo'], 'webp', $request->file('image'));
+        }
+
+        if ($request->banner_type == 'Main Banner') {
+            $request->validate([
+                'priority' => 'nullable|integer|min:1|max:10',
+            ]);
+            $banner->priority = $request->priority;
+        } else {
+            $banner->priority = null;
         }
 
         if ($request->banner_type == 'Just For You Banner') {

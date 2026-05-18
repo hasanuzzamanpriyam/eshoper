@@ -22,15 +22,15 @@ class BannerController extends Controller
         }
 
         if ($request['banner_type'] == 'all') {
-            $banners = Banner::where(['published' => 1])->get();
+            $banners = Banner::where(['published' => 1])->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
         } elseif ($request['banner_type'] == 'main_banner') {
-            $banners = Banner::where(['published' => 1, 'banner_type' => 'Main Banner'])->get();
+            $banners = Banner::where(['published' => 1, 'banner_type' => 'Main Banner'])->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
         } elseif ($request['banner_type'] == 'main_section_banner') {
-            $banners = Banner::where(['published' => 1, 'banner_type' => 'Main Section Banner'])->get();
+            $banners = Banner::where(['published' => 1, 'banner_type' => 'Main Section Banner'])->latest()->get();
         } elseif ($request['banner_type'] == 'top_side_banner') {
-            $banners = Banner::where(['published' => 1, 'banner_type' => 'Top Side Banner'])->get();
+            $banners = Banner::where(['published' => 1, 'banner_type' => 'Top Side Banner'])->latest()->get();
         }else {
-            $banners = Banner::where(['published' => 1, 'banner_type' => 'Footer Banner'])->get();
+            $banners = Banner::where(['published' => 1, 'banner_type' => 'Footer Banner'])->latest()->get();
         }
         $pro_ids = [];
         $data = [];

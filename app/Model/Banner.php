@@ -11,6 +11,7 @@ class Banner extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'resource_id' => 'integer',
+        'priority' => 'integer',
     ];
 
     public function product(){

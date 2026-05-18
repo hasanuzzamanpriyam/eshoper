@@ -153,7 +153,7 @@ class HomeController extends Controller
         }
 
         $deal_of_the_day = DealOfTheDay::join('products', 'products.id', '=', 'deal_of_the_days.product_id')->select('deal_of_the_days.*', 'products.unit_price')->where('products.status', 1)->where('deal_of_the_days.status', 1)->first();
-        $main_banner = $this->banner->where(['banner_type'=>'Main Banner', 'theme'=>$theme_name, 'published'=> 1])->latest()->get();
+        $main_banner = $this->banner->where(['banner_type'=>'Main Banner', 'theme'=>$theme_name, 'published'=> 1])->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
         $main_section_banner = $this->banner->where(['banner_type'=> 'Main Section Banner', 'theme'=>$theme_name, 'published'=> 1])->orderBy('id', 'desc')->latest()->first();
 
         $product=$this->product->active()->inRandomOrder()->first();
@@ -564,6 +564,9 @@ class HomeController extends Controller
                 $top_side_banner[] = $banner;
             }
         }
+        $main_banner = collect($main_banner)->sortBy(function ($banner) {
+            return $banner->priority ?? 999999;
+        })->values()->all();
         $sidebar_banner = $sidebar_banner ? $sidebar_banner[0] : [];
         $main_section_banner = $main_section_banner ? $main_section_banner[0] : [];
         $top_side_banner = $top_side_banner ? $top_side_banner[0] : [];
@@ -748,7 +751,7 @@ class HomeController extends Controller
                             }])->where('status', 1)->first();
         $random_product =$this->product->active()->inRandomOrder()->first();
 
-        $main_banner = Banner::where(['banner_type'=> 'Main Banner', 'published'=> 1, 'theme'=>$theme_name])->latest()->get();
+        $main_banner = Banner::where(['banner_type'=> 'Main Banner', 'published'=> 1, 'theme'=>$theme_name])->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
 
         $promo_banner_left = Banner::where(['banner_type'=> 'Promo Banner Left', 'published'=> 1, 'theme'=>$theme_name])->first();
         $promo_banner_middle_top = Banner::where(['banner_type'=> 'Promo Banner Middle Top','published'=> 1, 'theme'=>$theme_name])->first();
@@ -849,7 +852,7 @@ class HomeController extends Controller
 
     public function theme_all_purpose(){
         $user = Helpers::get_customer();
-        $main_banner = $this->banner->where('banner_type','Main Banner')->where('published',1)->latest()->get();
+        $main_banner = $this->banner->where('banner_type','Main Banner')->where('published',1)->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
         $footer_banner = $this->banner->where('banner_type', 'Footer Banner')->where('published', 1)->latest()->take(2)->get();
         // start best selling product end
         $best_sellling_products = $this->order_details->with([

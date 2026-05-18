@@ -44,7 +44,7 @@ class BannerController extends Controller
             ),
         };
 
-        $banners = Banner::whereIn('banner_type',$banner_array)->where(['published' => 1, 'theme'=>$theme_name])->get();
+        $banners = Banner::whereIn('banner_type',$banner_array)->where(['published' => 1, 'theme'=>$theme_name])->orderByRaw('ISNULL(priority), priority ASC')->latest()->get();
         $pro_ids = [];
         $data = [];
         foreach ($banners as $banner) {
