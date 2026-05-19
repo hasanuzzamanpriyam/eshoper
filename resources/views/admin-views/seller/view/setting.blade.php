@@ -90,6 +90,29 @@
 
         <div class="row g-3">
             <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{translate('shop_Slug')}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.sellers.update-shop-slug', $seller->id) }}" method="POST">
+                            @csrf
+                            <small class="badge badge-soft-info text-wrap mb-3">
+                                {{translate('slug_will_be_used_in_shop_url_for_seo_friendly_links')}}.
+                            </small>
+                            <div class="form-group">
+                                <label>{{translate('slug')}}</label>
+                                <input type="text" value="{{ $seller->shop->slug ?? '' }}"
+                                       class="form-control" name="slug" placeholder="{{translate('enter_slug')}}">
+                                <small class="text-muted">{{translate('leave_empty_to_auto_generate_from_shop_name')}}</small>
+                            </div>
+                            <button type="submit" class="btn btn--primary">{{translate('update')}}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
                 <form action="{{ url()->current() }}"
                       style="text-align: {{Session::get('direction') === "rtl" ? 'right' : 'left'}};"
                       method="GET">

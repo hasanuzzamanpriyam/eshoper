@@ -49,7 +49,7 @@
                         @php($start_date = date('Y-m-d', strtotime($shop['vacation_start_date'])))
                         @php($end_date = date('Y-m-d', strtotime($shop['vacation_end_date'])))
 
-                        <a href="{{route('shopView',['id'=>$shop['seller_id']])}}" class="store-item grid-center py-2">
+                        <a href="{{\App\CPU\Helpers::get_shop_url($shop['seller_id'])}}" class="store-item grid-center py-2">
                             <div class="position-relative">
                                 <div class="avatar rounded-circle border" style="--size: 6.875rem">
                                     <img src="{{asset('storage/shop/'.$shop->image)}}"

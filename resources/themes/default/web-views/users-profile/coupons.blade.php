@@ -50,11 +50,11 @@
                                             @if($item->seller_id == '0')
                                                 {{ translate('All_Shops') }}
                                             @elseif($item->seller_id == NULL)
-                                                <a class="shop-name" href="{{route('shopView',['id'=>0])}}">
+                                                <a class="shop-name" href="{{\App\CPU\Helpers::get_shop_url(0)}}">
                                                     {{ $web_config['name']->value }}
                                                 </a>
                                             @else
-                                                <a class="shop-name" href="{{isset($item->seller->shop) ? route('shopView',['id'=>$item->seller->shop['id']]) : 'javascript:'}} ">
+                                                <a class="shop-name" href="{{isset($item->seller->shop) ? \App\CPU\Helpers::get_shop_url($item->seller_id) : 'javascript:'}} ">
                                                     {{ isset($item->seller->shop) ? $item->seller->shop->name : translate('shop_not_found') }}
                                                 </a>
                                             @endif

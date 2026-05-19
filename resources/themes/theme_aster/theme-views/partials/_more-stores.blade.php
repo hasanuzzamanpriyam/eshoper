@@ -80,7 +80,7 @@
                         @foreach($more_seller as $seller)
                             @php($start_date = date('Y-m-d', strtotime($seller->shop['vacation_start_date'])))
                             @php($end_date = date('Y-m-d', strtotime($seller->shop['vacation_end_date'])))
-                                <a href="{{route('shopView',['id'=>$seller['id']])}}" class="store-product d-flex flex-column gap-3 align-items-center">
+                                <a href="{{\App\CPU\Helpers::get_shop_url($seller['id'])}}" class="store-product d-flex flex-column gap-3 align-items-center">
                                     <div class="position-relative">
                                         <div class="avatar rounded-circle">
                                             <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"

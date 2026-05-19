@@ -59,13 +59,13 @@
                                         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
                                             <div class="d-flex align-items-center">
                                                 @if($cartItem->seller_is=='admin')
-                                                    <a href="{{route('shopView',['id'=>0])}}">
+                                                    <a href="{{\App\CPU\Helpers::get_shop_url(0)}}">
                                                         <h5>
                                                             {{\App\CPU\Helpers::get_business_settings('company_name')}}
                                                         </h5>
                                                     </a>
                                                 @else
-                                                    <a href="{{route('shopView',['id'=>$cartItem->seller_id])}}">
+                                                    <a href="{{\App\CPU\Helpers::get_shop_url($cartItem->seller_id)}}">
                                                         <h5>
                                                             {{ \App\CPU\get_shop_name($cartItem['seller_id']) }}
                                                         </h5>

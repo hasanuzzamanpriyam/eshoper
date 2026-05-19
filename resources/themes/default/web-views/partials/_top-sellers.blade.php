@@ -18,7 +18,7 @@
                     <div class="others-store-slider owl-theme owl-carousel">
                         <!-- Others Store Card -->
                         @foreach ($top_sellers as $seller)
-                            <a href="{{route('shopView',['id'=>$seller['id']])}}" class="others-store-card text-capitalize">
+                            <a href="{{\App\CPU\Helpers::get_shop_url($seller['id'])}}" class="others-store-card text-capitalize">
                                 <div class="overflow-hidden other-store-banner">
                                     <img src="{{asset('storage/shop/banner/'.$seller->shop->banner)}}"
                                         onerror="this.src='{{ asset('assets/front-end/img/seller-banner.png') }}'"

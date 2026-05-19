@@ -129,11 +129,11 @@
                                                     @if($coupon->seller_id == '0')
                                                         {{ translate('All_Shops') }}
                                                     @elseif($coupon->seller_id == NULL)
-                                                        <a class="shop-name" onclick="location.href='{{route('shopView',['id'=>0])}}'">
+                                                        <a class="shop-name" onclick="location.href='{{\App\CPU\Helpers::get_shop_url(0)}}'">
                                                             {{ $web_config['name']->value }}
                                                         </a>
                                                     @else
-                                                        <a class="shop-name" onclick="location.href='{{isset($coupon->seller->shop) ? route('shopView',['id'=>$coupon->seller->shop['id']]) : 'javascript:'}}'">
+                                                        <a class="shop-name" onclick="location.href='{{isset($coupon->seller->shop) ? \App\CPU\Helpers::get_shop_url($coupon->seller_id) : 'javascript:'}}'">
                                                             {{ isset($coupon->seller->shop) ? $coupon->seller->shop->name : translate('shop_not_found') }}
                                                         </a>
                                                     @endif

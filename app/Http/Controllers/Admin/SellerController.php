@@ -467,6 +467,41 @@ class SellerController extends Controller
         Toastr::success(translate('Commission_percentage_for_this_seller_has_been_updated.'));
         return back();
     }
+
+    public function update_shop_slug(Request $request, $id)
+    {
+        $request->validate([
+            'slug' => 'nullable|string|max:255',
+        ]);
+
+        $seller = Seller::find($id);
+        if (!$seller || !$seller->shop) {
+            Toastr::error(translate('shop_not_found'));
+            return back();
+        }
+
+        $shop = $seller->shop;
+        
+        if (!empty($request->slug)) {
+            $slug = Str::slug($request->slug);
+            // Check for uniqueness
+            $existingSlug = \App\Model\Shop::where('slug', $slug)->where('id', '!=', $shop->id)->first();
+            if ($existingSlug) {
+                Toastr::error(translate('slug_already_exists_please_choose_another'));
+                return back();
+            }
+            $shop->slug = $slug;
+        } else {
+            // Auto-generate from shop name if empty
+            $shop->slug = Str::slug($shop->name);
+        }
+        
+        $shop->save();
+
+        Toastr::success(translate('shop_slug_updated_successfully'));
+        return back();
+    }
+
     public function add_seller()
     {
         return view('admin-views.seller.add-new-seller');

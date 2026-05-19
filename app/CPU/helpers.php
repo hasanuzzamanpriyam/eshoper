@@ -28,6 +28,29 @@ use Illuminate\Support\Str;
 class Helpers
 {
     use CommonTrait;
+    
+    /**
+     * Generate shop URL using slug if available, fallback to ID
+     * @param int $seller_id Seller ID (0 for inhouse shop)
+     * @param array $additional_params Additional query parameters
+     * @return string Generated URL
+     */
+    public static function get_shop_url($seller_id, $additional_params = [])
+    {
+        // Handle inhouse shop
+        if ($seller_id == 0 || $seller_id === '0') {
+            return route('shopView', array_merge(['slug_or_id' => 0], $additional_params));
+        }
+        
+        // Find shop by seller_id
+        $shop = Shop::where('seller_id', $seller_id)->first();
+        
+        // Use slug if available, otherwise use ID
+        $identifier = ($shop && !empty($shop->slug)) ? $shop->slug : $seller_id;
+        
+        return route('shopView', array_merge(['slug_or_id' => $identifier], $additional_params));
+    }
+
     public static function status($id)
     {
         if ($id == 1) {

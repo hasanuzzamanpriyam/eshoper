@@ -56,7 +56,7 @@
                         @php($end_date = date('Y-m-d', strtotime($seller['vacation_end_date'])))
 
                         <div class="col-lg-3 col-md-6 col-sm-12 px-2 pb-4 text-center">
-                            <a href="{{route('shopView',['id'=>$seller['id']])}}" class="others-store-card text-capitalize">
+                            <a href="{{\App\CPU\Helpers::get_shop_url($seller['id'])}}" class="others-store-card text-capitalize">
                                 <div class="overflow-hidden other-store-banner">
                                     <img src="{{asset('storage/shop/banner/'.$seller->banner)}}"
                                          onerror="this.src='{{ asset('assets/front-end/img/seller-banner.png') }}'"

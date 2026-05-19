@@ -47,6 +47,21 @@ class InhouseShopController extends Controller
             $request['email_verification'] = 0;
         }
 
+        // Update inhouse shop slug
+        if ($request->has('slug') && !empty($request->slug)) {
+            $inhouseShop = \App\Model\Shop::where('seller_id', 0)->first();
+            if ($inhouseShop) {
+                $slug = \Illuminate\Support\Str::slug($request->slug);
+                // Check for uniqueness
+                $existingSlug = \App\Model\Shop::where('slug', $slug)->where('id', '!=', $inhouseShop->id)->first();
+                if ($existingSlug) {
+                    $slug = $slug . '-' . time();
+                }
+                $inhouseShop->slug = $slug;
+                $inhouseShop->save();
+            }
+        }
+
         //comapy shop banner
         $imgBanner = BusinessSetting::where(['type' => 'shop_banner'])->first();
         if ($request->has('shop_banner')) {

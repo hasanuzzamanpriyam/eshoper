@@ -379,6 +379,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::get('withdraw-view/{withdraw_id}/{seller_id}', 'SellerController@withdraw_view')->name('withdraw_view');
 
             Route::post('sales-commission-update/{id}', 'SellerController@sales_commission_update')->name('sales-commission-update');
+            Route::post('update-shop-slug/{id}', 'SellerController@update_shop_slug')->name('update-shop-slug');
 
             Route::group(['prefix' => 'withdraw-method', 'as' => 'withdraw-method.'], function () {
                 Route::get('list', 'WithdrawalMethodController@list')->name('list');
