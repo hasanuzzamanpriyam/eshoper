@@ -53,7 +53,7 @@
             display: block;
             margin: 0 auto;
             width: 100% !important;
-            max-height: 300px !important;
+            aspect-ratio: 16/9;
             object-fit: cover;
         }
         .blog-detail-body {
