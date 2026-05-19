@@ -29,7 +29,7 @@
             <!-- Top Section: Title, Timer, View All Button -->
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3 gap-3">
                 <!-- Title and Subtitle -->
-                <div class="text-center text-md-start">
+                <div class="text-start">
                     <div class="flash-deal-text" style="color: {{$web_config['primary_color']}};">
                         <div>
                             <span class="fw-bold fs-3">{{$web_config['flash_deals']->title}}</span>
