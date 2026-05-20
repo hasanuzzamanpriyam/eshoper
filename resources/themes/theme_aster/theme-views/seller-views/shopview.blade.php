@@ -271,7 +271,7 @@
                             <div class="">
                                 <div class="d-flex flex-wrap flex-lg-nowrap gap-2">
                                     <div class="search-box">
-                                        <form method="get" action="{{route('shopView',['id'=>$seller_id])}}">
+                                        <form method="get" action="{{\App\CPU\Helpers::get_shop_url($seller_id)}}">
                                           <div class="d-flex">
                                             <div class="select-wrap border d-flex align-items-center">
                                               <input type="search" class="form-control border-0 mx-w300 h-auto" name="product_name" value="{{ request('product_name') }}"
@@ -339,28 +339,28 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li class="{{$data['data_from']=='latest'? 'selected':''}}">
-                                                        <a class="d-flex" href="{{route('shopView',['id'=> $data['id'],'data_from'=>'latest','page'=>1])}}">
+                                                        <a class="d-flex" href="{{\App\CPU\Helpers::get_shop_url($data['id'],['data_from'=>'latest','page'=>1])}}">
                                                             {{translate('Latest_Products')}}
                                                         </a>
                                                     </li>
                                                     <li class="{{$data['data_from']=='best-selling'? 'selected':''}}">
-                                                        <a class="d-flex" href="{{route('shopView',['id'=> $data['id'],'data_from'=>'best-selling','page'=>1])}}">
+                                                        <a class="d-flex" href="{{\App\CPU\Helpers::get_shop_url($data['id'],['data_from'=>'best-selling','page'=>1])}}">
                                                             {{translate('Best_Selling')}}
                                                         </a>
                                                     </li>
                                                     <li class="{{$data['data_from']=='top-rated'? 'selected':''}}">
-                                                        <a class="d-flex" href="{{route('shopView',['id'=> $data['id'],'data_from'=>'top-rated','page'=>1])}}">
+                                                        <a class="d-flex" href="{{\App\CPU\Helpers::get_shop_url($data['id'],['data_from'=>'top-rated','page'=>1])}}">
                                                             {{translate('Top_Rated')}}
                                                         </a>
                                                     </li>
                                                     <li class="{{$data['data_from']=='most-favorite'? 'selected':''}}">
-                                                        <a class="d-flex" href="{{route('shopView',['id'=> $data['id'],'data_from'=>'most-favorite','page'=>1])}}">
+                                                        <a class="d-flex" href="{{\App\CPU\Helpers::get_shop_url($data['id'],['data_from'=>'most-favorite','page'=>1])}}">
                                                             {{translate('Most_Favorite')}}
                                                         </a>
                                                     </li>
                                                     @if($web_config['featured_deals'])
                                                     <li class="{{$data['data_from']=='featured_deal'? 'selected':''}}">
-                                                        <a class="d-flex" href="{{route('shopView',['id'=> $data['id'],'data_from'=>'featured_deal','page'=>1])}}">
+                                                        <a class="d-flex" href="{{\App\CPU\Helpers::get_shop_url($data['id'],['data_from'=>'featured_deal','page'=>1])}}">
                                                             {{translate('Featured_Deal')}}
                                                         </a>
                                                     </li>
@@ -392,7 +392,7 @@
                                         @foreach($categories as $category)
                                         <li>
                                             <div class="d-flex justify-content-between">
-                                                <a href="{{route('shopView',['id'=> $seller_id,'category_id'=>$category['id']])}}">{{$category['name']}}</a>
+                                                <a href="{{\App\CPU\Helpers::get_shop_url($seller_id,['category_id'=>$category['id']])}}">{{$category['name']}}</a>
                                                 @if ($category->childes->count() > 0)
                                                 <span>
                                                     <i class="bi bi-chevron-right"></i>
@@ -405,7 +405,7 @@
                                                 @foreach($category->childes as $child)
                                                 <li>
                                                     <div class="d-flex justify-content-between">
-                                                        <a href="{{route('shopView',['id'=> $seller_id,'category_id'=>$child['id']])}}">{{$child['name']}}</a>
+                                                        <a href="{{\App\CPU\Helpers::get_shop_url($seller_id,['category_id'=>$child['id']])}}">{{$child['name']}}</a>
                                                         @if ($child->childes->count() > 0)
                                                         <span>
                                                             <i class="bi bi-chevron-right"></i>
@@ -418,7 +418,7 @@
                                                         @foreach($child->childes as $ch)
                                                         <li>
                                                             <label class="custom-checkbox">
-                                                                <a href="{{route('shopView',['id'=> $seller_id,'category_id'=>$ch['id']])}}">{{$ch['name']}}</a>
+                                                                <a href="{{\App\CPU\Helpers::get_shop_url($seller_id,['category_id'=>$ch['id']])}}">{{$ch['name']}}</a>
                                                             </label>
                                                         </li>
                                                         @endforeach
@@ -449,7 +449,7 @@
                                         <li>
                                             <div class="flex-between-gap-3 align-items-center">
                                                 <label class="custom-checkbox">
-                                                    <a href="{{route('shopView',['id'=>$seller_id,'brand_id'=>$brand->id])}}">{{ $brand['name'] }}</a>
+                                                    <a href="{{\App\CPU\Helpers::get_shop_url($seller_id,['brand_id'=>$brand->id])}}">{{ $brand['name'] }}</a>
                                                 </label>
                                                 <span class="badge bg-badge rounded-pill text-dark">
                                                     {{$brand->count}}

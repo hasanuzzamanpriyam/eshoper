@@ -117,8 +117,8 @@
         <div class="row">
             <section class="col-lg-12">
                 <div class="row g-3 mt-2">
-                    @if($discountPrice)
-                        @foreach($deal->products as $dp)
+                    @if(count($dealProducts) > 0)
+                        @foreach($dealProducts as $dp)
                             @if (isset($dp->product))
                                 <div class="col--xl-2 col-sm-4 col-lg-3 col-6">
                                     @include('web-views.partials._single-product',['product'=>$dp->product,'decimal_point_settings'=>$decimal_point_settings])
@@ -126,6 +126,13 @@
                             @endif
                         @endforeach
                     @endif
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <nav class="d-flex justify-content-center pt-2" aria-label="Page navigation">
+                            {!! $dealProducts->links() !!}
+                        </nav>
+                    </div>
                 </div>
             </section>
         </div>

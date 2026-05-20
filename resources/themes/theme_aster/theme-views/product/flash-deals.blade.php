@@ -51,13 +51,16 @@
                             <div class="card-body">
                                 <div class="row g-3" id="filtered-products" style="--minWidth:12rem">
                                     <!-- Single Product -->
-                                    @foreach($deal->products as $product)
+                                    @foreach($dealProducts as $product)
                                     @if(!empty($product->product))
                                         <div class="col-xxl-2 col-xl-3 col-md-4 col-sm-6">
                                             @include('theme-views.partials._product-small-card',['product'=>$product->product])
                                         </div>
                                         @endif
                                     @endforeach
+                                </div>
+                                <div class="card-footer border-0 d-flex justify-content-center">
+                                    {!! $dealProducts->links() !!}
                                 </div>
                             </div>
                         </div>

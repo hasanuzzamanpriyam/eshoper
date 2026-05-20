@@ -244,7 +244,7 @@
                                 <ul class="sub_menu">
                                     @foreach($web_config['shops'] as $shop)
                                         <li>
-                                            <a href="{{route('shopView',['id'=>$shop['id']])}}">{{Str::limit($shop->name, 14)}}</a>
+                                            <a href="{{\App\CPU\Helpers::get_shop_url($shop->seller_id)}}">{{Str::limit($shop->name, 14)}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
@@ -406,7 +406,7 @@
                                     <div class="d-flex gap-5">
                                         <div class="column-2 row-gap-3">
                                             @foreach($web_config['shops'] as $shop)
-                                            <a href="{{route('shopView',['id'=>$shop['id']])}}" class="media gap-3 align-items-center border-bottom">
+                                            <a href="{{\App\CPU\Helpers::get_shop_url($shop->seller_id)}}" class="media gap-3 align-items-center border-bottom">
                                                 <div class="avatar rounded" style="--size: 2.5rem">
                                                     <img
                                                         onerror="this.src='{{theme_asset('assets/img/image-place-holder.png')}}'"

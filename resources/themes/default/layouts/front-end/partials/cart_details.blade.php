@@ -69,7 +69,7 @@
                                 <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2 px-0">
                                     @php($verify_status = \App\CPU\OrderManager::minimum_order_amount_verify($request, $group_key))
                                     @if($cartItem->seller_is=='admin')
-                                        <a href="{{route('shopView',['id'=>0])}}" class="text-primary d-flex align-items-center gap-2">
+                                        <a href="{{\App\CPU\Helpers::get_shop_url(0)}}" class="text-primary d-flex align-items-center gap-2">
                                             <img src="{{asset('assets/front-end/img/cart-store.png')}}" alt="">
                                             {{\App\CPU\Helpers::get_business_settings('company_name')}}
                                             @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
@@ -81,7 +81,7 @@
                                             @endif
                                         </a>
                                     @else
-                                        <a href="{{route('shopView',['id'=>$cartItem->seller_id])}}" class="text-primary d-flex align-items-center gap-2">
+                                        <a href="{{\App\CPU\Helpers::get_shop_url($cartItem->seller_id)}}" class="text-primary d-flex align-items-center gap-2">
                                             <img src="{{asset('assets/front-end/img/cart-store.png')}}" alt="">
                                             {{\App\Model\Shop::where(['seller_id'=>$cartItem['seller_id']])->first()->name}}
                                             @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
@@ -296,7 +296,7 @@
                         <div class="card-header d-flex flex-column gap-2 border-0 justify-content-between align-items-center">
                             @php($verify_status = \App\CPU\OrderManager::minimum_order_amount_verify($request, $group_key))
                             @if($cartItem->seller_is=='admin')
-                                <a href="{{route('shopView',['id'=>0])}}" class="text-primary d-flex align-items-center gap-2">
+                                <a href="{{\App\CPU\Helpers::get_shop_url(0)}}" class="text-primary d-flex align-items-center gap-2">
                                     <img src="{{asset('assets/front-end/img/cart-store.png')}}">
                                     {{\App\CPU\Helpers::get_business_settings('company_name')}}
                                     @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])
@@ -308,7 +308,7 @@
                                     @endif
                                 </a>
                             @else
-                                <a href="{{route('shopView',['id'=>$cartItem->seller_id])}}" class="text-primary d-flex align-items-center gap-2">
+                                <a href="{{\App\CPU\Helpers::get_shop_url($cartItem->seller_id)}}" class="text-primary d-flex align-items-center gap-2">
                                     <img src="{{asset('assets/front-end/img/cart-store.png')}}">
                                     {{\App\Model\Shop::where(['seller_id'=>$cartItem['seller_id']])->first()->name}}
                                     @if ($verify_status['minimum_order_amount'] > $verify_status['amount'])

@@ -19,7 +19,7 @@
     </p>
 
     <div class="d-flex flex-column gap-2 justify-content-center align-items-center" id="notify_all_the_sellers_area">
-        <a class="fs-16 btn btn--primary px-sm-5 w-fit-content" target="_blank" href="{{ route('shopView',['id'=>$shop->id]) }}">{{ translate('visit_store') }}</a>
+        <a class="fs-16 btn btn--primary px-sm-5 w-fit-content" target="_blank" href="{{ \App\CPU\Helpers::get_shop_url($shop->seller_id) }}">{{ translate('visit_store') }}</a>
     </div>
 </div>
 

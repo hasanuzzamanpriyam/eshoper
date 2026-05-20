@@ -82,6 +82,16 @@
 
                         <div class="row">
                             <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="title-color">{{translate('shop_slug')}}</label>
+                                    <input type="text" name="slug" value="{{ \App\Model\Shop::where('seller_id', 0)->first()->slug ?? '' }}" class="form-control" placeholder="{{translate('enter_shop_slug')}}">
+                                    <small class="text-muted">{{translate('slug_will_be_used_in_url_instead_of_id_for_seo')}}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
                                 <center>
                                     <img class="upload-img-view upload-img-view__banner" id="viewerBanner"
                                             onerror="this.src='{{asset('assets/back-end/img/400x400/img2.jpg')}}'"

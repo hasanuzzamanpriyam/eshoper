@@ -703,7 +703,7 @@
                             @endif
                         </div>
 
-                        <a href="{{ route('shopView',[$product->seller->id]) }}"
+                        <a href="{{ \App\CPU\Helpers::get_shop_url($product->seller->id) }}"
                             class="btn btn-primary btn-block">{{translate('Visit_Store')}}</a>
                     </div>
                 </div>
@@ -756,7 +756,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('shopView',[0]) }}"
+                        <a href="{{ \App\CPU\Helpers::get_shop_url(0) }}"
                             class="btn btn-primary btn-block">{{translate('Visit_Store')}}</a>
                     </div>
                 </div>

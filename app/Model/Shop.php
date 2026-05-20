@@ -3,14 +3,35 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Shop extends Model
 {
     protected $casts = [
-        'seller_id ' => 'integer',
+        'seller_id' => 'integer',
         'created_at'  => 'datetime',
         'updated_at'  => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::saving(function ($shop) {
+            if (empty($shop->slug) && !empty($shop->name)) {
+                $baseSlug = Str::slug($shop->name);
+                $slug = $baseSlug;
+                $counter = 1;
+                
+                while (Shop::where('slug', $slug)->where('id', '!=', $shop->id)->exists()) {
+                    $slug = $baseSlug . '-' . $counter;
+                    $counter++;
+                }
+                
+                $shop->slug = $slug;
+            }
+        });
+    }
 
     public function seller()
     {

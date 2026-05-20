@@ -85,7 +85,7 @@
                         <div class="media-body">
                             <div class="d-flex flex-column align-items-start gap-1 mb-3">
                                 <h3 class="text-white fz-24">{{\App\Model\BusinessSetting::where(['type' => 'company_name'])->pluck('value')[0]}} {{translate('shop')}}</h3>
-                                <a href="{{ route('shopView',['id'=>0]) }}" target="_blank" class="btn btn--primary d-flex gap-2 align-items-center text-nowrap"><i class="tio-globe"></i>{{translate('visit_website')}}</a>
+                                <a href="{{ \App\CPU\Helpers::get_shop_url(0) }}" target="_blank" class="btn btn--primary d-flex gap-2 align-items-center text-nowrap"><i class="tio-globe"></i>{{translate('visit_website')}}</a>
                             </div>
                         </div>
                     </div>

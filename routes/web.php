@@ -191,9 +191,9 @@ Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestC
     });
 
     //sellerShop
-    Route::get('shopView/{id}', 'ShopViewController@seller_shop')->name('shopView');
+    Route::get('shopView/{slug_or_id}', 'ShopViewController@seller_shop')->name('shopView');
     Route::get('ajax-shop-vacation-check', 'ShopViewController@ajax_shop_vacation_check')->name('ajax-shop-vacation-check'); //theme fashion
-    Route::post('shopView/{id}', 'WebController@seller_shop_product');
+    Route::post('shopView/{slug_or_id}', 'WebController@seller_shop_product');
     Route::post('shop-follow', 'ShopFollowerController@shop_follow')->name('shop_follow');
 
     //top Rated

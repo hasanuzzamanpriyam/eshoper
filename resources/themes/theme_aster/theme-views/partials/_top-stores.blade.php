@@ -32,7 +32,7 @@
                                                 @endif
 
                                                 <div class="{{ count($seller->coupon)>0 ? 'mt-4' :'' }} mb-3">
-                                                    <h5 class="mb-1"><a href="javascript:" onclick="location.href='{{route('shopView',['id'=>$seller['id']])}}'">{{ $seller->shop->name }}</a></h5>
+                                                    <h5 class="mb-1"><a href="javascript:" onclick="location.href='{{\App\CPU\Helpers::get_shop_url($seller['id'])}}'">{{ $seller->shop->name }}</a></h5>
                                                     <div class="text-muted">{{ $seller->product_count }} {{ translate('products') }}</div>
                                                     <div class="d-flex gap-2 align-items-center mt-1">
                                                         <div class="star-rating text-gold fs-12">

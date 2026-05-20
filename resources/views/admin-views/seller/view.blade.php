@@ -148,7 +148,7 @@
                                     <a href="{{ $seller->status!="pending" ? route('admin.sellers.view',['id'=>$seller->id, 'tab'=>'review']): 'javascript:' }}" class="text-dark">{{$seller->rating_count}} {{translate('reviews')}}</a>
                                 </div>
                                 @if ( $seller->status!="pending" && $seller->status!="suspended" && $seller->status!="rejected")
-                                    <a href="{{route('shopView',['id'=>$seller->id])}}" class="btn btn-outline--primary px-4" target="_blank"><i class="tio-globe"></i> {{translate('view_live')}}
+                                    <a href="{{\App\CPU\Helpers::get_shop_url($seller->id)}}" class="btn btn-outline--primary px-4" target="_blank"><i class="tio-globe"></i> {{translate('view_live')}}
                                 @endif
                                 </a>
                             </div>

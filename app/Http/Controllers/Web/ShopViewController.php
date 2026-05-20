@@ -26,8 +26,16 @@ use function App\CPU\translate;
 class ShopViewController extends Controller
 {
     //for seller Shop
-    public function seller_shop(Request $request, $id)
+    public function seller_shop(Request $request, $slug_or_id)
     {
+        // Resolve slug_or_id to seller ID
+        $id = $this->resolveShopIdentifier($slug_or_id);
+        
+        if ($id === null) {
+            Toastr::warning(translate('not_found'));
+            return redirect('/');
+        }
+
         $theme_name = theme_root_path();
 
         return match ($theme_name){
@@ -36,6 +44,33 @@ class ShopViewController extends Controller
             'theme_fashion' => self::theme_fashion($request, $id),
             'theme_all_purpose' => self::theme_all_purpose($request, $id),
         };
+    }
+
+    /**
+     * Resolve shop identifier (slug or numeric ID) to seller ID
+     * @param string|int $slug_or_id
+     * @return int|null seller ID or null if not found
+     */
+    private function resolveShopIdentifier($slug_or_id)
+    {
+        // Handle inhouse shop (id = 0)
+        if ($slug_or_id == '0' || $slug_or_id === 0) {
+            return 0;
+        }
+
+        // Check if it's a numeric ID
+        if (is_numeric($slug_or_id)) {
+            return (int)$slug_or_id;
+        }
+
+        // It's a slug - find the shop and return seller_id
+        $shop = Shop::where('slug', $slug_or_id)->first();
+        
+        if ($shop) {
+            return $shop->seller_id;
+        }
+
+        return null;
     }
 
     public function default_theme($request, $id){

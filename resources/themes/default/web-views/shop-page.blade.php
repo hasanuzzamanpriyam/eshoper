@@ -6,23 +6,23 @@
     @if($shop['id'] != 0)
         <meta property="og:image" content="{{asset('storage/shop')}}/{{$shop->image}}"/>
         <meta property="og:title" content="{{ $shop->name}} "/>
-        <meta property="og:url" content="{{route('shopView',[$shop['id']])}}">
+        <meta property="og:url" content="{{\App\CPU\Helpers::get_shop_url($seller_id)}}">
     @else
         <meta property="og:image" content="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"/>
         <meta property="og:title" content="{{ $shop['name']}} "/>
-        <meta property="og:url" content="{{route('shopView',[$shop['id']])}}">
+        <meta property="og:url" content="{{\App\CPU\Helpers::get_shop_url(0)}}">
     @endif
     <meta property="og:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
 
     @if($shop['id'] != 0)
         <meta property="twitter:card" content="{{asset('storage/shop')}}/{{$shop->image}}"/>
-        <meta property="twitter:title" content="{{route('shopView',[$shop['id']])}}"/>
-        <meta property="twitter:url" content="{{route('shopView',[$shop['id']])}}">
+        <meta property="twitter:title" content="{{\App\CPU\Helpers::get_shop_url($seller_id)}}"/>
+        <meta property="twitter:url" content="{{\App\CPU\Helpers::get_shop_url($seller_id)}}">
     @else
         <meta property="twitter:card"
               content="{{asset('storage/company')}}/{{$web_config['fav_icon']->value}}"/>
-        <meta property="twitter:title" content="{{route('shopView',[$shop['id']])}}"/>
-        <meta property="twitter:url" content="{{route('shopView',[$shop['id']])}}">
+        <meta property="twitter:title" content="{{\App\CPU\Helpers::get_shop_url(0)}}"/>
+        <meta property="twitter:url" content="{{\App\CPU\Helpers::get_shop_url(0)}}">
     @endif
 
     <meta property="twitter:description" content="{{ substr(strip_tags(str_replace('&nbsp;', ' ', $web_config['about']->value)),0,160) }}">
@@ -219,7 +219,7 @@
                     </div>
                 </form>
                 <!-- shopView -->
-                <form method="get" action="{{route('shopView',['id'=>$seller_id])}}">
+                <form method="get" action="{{\App\CPU\Helpers::get_shop_url($seller_id)}}">
                     <div class="search_form input-group search-form-input-group">
                         <input type="hidden" name="category_id" value="{{request('category_id')}}" >
                         <input type="hidden" name="sub_category_id" value="{{request('sub_category_id')}}" >
@@ -250,7 +250,7 @@
 
                                 <div class="card-header flex-between">
                                     <div>
-                                        <label class="for-hover-lable cursor-pointer" onclick="location.href='{{route('shopView',['id'=> $seller_id,'category_id'=>$category['id']])}}'">
+                                        <label class="for-hover-lable cursor-pointer" onclick="location.href='{{\App\CPU\Helpers::get_shop_url($seller_id,['category_id'=>$category['id']])}}'">
                                             {{$category['name']}}
                                         </label>
                                     </div>
@@ -269,7 +269,7 @@
                                         <div class="menu--caret-accordion">
                                             <div class="for-hover-lable card-header flex-between">
                                                 <div>
-                                                    <label class="cursor-pointer" onclick="location.href='{{route('shopView',['id'=> $seller_id,'sub_category_id'=>$child['id']])}}'">
+                                                    <label class="cursor-pointer" onclick="location.href='{{\App\CPU\Helpers::get_shop_url($seller_id,['sub_category_id'=>$child['id']])}}'">
                                                         {{$child['name']}}
                                                     </label>
                                                 </div>
@@ -286,7 +286,7 @@
                                                 style="display: none">
                                                 @foreach($child->childes as $ch)
                                                     <div class="card-header">
-                                                        <label class="for-hover-lable d-block cursor-pointer text-left" onclick="location.href='{{route('shopView',['id'=> $seller_id,'sub_sub_category_id'=>$ch['id']])}}'">
+                                                        <label class="for-hover-lable d-block cursor-pointer text-left" onclick="location.href='{{\App\CPU\Helpers::get_shop_url($seller_id,['sub_sub_category_id'=>$ch['id']])}}'">
                                                             {{$ch['name']}}
                                                         </label>
                                                     </div>

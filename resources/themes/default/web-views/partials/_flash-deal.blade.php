@@ -10,10 +10,13 @@
     }
     @media (min-width: 768px) {
         .flash-deal-timer-custom {
-            margin: -16px !important;
+            margin: 0 !important;
         }
         .view-all-btn-custom {
-            margin-top: -4px!important;
+            margin-top: 0 !important;
+        }
+        .flash-deal-text {
+            margin-top: 0 !important;
         }
     }
     @media (max-width: 767px) {
@@ -27,7 +30,7 @@
 </style>
 
             <!-- Top Section: Title, Timer, View All Button -->
-            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between mb-3 gap-3">
+            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
                 <!-- Title and Subtitle -->
                 <div class="text-start">
                     <div class="flash-deal-text" style="color: {{$web_config['primary_color']}};">
@@ -39,7 +42,7 @@
                 </div>
 
                 <!-- Timer Without Background, Custom Styling -->
-                    <span class="cz-countdown d-flex justify-content-center justify-content-md-start align-items-center flash-deal-countdown mt-0 pt-0 flash-deal-timer-custom"
+                    <span class="cz-countdown d-flex justify-content-center justify-content-md-start align-items-center flash-deal-countdown mt-0 pt-0"
                           data-countdown="{{$web_config['flash_deals']?date('m/d/Y',strtotime($web_config['flash_deals']['end_date'])):''}} 23:59:00">
                         <span class="cz-countdown-days" style="border: none !important; padding: 0 !important;">
                             <span class="cz-countdown-value" style="background-color: {{$web_config['primary_color']}}; color: white; border-radius: 5px; width: 48px; height: 40px; display: inline-flex; align-items: center; justify-content: center;"></span>

@@ -824,7 +824,7 @@
                 @if(isset($product->seller->shop))
                 <div class="row position-relative">
                     <div class="col-12 position-relative">
-                        <a href="{{route('shopView',['id'=>$product->seller->id])}}" class="d-block">
+                        <a href="{{\App\CPU\Helpers::get_shop_url($product->seller->id)}}" class="d-block">
                             <div class="d-flex __seller-author align-items-center">
                                 <div>
                                     <img class="__img-60 img-circle" src="{{asset('storage/shop')}}/{{$product->seller->shop->image}}"
@@ -893,14 +893,14 @@
                 @else
                 <div class="row d-flex justify-content-between">
                     <div class="col-9 ">
-                        <a href="{{route('shopView',[0])}}" class="row d-flex ">
+                        <a href="{{\App\CPU\Helpers::get_shop_url(0)}}" class="row d-flex ">
                             <div>
                                 <img class="__inline-32"
                                     src="{{asset("storage/company")}}/{{$web_config['fav_icon']->value}}"
                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                     alt="">
                             </div>
-                            <div class="{{Session::get('direction') === "rtl" ? 'right' : 'mt-3 ml-2'}}" onclick="location.href='{{route('shopView',[0])}}'">
+                            <div class="{{Session::get('direction') === "rtl" ? 'right' : 'mt-3 ml-2'}}" onclick="location.href='{{\App\CPU\Helpers::get_shop_url(0)}}'">
                                 <span class="font-bold __text-16px">
                                     {{$web_config['name']->value}}
                                 </span><br>
@@ -942,7 +942,7 @@
                 </div>
                 <div class="col-12 mt-2">
                     <div class="row">
-                        <a href="{{ route('shopView',[0]) }}" class="text-center d-block w-100">
+                        <a href="{{ \App\CPU\Helpers::get_shop_url(0) }}" class="text-center d-block w-100">
                             <button class="btn text-center d-block w-100" style="background: {{$web_config['primary_color']}};color:#ffffff">
                                 <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                                 {{translate('visit_Store')}}

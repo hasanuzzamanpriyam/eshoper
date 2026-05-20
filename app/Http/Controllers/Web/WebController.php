@@ -91,10 +91,7 @@ class WebController extends Controller
 
 	public function flash_deals($id)
 	{
-		$deal = FlashDeal::with(['products.product.reviews', 'products.product' => function ($query) {
-			$query->active();
-		}])
-			->where(['id' => $id, 'status' => 1])
+		$deal = FlashDeal::where(['id' => $id, 'status' => 1])
 			->whereDate('start_date', '<=', date('Y-m-d'))
 			->whereDate('end_date', '>=', date('Y-m-d'))
 			->first();
@@ -112,7 +109,15 @@ class WebController extends Controller
 
 
 		if (isset($deal)) {
-			return view(VIEW_FILE_NAMES['flash_deals'], compact('deal', 'discountPrice'));
+			$dealProducts = FlashDealProduct::with(['product.reviews', 'product'])
+				->whereHas('product', function ($query) {
+					$query->active();
+				})
+				->where('flash_deal_id', $id)
+				->orderBy('priority', 'asc')
+				->paginate(20);
+
+			return view(VIEW_FILE_NAMES['flash_deals'], compact('deal', 'discountPrice', 'dealProducts'));
 		}
 		Toastr::warning(translate('not_found'));
 		return back();

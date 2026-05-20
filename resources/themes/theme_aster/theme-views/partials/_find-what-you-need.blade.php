@@ -230,7 +230,7 @@
                                             @elseif($coupon->seller_id == NULL)
                                                 {{ $web_config['name']->value }}
                                             @else
-                                                <a class="shop-name" onclick="location.href='{{isset($coupon->seller->shop) ? route('shopView',['id'=>$coupon->seller->shop['id']]) : 'javascript:'}}'">
+                                                <a class="shop-name" onclick="location.href='{{isset($coupon->seller->shop) ? \App\CPU\Helpers::get_shop_url($coupon->seller_id) : 'javascript:'}}'">
                                                     {{ isset($coupon->seller->shop) ? $coupon->seller->shop->name : translate('shop_not_found') }}
                                                 </a>
                                             @endif
