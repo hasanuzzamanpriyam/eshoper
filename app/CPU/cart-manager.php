@@ -169,7 +169,7 @@ class CartManager
         }
 
         $district_charge = 0;
-        if (stripos($district, 'Rajshahi') !== false) {
+        if (stripos($district, 'Dhaka') !== false) {
             $district_charge = $delivery_charge->local_delivery_charge;
         } else {
             $district_charge = $delivery_charge->country_delivery_charge;
@@ -236,9 +236,9 @@ class CartManager
 
         // Determine which charge to use based on district
         $district_charge = 0;
-        if (stripos($district, 'Rajshahi') !== false) {
+        if (stripos($district, 'Dhaka') !== false) {
             $district_charge = $delivery_charge->local_delivery_charge;
-            Log::info('Using local delivery charge for Rajshahi', ['charge' => $district_charge]);
+            Log::info('Using local delivery charge for Dhaka', ['charge' => $district_charge]);
         } else {
             $district_charge = $delivery_charge->country_delivery_charge;
             Log::info('Using country delivery charge', ['district' => $district, 'charge' => $district_charge]);
