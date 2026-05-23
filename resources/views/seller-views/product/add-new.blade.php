@@ -95,26 +95,6 @@
             </div>
         </div>
 
-        <!-- Meta Tags Section -->
-        <div class="card mt-3 rest-part">
-            <div class="card-header">
-                <div class="d-flex gap-2">
-                    <i class="tio-user-big"></i>
-                    <h4 class="mb-0">{{ translate('meta_tags') }}</h4>
-                </div>
-            </div>
-            <div class="card-body">
-                <div id="meta_tags_container">
-                    <div class="form-group d-flex gap-2">
-                        <input type="text" name="meta_tag[]" class="form-control"
-                            placeholder="{{ translate('enter_meta_tag') }}">
-                        <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
-                            <i class="tio-add"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- general setup -->
         <div class="card mt-3 rest-part">
@@ -781,6 +761,24 @@
                                 </span>
                             </label>
                             <textarea rows="4" type="text" name="meta_description" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="title-color">{{ translate('meta_tags') }}</label>
+                            <div id="meta_tags_container">
+                                <div class="form-group d-flex gap-2">
+                                    <input type="text" name="meta_tag[]" class="form-control"
+                                        placeholder="{{ translate('enter_meta_tag') }}">
+                                    <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                                        <i class="tio-delete"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Add Meta Tag Button -->
+                            <div class="form-group d-flex gap-2 mt-2">
+                                <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
+                                    <i class="tio-add"></i> {{ translate('add_meta_tag') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
 

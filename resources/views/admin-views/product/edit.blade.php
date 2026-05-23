@@ -910,42 +910,35 @@
                             <textarea rows="4" type="text" name="meta_description"
                                 class="form-control">{{$product['meta_description']}}</textarea>
                         </div>
-                    </div>
-
-                    <!-- Meta Tags Section -->
-                    <div class="card-header">
-                        <div class="d-flex gap-2">
-                            <i class="tio-user-big"></i>
-                            <h4 class="mb-0">{{ translate('meta_tags') }}</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="meta_tags_container">
-                            @if(!empty($product->meta_tag))
-                                @foreach($product->meta_tag as $tag)
-                                    <div class="form-group d-flex gap-2 mt-2">
+                        <div class="form-group">
+                            <label class="title-color">{{ translate('meta_tags') }}</label>
+                            <div id="meta_tags_container">
+                                @if(!empty($product->meta_tag))
+                                    @foreach($product->meta_tag as $tag)
+                                        <div class="form-group d-flex gap-2 mt-2">
+                                            <input type="text" name="meta_tag[]" class="form-control"
+                                                placeholder="{{ translate('enter_meta_tag') }}" value="{{ $tag }}">
+                                            <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                                                <i class="tio-delete"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="form-group d-flex gap-2">
                                         <input type="text" name="meta_tag[]" class="form-control"
-                                            placeholder="{{ translate('enter_meta_tag') }}" value="{{ $tag }}">
+                                            placeholder="{{ translate('enter_meta_tag') }}">
                                         <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
                                             <i class="tio-delete"></i>
                                         </button>
                                     </div>
-                                @endforeach
-                            @else
-                                <div class="form-group d-flex gap-2">
-                                    <input type="text" name="meta_tag[]" class="form-control"
-                                        placeholder="{{ translate('enter_meta_tag') }}">
-                                    <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
-                                        <i class="tio-delete"></i>
-                                    </button>
-                                </div>
-                            @endif
-                        </div>
-                        <!-- Add Meta Tag Button -->
-                        <div class="form-group d-flex gap-2 mt-2">
-                            <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
-                                <i class="tio-add"></i> {{ translate('add_meta_tag') }}
-                            </button>
+                                @endif
+                            </div>
+                            <!-- Add Meta Tag Button -->
+                            <div class="form-group d-flex gap-2 mt-2">
+                                <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
+                                    <i class="tio-add"></i> {{ translate('add_meta_tag') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
