@@ -1534,23 +1534,6 @@
                 });
             };
         });
-
-        $(document).ready(function () {
-            $('#is_delivery_free').change(function () {
-                if ($(this).prop('checked')) {
-                    $('#shipping_cost').hide();
-                    $('#shipping_cost_multy').hide();
-                } else {
-                    $('#shipping_cost').show();
-                    $('#shipping_cost_multy').show();
-                }
-            });
-
-            if ($('#is_delivery_free').prop('checked')) {
-                $('#shipping_cost').hide();
-                $('#shipping_cost_multy').hide();
-            }
-        });
     </script>
 
     <script>
@@ -1610,6 +1593,17 @@
             $('#digital_product_type').change(function () {
                 digital_product_type();
             });
+
+            $('#is_delivery_free').change(function () {
+                if ($(this).prop('checked')) {
+                    $('#shipping_cost').hide();
+                    $('#shipping_cost_multy').hide();
+                    $('input[name="shipping_cost"]').val(0);
+                } else {
+                    $('#shipping_cost').show();
+                    $('#shipping_cost_multy').show();
+                }
+            });
         });
 
         function product_type() {
@@ -1621,6 +1615,11 @@
                 $('.physical_product_show').show();
                 $("#digital_product_type").val($("#digital_product_type option:first").val());
                 $("#digital_file_ready").val('');
+
+                if ($('#is_delivery_free').prop('checked')) {
+                    $('#shipping_cost').hide();
+                    $('#shipping_cost_multy').hide();
+                }
             } else if (product_type === 'digital') {
                 $('#digital_product_type_show').show();
                 $('.physical_product_show').hide();
@@ -1633,7 +1632,7 @@
             if (digital_product_type === 'ready_product') {
                 $('#digital_file_ready_show').show();
             } else if (digital_product_type === 'ready_after_sell') {
-                $('#digital_file_রেডি_show').hide();
+                $('#digital_file_ready_show').hide();
                 $("#digital_file_ready").val('');
             }
         }

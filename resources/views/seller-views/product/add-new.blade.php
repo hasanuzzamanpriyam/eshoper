@@ -1256,6 +1256,7 @@
                 if ($(this).prop('checked')) {
                     $('#shipping_cost').hide();
                     $('#shipping_cost_multy').hide();
+                    $('input[name="shipping_cost"]').val(0);
                 } else {
                     $('#shipping_cost').show();
                     $('#shipping_cost_multy').show();
