@@ -466,6 +466,11 @@
                                 </li>
                             @endif
                         @endif
+                        <li class="nav-item ml-auto">
+                            <a class="nav-link text-white" href="{{ route('track-order.index') }}">
+                                {{ translate('track_my_order')}}
+                            </a>
+                        </li>
                     </ul>
                     @if(auth('customer')->check())
                         <div class="logout-btn mt-auto d-md-none">

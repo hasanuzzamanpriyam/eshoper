@@ -4355,6 +4355,7 @@
   '7_Days_Return_Policy' => '7 Days Return Policy',
   'expand_Menu' => 'Expand Menu',
   'seller_zone' => 'Seller zone',
+  'track_my_order' => 'Track My Order',
   'become_a_seller' => 'Become a seller',
   'about_Company' => 'About Company',
   'contact_Us' => 'Contact Us',
