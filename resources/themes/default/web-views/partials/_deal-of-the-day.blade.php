@@ -46,7 +46,9 @@
                                         </div>
                                     @endif
                                     <h6 class="font-semibold pt-2">
-                                        {{\Illuminate\Support\Str::limit($deal_of_the_day->product['name'],30)}}
+                                        <a href="{{route('product',$deal_of_the_day->product->slug)}}">
+                                            {{\Illuminate\Support\Str::limit($deal_of_the_day->product['name'],30)}}
+                                        </a>
                                     </h6>
                                     <div class="mb-4 pt-1 d-flex flex-wrap justify-content-center align-items-center text-center gap-8">
 
@@ -112,7 +114,9 @@
                                             </div>
                                         @endif
                                         <h6 class="font-semibold pt-2">
-                                            {{\Illuminate\Support\Str::limit($product['name'],30)}}
+                                            <a href="{{route('product',$product->slug)}}">
+                                                {{\Illuminate\Support\Str::limit($product['name'],30)}}
+                                            </a>
                                         </h6>
                                         <div class="mb-4 pt-1 d-flex flex-wrap justify-content-center align-items-center text-center gap-8">
                                             @if($product->discount > 0)
