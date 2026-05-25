@@ -19,11 +19,7 @@
             @php($total_discount_on_product+=$cartItem['discount']*$cartItem['quantity'])
             @endforeach
 
-            @if(session()->missing('coupon_type') || session('coupon_type') !='free_delivery')
-            @php($total_shipping_cost=$shipping_cost - $get_shipping_cost_saved_for_free_delivery)
-            @else
             @php($total_shipping_cost=$shipping_cost)
-            @endif
             @else
             <span>{{ translate('empty_cart') }}</span>
             @endif

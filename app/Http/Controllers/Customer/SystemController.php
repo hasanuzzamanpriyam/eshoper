@@ -310,6 +310,8 @@ class SystemController extends Controller
                 $districtName = $shipping['city'];
             }
 
+            session(['selected_district' => $shipping['city']]);
+
             if ($getThanaName) {
                 $thanaName = $getThanaName->thana_name_en . ' (' . $getThanaName->thana_name_bn . ')';
             } else {

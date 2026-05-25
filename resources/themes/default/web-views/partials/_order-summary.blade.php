@@ -61,9 +61,7 @@
             @endforeach
             @endif
 
-            @php($total_shipping_cost = session()->missing('coupon_type') || session('coupon_type') !='free_delivery'
-            ? ($shipping_cost - $get_shipping_cost_saved_for_free_delivery)
-            : $shipping_cost)
+            @php($total_shipping_cost = $shipping_cost)
 
             @php($total_savings = $total_discount_on_product + $coupon_dis + $order_wise_shipping_discount)
             <h6 id="you_have_saved_section" class="text-center text-primary mb-4 d-flex align-items-center justify-content-center gap-2 {{ $total_savings <= 0 ? 'd-none' : '' }}">
