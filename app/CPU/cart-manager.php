@@ -10,7 +10,6 @@ use App\Model\Shop;
 use Illuminate\Support\Str;
 use App\Model\ShippingType;
 use App\Model\CategoryShippingCost;
-use App\Model\DeliveryCharge;
 use App\Model\ShippingAddress;
 use App\Models\Districtname;
 use Illuminate\Support\Facades\Log;
@@ -108,7 +107,17 @@ class CartManager
     {
         $cost = 0;
         if ($group_id == null) {
-            $cart_shipping_cost = Cart::where(['product_type' => 'physical'])->whereIn('cart_group_id', CartManager::get_cart_group_ids())->sum('shipping_cost');
+            $cart_shipping_cost = 0;
+            $cart_items = Cart::where(['product_type' => 'physical'])
+                ->whereIn('cart_group_id', CartManager::get_cart_group_ids())
+                ->get();
+            foreach ($cart_items as $cart_item) {
+                $product = Product::find($cart_item->product_id);
+                if ($product && $product->is_delivery_free == 0) {
+                    $cart_shipping_cost += $cart_item->shipping_cost;
+                }
+            }
+
             $order_wise_shipping_cost = CartShipping::whereHas('cart', function ($query) {
                 $query->where(['product_type' => 'physical']);
             })
@@ -122,7 +131,16 @@ class CartManager
             })->where('cart_group_id', $group_id)->first();
 
             $order_wise_shipping_cost = isset($data) ? $data->shipping_cost : 0;
-            $cart_shipping_cost = Cart::where(['cart_group_id' => $group_id, 'product_type' => 'physical'])->sum('shipping_cost');
+            
+            $cart_shipping_cost = 0;
+            $cart_items = Cart::where(['cart_group_id' => $group_id, 'product_type' => 'physical'])->get();
+            foreach ($cart_items as $cart_item) {
+                $product = Product::find($cart_item->product_id);
+                if ($product && $product->is_delivery_free == 0) {
+                    $cart_shipping_cost += $cart_item->shipping_cost;
+                }
+            }
+            
             $cost = $order_wise_shipping_cost + $cart_shipping_cost;
 
             $cost += self::get_district_based_delivery_charge($group_id);
@@ -131,12 +149,35 @@ class CartManager
     }
 
     /**
+     * Get district shipping charge from districtnames table by ID or Name
+     * @param string|int $district
+     * @return float
+     */
+    public static function get_district_charge_by_name_or_id($district)
+    {
+        if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
+            return 0;
+        }
+
+        $districtModel = null;
+        if (is_numeric($district)) {
+            $districtModel = Districtname::find($district);
+        } else {
+            // Clean district name (remove Bengali part if exists, e.g., "Dhaka (ঢাকা)" -> "Dhaka")
+            $cleanName = trim(explode('(', $district)[0]);
+            $districtModel = Districtname::where('district_name_en', 'like', $cleanName . '%')
+                ->orWhere('district_name_bn', 'like', $cleanName . '%')
+                ->first();
+        }
+
+        return $districtModel ? (float)$districtModel->district_shipping_charge : 0;
+    }
+
+    /**
      * Calculate delivery charge based on customer's district for products with shipping_cost = 0
      */
     public static function get_district_based_delivery_charge($group_id = null)
     {
-        $additional_cost = 0;
-
         $address_id = session('address_id');
         $district = '';
 
@@ -163,17 +204,8 @@ class CartManager
         if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
             return 0;
         }
-        $delivery_charge = DeliveryCharge::first();
-        if (!$delivery_charge) {
-            return 0;
-        }
 
-        $district_charge = 0;
-        if (stripos($district, 'Dhaka') !== false) {
-            $district_charge = $delivery_charge->local_delivery_charge;
-        } else {
-            $district_charge = $delivery_charge->country_delivery_charge;
-        }
+        $district_charge = self::get_district_charge_by_name_or_id($district);
 
         // Get cart items
         if ($group_id == null) {
@@ -185,64 +217,31 @@ class CartManager
                 ->get();
         }
 
-        $products_without_shipping = 0;
+        $total_district_charge = 0;
         foreach ($cart_items as $cart_item) {
             $product = Product::find($cart_item->product_id);
-            if ($product && $product->shipping_cost == 0 && $product->is_delivery_free == 0) {
-                $products_without_shipping++;
+            // Rule: If not free delivery AND product shipping cost is 0, apply location-based charge
+            if ($product && $product->is_delivery_free == 0 && $product->shipping_cost == 0) {
+                $total_district_charge += $district_charge;
             }
         }
 
-        // Apply district charge for each product without shipping cost
-        $additional_cost = $products_without_shipping * $district_charge;
-
-        return $additional_cost;
+        return $total_district_charge;
     }
 
     /**
      * Calculate delivery charge based on district parameter (for AJAX real-time updates)
-     * @param string $district The district name or ID
+     * @param string|int $district The district name or ID
      * @param int|null $group_id The cart group ID
      * @return float The calculated delivery charge
      */
     public static function calculate_delivery_charge_by_district($district, $group_id = null)
     {
-        $additional_cost = 0;
-
-        // Check if district is provided
         if (empty($district) || strtolower($district) == 'select district' || trim($district) == '') {
-            Log::warning('Empty district provided to calculate_delivery_charge_by_district');
             return 0;
         }
 
-        // If district is numeric (ID), try to fetch the name from database
-        if (is_numeric($district)) {
-            $districtModel = Districtname::find($district);
-            if ($districtModel) {
-                $district = $districtModel->district_name_en;
-                Log::info('Converted district ID to name', ['id' => $district, 'name' => $districtModel->district_name_en]);
-            } else {
-                Log::warning('District ID not found in database', ['id' => $district]);
-                return 0;
-            }
-        }
-
-        // Get delivery charges from database
-        $delivery_charge = DeliveryCharge::first();
-        if (!$delivery_charge) {
-            Log::error('No delivery charge configuration found in database');
-            return 0;
-        }
-
-        // Determine which charge to use based on district
-        $district_charge = 0;
-        if (stripos($district, 'Dhaka') !== false) {
-            $district_charge = $delivery_charge->local_delivery_charge;
-            Log::info('Using local delivery charge for Dhaka', ['charge' => $district_charge]);
-        } else {
-            $district_charge = $delivery_charge->country_delivery_charge;
-            Log::info('Using country delivery charge', ['district' => $district, 'charge' => $district_charge]);
-        }
+        $district_charge = self::get_district_charge_by_name_or_id($district);
 
         // Get cart items
         if ($group_id == null) {
@@ -254,26 +253,16 @@ class CartManager
                 ->get();
         }
 
-        // Count how many products have shipping_cost = 0
-        $products_without_shipping = 0;
+        $total_district_charge = 0;
         foreach ($cart_items as $cart_item) {
             $product = Product::find($cart_item->product_id);
-            if ($product && $product->shipping_cost == 0 && $product->is_delivery_free == 0) {
-                $products_without_shipping++;
+            // Rule: If not free delivery AND product shipping cost is 0, apply location-based charge
+            if ($product && $product->is_delivery_free == 0 && $product->shipping_cost == 0) {
+                $total_district_charge += $district_charge;
             }
         }
 
-        // Apply district charge for each product without shipping cost
-        $additional_cost = $products_without_shipping * $district_charge;
-
-        Log::info('District delivery charge calculated', [
-            'district' => $district,
-            'products_without_shipping' => $products_without_shipping,
-            'district_charge' => $district_charge,
-            'total_additional_cost' => $additional_cost
-        ]);
-
-        return $additional_cost;
+        return $total_district_charge;
     }
 
     public static function order_wise_shipping_discount()

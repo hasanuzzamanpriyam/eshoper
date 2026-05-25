@@ -478,6 +478,7 @@
                             <a href="{{route('customer.auth.logout')}}" class="nav-link">
                                 <strong class="text-base">{{translate('logout')}}</strong>
                             </a>
+                            
                         </div>
                     @endif
                 </div>
