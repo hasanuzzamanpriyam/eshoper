@@ -401,10 +401,12 @@ class ProductController extends BaseController
         if ($request->product_type == 'physical') {
             $p->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
             $p->shipping_cost = $p->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
-            $p->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+            $p->additional_shipping_cost = $p->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->additional_shipping_cost ?? 0);
+            $p->multiply_qty = 0;
         } else {
             $p->is_delivery_free = 1;
             $p->shipping_cost = 0;
+            $p->additional_shipping_cost = 0;
             $p->multiply_qty = 0;
         }
 
@@ -702,10 +704,12 @@ public function update(Request $request, $id)
         if ($request->product_type == 'physical') {
             $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
             $product->shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
-            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+            $product->additional_shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->additional_shipping_cost ?? 0);
+            $product->multiply_qty = 0;
         } else {
             $product->is_delivery_free = 1;
             $product->shipping_cost = 0;
+            $product->additional_shipping_cost = 0;
             $product->multiply_qty = 0;
         }
 

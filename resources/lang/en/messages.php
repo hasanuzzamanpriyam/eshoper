@@ -7025,4 +7025,7 @@
   'blog section' => 'Blog section',
   'select_priority' => 'Select priority',
   'if_enabled _cash_on_delivery_will_be_available_for_this_product' => 'If enabled  cash on delivery will be available for this product',
+  'additional_shipping_cost_per_extra_unit' => 'Additional shipping cost (per extra unit)',
+  'base_shipping_cost_applies_for_the_first_unit._This_cost_is_added_for_each_additional_unit_beyond_the_first.' => 'Base shipping cost applies for the first unit. This cost is added for each additional unit beyond the first.',
+  'additional_per_extra_unit' => '+ per extra unit',
 );

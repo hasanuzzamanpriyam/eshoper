@@ -185,7 +185,16 @@
                                                 </div>
                                                 @if ( $shipping_type != 'order_wise')
                                                     <div class="d-flex flex-wrap gap-2 {{ $product_status == 0?'blur-section':'' }}">
-                                                        <span class="fw-semibold"> {{translate('shipping_cost')}}</span>:<span>{{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}</span>
+                                                        <span class="fw-semibold"> {{translate('shipping_cost')}}</span>:
+                                                        <span>
+                                                            @if ($product && $product->additional_shipping_cost > 0 && $cartItem['quantity'] > 1)
+                                                                {{ \App\CPU\Helpers::currency_converter($product->shipping_cost) }}
+                                                                + {{ $cartItem['quantity'] - 1 }}×{{ \App\CPU\Helpers::currency_converter($product->additional_shipping_cost) }}
+                                                                = {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                            @else
+                                                                {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                            @endif
+                                                        </span>
                                                     </div>
                                                 @endif
                                             </div>
@@ -429,7 +438,16 @@
                                 </div>
                                 @if ( $shipping_type != 'order_wise')
                                     <div class="d-flex flex-wrap gap-2 {{ $product_status == 0?'blur-section':'' }}">
-                                        <span class="text-muted"> {{translate('shipping_cost')}}</span>:<span class="fw-semibold">{{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}</span>
+                                        <span class="text-muted"> {{translate('shipping_cost')}}</span>:
+                                        <span class="fw-semibold">
+                                            @if ($product && $product->additional_shipping_cost > 0 && $cartItem['quantity'] > 1)
+                                                {{ \App\CPU\Helpers::currency_converter($product->shipping_cost) }}
+                                                + {{ $cartItem['quantity'] - 1 }}×{{ \App\CPU\Helpers::currency_converter($product->additional_shipping_cost) }}
+                                                = {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                            @else
+                                                {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                            @endif
+                                        </span>
                                     </div>
                                 @endif
                             </div>

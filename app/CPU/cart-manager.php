@@ -646,11 +646,9 @@ class CartManager
                 $cost = $category_shipping_cost->cost;
             }
         } else if ($shipping_type == 'product_wise') {
-
-            if ($product->multiply_qty == 1) {
-                $cost = $qty * $product->shipping_cost;
-            } else {
-                $cost = $product->shipping_cost;
+            $cost = $product->shipping_cost;
+            if ($product->additional_shipping_cost > 0 && $qty > 1) {
+                $cost += ($qty - 1) * $product->additional_shipping_cost;
             }
         } else {
             $cost = 0;
