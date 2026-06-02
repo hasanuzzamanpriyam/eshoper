@@ -5,6 +5,7 @@ use App\CPU\CartManager;
 use App\CPU\CustomerManager;
 use App\CPU\OrderManager;
 use App\Model\Cart;
+use App\Model\PendingCheckout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
@@ -64,6 +65,40 @@ if (!function_exists('digital_payment_success')) {
                 CartManager::cart_clean_for_api_digital_payment($data);
             } else {
                 CartManager::cart_clean();
+            }
+
+            try {
+                $pendingCheckout = null;
+                if (isset($additional_data->payment_request_from) && in_array($additional_data->payment_request_from, ['app', 'react'])) {
+                    if ($additional_data->is_guest) {
+                        $pendingCheckout = PendingCheckout::where('guest_id', $additional_data->customer_id)
+                            ->where('status', 'pending')->latest()->first();
+                    } else {
+                        $pendingCheckout = PendingCheckout::where('customer_id', $additional_data->customer_id)
+                            ->where('status', 'pending')->latest()->first();
+                    }
+                } else {
+                    $firstCart = Cart::whereIn('cart_group_id', $cart_group_ids)->first();
+                    if ($firstCart) {
+                        if ($firstCart->is_guest) {
+                            $pendingCheckout = PendingCheckout::where('guest_id', $firstCart->customer_id)
+                                ->where('status', 'pending')->latest()->first();
+                        } else {
+                            $pendingCheckout = PendingCheckout::where('customer_id', $firstCart->customer_id)
+                                ->where('status', 'pending')->latest()->first();
+                        }
+                    }
+                }
+
+                if ($pendingCheckout) {
+                    $pendingCheckout->update([
+                        'status' => 'paid',
+                        'order_id' => $order_ids[0] ?? null,
+                        'paid_at' => now(),
+                    ]);
+                }
+            } catch (\Exception $e) {
+                info('Pending checkout update failed: ' . $e->getMessage());
             }
         }
     }

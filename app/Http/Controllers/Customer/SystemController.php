@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Model\CartShipping;
 use App\Model\DeliveryCountryCode;
 use App\Model\DeliveryZipCode;
+use App\Model\PendingCheckout;
 use App\Model\ShippingAddress;
 use App\Models\Districtname;
 use App\Models\Thananame;
@@ -505,6 +506,79 @@ class SystemController extends Controller
 
         session()->put('address_id', $address_id);
         session()->put('billing_address_id', $billing_address_id);
+
+        if ($physical_product == 'yes') {
+            $shippingAddressText = $shipping['address'] ?? '';
+            if ($districtName) {
+                $shippingAddressText .= ', ' . $districtName;
+            }
+            if ($thanaName) {
+                $shippingAddressText .= ', ' . $thanaName;
+            }
+            if (!empty($shipping['zip'])) {
+                $shippingAddressText .= ', ' . $shipping['zip'];
+            }
+            if (!empty($shipping['country'])) {
+                $shippingAddressText .= ', ' . $shipping['country'];
+            }
+
+            $billingAddressText = null;
+            if ($request->billing_addresss_same_shipping == 'false' && isset($billing['billing_method_id']) && $billing_input_by_customer) {
+                $billingAddressText = ($billing['billing_address'] ?? '');
+                if (!empty($billing['billing_city'])) {
+                    $billingAddressText .= ', ' . $billing['billing_city'];
+                }
+                if (!empty($billing['billing_zip'])) {
+                    $billingAddressText .= ', ' . $billing['billing_zip'];
+                }
+                if (!empty($billing['billing_country'])) {
+                    $billingAddressText .= ', ' . $billing['billing_country'];
+                }
+            }
+
+            $totalAmount = CartManager::cart_grand_total();
+
+            $cartItems = CartManager::get_cart();
+            $itemsData = [];
+            foreach ($cartItems as $item) {
+                $product = $item->all_product;
+                $itemsData[] = [
+                    'product_id' => $item->product_id,
+                    'product_name' => $product ? $product->name : translate('product_unavailable'),
+                    'product_image' => $product ? $product->thumbnail : null,
+                    'variation' => $item->variation,
+                    'quantity' => $item->quantity,
+                    'price' => $item->price,
+                    'tax_model' => $item->tax_model,
+                ];
+            }
+
+            $pendingData = [
+                'customer_type' => auth('customer')->check() ? 'registered' : 'guest',
+                'customer_id' => auth('customer')->id(),
+                'guest_id' => !auth('customer')->check() ? session('guest_id') : null,
+                'contact_person_name' => $shipping['contact_person_name'],
+                'phone' => $shipping['phone'],
+                'email' => $shipping['email'] ?? null,
+                'shipping_address' => $shippingAddressText,
+                'city' => $districtName,
+                'thana' => $thanaName,
+                'zip' => $shipping['zip'] ?? null,
+                'country' => $shipping['country'] ?? null,
+                'billing_address' => $billingAddressText,
+                'order_comment' => $shipping['order_comment'] ?? null,
+                'total_amount' => $totalAmount,
+                'cart_items' => $itemsData,
+                'status' => 'pending',
+            ];
+
+            if (auth('customer')->check()) {
+                PendingCheckout::create($pendingData);
+            } elseif (session()->has('guest_id')) {
+                $pendingData['guest_id'] = session('guest_id');
+                PendingCheckout::create($pendingData);
+            }
+        }
 
         return response()->json([], 200);
     }

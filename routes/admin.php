@@ -689,6 +689,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
         });
 
+        Route::group(['prefix' => 'pending-checkout', 'as' => 'pending-checkout.', 'middleware' => ['module:order_management']], function () {
+            Route::get('list', 'PendingCheckoutController@list')->name('list');
+            Route::get('details/{id}', 'PendingCheckoutController@details')->name('details');
+            Route::delete('destroy/{id}', 'PendingCheckoutController@destroy')->name('destroy');
+            Route::get('export', 'PendingCheckoutController@export')->name('export');
+        });
+
         //pos management
         Route::group(['prefix' => 'pos', 'as' => 'pos.', 'middleware' => ['module:pos_management']], function () {
             Route::get('/', 'POSController@index')->name('index');
