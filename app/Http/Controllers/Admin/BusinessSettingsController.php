@@ -784,6 +784,25 @@ class BusinessSettingsController extends Controller
         return back();
     }
 
+    public function fraudshield()
+    {
+        return view('admin-views.business-settings.fraudshield-index');
+    }
+
+    public function fraudshield_update(Request $request)
+    {
+        $request->validate([
+            'fraudshield_api_key' => 'required|string',
+        ]);
+
+        DB::table('business_settings')->updateOrInsert(['type' => 'fraudshield_api_key'], [
+            'value' => $request['fraudshield_api_key']
+        ]);
+
+        Toastr::success(translate('config_data_updated'));
+        return back();
+    }
+
     public function analytics_index()
     {
         return view('admin-views.business-settings.analytics.index');

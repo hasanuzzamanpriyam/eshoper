@@ -590,6 +590,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('map-api', 'BusinessSettingsController@map_api')->name('map-api');
                 Route::post('map-api-update', 'BusinessSettingsController@map_api_update')->name('map-api-update');
 
+                //fraudshield
+                Route::get('fraudshield', 'BusinessSettingsController@fraudshield')->name('fraudshield');
+                Route::post('fraudshield-update', 'BusinessSettingsController@fraudshield_update')->name('fraudshield-update');
+
                 Route::post('update-fcm-messages', 'BusinessSettingsController@update_fcm_messages')->name('update-fcm-messages');
 
 

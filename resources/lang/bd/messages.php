@@ -1902,7 +1902,7 @@
   'Main Section Banner' => 'Main Section Banner',
   'Fast Delivery all accross the country' => 'Fast Delivery all accross the country',
   'Safe Payment' => 'সহজ এবং নিরাপদ পেমেন্ট পদ্ধতি',
-  '7 Days Return Policy' => 'সহজ রিটার্ন পলিসি',
+  '7 Days Return Policy' => '৭ দিনের রিটার্ন পলিসি ফিজিক্যাল প্রোডাক্টসের জন্য',
   '100% Authentic Products' => '১০০% অথেন্টিক প্রোডাক্টস',
   'ARRIVALS' => 'ARRIVALS',
   'best sellings' => 'Best sellings',

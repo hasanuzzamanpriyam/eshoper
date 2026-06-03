@@ -1921,7 +1921,7 @@
   'Main Section Banner' => 'Main Section Banner',
   'Fast Delivery all accross the country' => 'Fast Delivery all accross the country',
   'Safe Payment' => 'Safe Payment',
-  '7 Days Return Policy' => '7 Days Return Policy',
+  '7 Days Return Policy' => '7 Days Return Policy For Physical Products',
   '100% Authentic Products' => '100% Authentic Products',
   'ARRIVALS' => 'ARRIVALS',
   'best sellings' => 'Best sellings',
