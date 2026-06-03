@@ -654,6 +654,47 @@
             @endif
             <!-- End Card -->
 
+            {{-- Customer Reputation Card --}}
+            @if(!$order->is_guest && $order->customer)
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex gap-2 align-items-center justify-content-between mb-3">
+                        <h4 class="d-flex gap-2">
+                            <img src="{{asset('assets/back-end/img/seller-information.png')}}" alt="">
+                            {{translate('customer_reputation')}}
+                        </h4>
+                        <span class="btn btn-sm btn--primary p-2" data-toggle="modal" data-target="#checkCustomerReputationModal" onclick="checkCustomerReputation(`{{$order->customer['phone']}}`, `{{$order->customer['f_name']}}{{$order->customer['l_name']}}`)">Check Reputation</span>
+                    </div>
+                    @if($customerReputation)
+                        @php($reputationData = $customerReputation->data)
+                        @php($summary = $reputationData['courierData']['summary'] ?? null)
+                        @php($risk = $reputationData['fraudRiskScore'] ?? null)
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="font-weight-bold">Risk Level:</span>
+                            @if($risk)
+                                <span class="badge badge-{{ $risk['level'] == 'high' ? 'danger' : ($risk['level'] == 'medium' ? 'warning' : 'success') }} p-2">
+                                    {{ $risk['label'] }}
+                                </span>
+                            @endif
+                        </div>
+                        @if($summary)
+                        <div class="d-flex flex-column gap-1 small">
+                            <span>Total Parcels: <strong>{{ $summary['total_parcel'] }}</strong></span>
+                            <span class="text-success">Successful: <strong>{{ $summary['success_parcel'] }} ({{ number_format($summary['success_ratio'], 1) }}%)</strong></span>
+                            <span class="text-danger">Cancelled: <strong>{{ $summary['cancelled_parcel'] }}</strong></span>
+                        </div>
+                        @endif
+                        <div class="mt-2 text-muted small">
+                            Last checked: {{ $customerReputation->updated_at->diffForHumans() }}
+                        </div>
+                    @else
+                        <div class="text-muted mb-2">No reputation data yet. Click "Check Reputation" to fetch data for this customer.</div>
+                    @endif
+                </div>
+            </div>
+            @endif
+            {{-- End Customer Reputation Card --}}
+
             <!-- Shipping Address Card -->
             @if($physical_product)
             <div class="card">

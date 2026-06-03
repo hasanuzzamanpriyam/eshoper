@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 use App\CPU\Helpers;
+use App\Model\CustomerReputation;
 
 class CustomerReputationController extends Controller
 {
@@ -44,6 +45,11 @@ class CustomerReputationController extends Controller
                     ];
                 }
             }
+
+            CustomerReputation::updateOrCreate(
+                ['phone' => $phone],
+                ['data' => $data]
+            );
 
             return response()->json(['Summaries' => $summaries]);
         }

@@ -7041,4 +7041,5 @@
   'pending_checkout_deleted_successfully' => 'Pending checkout deleted successfully',
   'cart_Items' => 'Cart Items',
   'checkout_ID' => 'Checkout ID',
+  'customer_reputation' => 'Customer reputation',
 );
