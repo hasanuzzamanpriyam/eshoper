@@ -101,17 +101,7 @@ class HomeController extends Controller
                 $query->latest()->take(3); // latest 3 products
             }])
             ->get();
-        $latest_products_collection = collect();
-        foreach ($home_categories as $category) {
-            $id = '"' . $category['id'] . '"';
-            $products = Product::with(['reviews'])->active()
-                ->where('category_ids', 'like', "%{$id}%")
-                ->latest()
-                ->take(2)
-                ->get();
-            $latest_products_collection = $latest_products_collection->concat($products);
-        }
-        $latest_products = $latest_products_collection->unique('id')->shuffle()->take(8);
+        $latest_products = Product::with(['reviews'])->active()->latest()->take(8)->get();
 
         //For You Products
         $for_you_products = $this->product->with(['reviews'])->active()
