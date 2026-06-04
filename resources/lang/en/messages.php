@@ -7042,4 +7042,12 @@
   'cart_Items' => 'Cart Items',
   'checkout_ID' => 'Checkout ID',
   'customer_reputation' => 'Customer reputation',
+  'FraudShield' => 'FraudShield',
+  'enter_threshold_e.g_70' => 'Enter threshold e.g 70',
+  'fraud_ratio_threshold' => 'Fraud ratio threshold',
+  'enter_fraudshield_api_key' => 'Enter fraudshield api key',
+  'fraudshield_api_key' => 'Fraudshield api key',
+  'get_your_api_key_from_fraudshield_bd_dashboard' => 'Get your api key from fraudshield bd dashboard',
+  'fraudshield_api_setup' => 'Fraudshield api setup',
+  'fraudshield' => 'Fraudshield',
 );

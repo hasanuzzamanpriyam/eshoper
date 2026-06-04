@@ -171,6 +171,14 @@
                             </div>
                         </div>
 
+                        @php($fraud_ratio_threshold=\App\CPU\Helpers::get_business_settings('fraud_ratio_threshold'))
+                        <div class="col-xl-4 col-md-6">
+                            <div class="form-group">
+                                <label class="title-color" for="fraud_ratio_threshold">{{translate('fraud_ratio_threshold')}} (%)</label>
+                                <input type="number" step="0.01" min="0" max="100" class="form-control" name="fraud_ratio_threshold" id="fraud_ratio_threshold" placeholder="Ex: 60" value="{{ $fraud_ratio_threshold ?? '' }}">
+                            </div>
+                        </div>
+
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="submit" id="submit" class="btn btn--primary px-4">{{translate('save')}}</button>
