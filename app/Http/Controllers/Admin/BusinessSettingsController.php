@@ -799,6 +799,10 @@ class BusinessSettingsController extends Controller
             'value' => $request['fraudshield_api_key']
         ]);
 
+        DB::table('business_settings')->updateOrInsert(['type' => 'fraud_ratio_threshold'], [
+            'value' => $request['fraud_ratio_threshold']
+        ]);
+
         Toastr::success(translate('config_data_updated'));
         return back();
     }

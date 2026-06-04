@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use function App\CPU\translate;
+use Illuminate\Support\Facades\Http;
 
 class SystemController extends Controller
 {
@@ -578,6 +579,30 @@ class SystemController extends Controller
                 $pendingData['guest_id'] = session('guest_id');
                 PendingCheckout::create($pendingData);
             }
+        }
+
+        // Check customer fraud ratio via FraudShield
+        try {
+            $apiKey = Helpers::get_business_settings('fraudshield_api_key');
+            $phone = $shipping['phone'] ?? null;
+            if ($apiKey && $phone) {
+                $fraudResponse = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $apiKey,
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ])->post('https://fraudshield.bd/api/customer/check', [
+                    'phone' => $phone
+                ]);
+                if ($fraudResponse->successful()) {
+                    $fraudData = $fraudResponse->json();
+                    $ratio = $fraudData['courierData']['summary']['success_ratio'] ?? null;
+                    if ($ratio !== null) {
+                        session()->put('fraud_ratio', (float)$ratio);
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Fail open — don't block checkout on API error
         }
 
         return response()->json([], 200);

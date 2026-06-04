@@ -22,6 +22,7 @@
         <!-- End Inlile Menu -->
 
         @php($fraudshield_api_key=\App\CPU\Helpers::get_business_settings('fraudshield_api_key'))
+        @php($fraud_ratio_threshold=\App\CPU\Helpers::get_business_settings('fraud_ratio_threshold'))
         <div class="card">
             <div class="card-body">
                 <form action="{{env('APP_MODE')!='demo'?route('admin.business-settings.fraudshield-update'):'javascript:'}}" method="post"
@@ -46,10 +47,16 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="title-color d-flex">{{translate('fraudshield_api_key')}}</label>
                                 <input type="text" placeholder="{{translate('enter_fraudshield_api_key')}}" class="form-control" name="fraudshield_api_key" value="{{env('APP_MODE')!='demo'?$fraudshield_api_key??'':''}}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="title-color d-flex">{{translate('fraud_ratio_threshold')}} (%)</label>
+                                <input type="number" step="0.01" min="0" max="100" placeholder="{{translate('enter_threshold_e.g_70')}}" class="form-control" name="fraud_ratio_threshold" value="{{env('APP_MODE')!='demo'?$fraud_ratio_threshold??'':''}}">
                             </div>
                         </div>
                     </div>
