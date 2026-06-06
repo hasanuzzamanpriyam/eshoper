@@ -12,7 +12,7 @@
                             </div>
                             <div class="text-center">
                                 <p class="m-0">
-                                    {{$value['title']}}
+                                    {{ $value['title'] == '7 Days Return Policy' ? '7 Days Return Policy For Physical Products' : $value['title'] }}
                                 </p>
                             </div>
                         </div>

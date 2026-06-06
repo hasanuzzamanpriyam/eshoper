@@ -4352,7 +4352,7 @@
   'see_the_latest_deals_and_exciting_new_offers' => 'See the latest deals and exciting new offers',
   'fast_delivery_all_accross_the_country' => 'Fast delivery all accross the country',
   'safe_payment' => 'Safe payment',
-  '7_Days_Return_Policy' => '7 Days Return Policy',
+  '7_Days_Return_Policy' => '7 Days Return Policy For Physical Products',
   'expand_Menu' => 'Expand Menu',
   'seller_zone' => 'Seller zone',
   'track_my_order' => 'Track My Order',
