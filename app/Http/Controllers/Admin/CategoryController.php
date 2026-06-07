@@ -59,6 +59,9 @@ class CategoryController extends Controller
         $category->name = $request->name[array_search('en', $request->lang)];
         $category->slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->name[array_search('en', $request->lang)]);
         $category->icon = ImageManager::upload('category/', 'webp', $request->file('image'));
+        if ($request->has('popup_image')) {
+            $category->popup_image = ImageManager::upload('category/', 'webp', $request->file('popup_image'));
+        }
         $category->parent_id = 0;
         $category->position = 0;
         $category->priority = $request->priority;
@@ -100,6 +103,9 @@ class CategoryController extends Controller
         $category->slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->name[array_search('en', $request->lang)]);
         if ($request->image) {
             $category->icon = ImageManager::update('category/', $category->icon, 'webp', $request->file('image'));
+        }
+        if ($request->popup_image) {
+            $category->popup_image = ImageManager::update('category/', $category->popup_image, 'webp', $request->file('popup_image'));
         }
         $category->priority = $request->priority;
         $category->blog_title = $request->blog_title;

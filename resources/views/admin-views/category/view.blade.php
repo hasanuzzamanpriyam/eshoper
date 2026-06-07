@@ -70,7 +70,8 @@
                                             value="{{$i}}" >{{$i}}</option>
                                             @endfor
                                         </select>
-                                                                            <div class="from_part_2">
+                                    </div>
+                                    <div class="from_part_2">
                                         <label class="title-color">{{translate('category_Logo')}}</label>
                                         <span class="text-info"><span class="text-danger">*</span> {{ THEME_RATIO[theme_root_path()]['Category Image'] }}</span>
                                         <div class="custom-file text-left">
@@ -82,16 +83,30 @@
                                                 for="customFileEg1">{{translate('choose_File')}}</label>
                                         </div>
                                     </div>
+                                    <div class="from_part_2 mt-4">
+                                        <label class="title-color">{{translate('category_Popup_Image')}} ({{translate('optional')}})</label>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="popup_image" id="customFileEg2"
+                                                class="custom-file-input"
+                                                accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            <label class="custom-file-label"
+                                                for="customFileEg2">{{translate('choose_File')}}</label>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 mt-4 mt-lg-0 from_part_2">
                                     <div class="form-group">
                                         <center>
                                             <img
-                                                class="upload-img-view"
+                                                class="upload-img-view mb-4"
                                                 id="viewer"
                                                 src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
                                                 alt="image"/>
+                                            <img
+                                                class="upload-img-view"
+                                                id="viewer2"
+                                                src="{{asset('assets/back-end/img/900x400/img1.jpg')}}"
+                                                alt="popup image"/>
                                         </center>
                                     </div>
                                 </div>
@@ -338,6 +353,22 @@
 
         $("#customFileEg1").change(function () {
             readURL(this);
+        });
+
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#viewer2').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#customFileEg2").change(function () {
+            readURL2(this);
         });
 
         $('.category-name').on('keyup keypress change', function() {

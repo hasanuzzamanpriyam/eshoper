@@ -333,6 +333,15 @@
             </section>
         </div>
     </div>
+
+    @if(isset($data['category']) && $data['category']->popup_image)
+        <div id="category-popup" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.3); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+            <div style="position: relative; max-width: 90%; max-height: 90%;">
+                <button onclick="document.getElementById('category-popup').style.display='none'" style="position: absolute; top: -15px; right: -15px; background: white; color: black; border: 1px solid #ccc; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; font-weight: bold; font-size: 30px; display: flex; align-items: center; justify-content: center; z-index: 10000;">&times;</button>
+                <img src="{{asset('storage/category')}}/{{$data['category']->popup_image}}" style="max-width: 100%; max-height: 90vh; border-radius: 10px;" alt="Category Ad">
+            </div>
+        </div>
+    @endif
 @endsection
 
 @push('script')
