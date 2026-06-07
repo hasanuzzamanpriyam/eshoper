@@ -7050,4 +7050,5 @@
   'get_your_api_key_from_fraudshield_bd_dashboard' => 'Get your api key from fraudshield bd dashboard',
   'fraudshield_api_setup' => 'Fraudshield api setup',
   'fraudshield' => 'Fraudshield',
+  'category_Popup_Image' => 'Category Popup Image',
 );
