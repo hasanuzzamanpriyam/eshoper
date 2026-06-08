@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\CPU\Helpers;
 use App\Model\BusinessSetting;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class MailConfigServiceProvider extends ServiceProvider
@@ -53,7 +54,7 @@ class MailConfigServiceProvider extends ServiceProvider
                 Config::set('mail', $config);
             }
         } catch (\Exception $ex) {
-
+            Log::error('MailConfigServiceProvider boot failed: ' . $ex->getMessage());
         }
     }
 }

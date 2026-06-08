@@ -127,7 +127,9 @@
                                 <div class="col-12">
                                     <center>
                                         <h3>{{translate('send_Mail')}}</h3>
-                                        <label class="badge-soft-danger px-1">{{translate('configure_your_mail_setup_first')}}.</label>
+                                        @if(!isset($mail_config) || $mail_config['status'] == 0)
+                                            <label class="badge-soft-danger px-1">{{translate('configure_your_mail_setup_first')}}.</label>
+                                        @endif
                                     </center>
 
 
@@ -136,10 +138,6 @@
                                         <div class="form-group mt-2">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <label class="title-color">{{translate('subject')}}</label>
-                                                    <input class="form-control" name="subject" required>
-                                                </div>
-                                                <div class="col-md-12 mt-3">
                                                     <label class="title-color">{{translate('mail_Body')}}</label>
                                                     <textarea class="form-control h-100" name="mail_body"
                                                               placeholder="{{translate('please_send_a_Feedback')}}" required></textarea>

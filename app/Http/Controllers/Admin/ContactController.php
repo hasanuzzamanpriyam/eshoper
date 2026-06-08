@@ -8,6 +8,7 @@ use App\Model\BusinessSetting;
 use App\Model\Contact;
 use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
@@ -61,7 +62,8 @@ class ContactController extends Controller
     public function view($id)
     {
         $contact = Contact::findOrFail($id);
-        return view('admin-views.contacts.view', compact('contact'));
+        $mail_config = Helpers::get_business_settings('mail_config');
+        return view('admin-views.contacts.view', compact('contact', 'mail_config'));
     }
 
     public function update(Request $request, $id)
@@ -88,26 +90,30 @@ class ContactController extends Controller
         $data = array('body' => $request['mail_body']);
 
         $emailServices_smtp = Helpers::get_business_settings('mail_config');
+        Log::info('send_mail: mail_config loaded', ['config' => $emailServices_smtp]);
         if ($emailServices_smtp['status'] == 0) {
             $emailServices_smtp = Helpers::get_business_settings('mail_config_sendgrid');
+            Log::info('send_mail: fell back to mail_config_sendgrid', ['config' => $emailServices_smtp]);
         }
 
         if ($emailServices_smtp['status'] == 1) {
             try {
-                Mail::send('email-templates.customer-message', $data, function ($message) use ($contact, $request) {
-                    $message->to($contact['email'], BusinessSetting::where(['type' => 'company_name'])->first()->value)
-                        ->subject($request['subject']);
+                Mail::send('email-templates.customer-message', $data, function ($message) use ($contact, $request, $emailServices_smtp) {
+                    $message->from($emailServices_smtp['email_id'], $emailServices_smtp['name'])
+                        ->to($contact['email'], BusinessSetting::where(['type' => 'company_name'])->first()->value)
+                        ->subject($contact['subject']);
                 });
 
                 Contact::where(['id' => $id])->update([
                     'reply' => json_encode([
-                        'subject' => $request['subject'],
+                        'subject' => $contact['subject'],
                         'body' => $request['mail_body']
                     ])
                 ]);
 
                 Toastr::success(translate('Mail_sent_successfully'));
             } catch (\Throwable $th) {
+                Log::error('Contact mail send failed for ID ' . $id . ': ' . $th->getMessage());
                 Toastr::error(translate('Mail_Sent_Unsuccessful'));
             }
         } else {
