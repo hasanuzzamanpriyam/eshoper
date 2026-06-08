@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 use function App\CPU\translate;
 use Brian2694\Toastr\Facades\Toastr;
+use Illuminate\Support\Facades\Mail;
 
 class SupportTicketController extends Controller
 {
@@ -97,6 +98,36 @@ class SupportTicketController extends Controller
             'updated_at' => now()
         ];
         SupportTicketConv::insert($reply);
+
+        $ticket = SupportTicket::with('customer')->find($request->id);
+        if ($ticket && $ticket->customer && $ticket->customer->email) {
+            $emailServices_smtp = Helpers::get_business_settings('mail_config');
+            if ($emailServices_smtp['status'] == 0) {
+                $emailServices_smtp = Helpers::get_business_settings('mail_config_sendgrid');
+            }
+
+            if ($emailServices_smtp['status'] == 1) {
+                try {
+                    $data = [
+                        'subject' => $ticket->subject,
+                        'reply_message' => $request->replay,
+                        'ticket_id' => $ticket->id,
+                        'user_name' => $ticket->customer->f_name . ' ' . $ticket->customer->l_name,
+                    ];
+
+                    Mail::send('email-templates.support-ticket-reply', $data, function ($message) use ($ticket) {
+                        $company_name = \App\Model\BusinessSetting::where(['type' => 'company_name'])->first()->value;
+                        $message->to($ticket->customer->email, $ticket->customer->f_name)
+                            ->subject(translate('Support_Ticket_Reply') . ' - ' . $ticket->subject);
+                    });
+
+                    Toastr::success(translate('Mail_sent_successfully'));
+                } catch (\Throwable $th) {
+                    Toastr::error(translate('Mail_Sent_Unsuccessful'));
+                }
+            }
+        }
+
         return redirect()->back();
     }
 

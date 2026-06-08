@@ -7051,4 +7051,11 @@
   'fraudshield_api_setup' => 'Fraudshield api setup',
   'fraudshield' => 'Fraudshield',
   'category_Popup_Image' => 'Category Popup Image',
+  'ticket_closed' => 'Ticket closed',
+  'Mail_sent_successfully' => 'Mail sent successfully',
+  'view_ticket' => 'View ticket',
+  'admin_message' => 'Admin message',
+  'ticket_subject' => 'Ticket subject',
+  'admin_replied_to_your_support_ticket' => 'Admin replied to your support ticket',
+  'Support_Ticket_Reply' => 'Support Ticket Reply',
 );
