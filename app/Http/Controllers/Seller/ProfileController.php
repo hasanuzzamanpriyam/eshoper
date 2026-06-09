@@ -51,6 +51,14 @@ class ProfileController extends Controller
         }
         $seller->save();
 
+        if ($request->hasFile('banner')) {
+            $shop = Shop::where('seller_id', auth('seller')->id())->first();
+            if ($shop) {
+                $shop->banner = ImageManager::update('shop/banner/', $shop->banner, 'webp', $request->file('banner'));
+                $shop->save();
+            }
+        }
+
         Toastr::info(translate('Profile_updated_successfully'));
         return back();
     }

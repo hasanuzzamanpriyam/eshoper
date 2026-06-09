@@ -7058,4 +7058,9 @@
   'ticket_subject' => 'Ticket subject',
   'admin_replied_to_your_support_ticket' => 'Admin replied to your support ticket',
   'Support_Ticket_Reply' => 'Support Ticket Reply',
+  'Feedback_Update_successfully' => 'Feedback Update successfully',
+  'seen' => 'Seen',
+  'change_banner' => 'Change banner',
+  'change_banner_image' => 'Change banner image',
+  'you_can_not_change_others_profile' => 'You can not change others profile',
 );
