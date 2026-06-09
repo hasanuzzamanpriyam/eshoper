@@ -176,4 +176,16 @@ class CategoryController extends Controller
             'success' => 1,
         ], 200);
     }
+
+    public function removePopupImage(Request $request)
+    {
+        $category = Category::find($request->id);
+        if ($category) {
+            ImageManager::delete('category/' . $category->popup_image);
+            $category->popup_image = null;
+            $category->save();
+            Toastr::success(translate('popup_image_removed_successfully'));
+        }
+        return back();
+    }
 }

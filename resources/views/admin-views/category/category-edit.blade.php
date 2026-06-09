@@ -120,11 +120,20 @@
                                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                     src="{{asset('storage/category')}}/{{$category['icon']}}"
                                                     alt=""/>
-                                            <img class="upload-img-view"
+                                            <div class="position-relative d-inline-block">
+                                                <img class="upload-img-view"
                                                     id="viewer2"
                                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                     src="{{asset('storage/category')}}/{{$category['popup_image']}}"
                                                     alt="popup image"/>
+                                                @if($category['popup_image'])
+                                                    <a class="btn btn-outline-danger btn-sm square-btn position-absolute"
+                                                       style="top:-5px;right:-5px;"
+                                                       href="{{route('admin.category.remove-popup-image', [$category['id']])}}">
+                                                        <i class="tio-delete"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </center>
                                     </div>
                                 </div>
