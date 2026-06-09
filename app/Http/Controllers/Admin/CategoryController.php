@@ -68,6 +68,7 @@ class CategoryController extends Controller
         $category->blog_title = $request->blog_title;
         $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
         $category->blog_description = $request->blog_description;
+        $category->popup_image_link = $request->popup_image_link;
         $category->save();
 
         $data = [];
@@ -111,6 +112,7 @@ class CategoryController extends Controller
         $category->blog_title = $request->blog_title;
         $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
         $category->blog_description = $request->blog_description;
+        $category->popup_image_link = $request->popup_image_link;
         $category->save();
 
         foreach ($request->lang as $index => $key) {

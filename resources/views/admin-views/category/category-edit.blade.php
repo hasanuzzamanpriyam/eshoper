@@ -111,6 +111,12 @@
                                                    for="customFileEg2">{{translate('choose_File')}}</label>
                                         </div>
                                     </div>
+                                    <div class="from_part_2 mt-2">
+                                        <label class="title-color">{{translate('popup_Image_Link')}} ({{translate('optional')}})</label>
+                                        <input type="url" name="popup_image_link" class="form-control"
+                                               value="{{$category['popup_image_link']}}"
+                                               placeholder="https://example.com">
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 mt-5 mt-lg-0 from_part_2">
                                     <div class="form-group">

@@ -7064,4 +7064,5 @@
   'change_banner_image' => 'Change banner image',
   'you_can_not_change_others_profile' => 'You can not change others profile',
   'popup_image_removed_successfully' => 'Popup image removed successfully',
+  'popup_Image_Link' => 'Popup Image Link',
 );
