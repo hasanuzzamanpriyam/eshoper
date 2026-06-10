@@ -139,7 +139,6 @@
                                     </div>
                                     <div class="col-md-4 footer-padding-bottom" style="{{Session::get('direction') === "rtl" ? 'padding-right:20px;' : ''}}">
                                         <h6 class="text-uppercase mb-4 font-weight-bold footer-heder">{{translate('account_&_shipping_info')}}</h6>
-                                        @php($refund_policy = \App\CPU\Helpers::get_business_settings('refund-policy'))
                                         @php($return_policy = \App\CPU\Helpers::get_business_settings('return-policy'))
                                         @php($cancellation_policy = \App\CPU\Helpers::get_business_settings('cancellation-policy'))
                                         @if(auth('customer')->check())
@@ -150,11 +149,6 @@
                                                 <li class="widget-list-item">
                                                     <a class="widget-list-link" href="{{route('track-order.index')}}">{{translate('track_order')}}</a>
                                                 </li>
-                                                @if(isset($refund_policy['status']) && $refund_policy['status'] == 1)
-                                                <li class="widget-list-item">
-                                                    <a class="widget-list-link" href="{{route('refund-policy')}}">{{translate('refund_policy')}}</a>
-                                                </li>
-                                                @endif
                                                 @if(isset($return_policy['status']) && $return_policy['status'] == 1)
                                                 <li class="widget-list-item">
                                                     <a class="widget-list-link" href="{{route('return-policy')}}">{{translate('return_policy')}}</a>
