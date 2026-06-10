@@ -50,6 +50,7 @@
     <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/responsive1.css" />
 
 
+<meta name="google-site-verification" content="SxcczgKl2tD-xzzZ33LDWdbC628RgJu9Yzt1BykIGVA" />
     <link rel="stylesheet" href="{{asset('assets/front-end')}}/css/style.css">
     {{--dont touch this--}}
     <meta name="_token" content="{{csrf_token()}}">
