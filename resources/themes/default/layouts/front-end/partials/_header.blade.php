@@ -468,7 +468,7 @@
                         @endif
                         <li class="nav-item ml-auto my-1 rounded-lg" style="background-color: {{$web_config['primary_color']}};">
                             <a class="nav-link text-white font-semibold" href="{{ route('track-order.index') }}">
-                                {{ translate('track_my_order')}}
+                                {{ translate('Track_Order')}}
                             </a>
                         </li>
                     </ul>
