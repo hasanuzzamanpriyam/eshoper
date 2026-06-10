@@ -1,0 +1,9 @@
+[     172ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:8000/sitemap.xml:0
+[     379ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     379ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     379ms] [WARNING] The element with unescaped HTML: @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     380ms] [WARNING] JSHandle@node @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     403ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     403ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     403ms] [WARNING] The element with unescaped HTML: @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
+[     403ms] [WARNING] JSHandle@node @ http://127.0.0.1:8000/_debugbar/assets/javascript?v=1776665371:3
