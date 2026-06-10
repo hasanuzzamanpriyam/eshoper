@@ -1,0 +1,305 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e9]:
+        - link "Ignition docs" [ref=e10] [cursor=pointer]:
+          - /url: http://flareapp.io/docs/ignition-for-laravel/introduction
+          - img [ref=e11]
+        - generic [ref=e17]:
+          - generic [ref=e18]: /
+          - generic [ref=e19]: home/
+          - generic [ref=e20]: wizard/
+          - generic [ref=e21]: Programming/
+          - generic [ref=e22]: eshoper_test/
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - generic [ref=e28]: Error
+          - generic [ref=e29]: "Call to a member function tz() on string (View: /home/wizard/Programming/eshoper_test/resources/views/sitemaps/index.blade.php)"
+        - link "http://127.0.0.1:8000/sitemap.xml" [ref=e31] [cursor=pointer]:
+          - /url: http://127.0.0.1:8000/sitemap.xml
+    - generic [ref=e33]:
+      - navigation [ref=e34]:
+        - list [ref=e35]:
+          - listitem [ref=e36]:
+            - button "Stack trace" [ref=e37] [cursor=pointer]
+          - listitem [ref=e38]:
+            - button "Request" [ref=e39] [cursor=pointer]
+          - listitem [ref=e40]:
+            - button "App" [ref=e41] [cursor=pointer]
+          - listitem [ref=e42]:
+            - button "User" [ref=e43] [cursor=pointer]
+          - listitem [ref=e44]:
+            - button "Context" [ref=e45] [cursor=pointer]
+          - listitem [ref=e46]:
+            - button "Debug" [ref=e47] [cursor=pointer]
+        - generic [ref=e49]:
+          - button "Share" [ref=e50] [cursor=pointer]:
+            - text: Share
+            - img [ref=e51]
+          - text: ✓ ✓ ✓ ✓ ✓ ✓
+      - generic [ref=e54]:
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - button "Frame up (Key:K)" [ref=e58] [cursor=pointer]:
+                - img [ref=e59]
+              - button "Frame down (Key:J)" [ref=e61] [cursor=pointer]:
+                - img [ref=e62]
+            - button "Expand vendor frames" [ref=e65] [cursor=pointer]
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - list [ref=e69]:
+                - listitem [ref=e70] [cursor=pointer]:
+                  - generic [ref=e71]: "59"
+                  - banner [ref=e73]:
+                    - generic [ref=e75]:
+                      - generic [ref=e76]: resources/
+                      - generic [ref=e77]: views/
+                      - generic [ref=e78]: sitemaps/
+                      - text: index.blade.php
+                  - generic [ref=e80]: :9
+            - listitem [ref=e81]:
+              - generic [ref=e82] [cursor=pointer]:
+                - button [ref=e83]:
+                  - img [ref=e84]
+                - button "12 vendor frames…" [ref=e87]
+            - listitem [ref=e88]:
+              - list [ref=e89]:
+                - listitem [ref=e90] [cursor=pointer]:
+                  - generic [ref=e91]: "46"
+                  - generic [ref=e92]:
+                    - banner [ref=e93]:
+                      - generic [ref=e95]:
+                        - generic [ref=e96]: routes/
+                        - text: web.php
+                    - generic [ref=e98]:
+                      - generic [ref=e99]: Illuminate\
+                      - generic [ref=e100]: Routing\
+                      - generic [ref=e101]: RouteFileRegistrar
+                  - generic [ref=e103]: :44
+            - listitem [ref=e104]:
+              - generic [ref=e105] [cursor=pointer]:
+                - button [ref=e106]:
+                  - img [ref=e107]
+                - button "4 vendor frames…" [ref=e110]
+            - listitem [ref=e111]:
+              - list [ref=e112]:
+                - listitem [ref=e113] [cursor=pointer]:
+                  - generic [ref=e114]: "41"
+                  - generic [ref=e115]:
+                    - banner [ref=e116]:
+                      - generic [ref=e118]:
+                        - generic [ref=e119]: app/
+                        - generic [ref=e120]: Http/
+                        - generic [ref=e121]: Middleware/
+                        - text: Localization.php
+                    - generic [ref=e123]:
+                      - generic [ref=e124]: App\
+                      - generic [ref=e125]: Http\
+                      - generic [ref=e126]: Middleware\
+                      - generic [ref=e127]: Localization
+                  - generic [ref=e129]: :22
+            - listitem [ref=e130]:
+              - generic [ref=e131] [cursor=pointer]:
+                - button [ref=e132]:
+                  - img [ref=e133]
+                - button "38 vendor frames…" [ref=e136]
+            - listitem [ref=e137]:
+              - list [ref=e138]:
+                - listitem [ref=e139] [cursor=pointer]:
+                  - generic [ref=e140]: "2"
+                  - banner [ref=e142]:
+                    - generic [ref=e144]:
+                      - generic [ref=e145]: public/
+                      - text: index.php
+                  - generic [ref=e147]: :54
+                - listitem [ref=e148] [cursor=pointer]:
+                  - generic [ref=e149]: "1"
+                  - generic [ref=e152]: :21
+        - generic [ref=e153]:
+          - generic [ref=e154]:
+            - generic [ref=e156]: ::require
+            - generic [ref=e157]:
+              - generic [ref=e158]:
+                - generic [ref=e159]: resources/
+                - generic [ref=e160]: views/
+                - generic [ref=e161]: sitemaps/
+                - text: index.blade.php:9
+              - link [ref=e162] [cursor=pointer]:
+                - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=9
+                - img [ref=e163]
+          - generic [ref=e166]:
+            - generic [ref=e168]:
+              - paragraph [ref=e169] [cursor=pointer]: "1"
+              - paragraph [ref=e170] [cursor=pointer]: "2"
+              - paragraph [ref=e171] [cursor=pointer]: "3"
+              - paragraph [ref=e172] [cursor=pointer]: "4"
+              - paragraph [ref=e173] [cursor=pointer]: "5"
+              - paragraph [ref=e174] [cursor=pointer]: "6"
+              - paragraph [ref=e175] [cursor=pointer]: "7"
+              - paragraph [ref=e176] [cursor=pointer]: "8"
+              - paragraph [ref=e177] [cursor=pointer]: "9"
+              - paragraph [ref=e178] [cursor=pointer]: "10"
+              - paragraph [ref=e179] [cursor=pointer]: "11"
+              - paragraph [ref=e180] [cursor=pointer]: "12"
+              - paragraph [ref=e181] [cursor=pointer]: "13"
+              - paragraph [ref=e182] [cursor=pointer]: "14"
+              - paragraph [ref=e183] [cursor=pointer]: "15"
+              - paragraph [ref=e184] [cursor=pointer]: "16"
+              - paragraph [ref=e185] [cursor=pointer]: "17"
+              - paragraph [ref=e186] [cursor=pointer]: "18"
+              - paragraph [ref=e187] [cursor=pointer]: "19"
+              - paragraph [ref=e188] [cursor=pointer]: "20"
+              - paragraph [ref=e189] [cursor=pointer]: "21"
+              - paragraph [ref=e190] [cursor=pointer]: "22"
+              - paragraph [ref=e191] [cursor=pointer]: "23"
+              - paragraph [ref=e192] [cursor=pointer]: "24"
+            - generic [ref=e193]:
+              - paragraph [ref=e194]:
+                - generic [ref=e195]: <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+                - link [ref=e196] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=1
+                  - img [ref=e197]
+              - paragraph [ref=e199]:
+                - generic [ref=e200]: <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+                - link [ref=e201] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=2
+                  - img [ref=e202]
+              - paragraph [ref=e204]:
+                - text: <sitemap>
+                - link [ref=e205] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=3
+                  - img [ref=e206]
+              - paragraph [ref=e208]:
+                - generic [ref=e209]: "<loc>{{ url('/sitemap-pages.xml') }}</loc>"
+                - link [ref=e210] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=4
+                  - img [ref=e211]
+              - paragraph [ref=e213]:
+                - generic [ref=e214]: "<lastmod>{{ now()->tz('UTC')->toAtomString() }}</lastmod>"
+                - link [ref=e215] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=5
+                  - img [ref=e216]
+              - paragraph [ref=e218]:
+                - text: </sitemap>
+                - link [ref=e219] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=6
+                  - img [ref=e220]
+              - paragraph [ref=e222]:
+                - text: <sitemap>
+                - link [ref=e223] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=7
+                  - img [ref=e224]
+              - paragraph [ref=e226]:
+                - generic [ref=e227]: "<loc>{{ url('/sitemap-categories.xml') }}</loc>"
+                - link [ref=e228] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=8
+                  - img [ref=e229]
+              - paragraph [ref=e231]:
+                - generic [ref=e232]: "<lastmod>{{ $categoryLastmod?->tz('UTC')->toAtomString() ?? now()->tz('UTC')->toAtomString() }}</lastmod>"
+                - link [ref=e233] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=9
+                  - img [ref=e234]
+              - paragraph [ref=e236]:
+                - text: </sitemap>
+                - link [ref=e237] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=10
+                  - img [ref=e238]
+              - paragraph [ref=e240]:
+                - generic [ref=e241]: "@for ($i = 1; $i <= $productPages; $i++)"
+                - link [ref=e242] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=11
+                  - img [ref=e243]
+              - paragraph [ref=e245]:
+                - text: <sitemap>
+                - link [ref=e246] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=12
+                  - img [ref=e247]
+              - paragraph [ref=e249]:
+                - generic [ref=e250]: "<loc>{{ url('/sitemap-products-' . $i . '.xml') }}</loc>"
+                - link [ref=e251] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=13
+                  - img [ref=e252]
+              - paragraph [ref=e254]:
+                - generic [ref=e255]: "<lastmod>{{ now()->tz('UTC')->toAtomString() }}</lastmod>"
+                - link [ref=e256] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=14
+                  - img [ref=e257]
+              - paragraph [ref=e259]:
+                - text: </sitemap>
+                - link [ref=e260] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=15
+                  - img [ref=e261]
+              - paragraph [ref=e263]:
+                - generic [ref=e264]: "@endfor"
+                - link [ref=e265] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=16
+                  - img [ref=e266]
+              - paragraph [ref=e268]:
+                - generic [ref=e269]: "@if($blogCount > 0)"
+                - link [ref=e270] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=17
+                  - img [ref=e271]
+              - paragraph [ref=e273]:
+                - text: <sitemap>
+                - link [ref=e274] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=18
+                  - img [ref=e275]
+              - paragraph [ref=e277]:
+                - generic [ref=e278]: "<loc>{{ url('/sitemap-blog.xml') }}</loc>"
+                - link [ref=e279] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=19
+                  - img [ref=e280]
+              - paragraph [ref=e282]:
+                - generic [ref=e283]: "<lastmod>{{ now()->tz('UTC')->toAtomString() }}</lastmod>"
+                - link [ref=e284] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=20
+                  - img [ref=e285]
+              - paragraph [ref=e287]:
+                - text: </sitemap>
+                - link [ref=e288] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=21
+                  - img [ref=e289]
+              - paragraph [ref=e291]:
+                - generic [ref=e292]: "@endif"
+                - link [ref=e293] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=22
+                  - img [ref=e294]
+              - paragraph [ref=e296]:
+                - text: </sitemapindex>
+                - link [ref=e297] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=23
+                  - img [ref=e298]
+              - paragraph [ref=e300]:
+                - link [ref=e301] [cursor=pointer]:
+                  - /url: phpstorm://open?file=%2Fhome%2Fwizard%2FProgramming%2Feshoper_test%2Fresources%2Fviews%2Fsitemaps%2Findex.blade.php&line=24
+                  - img [ref=e302]
+  - generic [ref=e304]:
+    - generic [ref=e306]:
+      - generic [ref=e308]:
+        - generic [ref=e309] [cursor=pointer]:  Messages14
+        - generic [ref=e310] [cursor=pointer]:  Timeline
+        - generic [ref=e311] [cursor=pointer]:  Exceptions2
+        - generic [ref=e312] [cursor=pointer]:  Views1
+        - generic [ref=e313] [cursor=pointer]:  Route
+        - generic [ref=e314] [cursor=pointer]:  Queries3
+        - generic [ref=e315] [cursor=pointer]:  Models0
+        - generic [ref=e316] [cursor=pointer]:  Mails
+        - generic [ref=e317] [cursor=pointer]:  Gate
+        - generic [ref=e318] [cursor=pointer]:  Session
+        - generic [ref=e319] [cursor=pointer]:  Request
+      - generic [ref=e320]:
+        - generic [ref=e324]:
+          - generic [ref=e325]: 
+          - text: 8.5.6
+        - generic [ref=e326]:
+          - generic [ref=e327]: 
+          - text: 146ms
+        - generic [ref=e328]:
+          - generic [ref=e329]: 
+          - text: 8MB
+        - generic [ref=e330]:
+          - generic [ref=e331]: 
+          - text: GET sitemap.xml
+    - text:                                   
+  - text: 

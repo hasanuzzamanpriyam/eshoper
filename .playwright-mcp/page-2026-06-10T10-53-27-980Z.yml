@@ -1,0 +1,57 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]: This XML file does not appear to have any style information associated with it. The document tree is shown below.
+  - generic [ref=e4]:
+    - generic [ref=e7]:
+      - text: <sitemapindex
+      - generic [ref=e8]: xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      - text: ">"
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e13]: <sitemap>
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - generic [ref=e16]: <loc>
+            - text: http://127.0.0.1:8000/sitemap-pages.xml
+            - generic [ref=e17]: </loc>
+          - generic [ref=e18]:
+            - generic [ref=e19]: <lastmod>
+            - text: 2026-06-10T10:53:27+00:00
+            - generic [ref=e20]: </lastmod>
+        - generic [ref=e22]: </sitemap>
+      - generic [ref=e23]:
+        - generic [ref=e26]: <sitemap>
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - generic [ref=e29]: <loc>
+            - text: http://127.0.0.1:8000/sitemap-categories.xml
+            - generic [ref=e30]: </loc>
+          - generic [ref=e31]:
+            - generic [ref=e32]: <lastmod>
+            - text: 2026-06-09T06:33:42+00:00
+            - generic [ref=e33]: </lastmod>
+        - generic [ref=e35]: </sitemap>
+      - generic [ref=e36]:
+        - generic [ref=e39]: <sitemap>
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - generic [ref=e42]: <loc>
+            - text: http://127.0.0.1:8000/sitemap-products-1.xml
+            - generic [ref=e43]: </loc>
+          - generic [ref=e44]:
+            - generic [ref=e45]: <lastmod>
+            - text: 2026-06-10T10:53:27+00:00
+            - generic [ref=e46]: </lastmod>
+        - generic [ref=e48]: </sitemap>
+      - generic [ref=e49]:
+        - generic [ref=e52]: <sitemap>
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e55]: <loc>
+            - text: http://127.0.0.1:8000/sitemap-blog.xml
+            - generic [ref=e56]: </loc>
+          - generic [ref=e57]:
+            - generic [ref=e58]: <lastmod>
+            - text: 2026-06-10T10:53:27+00:00
+            - generic [ref=e59]: </lastmod>
+        - generic [ref=e61]: </sitemap>
+    - generic [ref=e63]: </sitemapindex>

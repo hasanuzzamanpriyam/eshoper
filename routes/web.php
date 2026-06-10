@@ -29,9 +29,44 @@ use App\Http\Controllers\Payment_Methods\BkashPaymentController;
 use App\Http\Controllers\Payment_Methods\NagadPaymentController;
 use App\Http\Controllers\Payment_Methods\PaystackController;
 use App\Http\Controllers\Payment_Methods\AddressNameController;
-
+use Illuminate\Support\Facades\Response;
 //for maintenance mode
 Route::get('maintenance-mode', 'Web\WebController@maintenance_mode')->name('maintenance-mode');
+
+
+// ===== SITEMAP ROUTES =====
+Route::get('/sitemap.xml', function () {
+    $productCount = \App\Model\Product::active()->count();
+    $productPages = (int)ceil($productCount / 2000);
+    $categoryLastmod = \Carbon\Carbon::parse(\App\Model\Category::max('updated_at'));
+    $blogCount = \App\Model\Blog::where('status', 1)->count();
+
+    return response()->view('sitemaps.index', compact('productPages', 'categoryLastmod', 'blogCount'))
+        ->header('Content-Type', 'text/xml');
+});
+
+Route::get('/sitemap-pages.xml', function () {
+    return response()->view('sitemaps.pages')
+        ->header('Content-Type', 'text/xml');
+});
+
+Route::get('/sitemap-categories.xml', function () {
+    $categories = \App\Model\Category::select('slug', 'updated_at')->get();
+    return response()->view('sitemaps.categories', compact('categories'))
+        ->header('Content-Type', 'text/xml');
+});
+
+Route::get('/sitemap-products-{page}.xml', function ($page) {
+    $products = \App\Model\Product::active()->select('slug', 'updated_at')->paginate(2000, ['*'], 'page', $page);
+    return response()->view('sitemaps.products', compact('products'))
+        ->header('Content-Type', 'text/xml');
+})->where('page', '[0-9]+');
+
+Route::get('/sitemap-blog.xml', function () {
+    $blogs = \App\Model\Blog::where('status', 1)->select('slug', 'updated_at')->get();
+    return response()->view('sitemaps.blog', compact('blogs'))
+        ->header('Content-Type', 'text/xml');
+});
 
 
 Route::group(['namespace' => 'Web', 'middleware' => ['maintenance_mode', 'guestCheck']], function () {
