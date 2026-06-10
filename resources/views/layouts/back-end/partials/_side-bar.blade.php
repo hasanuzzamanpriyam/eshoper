@@ -73,7 +73,7 @@
                             <small class="tio-more-horizontal nav-subtitle-replacer"></small>
                         </li>
                         <!-- Order -->
-                        <li class="navbar-vertical-aside-has-menu {{Request::is('admin/orders*')?'active':''}}">
+                        <li class="navbar-vertical-aside-has-menu {{Request::is('admin/orders*') || Request::is('admin/pending-checkout*') ?'active':''}}">
                             <a class="js-navbar-vertical-aside-menu-link nav-link nav-link-toggle"
                                 href="javascript:void(0)" title="{{translate('orders')}}">
                                 <i class="tio-shopping-cart-outlined nav-icon"></i>
@@ -82,7 +82,7 @@
                                 </span>
                             </a>
                             <ul class="js-navbar-vertical-aside-submenu nav nav-sub"
-                                style="display: {{Request::is('admin/order*')?'block':'none'}}">
+                                style="display: {{Request::is('admin/order*') || Request::is('admin/pending-checkout*') ?'block':'none'}}">
                                 <li class="nav-item {{Request::is('admin/orders/list/all')?'active':''}}">
                                     <a class="nav-link" href="{{route('admin.orders.list',['all'])}}"
                                         title="{{translate('all')}}">
@@ -188,6 +188,18 @@
                                             {{translate('canceled')}}
                                             <span class="badge badge-soft-danger badge-pill ml-1">
                                                 {{\App\Model\Order::where(['order_status'=>'canceled'])->count()}}
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{Request::is('admin/pending-checkout*')?'active':''}}">
+                                    <a class="nav-link " href="{{route('admin.pending-checkout.list')}}"
+                                        title="{{translate('pending_Checkouts')}}">
+                                        <span class="tio-circle nav-indicator-icon"></span>
+                                        <span class="text-truncate">
+                                            {{translate('pending_Checkouts')}}
+                                            <span class="badge badge-soft-info badge-pill ml-1">
+                                                {{\App\Model\PendingCheckout::where(['status'=>'pending'])->count()}}
                                             </span>
                                         </span>
                                     </a>

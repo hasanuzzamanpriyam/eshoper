@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\CPU\Helpers;
 use App\Model\BusinessSetting;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class MailConfigServiceProvider extends ServiceProvider
@@ -19,7 +20,7 @@ class MailConfigServiceProvider extends ServiceProvider
         //
     }
 
-    /**
+    /** 
      * Bootstrap services.
      *
      * @return void
@@ -31,29 +32,36 @@ class MailConfigServiceProvider extends ServiceProvider
             if ($emailServices_smtp['status'] == 0) {
                 $emailServices_smtp = Helpers::get_business_settings('mail_config_sendgrid');
             }
+            
             if ($emailServices_smtp['status'] == 1) {
                 $config = array(
-                    'driver' => $emailServices_smtp['driver'],
-                    'host' => $emailServices_smtp['host'],
-                    'port' => $emailServices_smtp['port'],
-                    'username' => $emailServices_smtp['username'],
-                    'password' => $emailServices_smtp['password'],
-                    'encryption' => $emailServices_smtp['encryption'],
-                    'from' => array('address' => $emailServices_smtp['email_id'], 'name' => $emailServices_smtp['name']),
-                    'sendmail' => '/usr/sbin/sendmail -bs',
-                    'pretend' => false,
-                    'stream' => [
+                    // CRITICAL FIX: Laravel / SwiftMailer expects lowercase 'smtp'
+                    'driver'     => strtolower($emailServices_smtp['driver']), 
+                    'host'       => $emailServices_smtp['host'],
+                    // CRITICAL FIX: Convert string "465" to integer 465
+                    'port'       => (int) $emailServices_smtp['port'],         
+                    'username'   => $emailServices_smtp['username'],
+                    'password'   => $emailServices_smtp['password'],
+                    // Standard practice expects lowercase 'ssl' or 'tls'
+                    'encryption' => strtolower($emailServices_smtp['encryption']), 
+                    'from'       => array(
+                        'address' => $emailServices_smtp['email_id'], 
+                        'name'    => $emailServices_smtp['name']
+                    ),
+                    'sendmail'   => '/usr/sbin/sendmail -bs',
+                    'pretend'    => false,
+                    'stream'     => [
                         'ssl' => [
                             'allow_self_signed' => true,
-                            'verify_peer' => false,
-                            'verify_peer_name' => false,
+                            'verify_peer'       => false,
+                            'verify_peer_name'  => false,
                         ],
                     ],
                 );
                 Config::set('mail', $config);
             }
         } catch (\Exception $ex) {
-
+            Log::error('MailConfigServiceProvider boot failed: ' . $ex->getMessage());
         }
     }
 }

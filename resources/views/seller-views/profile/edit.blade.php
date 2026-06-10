@@ -83,7 +83,12 @@
                         <div class="profile-cover">
                         @php($shop_banners = $shop_banner ? asset('storage/shop/banner/'.$shop_banner) : 'https://images.pexels.com/photos/866398/pexels-photo-866398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
 
-                            <div class="profile-cover-img-wrapper" style="background-image: url({{ $shop_banners }}); background-repeat: no-repeat; background-size: cover;">
+                            <div id="bannerPreviewWrapper" class="profile-cover-img-wrapper" style="background-image: url({{ $shop_banners }}); background-repeat: no-repeat; background-size: cover; position: relative;">
+                                <label for="bannerUploader" title="{{translate('change_banner_image')}}" style="position: absolute; bottom: 10px; right: 15px; background: rgba(0,0,0,0.55); color: #fff; border-radius: 6px; padding: 6px 14px; cursor: pointer; font-size: 13px; margin: 0; display: flex; align-items: center; gap: 6px;">
+                                    <i class="tio-camera"></i> {{translate('change_banner')}}
+                                </label>
+                                <input type="file" name="banner" id="bannerUploader" class="d-none"
+                                       accept=".jpg,.png,.jpeg,.gif,.bmp,.tif,.tiff|image/*">
                             </div>
                         </div>
                         <!-- End Profile Cover -->
@@ -288,6 +293,17 @@
 
         $("#customFileUpload").change(function () {
             readURL(this);
+        });
+
+        // Banner live preview
+        $("#bannerUploader").change(function () {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#bannerPreviewWrapper").css('background-image', 'url(' + e.target.result + ')');
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
         });
     </script>
 

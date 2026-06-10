@@ -310,10 +310,9 @@
                                         <span>:</span>
                                         <span class="value">
                                             {{\App\CPU\Helpers::currency_converter($product->shipping_cost)}}
-                                            @if ($product->multiply_qty == 1)
-                                                ({{translate('multiply_with_quantity')}})
+                                            @if ($product->additional_shipping_cost > 0)
+                                                + {{translate('additional_per_extra_unit')}} {{\App\CPU\Helpers::currency_converter($product->additional_shipping_cost)}}
                                             @endif
-
                                         <span>
                                     </div>
                                 @endif

@@ -212,7 +212,13 @@
                                             <td class="text-end">{{ \App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])*$cartItem['quantity']) }}</td>
                                             <td>
                                                 @if ( $shipping_type != 'order_wise')
-                                                    {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                    @if ($product && $product->additional_shipping_cost > 0 && $cartItem['quantity'] > 1)
+                                                        {{ \App\CPU\Helpers::currency_converter($product->shipping_cost) }}
+                                                        + {{ $cartItem['quantity'] - 1 }}×{{ \App\CPU\Helpers::currency_converter($product->additional_shipping_cost) }}
+                                                        = {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                    @else
+                                                        {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                    @endif
                                                 @endif
                                             </td>
                                         </tr>
@@ -271,7 +277,15 @@
                                             <div class="fs-12">{{ translate('discount') }} : {{ \App\CPU\Helpers::currency_converter($cartItem['discount']*$cartItem['quantity']) }}</div>
                                             <div class="fs-12">{{ translate('total') }} : {{ \App\CPU\Helpers::currency_converter(($cartItem['price']-$cartItem['discount'])*$cartItem['quantity']) }}</div>
                                             @if ( $shipping_type != 'order_wise')
-                                            <div class="fs-12">{{ translate('shipping_cost') }} : {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}</div>
+                                            <div class="fs-12">{{ translate('shipping_cost') }} :
+                                                @if ($product && $product->additional_shipping_cost > 0 && $cartItem['quantity'] > 1)
+                                                    {{ \App\CPU\Helpers::currency_converter($product->shipping_cost) }}
+                                                    + {{ $cartItem['quantity'] - 1 }}×{{ \App\CPU\Helpers::currency_converter($product->additional_shipping_cost) }}
+                                                    = {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                @else
+                                                    {{ \App\CPU\Helpers::currency_converter($cartItem['shipping_cost']) }}
+                                                @endif
+                                            </div>
                                             @endif
                                         </div>
                                     </div>

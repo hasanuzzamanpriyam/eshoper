@@ -2,8 +2,7 @@
     <ul class="list-unstyled">
         <li class="{{ Request::is('admin/business-settings/terms-condition') ?'active':'' }}"><a href="{{route('admin.business-settings.terms-condition')}}">{{translate('terms_&_Conditions')}}</a></li>
         <li class="{{ Request::is('admin/business-settings/privacy-policy') ?'active':'' }}"><a href="{{route('admin.business-settings.privacy-policy')}}">{{translate('privacy_Policy')}}</a></li>
-        <li class="{{ Request::is('admin/business-settings/page/refund-policy') ?'active':'' }}"><a href="{{route('admin.business-settings.page',['refund-policy'])}}">{{translate('refund_Policy')}}</a></li>
-        <li class="{{ Request::is('admin/business-settings/page/return-policy') ?'active':'' }}"><a href="{{route('admin.business-settings.page',['return-policy'])}}">{{translate('return_Policy')}}</a></li>
+        <li class="{{ Request::is('admin/business-settings/page/return-policy') ?'active':'' }}"><a href="{{route('admin.business-settings.page',['return-policy'])}}">Return & Refund Policy</a></li>
         <li class="{{ Request::is('admin/business-settings/page/cancellation-policy') ?'active':'' }}"><a href="{{route('admin.business-settings.page',['cancellation-policy'])}}">{{translate('cancellation_Policy')}}</a></li>
         <li class="{{ Request::is('admin/business-settings/about-us') ?'active':'' }}"><a href="{{route('admin.business-settings.about-us')}}">{{translate('about_Us')}}</a></li>
         <li class="{{ Request::is('admin/helpTopic/list') ?'active':'' }}"><a href="{{route('admin.helpTopic.list')}}">{{translate('FAQ')}}</a></li>

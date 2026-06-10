@@ -310,7 +310,8 @@ class ProductController extends Controller
         $product->request_status = Helpers::get_business_settings('new_product_approval') == 1 ? 0 : 1;
         $product->status = 0;
         $product->shipping_cost  = $request->product_type == 'physical' ? Convert::usd($request->shipping_cost) : 0;
-        $product->multiply_qty = ($request->product_type == 'physical') ? ($request->multiplyQTY == 1 ? 1 : 0) : 0;
+        $product->additional_shipping_cost = $request->product_type == 'physical' ? Convert::usd($request->additional_shipping_cost ?? 0) : 0;
+        $product->multiply_qty = 0;
         $product->save();
         $data = [];
         foreach ($request->lang as $index => $key) {
@@ -557,7 +558,8 @@ class ProductController extends Controller
         $product->meta_description  = $request->meta_description;
 
         $product->shipping_cost     = $request->product_type == 'physical' ? (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 ? $product->shipping_cost : Convert::usd($request->shipping_cost)) : 0;
-        $product->multiply_qty      = ($request->product_type == 'physical') ? ($request->multiplyQTY == 1 ? 1 : 0) : 0;
+        $product->additional_shipping_cost = $request->product_type == 'physical' ? (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 ? $product->additional_shipping_cost : Convert::usd($request->additional_shipping_cost ?? 0)) : 0;
+        $product->multiply_qty      = 0;
 
         if (Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 && ($product->shipping_cost != Convert::usd($request->shipping_cost)) && ($request->product_type == 'physical')) {
             $product->temp_shipping_cost = Convert::usd($request->shipping_cost);

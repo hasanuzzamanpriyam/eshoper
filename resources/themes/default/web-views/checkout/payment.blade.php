@@ -46,7 +46,10 @@
                     <div class="card-body"
                         style="{{ isset($cooldownRemaining) && $cooldownRemaining > 0 ? 'pointer-events: none; opacity: 0.5;' : '' }}">
 
-                        <div class="gap-2 mb-4">
+                        @php($has_cod = !$cod_not_show && $cash_on_delivery['status'])
+                        @php($has_wallet = $digital_payment['status'] == 1 && auth('customer')->check() && $wallet_status == 1)
+
+                        <div class="gap-2 {{ ($has_cod || $has_wallet) ? 'mb-4' : 'mb-2' }}">
                             <div class="d-flex justify-content-between">
                                 <h4 class="mb-2 text-nowrap">{{ translate('payment_method')}}</h4>
                                 <a href="{{route('checkout-details')}}"
@@ -54,7 +57,9 @@
                                     <i class="tio-back-ui fs-12 text-capitalize"></i> {{translate('go_back')}}
                                 </a>
                             </div>
-                            <p class="text-capitalize mt-2">{{ translate('select_a_payment_method_to_proceed')}}</p>
+                            @if($has_cod || $has_wallet)
+                            <p class="text-capitalize mt-2 mb-0">{{ translate('select_a_payment_method_to_proceed')}}</p>
+                            @endif
 
                         </div>
                         @if(isset($cooldownRemaining) && $cooldownRemaining > 0)
@@ -62,9 +67,9 @@
                                 {{ translate('You_cannot_place_another_order_within_5_minutes!') }}
                             </div>
                         @endif
-                        @if(!$cod_not_show && $cash_on_delivery['status'] || $digital_payment['status'] == 1)
+                        @if($has_cod || $has_wallet)
                             <div class="d-flex flex-wrap gap-3 mb-5">
-                                @if(!$cod_not_show && $cash_on_delivery['status'])
+                                @if($has_cod)
                                     <div id="cod-for-cart">
                                         <div class="card cursor-pointer">
                                             <form action="{{route('checkout-complete')}}" method="get" class="needs-validation"
@@ -84,18 +89,16 @@
                                     </div>
                                 @endif
 
-                                @if ($digital_payment['status'] == 1)
-                                    @if(auth('customer')->check() && $wallet_status == 1)
-                                        <div>
-                                            <div class="card cursor-pointer">
-                                                <button class="btn btn-block click-if-alone d-flex gap-2 align-items-center"
-                                                    type="submit" data-toggle="modal" data-target="#wallet_submit_button">
-                                                    <img width="20" src="{{asset('assets/front-end/img/icons/wallet-sm.png')}}" />
-                                                    <span class="fs-12">{{translate('pay_via_Wallet')}}</span>
-                                                </button>
-                                            </div>
+                                @if($has_wallet)
+                                    <div>
+                                        <div class="card cursor-pointer">
+                                            <button class="btn btn-block click-if-alone d-flex gap-2 align-items-center"
+                                                type="submit" data-toggle="modal" data-target="#wallet_submit_button">
+                                                <img width="20" src="{{asset('assets/front-end/img/icons/wallet-sm.png')}}" />
+                                                <span class="fs-12">{{translate('pay_via_Wallet')}}</span>
+                                            </button>
                                         </div>
-                                    @endif
+                                    </div>
                                 @endif
                             </div>
                         @endif

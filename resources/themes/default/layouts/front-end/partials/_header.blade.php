@@ -361,7 +361,7 @@
 
 
                     <!-- Primary menu-->
-                    <ul class="navbar-nav" style="{{Session::get('direction') === "rtl" ? 'padding-right: 0px' : ''}}">
+                    <ul class="navbar-nav w-100" style="{{Session::get('direction') === "rtl" ? 'padding-right: 0px' : ''}}">
                         <li class="nav-item dropdown {{request()->is('/')?'active':''}}">
                             <a class="nav-link" href="{{route('home')}}">{{ translate('home')}}</a>
                         </li>
@@ -466,6 +466,11 @@
                                 </li>
                             @endif
                         @endif
+                        <li class="nav-item ml-auto my-1 rounded-lg" style="background-color: {{$web_config['primary_color']}};">
+                            <a class="nav-link text-white font-semibold" href="{{ route('track-order.index') }}">
+                                {{ translate('Track_Order')}}
+                            </a>
+                        </li>
                     </ul>
                     @if(auth('customer')->check())
                         <div class="logout-btn mt-auto d-md-none">
@@ -473,6 +478,7 @@
                             <a href="{{route('customer.auth.logout')}}" class="nav-link">
                                 <strong class="text-base">{{translate('logout')}}</strong>
                             </a>
+                            
                         </div>
                     @endif
                 </div>

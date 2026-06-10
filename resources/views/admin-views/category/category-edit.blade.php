@@ -101,15 +101,45 @@
                                                    for="customFileEg1">{{translate('choose_File')}}</label>
                                         </div>
                                     </div>
+                                    <div class="from_part_2 mt-4">
+                                        <label class="title-color">{{translate('category_Popup_Image')}} ({{translate('optional')}})</label>
+                                        <div class="custom-file text-left">
+                                            <input type="file" name="popup_image" id="customFileEg2"
+                                                   class="custom-file-input"
+                                                   accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
+                                            <label class="custom-file-label"
+                                                   for="customFileEg2">{{translate('choose_File')}}</label>
+                                        </div>
+                                    </div>
+                                    <div class="from_part_2 mt-2">
+                                        <label class="title-color">{{translate('popup_Image_Link')}} ({{translate('optional')}})</label>
+                                        <input type="url" name="popup_image_link" class="form-control"
+                                               value="{{$category['popup_image_link']}}"
+                                               placeholder="https://example.com">
+                                    </div>
                                 </div>
                                 <div class="col-lg-6 mt-5 mt-lg-0 from_part_2">
                                     <div class="form-group">
                                         <center>
-                                            <img class="upload-img-view"
+                                            <img class="upload-img-view mb-4"
                                                     id="viewer"
                                                     onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
                                                     src="{{asset('storage/category')}}/{{$category['icon']}}"
                                                     alt=""/>
+                                            <div class="position-relative d-inline-block">
+                                                <img class="upload-img-view"
+                                                    id="viewer2"
+                                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
+                                                    src="{{asset('storage/category')}}/{{$category['popup_image']}}"
+                                                    alt="popup image"/>
+                                                @if($category['popup_image'])
+                                                    <a class="btn btn-outline-danger btn-sm square-btn position-absolute"
+                                                       style="top:-5px;right:-5px;"
+                                                       href="{{route('admin.category.remove-popup-image', [$category['id']])}}">
+                                                        <i class="tio-delete"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </center>
                                     </div>
                                 </div>
@@ -200,6 +230,22 @@
 
         $("#customFileEg1").change(function () {
             readURL(this);
+        });
+
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#viewer2').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#customFileEg2").change(function () {
+            readURL2(this);
         });
 
         $('.category-name').on('keyup keypress change', function() {

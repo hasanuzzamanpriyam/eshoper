@@ -59,12 +59,16 @@ class CategoryController extends Controller
         $category->name = $request->name[array_search('en', $request->lang)];
         $category->slug = $request->slug ? Str::slug($request->slug) : Str::slug($request->name[array_search('en', $request->lang)]);
         $category->icon = ImageManager::upload('category/', 'webp', $request->file('image'));
+        if ($request->has('popup_image')) {
+            $category->popup_image = ImageManager::upload('category/', 'webp', $request->file('popup_image'));
+        }
         $category->parent_id = 0;
         $category->position = 0;
         $category->priority = $request->priority;
         $category->blog_title = $request->blog_title;
         $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
         $category->blog_description = $request->blog_description;
+        $category->popup_image_link = $request->popup_image_link;
         $category->save();
 
         $data = [];
@@ -101,10 +105,14 @@ class CategoryController extends Controller
         if ($request->image) {
             $category->icon = ImageManager::update('category/', $category->icon, 'webp', $request->file('image'));
         }
+        if ($request->popup_image) {
+            $category->popup_image = ImageManager::update('category/', $category->popup_image, 'webp', $request->file('popup_image'));
+        }
         $category->priority = $request->priority;
         $category->blog_title = $request->blog_title;
         $category->blog_slug = $request->blog_slug ? Str::slug($request->blog_slug) : Str::slug($request->blog_title);
         $category->blog_description = $request->blog_description;
+        $category->popup_image_link = $request->popup_image_link;
         $category->save();
 
         foreach ($request->lang as $index => $key) {
@@ -169,5 +177,17 @@ class CategoryController extends Controller
         return response()->json([
             'success' => 1,
         ], 200);
+    }
+
+    public function removePopupImage(Request $request)
+    {
+        $category = Category::find($request->id);
+        if ($category) {
+            ImageManager::delete('category/' . $category->popup_image);
+            $category->popup_image = null;
+            $category->save();
+            Toastr::success(translate('popup_image_removed_successfully'));
+        }
+        return back();
     }
 }

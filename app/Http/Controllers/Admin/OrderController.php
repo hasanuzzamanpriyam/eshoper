@@ -8,6 +8,7 @@ use App\CPU\ImageManager;
 use App\CPU\OrderManager;
 use App\Http\Controllers\Controller;
 use App\Model\BusinessSetting;
+use App\Model\CustomerReputation;
 use App\Model\DeliveryMan;
 use App\Model\DeliveryManTransaction;
 use App\Model\DeliverymanWallet;
@@ -248,7 +249,7 @@ class OrderController extends Controller
         $company_name =BusinessSetting::where('type', 'company_name')->first()->value;
         $company_web_logo =BusinessSetting::where('type', 'company_web_logo')->first()->value;
 
-        $order = $this->order->with('details.product_all_status', 'verification_images' ,'shipping', 'seller.shop', 'offline_payments','delivery_man')->where(['id' => $id])->first();
+        $order = $this->order->with('customer', 'details.product_all_status', 'verification_images' ,'shipping', 'seller.shop', 'offline_payments','delivery_man')->where(['id' => $id])->first();
 
         $physical_product = false;
         if(isset($order->details)){
@@ -276,11 +277,17 @@ class OrderController extends Controller
         })->get();
 
         $shipping_address = ShippingAddress::find($order->shipping_address);
+
+        $customerReputation = null;
+        if ($order->customer) {
+            $customerReputation = CustomerReputation::where('phone', $order->customer->phone)->first();
+        }
+
         if($order->order_type == 'default_type')
         {
             return view('admin-views.order.order-details', compact('shipping_address','order', 'linked_orders',
                 'delivery_men', 'total_delivered', 'company_name', 'company_web_logo', 'physical_product',
-                'country_restrict_status','zip_restrict_status','countries','zip_codes'));
+                'country_restrict_status','zip_restrict_status','countries','zip_codes', 'customerReputation'));
         }else{
             return view('admin-views.pos.order.order-details', compact('order', 'company_name', 'company_web_logo'));
         }

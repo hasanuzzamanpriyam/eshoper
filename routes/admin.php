@@ -130,6 +130,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
             Route::post('update/{id}', 'CategoryController@update')->name('update');
             Route::post('delete', 'CategoryController@delete')->name('delete');
             Route::post('status', 'CategoryController@status')->name('status');
+            Route::get('remove-popup-image/{id}', 'CategoryController@removePopupImage')->name('remove-popup-image');
         });
 
         Route::group(['prefix' => 'sub-category', 'as' => 'sub-category.', 'middleware' => ['module:product_management']], function () {
@@ -590,6 +591,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
                 Route::get('map-api', 'BusinessSettingsController@map_api')->name('map-api');
                 Route::post('map-api-update', 'BusinessSettingsController@map_api_update')->name('map-api-update');
 
+                //fraudshield
+                Route::get('fraudshield', 'BusinessSettingsController@fraudshield')->name('fraudshield');
+                Route::post('fraudshield-update', 'BusinessSettingsController@fraudshield_update')->name('fraudshield-update');
+
                 Route::post('update-fcm-messages', 'BusinessSettingsController@update_fcm_messages')->name('update-fcm-messages');
 
 
@@ -687,6 +692,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.'], fu
 
             Route::post('payable-balance-update', 'OrderController@payable_balance_update')->name('payable-balance-update'); // update payable balance from order details
 
+        });
+
+        Route::group(['prefix' => 'pending-checkout', 'as' => 'pending-checkout.', 'middleware' => ['module:order_management']], function () {
+            Route::get('list', 'PendingCheckoutController@list')->name('list');
+            Route::get('details/{id}', 'PendingCheckoutController@details')->name('details');
+            Route::delete('destroy/{id}', 'PendingCheckoutController@destroy')->name('destroy');
+            Route::get('export', 'PendingCheckoutController@export')->name('export');
         });
 
         //pos management

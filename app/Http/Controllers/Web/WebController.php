@@ -507,6 +507,15 @@ class WebController extends Controller
 
 		$cod_not_show = in_array(false, $physical_products);
 
+		// Check fraud ratio threshold
+		if (!$cod_not_show) {
+			$fraudRatio = session('fraud_ratio');
+			$threshold = Helpers::get_business_settings('fraud_ratio_threshold');
+			if ($threshold !== null && ($fraudRatio === null || (float)$fraudRatio < (float)$threshold)) {
+				$cod_not_show = true;
+			}
+		}
+
 		foreach ($cart_group_ids as $group_id) {
 			$carts = Cart::where('cart_group_id', $group_id)->get();
 
@@ -648,6 +657,8 @@ class WebController extends Controller
 				);
 			}
 
+			session()->forget('fraud_ratio');
+
 			return view(VIEW_FILE_NAMES['order_complete'], compact('order_ids'));
 		}
 
@@ -717,6 +728,8 @@ class WebController extends Controller
 			);
 		}
 
+		session()->forget('fraud_ratio');
+
 		return view(VIEW_FILE_NAMES['order_complete'], compact('order_ids'));
 	}
 
@@ -762,6 +775,8 @@ class WebController extends Controller
 			CustomerManager::create_wallet_transaction($user->id, Convert::default($cartTotal), 'order_place', 'order payment');
 			CartManager::cart_clean();
 		}
+
+		session()->forget('fraud_ratio');
 
 		if (session()->has('payment_mode') && session('payment_mode') == 'app') {
 			return redirect()->route('payment-success');

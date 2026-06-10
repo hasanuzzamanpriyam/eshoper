@@ -458,28 +458,21 @@
                                 class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-md-6 physical_product_show" id="shipping_cost_multy">
+                    <div class="col-md-6 col-lg-4 col-xl-3 physical_product_show" id="additional_shipping_cost">
                         <div class="form-group">
-                            <div
-                                class="form-control h-auto min-form-control-height d-flex align-items-center flex-wrap justify-content-between gap-2">
-                                <div class="d-flex gap-2">
-                                    <label class="title-color text-capitalize"
-                                        for="shipping_cost">{{ translate('shipping_cost_multiply_with_quantity') }}</label>
+                            <div class="d-flex gap-2">
+                                <label class="title-color">{{ translate('additional_shipping_cost_per_extra_unit') }}
+                                    ({{\App\CPU\BackEndHelper::currency_symbol()}})</label>
 
-                                    <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
-                                        title="{{translate('if_enabled,_the_shipping_charge_will_increase_with_the_product_quantity')}}">
-                                        <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
-                                    </span>
-                                </div>
-
-                                <div>
-                                    <label class="switcher">
-                                        <input class="switcher_input" type="checkbox" name="multiplyQTY" id=""
-                                            {{$product->multiply_qty == 1 ? 'checked' : ''}}>
-                                        <span class="switcher_control"></span>
-                                    </label>
-                                </div>
+                                <span class="input-label-secondary cursor-pointer" data-toggle="tooltip"
+                                    title="{{translate('base_shipping_cost_applies_for_the_first_unit._This_cost_is_added_for_each_additional_unit_beyond_the_first.')}}">
+                                    <img src="{{asset('assets/back-end/img/info-circle.svg')}}" alt="">
+                                </span>
                             </div>
+
+                            <input type="number" min="0" value="{{\App\CPU\Convert::default($product->additional_shipping_cost)}}"
+                                step="1" placeholder="{{translate('additional_shipping_cost_per_extra_unit')}}"
+                                name="additional_shipping_cost" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -910,42 +903,35 @@
                             <textarea rows="4" type="text" name="meta_description"
                                 class="form-control">{{$product['meta_description']}}</textarea>
                         </div>
-                    </div>
-
-                    <!-- Meta Tags Section -->
-                    <div class="card-header">
-                        <div class="d-flex gap-2">
-                            <i class="tio-user-big"></i>
-                            <h4 class="mb-0">{{ translate('meta_tags') }}</h4>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div id="meta_tags_container">
-                            @if(!empty($product->meta_tag))
-                                @foreach($product->meta_tag as $tag)
-                                    <div class="form-group d-flex gap-2 mt-2">
+                        <div class="form-group">
+                            <label class="title-color">{{ translate('meta_tags') }}</label>
+                            <div id="meta_tags_container">
+                                @if(!empty($product->meta_tag))
+                                    @foreach($product->meta_tag as $tag)
+                                        <div class="form-group d-flex gap-2 mt-2">
+                                            <input type="text" name="meta_tag[]" class="form-control"
+                                                placeholder="{{ translate('enter_meta_tag') }}" value="{{ $tag }}">
+                                            <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
+                                                <i class="tio-delete"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="form-group d-flex gap-2">
                                         <input type="text" name="meta_tag[]" class="form-control"
-                                            placeholder="{{ translate('enter_meta_tag') }}" value="{{ $tag }}">
+                                            placeholder="{{ translate('enter_meta_tag') }}">
                                         <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
                                             <i class="tio-delete"></i>
                                         </button>
                                     </div>
-                                @endforeach
-                            @else
-                                <div class="form-group d-flex gap-2">
-                                    <input type="text" name="meta_tag[]" class="form-control"
-                                        placeholder="{{ translate('enter_meta_tag') }}">
-                                    <button type="button" class="btn btn-danger" onclick="removeMetaTagField(this)">
-                                        <i class="tio-delete"></i>
-                                    </button>
-                                </div>
-                            @endif
-                        </div>
-                        <!-- Add Meta Tag Button -->
-                        <div class="form-group d-flex gap-2 mt-2">
-                            <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
-                                <i class="tio-add"></i> {{ translate('add_meta_tag') }}
-                            </button>
+                                @endif
+                            </div>
+                            <!-- Add Meta Tag Button -->
+                            <div class="form-group d-flex gap-2 mt-2">
+                                <button type="button" class="btn btn--primary" onclick="addMetaTagField()">
+                                    <i class="tio-add"></i> {{ translate('add_meta_tag') }}
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -1541,23 +1527,6 @@
                 });
             };
         });
-
-        $(document).ready(function () {
-            $('#is_delivery_free').change(function () {
-                if ($(this).prop('checked')) {
-                    $('#shipping_cost').hide();
-                    $('#shipping_cost_multy').hide();
-                } else {
-                    $('#shipping_cost').show();
-                    $('#shipping_cost_multy').show();
-                }
-            });
-
-            if ($('#is_delivery_free').prop('checked')) {
-                $('#shipping_cost').hide();
-                $('#shipping_cost_multy').hide();
-            }
-        });
     </script>
 
     <script>
@@ -1617,6 +1586,18 @@
             $('#digital_product_type').change(function () {
                 digital_product_type();
             });
+
+            $('#is_delivery_free').change(function () {
+                if ($(this).prop('checked')) {
+                    $('#shipping_cost').hide();
+                    $('#additional_shipping_cost').hide();
+                    $('input[name="shipping_cost"]').val(0);
+                    $('input[name="additional_shipping_cost"]').val(0);
+                } else {
+                    $('#shipping_cost').show();
+                    $('#additional_shipping_cost').show();
+                }
+            });
         });
 
         function product_type() {
@@ -1628,6 +1609,11 @@
                 $('.physical_product_show').show();
                 $("#digital_product_type").val($("#digital_product_type option:first").val());
                 $("#digital_file_ready").val('');
+
+                if ($('#is_delivery_free').prop('checked')) {
+                    $('#shipping_cost').hide();
+                    $('#additional_shipping_cost').hide();
+                }
             } else if (product_type === 'digital') {
                 $('#digital_product_type_show').show();
                 $('.physical_product_show').hide();
@@ -1640,7 +1626,7 @@
             if (digital_product_type === 'ready_product') {
                 $('#digital_file_ready_show').show();
             } else if (digital_product_type === 'ready_after_sell') {
-                $('#digital_file_রেডি_show').hide();
+                $('#digital_file_ready_show').hide();
                 $("#digital_file_ready").val('');
             }
         }

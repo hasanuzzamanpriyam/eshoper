@@ -56,6 +56,10 @@ class OrderSettingsController extends Controller
             'updated_at' => now()
         ]);
 
+        BusinessSetting::updateOrInsert(['type' => 'fraud_ratio_threshold'], [
+            'value' => $request['fraud_ratio_threshold']
+        ]);
+
         Toastr::success(translate('successfully_updated'));
         return back();
     }

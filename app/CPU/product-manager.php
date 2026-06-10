@@ -585,7 +585,10 @@ class ProductManager
                     : 0;
 
             }elseif($shipping_type->shipping_type == "product_wise"){
-                $delivery_cost = $product->multiply_qty != 0 ? ($product->shipping_cost * $quantity) : $product->shipping_cost;
+                $delivery_cost = $product->shipping_cost;
+                if ($product->additional_shipping_cost > 0 && $quantity > 1) {
+                    $delivery_cost += ($quantity - 1) * $product->additional_shipping_cost;
+                }
             }elseif($shipping_type->shipping_type == 'order_wise'){
                 $max_order_wise_shipping_cost = ShippingMethod::where(['creator_id'=>1,'creator_type'=>'admin','status'=>1])->max('cost');
                 $min_order_wise_shipping_cost = ShippingMethod::where(['creator_id'=>1,'creator_type'=>'admin','status'=>1])->min('cost');
@@ -615,7 +618,10 @@ class ProductManager
                         ($CategoryShippingCost->multiply_qty != 0 ? ($CategoryShippingCost->cost * $quantity) : $CategoryShippingCost->cost)
                     : 0;
                 }elseif($shipping_type->shipping_type == "product_wise"){
-                    $delivery_cost = $product->multiply_qty != 0 ? ($product->shipping_cost * $quantity) : $product->shipping_cost;
+                    $delivery_cost = $product->shipping_cost;
+                    if ($product->additional_shipping_cost > 0 && $quantity > 1) {
+                        $delivery_cost += ($quantity - 1) * $product->additional_shipping_cost;
+                    }
                 }elseif($shipping_type->shipping_type == 'order_wise'){
                     $max_order_wise_shipping_cost = ShippingMethod::where(['creator_id'=>$product->user_id,'creator_type'=>$product->added_by,'status'=>1])->max('cost');
                     $min_order_wise_shipping_cost = ShippingMethod::where(['creator_id'=>$product->user_id,'creator_type'=>$product->added_by,'status'=>1])->min('cost');

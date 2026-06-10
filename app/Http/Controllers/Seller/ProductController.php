@@ -320,10 +320,12 @@ class ProductController extends Controller
         if ($request->product_type == 'physical') {
             $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
             $product->shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->shipping_cost);
-            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+            $product->additional_shipping_cost = $product->is_delivery_free ? 0 : BackEndHelper::currency_to_usd($request->additional_shipping_cost ?? 0);
+            $product->multiply_qty = 0;
         } else {
             $product->is_delivery_free = 1;
             $product->shipping_cost = 0;
+            $product->additional_shipping_cost = 0;
             $product->multiply_qty = 0;
         }
         $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
@@ -890,15 +892,13 @@ class ProductController extends Controller
         $product->current_stock     = $request->product_type == 'physical' ? abs($stock_count) : 0;
         if ($request->product_type == 'physical') {
             $product->is_delivery_free = $request->has('is_delivery_free') ? 1 : 0;
-            if ($product->is_delivery_free) {
-                $product->shipping_cost = 0;
-            } else {
-                $product->shipping_cost = Helpers::get_business_settings('product_wise_shipping_cost_approval') == 1 ? $product->shipping_cost : Convert::usd($request->shipping_cost);
-            }
-            $product->multiply_qty = ($request->has('multiplyQTY') && $request->multiplyQTY == 'on') ? 1 : 0;
+            $product->shipping_cost = $product->is_delivery_free ? 0 : Convert::usd($request->shipping_cost);
+            $product->additional_shipping_cost = $product->is_delivery_free ? 0 : Convert::usd($request->additional_shipping_cost ?? 0);
+            $product->multiply_qty = 0;
         } else {
             $product->is_delivery_free = 1;
             $product->shipping_cost = 0;
+            $product->additional_shipping_cost = 0;
             $product->multiply_qty = 0;
         }
         $product->is_cash_on_delivery = $request->has('is_cash_on_delivery') ? true : false;
