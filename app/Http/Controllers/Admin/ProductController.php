@@ -1003,11 +1003,11 @@ public function update(Request $request, $id)
             'sub_sub_category' => $sub_sub_category,
             'brand' => $brnad,
             'search' => $search,
-            'type' => $request->type ?? '',
+            'type' => $type ?? '',
             'seller' => $seller,
             'status' => $request->status ?? '',
         ];
-        return Excel::download(new ProductListExport($data), ucwords($request->type) . '-' . 'product-list.xlsx');
+        return Excel::download(new ProductListExport($data), ucwords($type) . '-' . 'product-list.xlsx');
     }
 
     public function updated_product_list(Request $request)
