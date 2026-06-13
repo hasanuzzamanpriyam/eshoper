@@ -322,7 +322,7 @@
     <!-- modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-faded-info">
                     <h5 class="modal-title" id="exampleModalLongTitle">{{translate('Send_Message_to_seller')}}</h5>
@@ -354,67 +354,6 @@
                             @endif
                         </div>
                     </form>
-                </div>
-
-        <div class="row mt-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="mb-4">{{translate('product_reviews')}}</h4>
-                        @if(count($reviews_of_product['reviews']) > 0)
-                            @foreach($reviews_of_product['reviews'] as $productReview)
-                                <div class="p-2 border-bottom mb-3">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="media gap-3">
-                                                <img class="rounded-circle __img-64 object-cover"
-                                                    onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
-                                                    src="{{asset("storage/profile")}}/{{(isset($productReview->customer)?$productReview->customer->image:'')}}"
-                                                    alt="{{isset($productReview->customer)?$productReview->customer->f_name:'not exist'}}"/>
-                                                <div class="media-body text-body">
-                                                    <span class="font-weight-bold d-block">{{isset($productReview->customer)?$productReview->customer->f_name.' '.$productReview->customer->l_name:'not exist'}}</span>
-                                                    <div class="text-warning">
-                                                        @for($i=1; $i<=5; $i++)
-                                                            @if($i <= $productReview->rating)
-                                                                <i class="tio-star"></i>
-                                                            @else
-                                                                <i class="tio-star-outlined"></i>
-                                                            @endif
-                                                        @endfor
-                                                    </div>
-                                                    @if(isset($productReview->product))
-                                                    <div class="mt-2">
-                                                        <small>{{translate('product')}}: </small>
-                                                        <a href="{{route('product',$productReview->product->slug)}}" class="text-primary small">
-                                                            {{$productReview->product->name}}
-                                                        </a>
-                                                    </div>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <p class="mb-2 text-body">{{$productReview->comment}}</p>
-                                            @if ($productReview->attachment)
-                                                @foreach (json_decode($productReview->attachment) as $photo)
-                                                    <img class="cz-image-zoom __img-70 rounded border mr-1" 
-                                                        onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'" 
-                                                        src="{{asset("storage/review/$photo")}}" alt="Review photo">
-                                                @endforeach
-                                            @endif
-                                            <div class="text-muted small mt-2">
-                                                {{$productReview->created_at->format('d M, Y')}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        @else
-                            <div class="text-center p-4">
-                                <p>{{translate('no_reviews_found')}}</p>
-                            </div>
-                        @endif
-                    </div>
                 </div>
             </div>
         </div>
