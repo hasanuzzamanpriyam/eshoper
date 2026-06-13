@@ -261,12 +261,13 @@
             @include('web-views.partials._home-top-slider', ['main_banner' => $main_banner])
         </div>
     </section>
-
-    <!--flash deal-->
-    @if ($web_config['flash_deals'] && count($web_config['flash_deals']->products) > 0)
-        @include('web-views.partials._flash-deal')
-    @endif
-
+@if ($web_config['flash_deals']->count() > 0)
+    @foreach($web_config['flash_deals'] as $flash_deal)
+        <div class="mb-3 d-block">
+            @include('web-views.partials._flash-deal')
+        </div>
+    @endforeach
+@endif
     <!-- Products grid (featured products)-->
     @if ($featured_products->count() > 0)
         <div class="container py-4 rtl px-0 px-md-3">
@@ -513,113 +514,68 @@
 @endsection
 
 @push('script')
+@foreach($web_config['flash_deals'] as $flash_deal)
     <script>
-        /*--flash deal Progressbar --*/
-        function update_flash_deal_progress_bar() {
+        (function(){
             const current_time_stamp = new Date().getTime();
-            const start_date = new Date('{{$web_config['flash_deals']['start_date'] ?? ''}}').getTime();
-            const countdownElement = document.querySelector('.cz-countdown');
+            const start_date = new Date('{{$flash_deal['start_date'] ?? ''}}').getTime();
+            const container = document.getElementById('flash-deal-{{ $loop->index }}');
+            const countdownElement = container ? container.querySelector('.cz-countdown') : null;
+            if (!countdownElement) return;
             const get_end_time = countdownElement.getAttribute('data-countdown');
             const end_time = new Date(get_end_time).getTime();
             let time_progress = ((current_time_stamp - start_date) / (end_time - start_date)) * 100;
-            const progress_bar = document.querySelector('.flash-deal-progress-bar');
-            progress_bar.style.width = time_progress + '%';
-        }
-        update_flash_deal_progress_bar();
-        setInterval(update_flash_deal_progress_bar, 10000);
-        /*-- end flash deal Progressbar --*/
+            const progress_bar = container.querySelector('.flash-deal-progress-bar');
+            if (progress_bar) progress_bar.style.width = time_progress + '%';
+
+            function updateProgress() {
+                const now = new Date().getTime();
+                const progress = ((now - start_date) / (end_time - start_date)) * 100;
+                if (progress_bar) progress_bar.style.width = progress + '%';
+            }
+            setInterval(updateProgress, 10000);
+        })();
     </script>
+@endforeach
 
     <!-- Owl Carousel -->
     <script src="{{asset('assets/front-end')}}/js/owl.carousel.min.js"></script>
 
+@foreach($web_config['flash_deals'] as $flash_deal)
     <script>
-        $('.flash-deal-slider').owlCarousel({
-            loop: false,
-            autoplay: true,
-            center: false,
-            margin: 10,
-            nav: true,
-            navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
-            dots: false,
-            autoplayHoverPause: true,
-            '{{session('direction')}}': false,
-            // center: true,
-            responsive: {
-                //X-Small
-                0: {
-                    items: 1.1
-                },
-                360: {
-                    items: 1.2
-                },
-                375: {
-                    items: 1.4
-                },
-                480: {
-                    items: 1.8
-                },
-                //Small
-                576: {
-                    items: 2
-                },
-                //Medium
-                768: {
-                    items: 3
-                },
-                //Large
-                992: {
-                    items: 4
-                },
-                //Extra large
-                1200: {
-                    items: 4
-                },
+        (function(){
+            const container = document.getElementById('flash-deal-{{ $loop->index }}');
+            if (!container) return;
+            const slider = container.querySelector('.flash-deal-slider');
+            const sliderMobile = container.querySelector('.flash-deal-slider-mobile');
+            if (slider) {
+                $(slider).owlCarousel({
+                    loop: false, autoplay: true, center: false, margin: 10,
+                    nav: true,
+                    navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
+                    dots: false, autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 1.1 }, 360: { items: 1.2 }, 375: { items: 1.4 },
+                        480: { items: 1.8 }, 576: { items: 2 }, 768: { items: 3 },
+                        992: { items: 4 }, 1200: { items: 4 }
+                    }
+                });
             }
-        })
-        $('.flash-deal-slider-mobile').owlCarousel({
-            loop: false,
-            autoplay: true,
-            center: true,
-            margin: 10,
-            nav: true,
-            navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
-            dots: false,
-            autoplayHoverPause: true,
-            '{{session('direction')}}': false,
-            // center: true,
-            responsive: {
-                //X-Small
-                0: {
-                    items: 1.1
-                },
-                360: {
-                    items: 1.2
-                },
-                375: {
-                    items: 1.4
-                },
-                480: {
-                    items: 1.8
-                },
-                //Small
-                576: {
-                    items: 2
-                },
-                //Medium
-                768: {
-                    items: 3
-                },
-                //Large
-                992: {
-                    items: 4
-                },
-                //Extra large
-                1200: {
-                    items: 4
-                },
+            if (sliderMobile) {
+                $(sliderMobile).owlCarousel({
+                    loop: false, autoplay: true, center: true, margin: 10,
+                    nav: true,
+                    navText: ["<i class='czi-arrow-left'></i>", "<i class='czi-arrow-right'></i>"],
+                    dots: false, autoplayHoverPause: true,
+                    responsive: {
+                        0: { items: 1.1 }, 360: { items: 1.2 }, 375: { items: 1.4 },
+                        480: { items: 1.8 }, 576: { items: 2 }
+                    }
+                });
             }
-        })
+        })();
+    </script>
+@endforeach
 
         $('#web-feature-deal-slider').owlCarousel({
             loop: false,

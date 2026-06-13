@@ -99,7 +99,7 @@ class AppServiceProvider extends ServiceProvider
                     }])->where(['deal_type' => 'flash_deal', 'status' => 1])
                         ->whereDate('start_date', '<=', date('Y-m-d'))
                         ->whereDate('end_date', '>=', date('Y-m-d'))
-                        ->first();
+                        ->get();
 
                     $featured_deals = Product::active()
                         ->with([

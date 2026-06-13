@@ -242,7 +242,7 @@ class HomeController extends Controller
             ->where(['deal_type'=>'flash_deal', 'status'=>1])
             ->whereDate('start_date','<=',date('Y-m-d'))
             ->whereDate('end_date','>=',date('Y-m-d'))
-            ->first();
+            ->get();
 
         //find what you need
         $find_what_you_need_categories_data = $this->category->where('parent_id', 0)

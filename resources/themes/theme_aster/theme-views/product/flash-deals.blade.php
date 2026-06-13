@@ -41,7 +41,7 @@
                                         <div class="text-muted">{{ translate('offer_ends_in') }}:</div>
                                     </div>
                                 </div>
-                                <div class="countdown-timer justify-content-center d-flex gap-3 gap-sm-4 flex-wrap align-content-center" data-date="{{$web_config['flash_deals']?$web_config['flash_deals']['end_date']:''}}">
+                                <div class="countdown-timer justify-content-center d-flex gap-3 gap-sm-4 flex-wrap align-content-center" data-date="{{$deal?$deal['end_date']:''}}">
                                     <div class="days d-flex flex-column gap-2 gap-sm-3 text-center"></div>
                                     <div class="hours d-flex flex-column gap-2 gap-sm-3 text-center"></div>
                                     <div class="minutes d-flex flex-column gap-2 gap-sm-3 text-center"></div>
