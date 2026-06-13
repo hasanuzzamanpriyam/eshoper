@@ -989,145 +989,145 @@ public function update(Request $request, $id)
             })->latest()
             ->get();
 
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
         $lastCol = 'S';
-        $headerRow = 3;
-        $dataStartRow = 4;
 
-        return (new FastExcel([]))
-            ->withCallback(function ($sheet) use ($products, $type, $request, $lastCol, $headerRow, $dataStartRow) {
-                $sheet->mergeCells("A1:{$lastCol}1");
-                $sheet->setCellValue('A1', ucwords($type) . ' ' . translate('product_List'));
-                $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(18);
-                $sheet->getStyle('A1')->getAlignment()
-                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-                $sheet->getRowDimension(1)->setRowHeight(30);
+        $sheet->mergeCells("A1:{$lastCol}1");
+        $sheet->setCellValue('A1', ucwords($type) . ' ' . translate('product_List'));
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(18);
+        $sheet->getStyle('A1')->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension(1)->setRowHeight(30);
 
-                $sheet->mergeCells("A2:B2");
-                $sheet->setCellValue('A2', translate('filter_Criteria') . ' -');
-                $sheet->getStyle('A2')->getFont()->setBold(true);
+        $sheet->mergeCells("A2:B2");
+        $sheet->setCellValue('A2', translate('filter_Criteria') . ' -');
+        $sheet->getStyle('A2')->getFont()->setBold(true);
 
-                $sheet->mergeCells("C2:{$lastCol}2");
-                $filterParts = [];
-                $filterParts[] = translate('category') . ' - ' . (!empty($request->category_id) ? (Category::find($request->category_id)?->name ?? 'all') : 'all');
-                $filterParts[] = translate('sub_Category') . ' - ' . (!empty($request->sub_category_id) ? (Category::find($request->sub_category_id)?->name ?? 'all') : 'all');
-                $filterParts[] = translate('sub_Sub_Category') . ' - ' . (!empty($request->sub_sub_category_id) ? (Category::find($request->sub_sub_category_id)?->name ?? 'all') : 'all');
-                $filterParts[] = translate('brand') . ' - ' . (!empty($request->brand_id) ? (Brand::find($request->brand_id)?->name ?? 'all') : 'all');
-                if ($type == 'seller') {
-                    $sellerName = !empty($request->seller_id) ? (Seller::find($request->seller_id)?->shop->name ?? translate('all')) : translate('all');
-                    $filterParts[] = translate('store') . ' - ' . $sellerName;
-                    $statusMap = ['0' => 'pending', '1' => 'approved', '2' => 'denied'];
-                    $filterParts[] = translate('status') . ' - ' . translate($statusMap[$request->status] ?? 'all');
-                }
-                $filterParts[] = translate('search_Bar_Content') . ' - ' . (!empty($request->search) ? ucwords($request->search) : 'N/A');
+        $sheet->mergeCells("C2:{$lastCol}2");
+        $filterParts = [];
+        $filterParts[] = translate('category') . ' - ' . (!empty($request->category_id) ? (Category::find($request->category_id)?->defaultName ?? 'all') : 'all');
+        $filterParts[] = translate('sub_Category') . ' - ' . (!empty($request->sub_category_id) ? (Category::find($request->sub_category_id)?->defaultName ?? 'all') : 'all');
+        $filterParts[] = translate('sub_Sub_Category') . ' - ' . (!empty($request->sub_sub_category_id) ? (Category::find($request->sub_sub_category_id)?->defaultName ?? 'all') : 'all');
+        $filterParts[] = translate('brand') . ' - ' . (!empty($request->brand_id) ? (Brand::find($request->brand_id)?->name ?? 'all') : 'all');
+        if ($type == 'seller') {
+            $sellerName = !empty($request->seller_id) ? (Seller::find($request->seller_id)?->shop->name ?? translate('all')) : translate('all');
+            $filterParts[] = translate('store') . ' - ' . $sellerName;
+            $statusMap = ['0' => 'pending', '1' => 'approved', '2' => 'denied'];
+            $filterParts[] = translate('status') . ' - ' . translate($statusMap[$request->status] ?? 'all');
+        }
+        $filterParts[] = translate('search_Bar_Content') . ' - ' . (!empty($request->search) ? ucwords($request->search) : 'N/A');
 
-                $sheet->setCellValue('C2', implode(' | ', $filterParts));
-                $sheet->getStyle('C2')->getAlignment()->setWrapText(true);
-                $sheet->getRowDimension(2)->setRowHeight(100);
+        $sheet->setCellValue('C2', implode(' | ', $filterParts));
+        $sheet->getStyle('C2')->getAlignment()->setWrapText(true);
+        $sheet->getRowDimension(2)->setRowHeight(100);
 
-                $dbHeaders = [
-                    translate('SL'), translate('product_Image'), translate('image_URL'),
-                    translate('product_Name'), translate('product_SKU'), translate('description'),
-                    translate('store_Name'), translate('category_Name'),
-                    translate('sub_Category_Name'), translate('sub_Sub_Category_Name'),
-                    translate('brand'), translate('product_Type'), translate('price'),
-                    translate('tax'), translate('discount'), translate('discount_Type'),
-                    translate('rating'), translate('product_Tags'), translate('status'),
-                ];
+        $dbHeaders = [
+            translate('SL'), translate('product_Image'), translate('image_URL'),
+            translate('product_Name'), translate('product_SKU'), translate('description'),
+            translate('store_Name'), translate('category_Name'),
+            translate('sub_Category_Name'), translate('sub_Sub_Category_Name'),
+            translate('brand'), translate('product_Type'), translate('price'),
+            translate('tax'), translate('discount'), translate('discount_Type'),
+            translate('rating'), translate('product_Tags'), translate('status'),
+        ];
 
-                foreach ($dbHeaders as $colIndex => $header) {
-                    $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
-                    $sheet->setCellValue($colLetter . $headerRow, $header);
-                }
+        foreach ($dbHeaders as $colIndex => $header) {
+            $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
+            $sheet->setCellValue($colLetter . '3', $header);
+        }
 
-                $headerRange = "A{$headerRow}:{$lastCol}{$headerRow}";
-                $sheet->getStyle($headerRange)->getFont()->setBold(true)->getColor()->setARGB('FFFFFF');
-                $sheet->getStyle($headerRange)->getFill()->applyFromArray([
-                    'fillType' => 'solid',
-                    'rotation' => 0,
-                    'color' => ['rgb' => '063C93'],
-                ]);
-                $sheet->getStyle($headerRange)->getAlignment()
-                    ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
-                    ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-                $sheet->getRowDimension($headerRow)->setRowHeight(30);
+        $headerRange = "A3:{$lastCol}3";
+        $sheet->getStyle($headerRange)->getFont()->setBold(true)->getColor()->setARGB('FFFFFF');
+        $sheet->getStyle($headerRange)->getFill()->applyFromArray([
+            'fillType' => 'solid',
+            'rotation' => 0,
+            'color' => ['rgb' => '063C93'],
+        ]);
+        $sheet->getStyle($headerRange)->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER)
+            ->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $sheet->getRowDimension(3)->setRowHeight(30);
 
-                $dataEndRow = $dataStartRow + $products->count() - 1;
+        foreach ($products as $key => $item) {
+            $row = 4 + $key;
 
-                foreach ($products as $key => $item) {
-                    $row = $dataStartRow + $key;
+            $sheet->setCellValue('A' . $row, $key + 1);
+            $sheet->setCellValue('B' . $row, '');
+            $sheet->setCellValue('C' . $row, asset('storage/product/thumbnail/' . $item->thumbnail));
+            $sheet->setCellValue('D' . $row, $item->name);
+            $sheet->setCellValue('E' . $row, $item->code);
+            $sheet->setCellValue('F' . $row, strip_tags($item->details));
+            $sheet->setCellValue('G' . $row, $type == 'seller' ? ucwords($item?->seller?->shop->name ?? translate('not_found')) : '');
+            $sheet->setCellValue('H' . $row, $item?->category?->name ?? 'N/A');
+            $sheet->setCellValue('I' . $row, $item?->sub_category?->name ?? 'N/A');
+            $sheet->setCellValue('J' . $row, $item?->sub_sub_category?->name ?? 'N/A');
+            $sheet->setCellValue('K' . $row, $item?->brand?->name ?? 'N/A');
+            $sheet->setCellValue('L' . $row, $item?->product_type);
+            $sheet->setCellValue('M' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['unit_price'])));
+            $sheet->setCellValue('N' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['tax'])));
+            $sheet->setCellValue('O' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['discount'])));
+            $sheet->setCellValue('P' . $row, $item->discount_type);
+            $sheet->setCellValue('Q' . $row, $item?->rating && count($item->rating) > 0 ? number_format($item->rating[0]->average, 2) : 'N/A');
+            $sheet->setCellValue('R' . $row, $item->tags ? $item->tags->pluck('tag')->implode(',') : '');
+            $sheet->setCellValue('S' . $row, translate($item->status == 1 ? 'active' : 'inactive'));
 
-                    $sheet->setCellValue('A' . $row, $key + 1);
-                    $sheet->setCellValue('B' . $row, '');
-                    $sheet->setCellValue('C' . $row, asset('storage/product/thumbnail/' . $item->thumbnail));
-                    $sheet->setCellValue('D' . $row, $item->name);
-                    $sheet->setCellValue('E' . $row, $item->code);
-                    $sheet->setCellValue('F' . $row, strip_tags($item->details));
-                    $sheet->setCellValue('G' . $row, $type == 'seller' ? ucwords($item?->seller?->shop->name ?? translate('not_found')) : '');
-                    $sheet->setCellValue('H' . $row, $item?->category?->name ?? 'N/A');
-                    $sheet->setCellValue('I' . $row, $item?->sub_category?->name ?? 'N/A');
-                    $sheet->setCellValue('J' . $row, $item?->sub_sub_category?->name ?? 'N/A');
-                    $sheet->setCellValue('K' . $row, $item?->brand?->name ?? 'N/A');
-                    $sheet->setCellValue('L' . $row, $item?->product_type);
-                    $sheet->setCellValue('M' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['unit_price'])));
-                    $sheet->setCellValue('N' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['tax'])));
-                    $sheet->setCellValue('O' . $row, BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['discount'])));
-                    $sheet->setCellValue('P' . $row, $item->discount_type);
-                    $sheet->setCellValue('Q' . $row, $item?->rating && count($item->rating) > 0 ? number_format($item->rating[0]->average, 2) : 'N/A');
-                    $sheet->setCellValue('R' . $row, $item->tags ? $item->tags->pluck('tag')->implode(',') : '');
-                    $sheet->setCellValue('S' . $row, translate($item->status == 1 ? 'active' : 'inactive'));
+            try {
+                $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+                $drawing->setName($item->name);
+                $drawing->setDescription($item->name);
+                $drawing->setPath(
+                    is_file(storage_path('app/public/product/thumbnail/' . $item->thumbnail))
+                        ? storage_path('app/public/product/thumbnail/' . $item->thumbnail)
+                        : public_path('assets/back-end/img/products.png')
+                );
+                $drawing->setHeight(50);
+                $drawing->setOffsetX(45);
+                $drawing->setOffsetY(70);
+                $drawing->setResizeProportional(true);
+                $drawing->setCoordinates("B{$row}");
+                $drawing->setWorksheet($sheet);
+            } catch (\Exception $e) {
+            }
 
-                    try {
-                        $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
-                        $drawing->setName($item->name);
-                        $drawing->setDescription($item->name);
-                        $drawing->setPath(
-                            is_file(storage_path('app/public/product/thumbnail/' . $item->thumbnail))
-                                ? storage_path('app/public/product/thumbnail/' . $item->thumbnail)
-                                : public_path('assets/back-end/img/products.png')
-                        );
-                        $drawing->setHeight(50);
-                        $drawing->setOffsetX(45);
-                        $drawing->setOffsetY(70);
-                        $drawing->setResizeProportional(true);
-                        $drawing->setCoordinates("B{$row}");
-                        $drawing->setWorksheet($sheet);
-                    } catch (\Exception $e) {
-                    }
+            $sheet->getRowDimension($row)->setRowHeight(150);
+        }
 
-                    $sheet->getRowDimension($row)->setRowHeight(150);
-                }
+        if ($products->isNotEmpty()) {
+            $dataEndRow = 4 + $products->count() - 1;
+            $dataRange = "A4:{$lastCol}{$dataEndRow}";
+            $sheet->getStyle($dataRange)->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        'color' => ['argb' => '000000'],
+                    ],
+                ],
+                'alignment' => [
+                    'wrapText' => true,
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+                ],
+            ]);
+        }
 
-                if ($products->isNotEmpty()) {
-                    $dataRange = "A{$dataStartRow}:{$lastCol}{$dataEndRow}";
-                    $sheet->getStyle($dataRange)->applyFromArray([
-                        'borders' => [
-                            'allBorders' => [
-                                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-                                'color' => ['argb' => '000000'],
-                            ],
-                        ],
-                        'alignment' => [
-                            'wrapText' => true,
-                            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                            'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-                        ],
-                    ]);
-                }
+        $sheet->getColumnDimension('A')->setWidth(15);
+        $sheet->getColumnDimension('C')->setWidth(25);
+        $sheet->getColumnDimension('D')->setWidth(25);
+        $sheet->getColumnDimension('F')->setWidth(50);
+        $sheet->getColumnDimension('G')->setWidth(20);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(20);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('R')->setWidth(25);
 
-                $sheet->getColumnDimension('A')->setWidth(15);
-                $sheet->getColumnDimension('C')->setWidth(25);
-                $sheet->getColumnDimension('D')->setWidth(25);
-                $sheet->getColumnDimension('F')->setWidth(50);
-                $sheet->getColumnDimension('G')->setWidth(20);
-                $sheet->getColumnDimension('H')->setWidth(20);
-                $sheet->getColumnDimension('I')->setWidth(20);
-                $sheet->getColumnDimension('J')->setWidth(20);
-                $sheet->getColumnDimension('R')->setWidth(25);
+        $sheet->setShowGridlines(false);
 
-                $sheet->setShowGridlines(false);
-            })
-            ->download(ucwords($type) . '-' . 'product-list.xlsx');
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, ucwords($type) . '-' . 'product-list.xlsx');
     }
 
     public function updated_product_list(Request $request)
