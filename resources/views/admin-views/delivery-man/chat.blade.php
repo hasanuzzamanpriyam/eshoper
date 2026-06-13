@@ -98,8 +98,8 @@
                                 <div class="mesgs">
                                     <div class="msg_history d-flex flex-column-reverse pr-2 overflow-x-hidden" id="show_msg">
                                         @foreach($chattings as $key => $message)
-                                               @if ($message->sent_by_delivery_man)
-                                                <div class="incoming_msg">
+                                                @if ($message->sent_by_delivery_man)
+                                                 <div class="incoming_msg" data-msg-id="{{ $message->id }}">
                                                     <div class="received_msg">
                                                         <div class="received_withd_msg">
 
@@ -131,7 +131,7 @@
                                                     </div>
                                                 </div>
                                             @else
-                                                <div class="outgoing_msg">
+                                                 <div class="outgoing_msg" data-msg-id="{{ $message->id }}">
                                                     <div class="sent_msg p-2">
                                                         @if($message->message)
                                                         <div class="d-flex justify-content-end">
@@ -295,7 +295,7 @@
                                         </div>` : '';
 
                             msg_history.prepend(`
-                                    <div class="outgoing_msg" id="outgoing_msg">
+                                    <div class="outgoing_msg" data-msg-id="${response.id}">
                                         <div class='sent_msg'>
                                         ${response_message}
                                         <div class="row g-2 flex-wrap pt-1 justify-content-end">
@@ -331,6 +331,12 @@
                 //remove value from input box
                 $('#myForm').find('#msgInputValue').val('');
             });
+
+            let activeChat = $('.chat_list.active');
+            if (activeChat.length) {
+                let userId = activeChat.attr('id');
+                if (userId) startPolling(userId);
+            }
         });
     </script>
 
@@ -446,7 +452,7 @@
 
                             if (element.sent_by_admin) {
                                 $(".msg_history").prepend(`
-                                      <div class="outgoing_msg" id="outgoing_msg">
+                                      <div class="outgoing_msg" data-msg-id="${element.id}">
                                         <div class='sent_msg'>
                                         <div class="d-flex justify-content-end">
                                           <p class="bg-c1 text-white rounded px-3 py-2 mb-1">${element.message}</p>
@@ -461,7 +467,7 @@
 
                             } else {
                                 $(".msg_history").prepend(`
-                                      <div class="incoming_msg" id="incoming_msg">
+                                      <div class="incoming_msg" data-msg-id="${element.id}">
                                         <div class="incoming_msg_img" id="">
                                           <img src="${window.location.origin}/storage/profile/${element.image}" class="__rounded-10" alt="">
                                         </div>
@@ -481,16 +487,118 @@
 
                             $('#hidden_value').attr("value", user_id);
                             $('#notif-alert-'+user_id).hide();
+                            startPolling(user_id);
                         })
                     } else {
                         $(".msg_history").html(`<p> {{translate('no_Message_available')}} </p>`);
                         data = [];
+                        startPolling(user_id);
                     }
 
                 }
             });
 
             $('.type_msg').css('display', 'block');
+        }
+
+        let activeUserId = null;
+        let lastMessageId = 0;
+        let chatPollInterval = null;
+        const POLL_INTERVAL = 3000;
+
+        function getMaxMessageId() {
+            let maxId = 0;
+            $('.msg_history').find('[data-msg-id]').each(function() {
+                let id = parseInt($(this).data('msg-id'));
+                if (id > maxId) maxId = id;
+            });
+            return maxId;
+        }
+
+        function startPolling(userId) {
+            if (chatPollInterval) clearInterval(chatPollInterval);
+            activeUserId = userId;
+            lastMessageId = getMaxMessageId();
+
+            chatPollInterval = setInterval(function() {
+                if (!activeUserId) return;
+
+                let url = "{{ route('admin.delivery-man.ajax-message-by-delivery-man') }}" + "?delivery_man_id=" + activeUserId + "&last_message_id=" + lastMessageId;
+
+                $.get(url, function(data) {
+                    if (data.length > 0) {
+                        let newMaxId = lastMessageId;
+                        data.forEach(function(element) {
+                            if (parseInt(element.id) > newMaxId) {
+                                newMaxId = parseInt(element.id);
+                            }
+                            appendPolledMessage(element);
+                        });
+                        if (newMaxId > lastMessageId) {
+                            lastMessageId = newMaxId;
+                            $(".msg_history").stop().animate({scrollTop: $(".msg_history")[0].scrollHeight}, 500);
+                        }
+                    }
+                });
+            }, POLL_INTERVAL);
+        }
+
+        function stopPolling() {
+            if (chatPollInterval) {
+                clearInterval(chatPollInterval);
+                chatPollInterval = null;
+            }
+            activeUserId = null;
+        }
+
+        function appendPolledMessage(element) {
+            if ($(`.msg_history [data-msg-id="${element.id}"]`).length > 0) return;
+
+            let dateTime = new Date(element.created_at);
+            let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let time = dateTime.toLocaleTimeString().toLowerCase();
+            let date = month[dateTime.getMonth().toString()] + " " + dateTime.getDate().toString();
+
+            let attachment_files = element.attachment;
+            let imageContainer = '';
+            if (attachment_files && attachment_files !== 'null' && attachment_files.length > 2) {
+                JSON.parse(attachment_files).forEach(function(imageUrl, index) {
+                    let img_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                    imageContainer += `
+                        <div class="col-sm-3 col-md-2 position-relative img_row${index}">
+                            <a data-lightbox="mygallery" href="${img_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'" src="${img_path}" alt="img" class="img-fit">
+                            </a>
+                        </div>`;
+                });
+            }
+
+            let outgoingMessageHtml = element.message ? `<div class="d-flex justify-content-end"><p class="bg-c1 text-white rounded px-3 py-2 mb-1">${element.message}</p></div>` : '';
+            let incomingMessageHtml = element.message ? `<div class="d-flex justify-content-start"><p class="bg-chat rounded px-3 py-2 mb-1">${element.message}</p></div>` : '';
+
+            if (element.sent_by_admin) {
+                $(".msg_history").prepend(`
+                    <div class="outgoing_msg" data-msg-id="${element.id}">
+                        <div class="sent_msg">
+                            ${outgoingMessageHtml}
+                            ${imageContainer ? `<div class="row g-2 flex-wrap pt-1 justify-content-end">${imageContainer}</div>` : ''}
+                            <span class="time_date fz-12 pt-2 d-flex justify-content-end"> ${time} | ${date}</span>
+                        </div>
+                    </div>`
+                );
+            } else {
+                $(".msg_history").prepend(`
+                    <div class="incoming_msg" data-msg-id="${element.id}">
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                ${incomingMessageHtml}
+                                ${imageContainer ? `<div class="row g-2 flex-wrap pt-1 justify-content-start mb-1">${imageContainer}</div>` : ''}
+                                <span class="time_date fz-12"> ${time} | ${date}</span>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            }
         }
     </script>
 

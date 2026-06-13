@@ -413,18 +413,21 @@ class ProductController extends Controller
         $search = $request['search'];
         if ($request->has('search')) {
             $key = explode(' ', $request['search']);
-            $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()])
+            $product_ids = Translation::where('translationable_type', 'App\Model\Product')
+                ->where('key', 'name')
                 ->where(function ($q) use ($key) {
-                    $product_ids = Translation::where('translationable_type', 'App\Model\Product')
-                        ->where('key', 'name')
-                        ->where(function ($q) use ($key) {
-                            foreach ($key as $value) {
-                                $q->orWhere('value', 'like', "%{$value}%");
-                            }
-                        })->pluck('translationable_id');
-
                     foreach ($key as $value) {
-                        $q->Where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
+                        $q->where('value', 'like', "%{$value}%");
+                    }
+                })->pluck('translationable_id');
+
+            $products = Product::where(['added_by' => 'seller', 'user_id' => \auth('seller')->id()])
+                ->where(function ($q) use ($key, $product_ids) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                    if ($product_ids->isNotEmpty()) {
+                        $q->orWhereIn('id', $product_ids);
                     }
                 });
             $query_param = ['search' => $request['search']];

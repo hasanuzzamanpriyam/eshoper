@@ -878,13 +878,18 @@ public function update(Request $request, $id)
                 ->where('key', 'name')
                 ->where(function ($q) use ($key) {
                     foreach ($key as $value) {
-                        $q->orWhere('value', 'like', "%{$value}%");
+                        $q->where('value', 'like', "%{$value}%");
                     }
                 })->pluck('translationable_id');
 
-            foreach ($key as $value) {
-                return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
-            }
+            return $query->where(function ($q) use ($key, $product_ids) {
+                foreach ($key as $value) {
+                    $q->where('name', 'like', "%{$value}%");
+                }
+                if ($product_ids->isNotEmpty()) {
+                    $q->orWhereIn('id', $product_ids);
+                }
+            });
         })->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
             return $query->where('user_id', $request->seller_id);
         })
@@ -954,13 +959,18 @@ public function update(Request $request, $id)
                     ->where('key', 'name')
                     ->where(function ($q) use ($key) {
                         foreach ($key as $value) {
-                            $q->orWhere('value', 'like', "%{$value}%");
+                            $q->where('value', 'like', "%{$value}%");
                         }
                     })->pluck('translationable_id');
 
-                foreach ($key as $value) {
-                    return $query->where('name', 'like', "%{$value}%")->orWhereIn('id', $product_ids);
-                }
+                return $query->where(function ($q) use ($key, $product_ids) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                    if ($product_ids->isNotEmpty()) {
+                        $q->orWhereIn('id', $product_ids);
+                    }
+                });
             })
             ->when(!empty($request->seller_id) && $request->has('seller_id'), function ($query) use ($request) {
                 return $query->where('user_id', $request->seller_id);
