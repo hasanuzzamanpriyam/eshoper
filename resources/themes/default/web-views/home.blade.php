@@ -577,6 +577,7 @@
     </script>
 @endforeach
 
+    <script>
         $('#web-feature-deal-slider').owlCarousel({
             loop: false,
             autoplay: true,

@@ -322,7 +322,7 @@
     <!-- modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-faded-info">
                     <h5 class="modal-title" id="exampleModalLongTitle">{{translate('Send_Message_to_seller')}}</h5>
@@ -338,7 +338,7 @@
                             <input value="{{$shop->seller_id}}}" name="seller_id" hidden>
                         @endif
 
-                        <textarea name="message" class="form-control" required placeholder="{{ translate('Write_here') }}..."></textarea>
+                        <textarea name="message" class="form-control" rows="10" required placeholder="{{ translate('Write_here') }}..."></textarea>
                         <br>
 
                         <div class="justify-content-end gap-2 d-flex flex-wrap">
