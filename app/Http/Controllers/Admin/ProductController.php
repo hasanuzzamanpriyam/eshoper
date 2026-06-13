@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\CPU\BackEndHelper;
 use App\CPU\Helpers;
 use App\CPU\ImageManager;
-use App\Exports\ProductListExport;
 use App\Http\Controllers\BaseController;
 use App\Model\Brand;
 use App\Model\BusinessSetting;
@@ -945,10 +944,11 @@ public function update(Request $request, $id)
      */
     public function export_excel(Request $request, $type)
     {
-        $search = $request['search'];
-        $products = $this->product->when($type == 'in_house', function ($query) {
-            return $query->where(['added_by' => 'admin']);
-        })
+        $products = $this->product
+            ->with(['category', 'sub_category', 'sub_sub_category', 'brand', 'rating', 'tags', 'seller.shop'])
+            ->when($type == 'in_house', function ($query) {
+                return $query->where(['added_by' => 'admin']);
+            })
             ->when($type == 'seller', function ($query) use ($request) {
                 return $query->where(['added_by' => 'seller', 'request_status' => $request->status]);
             })
@@ -989,25 +989,31 @@ public function update(Request $request, $id)
             })->latest()
             ->get();
 
-        //export from product
-        $category = !empty($request->category_id) && $request->has('category_id') ? $this->category->where(['id' => $request->category_id])->first() : 'all';
-
-        $sub_category = !empty($request->sub_category_id) &&  $request->has('sub_category_id') ? $this->category->where(['id' => $request->sub_category_id])->first() : 'all';
-        $sub_sub_category = !empty($request->sub_sub_category_id) && $request->has('sub_sub_category_id') ? $this->category->where(['id' => $request->sub_sub_category_id])->first() : 'all';
-        $brnad = !empty($request->brand_id) && $request->has('brand_id') ? Brand::where(['id' => $request->brand_id])->first() : 'all';
-        $seller = !empty($request->seller_id) && $request->has('seller_id') ? Seller::where(['id' => $request->seller_id])->first() : '';
-        $data = [
-            'products' => $products,
-            'category' => $category,
-            'sub_category' => $sub_category,
-            'sub_sub_category' => $sub_sub_category,
-            'brand' => $brnad,
-            'search' => $search,
-            'type' => $type ?? '',
-            'seller' => $seller,
-            'status' => $request->status ?? '',
-        ];
-        return Excel::download(new ProductListExport($data), ucwords($type) . '-' . 'product-list.xlsx');
+        $storage = [];
+        foreach ($products as $key => $item) {
+            $storage[] = [
+                translate('SL') => $key + 1,
+                translate('product_Image') => '',
+                translate('image_URL') => asset('storage/product/thumbnail/' . $item->thumbnail),
+                translate('product_Name') => $item->name,
+                translate('product_SKU') => $item->code,
+                translate('description') => strip_tags($item->details),
+                translate('store_Name') => $type == 'seller' ? ucwords($item?->seller?->shop->name ?? translate('not_found')) : '',
+                translate('category_Name') => $item?->category?->name ?? 'N/A',
+                translate('sub_Category_Name') => $item?->sub_category?->name ?? 'N/A',
+                translate('sub_Sub_Category_Name') => $item?->sub_sub_category?->name ?? 'N/A',
+                translate('brand') => $item?->brand?->name ?? 'N/A',
+                translate('product_Type') => $item?->product_type,
+                translate('price') => BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['unit_price'])),
+                translate('tax') => BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['tax'])),
+                translate('discount') => BackEndHelper::set_symbol(BackEndHelper::usd_to_currency($item['discount'])),
+                translate('discount_Type') => $item->discount_type,
+                translate('rating') => $item?->rating && count($item->rating) > 0 ? number_format($item->rating[0]->average, 2) : 'N/A',
+                translate('product_Tags') => $item->tags ? $item->tags->pluck('tag')->implode(',') : '',
+                translate('status') => translate($item->status == 1 ? 'active' : 'inactive'),
+            ];
+        }
+        return (new FastExcel($storage))->download(ucwords($type) . '-' . 'product-list.xlsx');
     }
 
     public function updated_product_list(Request $request)
