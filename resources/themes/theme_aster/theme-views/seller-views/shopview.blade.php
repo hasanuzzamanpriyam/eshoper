@@ -86,7 +86,7 @@
                                     <h6><span class="follower_count">{{$followers}}</span> {{translate('Followers')}}</h6>
                                     <ul class="list-unstyled list-inline-dot fs-12">
                                         <li>{{ $total_review}} {{translate('Reviews')}} </li>
-                                        <li>{{ $total_order}} {{translate('Orders')}} </li>
+                                        {{-- <li>{{ $total_order}} {{translate('Orders')}} </li> --}}
                                         @php($minimum_order_amount=\App\CPU\Helpers::get_business_settings('minimum_order_amount_status'))
                                         @php($minimum_order_amount_by_seller=\App\CPU\Helpers::get_business_settings('minimum_order_amount_by_seller'))
                                         @if ($minimum_order_amount ==1 && $minimum_order_amount_by_seller ==1)
@@ -133,7 +133,7 @@
                                     <h6><span class="follower_count">{{$followers}}</span> {{translate('Followers')}}</h6>
                                     <ul class="list-unstyled list-inline-dot fs-12 mb-1">
                                         <li>{{ $total_review}} {{translate('Reviews')}} </li>
-                                        <li>{{ $total_order}} {{translate('Orders')}} </li>
+                                        {{-- <li>{{ $total_order}} {{translate('Orders')}} </li> --}}
                                     </ul>
 
                                     @php($minimum_order_amount_status=\App\CPU\Helpers::get_business_settings('minimum_order_amount_status'))

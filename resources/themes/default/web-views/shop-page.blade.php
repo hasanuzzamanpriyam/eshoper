@@ -115,7 +115,7 @@
 
                                             <span class="__inline-69"></span>
 
-                                            <span class="text-nowrap">{{ $total_order}} {{translate('orders')}}</span>
+                                            {{-- <span class="text-nowrap">{{ $total_order}} {{translate('orders')}}</span> --}}
                                             @php($minimum_order_amount_status=\App\CPU\Helpers::get_business_settings('minimum_order_amount_status'))
                                             @php($minimum_order_amount_by_seller=\App\CPU\Helpers::get_business_settings('minimum_order_amount_by_seller'))
                                             @if ($minimum_order_amount_status ==1 && $minimum_order_amount_by_seller ==1)
