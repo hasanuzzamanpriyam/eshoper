@@ -332,11 +332,6 @@ class PaymentMethodController extends Controller
 
         $additional_data_image = $settings['additional_data'] != null ? json_decode($settings['additional_data']) : null;
 
-        if (!$additional_data_image || !isset($additional_data_image->gateway_image) || (isset($additional_data_image->gateway_image) && $additional_data_image->gateway_image == '') || (isset($additional_data_image->gateway_image) && !file_exists(base_path("storage/app/public/payment_modules/gateway_image/" . $additional_data_image->gateway_image)))) {
-            $request->validate([
-                'gateway_image' => 'required',
-            ]);
-        }
         $request->validate(['gateway_title' => 'required']);
 
         if ($request->has('gateway_image')) {
