@@ -308,7 +308,8 @@ class Helpers
             'liqpay',
             'mercadopago',
             'bkash',
-            'nagad'
+            'nagad',
+            'paytic'
         ];
         return $methods;
     }

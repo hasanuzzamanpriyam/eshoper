@@ -5,6 +5,7 @@ use App\CPU\CartManager;
 use App\CPU\CustomerManager;
 use App\CPU\OrderManager;
 use App\Model\Cart;
+use App\Model\CartShipping;
 use App\Model\PendingCheckout;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -17,8 +18,14 @@ if (!function_exists('digital_payment_success')) {
             $order_ids = [];
             $additional_data = json_decode($payment_data['additional_data']);
 
+            $stored_group_ids = isset($additional_data->cart_group_ids) && is_array($additional_data->cart_group_ids)
+                ? $additional_data->cart_group_ids
+                : null;
+
             $data = [];
-            if (isset($additional_data->payment_request_from) && in_array($additional_data->payment_request_from, ['app', 'react'])) {
+            if ($stored_group_ids) {
+                $cart_group_ids = $stored_group_ids;
+            } elseif (isset($additional_data->payment_request_from) && in_array($additional_data->payment_request_from, ['app', 'react'])) {
                 $data += [
                     'request' => [
                         'customer_id' => $additional_data->customer_id,
@@ -61,6 +68,10 @@ if (!function_exists('digital_payment_success')) {
             // Store order IDs in session for the order complete page
             session()->put('order_ids', $order_ids);
 
+            if ($stored_group_ids) {
+                CartShipping::whereIn('cart_group_id', $stored_group_ids)->delete();
+                Cart::whereIn('cart_group_id', $stored_group_ids)->delete();
+            }
             if (isset($additional_data->payment_request_from) && in_array($additional_data->payment_request_from, ['app', 'react'])) {
                 CartManager::cart_clean_for_api_digital_payment($data);
             } else {

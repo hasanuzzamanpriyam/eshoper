@@ -112,6 +112,8 @@ trait Payment
             return url("payment/sixcash/pay/?payment_id={$payment->id}");
         } else if ($payment->payment_method == 'nagad') {
             return url("payment/nagad/pay/?payment_id={$payment->id}");
+        } else if ($payment->payment_method == 'paytic') {
+            return url("payment/paytic/pay/?payment_id={$payment->id}");
         }
 
         return false;
