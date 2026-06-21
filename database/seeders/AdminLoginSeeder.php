@@ -14,7 +14,7 @@ class AdminLoginSeeder extends Seeder
      *
      * Credentials:
      *   Email    : admin@admin.com
-     *   Password : admin123
+     *   Password : 12345678
      */
     public function run()
     {
@@ -43,7 +43,7 @@ class AdminLoginSeeder extends Seeder
         if ($existing) {
             DB::table('admins')->where('email', $email)->update([
                 'name'          => 'Super Admin',
-                'password'      => Hash::make('admin123'),
+                'password'      => Hash::make('12345678'),
                 'admin_role_id' => 1,
                 'status'        => 1,
                 'updated_at'    => now(),
@@ -56,7 +56,7 @@ class AdminLoginSeeder extends Seeder
                 'email'          => $email,
                 'admin_role_id'  => 1,
                 'image'          => 'def.png',
-                'password'       => Hash::make('admin123'),
+                'password'       => Hash::make('12345678'),
                 'status'         => 1,
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
@@ -71,7 +71,7 @@ class AdminLoginSeeder extends Seeder
         $this->command->info('║       Admin Login Credentials       ║');
         $this->command->info('╠═════════════════════════════════════╣');
         $this->command->info("║  Email    : {$email}        ║");
-        $this->command->info('║  Password : admin123                ║');
+        $this->command->info('║  Password : 12345678                ║');
         $this->command->info('╚═════════════════════════════════════╝');
     }
 }
