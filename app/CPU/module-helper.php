@@ -28,10 +28,27 @@ if (!function_exists('digital_payment_success')) {
                 // Use stored address/customer data from additional_data if available
                 // (needed for webhooks that run without browser session)
                 if (isset($additional_data->customer_id)) {
+                    $name_guest_reg = '';
+                    $phone_guest_reg = '';
+                    $email_guest_reg = '';
+
+                    if ($additional_data->is_guest ?? 0) {
+                        $address = \App\Model\ShippingAddress::where(['customer_id' => $additional_data->customer_id, 'is_guest' => 1])
+                            ->latest()->first();
+                        if ($address) {
+                            $name_guest_reg = $address->contact_person_name ?? '';
+                            $phone_guest_reg = $address->phone ?? '';
+                            $email_guest_reg = $address->email ?? '';
+                        }
+                    }
+
                     $data['request'] = [
                         'customer_id' => $additional_data->customer_id,
                         'is_guest' => $additional_data->is_guest ?? 0,
                         'guest_id' => ($additional_data->is_guest ?? 0) ? ($additional_data->guest_id ?? $additional_data->customer_id) : null,
+                        'name_guest_reg' => $name_guest_reg,
+                        'phone_guest_reg' => $phone_guest_reg,
+                        'email_guest_reg' => $email_guest_reg,
                         'order_note' => $additional_data->order_note ?? null,
                         'coupon_code' => $additional_data->coupon_code ?? null,
                         'coupon_discount' => $additional_data->coupon_discount ?? null,
