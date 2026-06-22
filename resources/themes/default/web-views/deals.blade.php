@@ -68,7 +68,7 @@
                      <div class="col-lg-5 col-md-6 text-center {{Session::get('direction') === "rtl" ? 'text-sm-right' : 'text-sm-left'}}">
                          <div class="flash_deal_title text-uppercase font-weight-bold"
                          style="font-size: 28px; line-height: 1.2; color: {{$web_config['primary_color']}};">
-                        {{$web_config['flash_deals']->title}}
+                        {{$deal->title}}
                     </div>
                          <div class="mt-1 opacity-75" style="color: {{$web_config['primary_color']}};">
                             {{translate('hurry_Up')}} ! {{translate('the_offer_is_limited')}}. {{translate('grab_while_it_lasts')}}
@@ -79,7 +79,7 @@
                              <div class="text-center">
                                  <div class="d-inline-block">
                                      <span class="cz-countdown d-flex justify-content-center align-items-center"
-                                         data-countdown="{{$web_config['flash_deals']?date('m/d/Y',strtotime($web_config['flash_deals']['end_date'])):''}} 23:59:00"
+                                         data-countdown="{{$deal?date('m/d/Y',strtotime($deal['end_date'])):''}} 23:59:00"
                                          >
                                          <span class="cz-countdown-days d-flex flex-column p-2 mx-1 rounded" style="background-color: {{$web_config['primary_color']}}; padding: 0px 11px !important;">
                                              <span class="cz-countdown-value font-weight-bold text-white"></span>
@@ -145,7 +145,7 @@
         /*--flash deal Progressbar --*/
         function update_flash_deal_progress_bar(){
             const current_time_stamp = new Date().getTime();
-            const start_date = new Date('{{$web_config['flash_deals']['start_date'] ?? ''}}').getTime();
+            const start_date = new Date('{{$deal['start_date'] ?? ''}}').getTime();
             const countdownElement = document.querySelector('.cz-countdown');
             const get_end_time = countdownElement.getAttribute('data-countdown');
             const end_time = new Date(get_end_time).getTime();

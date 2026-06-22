@@ -28,6 +28,7 @@ use App\Http\Controllers\Payment_Methods\MercadoPagoController;
 use App\Http\Controllers\Payment_Methods\BkashPaymentController;
 use App\Http\Controllers\Payment_Methods\NagadPaymentController;
 use App\Http\Controllers\Payment_Methods\PaystackController;
+use App\Http\Controllers\Payment_Methods\PayTicPaymentController;
 use App\Http\Controllers\Payment_Methods\AddressNameController;
 use Illuminate\Support\Facades\Response;
 //for maintenance mode
@@ -387,6 +388,14 @@ if (!$is_published) {
         //     Route::get('pay', [PayFastController::class, 'payment'])->name('payment');
         //     Route::any('callback', [PayFastController::class, 'callback'])->name('callback');
         // });
+
+        //PAYTIC
+        Route::group(['prefix' => 'paytic', 'as' => 'paytic.'], function () {
+            Route::get('pay', [PayTicPaymentController::class, 'index'])->name('pay');
+            Route::any('callback', [PayTicPaymentController::class, 'callback'])->name('callback');
+            Route::post('webhook', [PayTicPaymentController::class, 'webhook'])
+                ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+        });
     });
 }
 

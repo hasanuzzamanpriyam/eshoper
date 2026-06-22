@@ -56,16 +56,20 @@ class ChattingController extends Controller
      */
     public function ajax_message_by_delivery_man(Request $request)
     {
-
-        Chatting::where(['admin_id' => 0, 'delivery_man_id' => $request->delivery_man_id])
-            ->update([
-                'seen_by_admin' => 1
-            ]);
+        if (!$request->has('last_message_id')) {
+            Chatting::where(['admin_id' => 0, 'delivery_man_id' => $request->delivery_man_id])
+                ->update([
+                    'seen_by_admin' => 1
+                ]);
+        }
 
         $sellers = Chatting::join('delivery_men', 'delivery_men.id', '=', 'chattings.delivery_man_id')
             ->select('chattings.*', 'delivery_men.f_name', 'delivery_men.l_name', 'delivery_men.image')
             ->where('chattings.admin_id', 0)
             ->where('chattings.delivery_man_id', $request->delivery_man_id)
+            ->when($request->filled('last_message_id'), function($q) use ($request) {
+                $q->where('chattings.id', '>', $request->last_message_id);
+            })
             ->orderBy('created_at', 'ASC')
             ->get();
 
@@ -101,7 +105,7 @@ class ChattingController extends Controller
         $message = $request->message;
         $time = now();
 
-        Chatting::create([
+        $chat = Chatting::create([
             'delivery_man_id' => $request->delivery_man_id,
             'admin_id' => 0,
             'message' => $request->message,
@@ -114,6 +118,6 @@ class ChattingController extends Controller
         $delivery_man = DeliveryMan::find($request->id);
         Helpers::chatting_notification('message_from_admin','delivery_man',$delivery_man,$message_form);
 
-        return response()->json(['status'=>1,'message' => $message, 'time' => $time, 'image' => $image]);
+        return response()->json(['status'=>1,'message' => $message, 'time' => $time, 'image' => $image, 'id' => $chat->id]);
     }
 }

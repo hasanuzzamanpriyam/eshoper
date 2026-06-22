@@ -137,7 +137,7 @@
                                                 @if (isset($chattings))
                                                     @foreach($chattings as $key => $chat)
                                                         @if ($chat->sent_by_seller? $chat->sent_by_seller : $chat->sent_by_delivery_man)
-                                                            <div class="incoming_msg d-flex">
+                                                             <div class="incoming_msg d-flex" data-msg-id="{{ $chat->id }}">
                                                                 <div class="incoming_msg_img">
                                                                     <img src="{{ $shop->delivery_man_id ?asset('storage/delivery-man/'.$last_chat->delivery_man->image) : asset('storage/shop/'.$last_chat->shop->image)}}"
                                                                         onerror="this.src='{{asset('assets/front-end/img/image-place-holder.png')}}'"
@@ -173,8 +173,8 @@
                                                                 </div>
                                                             </div>
                                                         @else
-                                                            <div class="outgoing_msg">
-                                                                <div class="send_msg">
+                                                             <div class="outgoing_msg" data-msg-id="{{ $chat->id }}">
+                                                                 <div class="send_msg">
                                                                     @if($chat->message)
                                                                     <p class="btn--primary">
                                                                         {{$chat->message}}
@@ -364,27 +364,72 @@
                                 let date = month[dateTime.getMonth().toString()] + " " + dateTime.getDate().toString();
 
                                 if (element.sent_by_customer) {
+                                    let msgHtml = element.message ? `<p class="btn--primary">${element.message}</p>` : '';
+                                    let imageContainer = '';
+                                    if (element.attachment && element.attachment !== 'null') {
+                                        let attachments = JSON.parse(element.attachment);
+                                        if (attachments.length > 0) {
+                                            imageContainer = '<div class="row g-2 flex-wrap mt-3 justify-content-end">';
+                                            attachments.forEach(function (imageUrl, index) {
+                                                let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                                                imageContainer += `
+                                                    <div class="col-sm-6 col-md-4 position-relative img_row${index}">
+                                                        <a data-lightbox="mygallery" href="${att_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
+                                                                 src="${att_path}" class="img-fit" alt="img">
+                                                        </a>
+                                                    </div>`;
+                                            });
+                                            imageContainer += '</div>';
+                                        }
+                                    }
 
                                     $(".msg_history").append(`
-                                        <div class="outgoing_msg">
+                                        <div class="outgoing_msg" data-msg-id="${element.id}">
                                           <div class='send_msg'>
-                                            <p class="btn--primary">${element.message}</p>
+                                            ${msgHtml}
+                                            ${imageContainer}
                                             <span class='time_date'> ${time}    |    ${date}</span>
                                           </div>
                                         </div>`
                                     )
 
                                 } else {
-                                    let img_path = element.image == 'def.png' ? `{{ asset('storage/shop') }}/${element.image}` : `{{ (isset($shop->delivery_man_id) && $shop->delivery_man_id) ? asset('storage/delivery-man') : asset('storage/shop') }}/${element.image}`;
+                                    let img_path = element.image
+                                        ? (activeUserType === 'seller'
+                                            ? `{{ asset('storage/shop') }}/${element.image}`
+                                            : `{{ asset('storage/delivery-man') }}/${element.image}`)
+                                        : `{{ asset('assets/front-end/img/image-place-holder.png') }}`;
+
+                                    let msgHtml = element.message ? `<p id="receive_msg">${element.message}</p>` : '';
+                                    let imageContainer = '';
+                                    if (element.attachment && element.attachment !== 'null') {
+                                        let attachments = JSON.parse(element.attachment);
+                                        if (attachments.length > 0) {
+                                            imageContainer = '<div class="row g-2 flex-wrap mt-3 justify-content-start">';
+                                            attachments.forEach(function (imageUrl, index) {
+                                                let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                                                imageContainer += `
+                                                    <div class="col-sm-6 col-md-4 position-relative img_row${index}">
+                                                        <a data-lightbox="mygallery" href="${att_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
+                                                                 src="${att_path}" class="img-fit" alt="img">
+                                                        </a>
+                                                    </div>`;
+                                            });
+                                            imageContainer += '</div>';
+                                        }
+                                    }
 
                                     $(".msg_history").append(`
-                                        <div class="incoming_msg d-flex" id="incoming_msg">
+                                        <div class="incoming_msg d-flex" data-msg-id="${element.id}">
                                           <div class="incoming_msg_img" id="">
-                                            <img src="${img_path}" alt="">
+                            <img onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'" src="${img_path}" alt="">
                                           </div>
                                           <div class="received_msg">
                                             <div class="received_withd_msg">
-                                              <p id="receive_msg">${element.message}</p>
+                                              ${msgHtml}
+                                              ${imageContainer}
                                             <span class="time_date">${time}    |    ${date}</span></div>
                                           </div>
                                         </div>`
@@ -397,9 +442,7 @@
                             $(".msg_history").html(`<p> No Message available </p>`);
                             data = [];
                         }
-                        // data = "";
-                        // $('.msg_history > div').remove();
-
+                        startPolling(shop_id);
                     }
                 });
 
@@ -452,7 +495,7 @@
                         let message = respons.message ? `<p class="btn--primary">${respons.message}</p>` : '';
 
                         $(".msg_history").prepend(`
-                            <div class="outgoing_msg" id="outgoing_msg">
+                            <div class="outgoing_msg" data-msg-id="${respons.id}">
                               <div class='send_msg'>
                                 ${message}
                                 ${imageContainer}
@@ -473,7 +516,123 @@
                     }
                 });
             });
+
+            let activeChat = $('.chat_list.active');
+            if (activeChat.length) {
+                let chatId = activeChat.attr('id').replace('user_', '');
+                if (chatId) startPolling(chatId);
+            }
         });
+
+        let activeShopId = null;
+        let activeUserType = "{{ Request::is('chat/seller') ? 'seller' : 'delivery-man' }}";
+        let lastMessageId = 0;
+        let chatPollInterval = null;
+        const POLL_INTERVAL = 3000;
+
+        function getMaxMessageId() {
+            let maxId = 0;
+            $('.msg_history').find('[data-msg-id]').each(function() {
+                let id = parseInt($(this).data('msg-id'));
+                if (id > maxId) maxId = id;
+            });
+            return maxId;
+        }
+
+        function startPolling(shopId) {
+            if (chatPollInterval) clearInterval(chatPollInterval);
+            activeShopId = shopId;
+            lastMessageId = getMaxMessageId();
+
+            chatPollInterval = setInterval(function() {
+                if (!activeShopId) return;
+
+                let url;
+                if (activeUserType === 'seller') {
+                    url = "{{ route('messages') }}" + "?shop_id=" + activeShopId + "&last_message_id=" + lastMessageId;
+                } else {
+                    url = "{{ route('messages') }}" + "?delivery_man_id=" + activeShopId + "&last_message_id=" + lastMessageId;
+                }
+
+                $.get(url, function(data) {
+                    if (data.length > 0) {
+                        let newMaxId = lastMessageId;
+                        data.forEach(function(element) {
+                            if (parseInt(element.id) > newMaxId) {
+                                newMaxId = parseInt(element.id);
+                            }
+                            appendPolledMessage(element);
+                        });
+                        if (newMaxId > lastMessageId) {
+                            lastMessageId = newMaxId;
+                            $(".msg_history").stop().animate({scrollTop: $(".msg_history")[0].scrollHeight}, 500);
+                        }
+                    }
+                });
+            }, POLL_INTERVAL);
+        }
+
+        function appendPolledMessage(element) {
+            if ($(`.msg_history [data-msg-id="${element.id}"]`).length > 0) return;
+
+            let dateTime = new Date(element.created_at);
+            let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let time = dateTime.toLocaleTimeString().toLowerCase();
+            let date = month[dateTime.getMonth().toString()] + " " + dateTime.getDate().toString();
+
+            let msgHtml = element.message ? `<p>${element.message}</p>` : '';
+            let imageContainer = '';
+            if (element.attachment && element.attachment !== 'null') {
+                let attachments = JSON.parse(element.attachment);
+                if (attachments.length > 0) {
+                    let justify = element.sent_by_customer ? 'justify-content-end' : 'justify-content-start';
+                    imageContainer = `<div class="row g-2 flex-wrap mt-3 ${justify}">`;
+                    attachments.forEach(function (imageUrl, index) {
+                        let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                        imageContainer += `
+                            <div class="col-sm-6 col-md-4 position-relative img_row${index}">
+                                <a data-lightbox="mygallery" href="${att_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                    <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
+                                         src="${att_path}" class="img-fit" alt="img">
+                                </a>
+                            </div>`;
+                    });
+                    imageContainer += '</div>';
+                }
+            }
+
+            if (element.sent_by_customer) {
+                $(".msg_history").prepend(`
+                    <div class="outgoing_msg" data-msg-id="${element.id}">
+                        <div class="send_msg">
+                            ${msgHtml}
+                            ${imageContainer}
+                            <span class="time_date"> ${time} | ${date}</span>
+                        </div>
+                    </div>`
+                );
+            } else {
+                let img_path = element.image
+                    ? (activeUserType === 'seller'
+                        ? `{{ asset('storage/shop') }}/${element.image}`
+                        : `{{ asset('storage/delivery-man') }}/${element.image}`)
+                    : `{{ asset('assets/front-end/img/image-place-holder.png') }}`;
+                $(".msg_history").prepend(`
+                    <div class="incoming_msg d-flex" data-msg-id="${element.id}">
+                        <div class="incoming_msg_img">
+                            <img onerror="this.src='{{ asset('assets/front-end/img/image-place-holder.png') }}'" src="${img_path}" alt="">
+                        </div>
+                        <div class="received_msg">
+                            <div class="received_withd_msg">
+                                ${msgHtml}
+                                ${imageContainer}
+                                <span class="time_date">${time} | ${date}</span>
+                            </div>
+                        </div>
+                    </div>`
+                );
+            }
+        }
     </script>
 
 @endpush

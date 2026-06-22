@@ -48,9 +48,22 @@ class ProductController extends Controller
             ->where(['user_id' => $seller_id, 'added_by' => 'seller'])
             ->when($request->search, function ($query) use($request){
                 $key = explode(' ', $request->search);
-                foreach ($key as $value) {
-                    $query->where('name', 'like', "%{$value}%");
-                }
+                $product_ids = \App\Model\Translation::where('translationable_type', 'App\Model\Product')
+                    ->where('key', 'name')
+                    ->where(function ($q) use ($key) {
+                        foreach ($key as $value) {
+                            $q->where('value', 'like', "%{$value}%");
+                        }
+                    })->pluck('translationable_id');
+
+                $query->where(function ($q) use ($key, $product_ids) {
+                    foreach ($key as $value) {
+                        $q->where('name', 'like', "%{$value}%");
+                    }
+                    if ($product_ids->isNotEmpty()) {
+                        $q->orWhereIn('id', $product_ids);
+                    }
+                });
             })
             ->latest()
             ->paginate($request->limit, ['*'], 'page', $request->offset);

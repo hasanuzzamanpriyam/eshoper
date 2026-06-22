@@ -535,8 +535,42 @@ class OrderManager
             $guest_id = $req['is_guest'] ? $req['guest_id'] : 0;
         }
 
+        // For payment callback/webhook contexts without session, use stored customer data
+        if ($req && isset($req['customer_id'])) {
+            if ($is_guest && !empty($req['name_guest_reg'])) {
+                $customerTempPass = '12345678';
+
+                $customerDetails = $req['name_guest_reg'] . ',' . ($req['email_guest_reg'] ?: '') . ',' . $req['phone_guest_reg'] . ',' . $customerTempPass;
+                $inputed_email = $req['email_guest_reg'] ?: $req['phone_guest_reg'];
+
+                $check_guest_reg = User::where(['phone' => $req['phone_guest_reg']])
+                    ->orWhere(['email' => $inputed_email])->first();
+
+                if ($check_guest_reg) {
+                    $g_customer_id = $check_guest_reg->id;
+                } else {
+                    $gust_customer_data = [
+                        'f_name' => $req['name_guest_reg'],
+                        'l_name' => '',
+                        'phone' => $req['phone_guest_reg'],
+                        'email' => $inputed_email,
+                        'is_active' => 1,
+                        'password' => bcrypt($customerTempPass),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                    $g_customer_id = DB::table('users')->insertGetId($gust_customer_data);
+
+                    if (!empty($req['email_guest_reg'])) {
+                        Mail::to($req['email_guest_reg'])->send(new \App\Mail\CustomerLoginInfoMail($customerDetails));
+                    }
+                }
+            } else {
+                $g_customer_id = $is_guest ? $guest_id : $req['customer_id'];
+            }
+        }
         // guest registration at ordering
-        if (auth('customer')->check()) {
+        elseif (auth('customer')->check()) {
             $g_customer_id = $user == 'offline' ? $guest_id : $user->id;
         }
         else {

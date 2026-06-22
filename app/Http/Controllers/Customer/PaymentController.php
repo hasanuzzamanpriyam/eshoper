@@ -114,12 +114,24 @@ class PaymentController extends Controller
 
     public function web_payment_success(Request $request)
     {
+        $order_ids = session('order_ids', []);
+
+        // If order_ids not in session (e.g., order was created by webhook), find them from token
+        if (empty($order_ids) && $request->token) {
+            $decoded = base64_decode($request->token);
+            parse_str($decoded, $tokenData);
+            if (!empty($tokenData['transaction_reference'])) {
+                $order_ids = Order::where('transaction_ref', $tokenData['transaction_reference'])
+                    ->pluck('id')
+                    ->toArray();
+            }
+        }
+
         if ($request->flag == 'success') {
             if (session()->has('payment_mode') && session('payment_mode') == 'app') {
                 return response()->json(['message' => 'Payment succeeded'], 200);
             } else {
                 Toastr::success(translate('Payment_success'));
-                $order_ids = session('order_ids', []);
                 return view(VIEW_FILE_NAMES['order_complete'], compact('order_ids'));
             }
         } else {
@@ -141,6 +153,25 @@ class PaymentController extends Controller
         ];
 
         $user = Helpers::get_customer($request);
+
+        // Store session-based address/customer info in additional_data
+        // so it's available even when payment webhooks process without a session
+        $additional_data['address_id'] = session('address_id');
+        $additional_data['billing_address_id'] = session('billing_address_id');
+        $additional_data['order_note'] = session('order_note');
+        $additional_data['coupon_code'] = session('coupon_code');
+        $additional_data['coupon_discount'] = session('coupon_discount');
+        if ($user == 'offline') {
+            $additional_data['customer_id'] = session('guest_id');
+            $additional_data['is_guest'] = 1;
+            $additional_data['guest_id'] = session('guest_id');
+        } else {
+            $additional_data['customer_id'] = $user->id;
+            $additional_data['is_guest'] = 0;
+            $additional_data['guest_id'] = null;
+        }
+        $additional_data['payment_request_from'] = 'web';
+
         if (in_array($request->payment_request_from, ['app', 'react'])) {
             $additional_data['customer_id'] = $request->customer_id;
             $additional_data['is_guest'] = $request->is_guest;

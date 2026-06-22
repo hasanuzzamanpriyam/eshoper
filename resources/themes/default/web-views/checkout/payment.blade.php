@@ -136,8 +136,8 @@
                                                 <input type="hidden" name="callback" value="">
                                             @endif
 
-                                            <input type="hidden" name="external_redirect_link"
-                                                value="{{ url('/') . '/web-payment' }}">
+<input type="hidden" name="external_redirect_link"
+    value="/web-payment">
                                             <label class="d-flex align-items-center gap-2 mb-0 form-check py-2 cursor-pointer">
                                                 <input type="radio" id="{{($payment_gateway->key_name)}}" name="online_payment"
                                                     class="form-check-input custom-radio"

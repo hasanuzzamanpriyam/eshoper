@@ -242,7 +242,21 @@
                                     </td>
                                     <td>
                                         @if($order->is_guest)
-                                            <strong class="title-name">{{translate('guest_customer')}}</strong>
+                                            @php($shipping_address = json_decode($order['shipping_address_data']))
+                                            @php($billing_address = json_decode($order['billing_address_data']))
+                                            @if($shipping_address && isset($shipping_address->contact_person_name))
+                                                <a class="text-body text-capitalize" href="{{route('admin.orders.details',['id'=>$order['id']])}}">
+                                                    <strong class="title-name">{{$shipping_address->contact_person_name}} ({{translate('guest_customer')}})</strong>
+                                                </a>
+                                                <a class="d-block title-color" href="tel:{{ $shipping_address->phone }}">{{ $shipping_address->phone }}</a>
+                                            @elseif($billing_address && isset($billing_address->contact_person_name))
+                                                <a class="text-body text-capitalize" href="{{route('admin.orders.details',['id'=>$order['id']])}}">
+                                                    <strong class="title-name">{{$billing_address->contact_person_name}} ({{translate('guest_customer')}})</strong>
+                                                </a>
+                                                <a class="d-block title-color" href="tel:{{ $billing_address->phone }}">{{ $billing_address->phone }}</a>
+                                            @else
+                                                <strong class="title-name">{{translate('guest_customer')}}</strong>
+                                            @endif
                                         @elseif($order->customer_id == 0)
                                             <strong class="title-name">{{translate('walking_customer')}}</strong>
                                         @else
@@ -252,7 +266,21 @@
                                                 </a>
                                                 <a class="d-block title-color" href="tel:{{ $order->customer['phone'] }}">{{ $order->customer['phone'] }}</a>
                                             @else
-                                                <label class="badge badge-danger fz-12">{{translate('invalid_customer_data')}}</label>
+                                                @php($shipping_address = json_decode($order['shipping_address_data']))
+                                                @php($billing_address = json_decode($order['billing_address_data']))
+                                                @if($shipping_address && isset($shipping_address->contact_person_name))
+                                                    <a class="text-body text-capitalize" href="{{route('admin.orders.details',['id'=>$order['id']])}}">
+                                                        <strong class="title-name">{{$shipping_address->contact_person_name}}</strong>
+                                                    </a>
+                                                    <a class="d-block title-color" href="tel:{{ $shipping_address->phone }}">{{ $shipping_address->phone }}</a>
+                                                @elseif($billing_address && isset($billing_address->contact_person_name))
+                                                    <a class="text-body text-capitalize" href="{{route('admin.orders.details',['id'=>$order['id']])}}">
+                                                        <strong class="title-name">{{$billing_address->contact_person_name}}</strong>
+                                                    </a>
+                                                    <a class="d-block title-color" href="tel:{{ $billing_address->phone }}">{{ $billing_address->phone }}</a>
+                                                @else
+                                                    <label class="badge badge-danger fz-12">{{translate('invalid_customer_data')}}</label>
+                                                @endif
                                             @endif
                                         @endif
                                     </td>

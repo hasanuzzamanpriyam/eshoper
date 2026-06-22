@@ -62,7 +62,7 @@
                     <td>{{asset('storage/product/thumbnail/'.$item->thumbnail)}}</td>
                     <td> {{$item->name}}</td>
                     <td>{{$item->code}}</td>
-                    <td>{!! $item->details !!}</td>
+                    <td>{{ strip_tags($item->details) }}</td>
                     <td>
                         @if($data['type']=='seller')
                         {{ucwords($item?->seller?->shop->name ?? translate('not_found'))}}

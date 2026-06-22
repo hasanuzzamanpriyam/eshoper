@@ -84,6 +84,8 @@ class CartManager
                     request()->is('coupon/apply') ||
                     request()->is('customer/set-shipping-method') ||
                     request()->is('customer/choose-shipping-address-other') ||
+                    request()->is('customer/web-payment-request') ||
+                    request()->is('customer/customer-add-fund-request') ||
                     request()->is('district-names') ||
                     request()->is('thana-names/*')
                 ) {

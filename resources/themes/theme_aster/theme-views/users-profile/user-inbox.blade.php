@@ -108,7 +108,7 @@
                                                 @foreach($chattings as $key => $chat)
 
                                                     @if ($chat->sent_by_seller? $chat->sent_by_seller : $chat->sent_by_delivery_man)
-                                                            <div class="received_msg">
+                                                             <div class="received_msg" data-msg-id="{{ $chat->id }}">
                                                                 @if($chat->message)
                                                                 <p class="message_text">
                                                                     {{$chat->message}}
@@ -131,7 +131,7 @@
                                                                 <span class="time_date"> {{ date('h:i:A | M d',strtotime($chat->created_at)) }} </span>
                                                             </div>
                                                     @else
-                                                        <div class="outgoing_msg" id="outgoing_msg">
+                                                         <div class="outgoing_msg" data-msg-id="{{ $chat->id }}">
                                                             @if($chat->message)
                                                             <p class="message_text">
                                                                 {{$chat->message}}
@@ -246,7 +246,7 @@
                         if (response.message)
                         {
                             $(".msg_history").append(`
-                                <div class="outgoing_msg" id="outgoing_msg">
+                                <div class="outgoing_msg" data-msg-id="${response.id}">
                                     <p class="message_text">
                                         ${response.message }
                                     </p>
@@ -263,7 +263,106 @@
                 $(".msg_history").stop().animate({scrollTop: $(".msg_history")[0].scrollHeight}, 1000);
 
             });
+
+            startPollingForCurrentChat();
         });
+
+        let activeChatId = null;
+        let activeUserType = $('#hidden_value').length ? 'seller' : 'delivery-man';
+        let lastMessageId = 0;
+        let chatPollInterval = null;
+        const POLL_INTERVAL = 3000;
+
+        function getMaxMessageId() {
+            let maxId = 0;
+            $('.msg_history').find('[data-msg-id]').each(function() {
+                let id = parseInt($(this).data('msg-id'));
+                if (id > maxId) maxId = id;
+            });
+            return maxId;
+        }
+
+        function startPollingForCurrentChat() {
+            let chatId = $('#hidden_value').val() || $('#hidden_value_dm').val();
+            if (!chatId) return;
+
+            if (chatPollInterval) clearInterval(chatPollInterval);
+            activeChatId = chatId;
+            lastMessageId = getMaxMessageId();
+
+            chatPollInterval = setInterval(function() {
+                if (!activeChatId) return;
+
+                let url;
+                if (activeUserType === 'seller') {
+                    url = "{{ route('messages') }}" + "?shop_id=" + activeChatId + "&last_message_id=" + lastMessageId;
+                } else {
+                    url = "{{ route('messages') }}" + "?delivery_man_id=" + activeChatId + "&last_message_id=" + lastMessageId;
+                }
+
+                $.get(url, function(data) {
+                    if (data.length > 0) {
+                        let newMaxId = lastMessageId;
+                        data.forEach(function(element) {
+                            if (parseInt(element.id) > newMaxId) {
+                                newMaxId = parseInt(element.id);
+                            }
+                            appendPolledMessage(element);
+                        });
+                        if (newMaxId > lastMessageId) {
+                            lastMessageId = newMaxId;
+                            $(".msg_history").stop().animate({scrollTop: $(".msg_history")[0].scrollHeight}, 500);
+                        }
+                    }
+                });
+            }, POLL_INTERVAL);
+        }
+
+        function appendPolledMessage(element) {
+            if ($(`.msg_history [data-msg-id="${element.id}"]`).length > 0) return;
+
+            let dateTime = new Date(element.created_at);
+            let month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            let time = dateTime.toLocaleTimeString().toLowerCase();
+            let date = month[dateTime.getMonth().toString()] + " " + dateTime.getDate().toString();
+
+            let msgHtml = element.message ? `<p class="message_text">${element.message}</p>` : '';
+            let imageContainer = '';
+            if (element.attachment && element.attachment !== 'null') {
+                let attachments = JSON.parse(element.attachment);
+                if (attachments.length > 0) {
+                    let justify = element.sent_by_customer ? 'justify-content-end' : 'justify-content-start';
+                    imageContainer = `<div class="row g-2 flex-wrap mt-3 ${justify}">`;
+                    attachments.forEach(function (imageUrl) {
+                        let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                        imageContainer += `
+                            <div class="col-sm-6 col-md-3">
+                                <img onerror="this.src='{{ theme_asset('assets/img/image-place-holder.png') }}'"
+                                     src="${att_path}" class="height-100 rounded remove-mask-img">
+                            </div>`;
+                    });
+                    imageContainer += '</div>';
+                }
+            }
+
+            if (element.sent_by_customer) {
+                $(".msg_history").append(`
+                    <div class="outgoing_msg" data-msg-id="${element.id}">
+                        ${msgHtml}
+                        ${imageContainer}
+                        <span class="time_date d-flex justify-content-end"> ${time} | ${date}</span>
+                    </div>`
+                );
+            } else {
+                $(".msg_history").append(`
+                    <div class="received_msg" data-msg-id="${element.id}">
+                        ${msgHtml}
+                        ${imageContainer}
+                        <span class="time_date"> ${time} | ${date}</span>
+                    </div>`
+                );
+            }
+        }
     </script>
     <script>
         $('.remove-mask-img').on('click', function(){

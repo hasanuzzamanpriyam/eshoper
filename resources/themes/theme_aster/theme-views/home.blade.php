@@ -20,10 +20,14 @@
         <!-- Main Banner -->
         @include('theme-views.partials._main-banner')
 
-        <!-- Flash Deal -->
-        @if ($web_config['flash_deals'])
-            @include('theme-views.partials._flash-deals')
-        @endif
+@if ($flash_deals && $flash_deals->count() > 0)
+    @foreach($flash_deals as $flash_deal)
+        <!-- এখানে সরাসরি inline style দিয়ে margin-bottom দেওয়া হয়েছে -->
+        <div style="margin-bottom: 25px;">
+            @include('theme-views.partials._flash-deals', ['flash_deals' => $flash_deal])
+        </div>
+    @endforeach
+@endif
 
         <!-- Find What You Need -->
         @include('theme-views.partials._find-what-you-need')

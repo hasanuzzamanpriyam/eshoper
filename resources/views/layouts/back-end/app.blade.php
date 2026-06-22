@@ -494,7 +494,7 @@
             $('#'+toggle_id).prop('checked', true);
             $('#'+toggle_id).val(1);
         }
-        $('#'+toggle_id+'_form').trigger('submit');
+        $('#'+toggle_id).closest('form').trigger('submit');
     }
 </script>
 <script>

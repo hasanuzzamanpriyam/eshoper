@@ -86,7 +86,7 @@
                                         <input type="hidden" name="callback" value="">
                                         @endif
 
-                                        <input type="hidden" name="external_redirect_link" value="{{ url('/').'/web-payment' }}">
+                                        <input type="hidden" name="external_redirect_link" value="/web-payment">
                                         <label>
                                             @php($additional_data = $payment_gateway['additional_data'] != null ? json_decode($payment_gateway['additional_data']) : [])
                                             <button class="payment-method border-0 d-flex align-iems-center gap-3 digital-payment-card overflow-hidden" type="submit">

@@ -1,6 +1,12 @@
 <section>
-    <div class="container">
-        <div class="card px-3 px-lg-0 py-4">
+    <div class="container" >
+        <div class="card px-3 px-lg-0 py-4 mb-4">
+            @if($flash_deals->banner && file_exists(public_path('storage/deal/'.$flash_deals->banner)))
+                <div class="px-3 pb-3">
+                    <img src="{{asset('storage/deal/'.$flash_deals->banner)}}"
+                         class="w-100" style="border-radius: 10px; max-height: 300px; object-fit: cover;">
+                </div>
+            @endif
             <div class="flexible-grid lg-down-1 gap-30 gap-lg-0">
                 <div class="">
                     <div class="flash-deal-countdown text-center">
@@ -26,7 +32,7 @@
                     </div>
                     <!-- Swiper -->
                     <div class="auto-item-width position-relative">
-                        <div class="swiper" data-swiper-loop="false" data-swiper-items="auto" data-swiper-margin="20" data-swiper-pagination-el="null" data-swiper-navigation-next=".swiper-button-next--flash-deal" data-swiper-navigation-prev=".swiper-button-prev--flash-deal">
+                        <div class="swiper" data-swiper-loop="false" data-swiper-items="auto" data-swiper-margin="20" data-swiper-pagination-el="null" data-swiper-navigation-next=".swiper-button-next--flash-deal-{{ $loop->index }}" data-swiper-navigation-prev=".swiper-button-prev--flash-deal-{{ $loop->index }}">
                             <div class="swiper-wrapper">
                                 @foreach($flash_deals->products as $key=>$deal)
                                     @if( $deal->product)
@@ -39,8 +45,8 @@
                         </div>
 
                         @if($flash_deals->products)
-                            <div class="swiper-button-next swiper-button-next--flash-deal"></div>
-                            <div class="swiper-button-prev swiper-button-prev--flash-deal"></div>
+                            <div class="swiper-button-next swiper-button-next--flash-deal-{{ $loop->index }}"></div>
+                            <div class="swiper-button-prev swiper-button-prev--flash-deal-{{ $loop->index }}"></div>
                         @endif
                     </div>
                 </div>

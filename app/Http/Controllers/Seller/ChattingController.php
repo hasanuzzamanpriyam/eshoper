@@ -96,15 +96,20 @@ class ChattingController extends Controller
     public function ajax_message_by_user(Request $request)
     {
         if ($request->has('delivery_man_id')) {
-            Chatting::where(['seller_id' => auth('seller')->id(), 'delivery_man_id' => $request->delivery_man_id])
-                ->update([
-                    'seen_by_seller' => 1
-                ]);
+            if (!$request->has('last_message_id')) {
+                Chatting::where(['seller_id' => auth('seller')->id(), 'delivery_man_id' => $request->delivery_man_id])
+                    ->update([
+                        'seen_by_seller' => 1
+                    ]);
+            }
 
             $sellers = Chatting::join('delivery_men', 'delivery_men.id', '=', 'chattings.delivery_man_id')
                 ->select('chattings.*', 'delivery_men.f_name', 'delivery_men.l_name', 'delivery_men.image')
                 ->where('chattings.seller_id', auth('seller')->id())
                 ->where('chattings.delivery_man_id', $request->delivery_man_id)
+                ->when($request->filled('last_message_id'), function($q) use ($request) {
+                    $q->where('chattings.id', '>', $request->last_message_id);
+                })
                 ->orderBy('created_at', 'ASC')
                 ->get();
 
@@ -112,15 +117,20 @@ class ChattingController extends Controller
         elseif ($request->has('user_id')) {
             $shop_id = Shop::where('seller_id', auth('seller')->id())->first()->id;
 
-            Chatting::where(['seller_id' => auth('seller')->id(), 'user_id' => $request->user_id])
-                ->update([
-                    'seen_by_seller' => 1
-                ]);
+            if (!$request->has('last_message_id')) {
+                Chatting::where(['seller_id' => auth('seller')->id(), 'user_id' => $request->user_id])
+                    ->update([
+                        'seen_by_seller' => 1
+                    ]);
+            }
 
             $sellers = Chatting::join('users', 'users.id', '=', 'chattings.user_id')
                 ->select('chattings.*', 'users.f_name', 'users.l_name', 'users.image')
                 ->where('chattings.shop_id', $shop_id)
                 ->where('chattings.user_id', $request->user_id)
+                ->when($request->filled('last_message_id'), function($q) use ($request) {
+                    $q->where('chattings.id', '>', $request->last_message_id);
+                })
                 ->orderBy('created_at', 'ASC')
                 ->get();
 
@@ -160,7 +170,7 @@ class ChattingController extends Controller
         $message_form = Seller::find($shop_id);
         if ($request->has('delivery_man_id')) {
 
-            Chatting::create([
+            $chat = Chatting::create([
                 'delivery_man_id' => $request->delivery_man_id,
                 'seller_id' => auth('seller')->id(),
                 'shop_id' => $shop_id,
@@ -175,7 +185,7 @@ class ChattingController extends Controller
             Helpers::chatting_notification('message_from_seller','delivery_man',$delivery_man,$message_form);
 
         }elseif ($request->has('user_id')) {
-            Chatting::create([
+            $chat = Chatting::create([
                 'user_id' => $request->user_id,
                 'seller_id' => auth('seller')->id(),
                 'shop_id' => $shop_id,
@@ -192,7 +202,7 @@ class ChattingController extends Controller
 
         }
 
-        return response()->json(['message' => $message, 'time' => $time, 'image'=>$attachment]);
+        return response()->json(['message' => $message, 'time' => $time, 'image'=>$attachment, 'id' => $chat->id]);
     }
 
     public function ajax_seller_notification_view(Request $request)

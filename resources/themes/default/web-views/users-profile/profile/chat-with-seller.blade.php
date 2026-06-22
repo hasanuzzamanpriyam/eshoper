@@ -338,11 +338,31 @@
                                 let date = month[dateTime.getMonth().toString()] + " " + dateTime.getDate().toString();
 
                                 if (element.sent_by_customer) {
+                                    let msgHtml = element.message ? `<p class="btn--primary">${element.message}</p>` : '';
+                                    let imageContainer = '';
+                                    if (element.attachment && element.attachment !== 'null') {
+                                        let attachments = JSON.parse(element.attachment);
+                                        if (attachments.length > 0) {
+                                            imageContainer = '<div class="row g-2 flex-wrap mt-3 justify-content-end">';
+                                            attachments.forEach(function (imageUrl, index) {
+                                                let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                                                imageContainer += `
+                                                    <div class="col-sm-6 col-md-4 position-relative img_row${index}">
+                                                        <a data-lightbox="mygallery" href="${att_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
+                                                                 src="${att_path}" class="img-fit" alt="img">
+                                                        </a>
+                                                    </div>`;
+                                            });
+                                            imageContainer += '</div>';
+                                        }
+                                    }
 
                                     $(".msg_history").append(`
                                         <div class="outgoing_msg">
                                           <div class='send_msg'>
-                                            <p class="btn--primary">${element.message}</p>
+                                            ${msgHtml}
+                                            ${imageContainer}
                                             <span class='time_date'> ${time}    |    ${date}</span>
                                           </div>
                                         </div>`
@@ -351,6 +371,26 @@
                                 } else {
                                     let img_path = element.image == 'def.png' ? `{{ asset('storage/shop') }}/${element.image}` : `{{ (isset($shop->delivery_man_id) && $shop->delivery_man_id) ? asset('storage/delivery-man') : asset('storage/shop') }}/${element.image}`;
 
+                                    let msgHtml = element.message ? `<p id="receive_msg">${element.message}</p>` : '';
+                                    let imageContainer = '';
+                                    if (element.attachment && element.attachment !== 'null') {
+                                        let attachments = JSON.parse(element.attachment);
+                                        if (attachments.length > 0) {
+                                            imageContainer = '<div class="row g-2 flex-wrap mt-3 justify-content-start">';
+                                            attachments.forEach(function (imageUrl, index) {
+                                                let att_path = `{{ asset('storage/chatting') }}/${imageUrl}`;
+                                                imageContainer += `
+                                                    <div class="col-sm-6 col-md-4 position-relative img_row${index}">
+                                                        <a data-lightbox="mygallery" href="${att_path}" class="aspect-1 overflow-hidden d-block border rounded">
+                                                            <img onerror="this.src='{{ asset('assets/back-end/img/image-place-holder.png') }}'"
+                                                                 src="${att_path}" class="img-fit" alt="img">
+                                                        </a>
+                                                    </div>`;
+                                            });
+                                            imageContainer += '</div>';
+                                        }
+                                    }
+
                                     $(".msg_history").append(`
                                         <div class="incoming_msg d-flex" id="incoming_msg">
                                           <div class="incoming_msg_img" id="">
@@ -358,7 +398,8 @@
                                           </div>
                                           <div class="received_msg">
                                             <div class="received_withd_msg">
-                                              <p id="receive_msg">${element.message}</p>
+                                              ${msgHtml}
+                                              ${imageContainer}
                                             <span class="time_date">${time}    |    ${date}</span></div>
                                           </div>
                                         </div>`
