@@ -101,7 +101,7 @@ class Helpers
         } elseif (is_object($request) && method_exists($request, 'user')) {
             $user = $request->user() ?? $request->user; //for api
 
-        } elseif (isset($request['payment_request_from']) && in_array($request['payment_request_from'], ['app', 'react']) && !isset($request->user)) {
+        } elseif (isset($request['payment_request_from']) && in_array($request['payment_request_from'], ['app', 'react', 'web']) && !isset($request->user)) {
             $user = $request['is_guest'] ? 'offline' : User::find($request['customer_id']);
         } elseif (session()->has('customer_id') && !session('is_guest')) {
             $user = User::find(session('customer_id'));

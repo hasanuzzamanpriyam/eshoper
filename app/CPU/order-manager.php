@@ -535,8 +535,12 @@ class OrderManager
             $guest_id = $req['is_guest'] ? $req['guest_id'] : 0;
         }
 
+        // For payment callback/webhook contexts without session, use stored customer data
+        if ($req && isset($req['customer_id'])) {
+            $g_customer_id = $is_guest ? $guest_id : $req['customer_id'];
+        }
         // guest registration at ordering
-        if (auth('customer')->check()) {
+        elseif (auth('customer')->check()) {
             $g_customer_id = $user == 'offline' ? $guest_id : $user->id;
         }
         else {

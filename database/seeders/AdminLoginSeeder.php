@@ -13,8 +13,8 @@ class AdminLoginSeeder extends Seeder
      * Seed the super admin login credentials.
      *
      * Credentials:
-     *   Email    : admin@admin.com
-     *   Password : admin123
+     *   Email    : admin@eshoper.com.bd
+     *   Password : admin1234@#
      */
     public function run()
     {
@@ -36,14 +36,14 @@ class AdminLoginSeeder extends Seeder
         }
 
         // ── 2. Upsert the super admin account ────────────────────────────────
-        $email = 'admin@admin.com';
+        $email = 'admin@eshoper.com.bd';
 
         $existing = DB::table('admins')->where('email', $email)->first();
 
         if ($existing) {
             DB::table('admins')->where('email', $email)->update([
                 'name'          => 'Super Admin',
-                'password'      => Hash::make('admin123'),
+                'password'      => Hash::make('admin1234@#'),
                 'admin_role_id' => 1,
                 'status'        => 1,
                 'updated_at'    => now(),
@@ -56,7 +56,7 @@ class AdminLoginSeeder extends Seeder
                 'email'          => $email,
                 'admin_role_id'  => 1,
                 'image'          => 'def.png',
-                'password'       => Hash::make('admin123'),
+                'password'       => Hash::make('admin1234@#'),
                 'status'         => 1,
                 'remember_token' => Str::random(10),
                 'created_at'     => now(),
@@ -70,8 +70,8 @@ class AdminLoginSeeder extends Seeder
         $this->command->info('╔═════════════════════════════════════╗');
         $this->command->info('║       Admin Login Credentials       ║');
         $this->command->info('╠═════════════════════════════════════╣');
-        $this->command->info("║  Email    : {$email}        ║");
-        $this->command->info('║  Password : admin123                ║');
+        $this->command->info("║  Email    : {$email} ║");
+        $this->command->info('║  Password : admin1234@#              ║');
         $this->command->info('╚═════════════════════════════════════╝');
     }
 }

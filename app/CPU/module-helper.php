@@ -25,6 +25,21 @@ if (!function_exists('digital_payment_success')) {
             $data = [];
             if ($stored_group_ids) {
                 $cart_group_ids = $stored_group_ids;
+                // Use stored address/customer data from additional_data if available
+                // (needed for webhooks that run without browser session)
+                if (isset($additional_data->customer_id)) {
+                    $data['request'] = [
+                        'customer_id' => $additional_data->customer_id,
+                        'is_guest' => $additional_data->is_guest ?? 0,
+                        'guest_id' => ($additional_data->is_guest ?? 0) ? ($additional_data->guest_id ?? $additional_data->customer_id) : null,
+                        'order_note' => $additional_data->order_note ?? null,
+                        'coupon_code' => $additional_data->coupon_code ?? null,
+                        'coupon_discount' => $additional_data->coupon_discount ?? null,
+                        'address_id' => $additional_data->address_id ?? null,
+                        'billing_address_id' => $additional_data->billing_address_id ?? null,
+                        'payment_request_from' => $additional_data->payment_request_from ?? 'web',
+                    ];
+                }
             } elseif (isset($additional_data->payment_request_from) && in_array($additional_data->payment_request_from, ['app', 'react'])) {
                 $data += [
                     'request' => [
